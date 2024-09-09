@@ -22,15 +22,15 @@
   @yield('contenu')
   @yield('footer')
   <footer class="bg-gray-200">
-    <div class="flex flex-row w-full max-w-screen-xl">
-      <div class="flex flex-col justify-self-start items-center w-1/2 m-5">
+    <div class="flex flex-row">
+      <div class="flex flex-col justify-self-start items-center w-2/5 mt-8 m-5">
         <div class="flex justify-self-around">
           <a href="https://www.v3r.net/" class="mx-8">
             <img src="https://www.v3r.net/wp-content/themes/v3r/Images/icons/logo-v3r-v2017.svg" alt="V3R Logo" class="w-20 h-20"/>
           </a>
           <ul>
             <li>
-              <div class="text-xl font-raleway-bold text-gray-500">
+              <div class="text-base font-raleway-bold text-gray-500">
                 <h4>Ville de Trois-Rivières</h4>
               </div>
             </li>
@@ -42,7 +42,7 @@
               </div>
             </li>
             <li>
-              <div class="text-xl font-raleway text-gray-600">
+              <div class="text-lg font-raleway text-gray-600">
                 <h4>
                   <b>
                     Téléphone:
@@ -66,7 +66,10 @@
           </ul>
         </div>
       </div>
-      <div class="flex flex-col justify-self-end w-1/2 m-5 gap-4">
+      <div class="w-1/5 items-center mt-8">
+        AAAAA
+      </div>
+      <div class="flex flex-col justify-end w-2/5 m-5 mb-10">
           <ul class="text-base font-raleway">
             <li>
               <div class="flex flex-row flex justify-end text-small font-raleway text-gray-600 mb-4">
@@ -88,14 +91,14 @@
               </div>
             </li>
             <li>
-              <div class="flex justify-end text-gray-400 text-base">
+              <div class="flex justify-end text-gray-400 text-sm">
                 <a class="mx-2" href="https://www.v3r.net/a-propos-de-la-ville/communications" class="hover:underline">Communications</a> |
                 <a class="mx-2" href="https://www.v3r.net/faq" class="hover:underline">FAQ</a> |
                 <a class="mx-2" href="https://www.tourismetroisrivieres.com/fr" class="hover:underline">Tourisme</a>
               </div>
             </li>
             <li>
-              <div class="flex justify-end text-gray-400 text-base">
+              <div class="flex justify-end text-gray-400 text-sm">
                 <a class="mx-2" href="https://v3r.sharepoint.com/" class="hover:underline">Intranet</a> |
                 <a class="mx-2" href="https://organismesv3r.net/" class="hover:underline">Portail d'accès aux organismes</a> |
                 <a class="mx-2" href="https://www.v3r.net/politique-de-confidentialite" class="hover:underline">Politique de confidentialité</a>
