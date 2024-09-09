@@ -2,8 +2,13 @@
 
 @section('title', 'Test')
 
-@section('contenu')
-    <h1 class="bg-red-500 text-xl">Test</h1>
-    
-    <span class="iconify" data-icon="mdi:home" data-inline="false"></span>
+@section('header')
+<h1>HEADER</h1>
+
+@section('contenue')
+<div class="bg-lime-500">CONTENUE</div>
+
+@section('footer')
+
 @endsection
+
