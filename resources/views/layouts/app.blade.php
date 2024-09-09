@@ -67,7 +67,7 @@
         </div>
       </div>
       <div class="w-1/5 items-center mt-8">
-        AAAAA
+        Ajouter les 3 section avec >
       </div>
       <div class="flex flex-col justify-end w-2/5 m-5 mb-10">
           <ul class="text-base font-raleway">
