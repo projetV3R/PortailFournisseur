@@ -7,10 +7,6 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        'raleway': ['Raleway', 'sans-serif'],
-        'raleway-bold': ['Raleway-Bold', 'sans-serif'],
-      },
     },
   },
   plugins: [],
