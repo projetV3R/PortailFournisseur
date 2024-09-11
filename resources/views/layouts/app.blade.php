@@ -107,10 +107,15 @@
                 <a class="mx-2" href="https://www.v3r.net/faq" class="hover:underline">FAQ</a> |
                 <a class="mx-2" href="https://www.tourismetroisrivieres.com/fr" class="hover:underline">Tourisme</a>
               </div>
-                <div class="flex lg:justify-end text-gray-400 text-sm justify-center">
-                <a class="mx-2" href="https://v3r.sharepoint.com/" class="hover:underline">Intranet</a> |
-                <a class="mx-2" href="https://organismesv3r.net/" class="hover:underline">Portail d'accès aux organismes</a> |
+                <div class="flex lg:justify-end text-gray-400 text-sm justify-center ">
+                <div class="hover:underline">
+                <a class="mx-2" href="https://v3r.sharepoint.com/" >Intranet</a>| </div>
+                <div class="hover:underline">
+                <a class="mx-2" href="https://organismesv3r.net/" class="hover:underline">Portail d'accès aux organismes</a>|
+                 </div>
+                <div class="hover:underline">
                 <a class="mx-2" href="https://www.v3r.net/politique-de-confidentialite" class="hover:underline">Politique de confidentialité</a>
+                 </div>
               </div>
             <div class="flex lg:justify-end justify-center text-gray-400 text-sm">© Ville de Trois-Rivières. Tous droit réservés.</div>
 
