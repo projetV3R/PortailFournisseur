@@ -33,7 +33,6 @@
           </a>
         </div>
         <div id="description G" class="flex flex-col justify-start sm:justify-center gap-2">
-
           <div id="icones mobiles" class="sm:hidden block flex gap-2 justify-center items-center">
             <a href="https://www.v3r.net/a-propos-de-la-ville/communications/infolettre">
               <span class="iconify size-8 sm:size-6" data-icon="mdi:email-newsletter" data-inline="false"></span>
