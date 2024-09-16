@@ -23,8 +23,8 @@
   @yield('footer')
   <footer class="w-full font-Alumni text-sm md:text-base text-gray-600 ">
     <div class="bg-gray-200 flex justify-between p-4">
-    <!-- ne touche pas je suis importante -->  
-    <div id="non" class="flex flex-center md:hidden lg:hidden"></div>
+    <!--TODO: ne touche pas je suis importante -->  
+    <div></div>
 
       <div class="flex flex-row">
         <div id="image" class="p-2 hidden sm:block">
