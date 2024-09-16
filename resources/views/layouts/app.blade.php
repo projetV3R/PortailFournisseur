@@ -16,10 +16,14 @@
     href="{{ asset('img/apple-icon-72x72.png') }}" />
 </head>
 
-<body>
-  <!-- HEADER -->
+<body class="flex flex-col min-h-screen">
+<header>
+    @yield('header')
+  </header>
 
-  @yield('contenu')
+  <main class="flex-1">
+    @yield('contenu')
+  </main>
   @yield('footer')
   <footer class="w-full font-Alumni text-sm md:text-base text-gray-600 ">
     <div class="bg-gray-200 flex justify-between p-4">
