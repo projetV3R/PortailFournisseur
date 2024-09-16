@@ -23,17 +23,15 @@
   @yield('footer')
   <footer class="w-full font-Alumni text-sm md:text-base text-gray-600 ">
     <div class="bg-gray-200 flex justify-between p-4">
-    <!--TODO: ne touche pas je suis importante -->  
-    <div></div>
-
+      <div></div><!--TODO: ne touche pas je suis importante -->
       <div class="flex flex-row">
-        <div id="image" class="p-2 hidden sm:block">
+        <div class="p-2 hidden sm:block">
           <a href="https://www.v3r.net/">
             <img class="h-20 w-20 md:h-15 md:w-15" src="https://www.v3r.net/wp-content/themes/v3r/Images/icons/logo-v3r-v2017.svg" alt="V3R Logo" />
           </a>
         </div>
-        <div id="description G" class="flex flex-col justify-start sm:justify-center gap-2">
-          <div id="icones mobiles" class="sm:hidden block flex gap-2 justify-center items-center">
+        <div class="flex flex-col justify-start sm:justify-center gap-2">
+          <div class="sm:hidden block flex gap-2 justify-center items-center">
             <a href="https://www.v3r.net/a-propos-de-la-ville/communications/infolettre">
               <span class="iconify size-8 sm:size-6" data-icon="mdi:email-newsletter" data-inline="false"></span>
             </a>
@@ -50,8 +48,8 @@
               <span class="iconify size-8 sm:size-6" data-icon="fa:youtube" data-inline="false"></span>
             </a>
           </div>
-          <div id="section blanche" class="flex flex-col sm:text-center gap-1">
-            <div id="titre" class="sm:hover:bg-transparent bg-white sm:bg-gray-200 text-center sm:text-start p-2 sm:p-0 hover:bg-gray-100">
+          <div class="flex flex-col sm:text-center gap-1">
+            <div class="sm:hover:bg-transparent bg-white sm:bg-gray-200 text-center sm:text-start p-2 sm:p-0 hover:bg-gray-100">
               <b>
                 <h4>Ville de Trois-Rivières</h4>
               </b>
@@ -78,7 +76,7 @@
               <a href="mailto:311@v3r.net" class="hover:underline me-4 md:me-6">Courriel: 311@v3r.net</a>
             </div>
 
-            <div id="section mobile fin" class="sm:hidden text-xs">
+            <div class="sm:hidden text-xs">
               <div class="flex justify-center text-gray-400">
                 <a class="mx-2 hover:underline" href="https://www.v3r.net/a-propos-de-la-ville/communications">Communications</a> |
                 <a class="mx-2 hover:underline" href="https://www.v3r.net/faq">FAQ</a> |
@@ -91,7 +89,6 @@
               </div>
               <div class="flex justify-center text-gray-400">© Ville de Trois-Rivières. Tous droit réservés.</div>
             </div>
-
           </div>
         </div>
       </div>
@@ -106,9 +103,9 @@
       </div>
 
 
-      <div id="description D" class="hidden sm:block">
-        <div class="flex flex-row  justify-end text-small font-raleway text-gray-800 mb-4">
-          <div id="icones" class="flex">
+      <div class="hidden sm:block">
+        <div class="flex flex-row justify-end text-small font-raleway text-gray-800 mb-4">
+          <div class="flex">
             <a class="mx-2" href="https://www.v3r.net/a-propos-de-la-ville/communications/infolettre">
               <span class="iconify size-10 sm:size-8" data-icon="mdi:email-newsletter" data-inline="false"></span>
             </a>
