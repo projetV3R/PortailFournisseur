@@ -22,7 +22,10 @@
   @yield('contenu')
   @yield('footer')
   <footer class="w-full font-Alumni text-sm md:text-base text-gray-600 ">
-    <div class="bg-gray-200 p-2 flex justify-between p-8">
+    <div class="bg-gray-200 flex justify-between p-4">
+    <!-- ne touche pas je suis importante -->  
+    <div id="non" class="flex flex-center md:hidden lg:hidden"></div>
+
       <div class="flex flex-row">
         <div id="image" class="p-2 hidden sm:block">
           <a href="https://www.v3r.net/">
@@ -91,14 +94,8 @@
             </div>
 
           </div>
-
-
-
-
-
         </div>
       </div>
-
       <div>
         <div class="xl:flex justify-end hidden text-md w-fit text-gray-800 lg:justify-end">
           <div class="flex flex-col justify-end">
