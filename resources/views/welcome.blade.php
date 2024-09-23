@@ -7,10 +7,14 @@
 
 <div>
     @foreach($categories as $categorie)
-        <li>{{$categorie->segment}}</li>
-        <li>{{$categorie->family}}</li>
-        <li>{{$categorie->class}}</li>
-        <li>{{$categorie->commodity}}</li>
+    <div>
+        <div>
+            Segment: {{$categorie->segment}} {{$categorie->segmentTitleFr}}
+            <div>
+            Family: {{$categorie->family}} {{$categorie->segmentTitleFr}}
+            </div>
+        </div>
+    </div>
     @endforeach
 </div>
 

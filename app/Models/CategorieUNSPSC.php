@@ -10,12 +10,12 @@ class CategorieUNSPSC extends Model
     protected $table = "unspsc_codes";
     protected $fillable = [
         'segment',
-        'segment-title_fr',
+        'segmentTitleFr',
         'family',
-        'family-title_fr',
+        'familyTitleFr',
         'class',
-        'class-title_fr',
+        'classTitleFr',
         'commodity',
-        'commodity-title_fr',
+        'commodityTitleFr',
     ];
 }
