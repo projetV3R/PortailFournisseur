@@ -7,7 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/cate', [controllerCategorieUNSPSC::class, 'index']);
+Route::get('/produits', [controllerCategorieUNSPSC::class, 'getProduits']);
+
 
 Route::get('/loginFournisseur', function () {
     return view('login_fournisseur');

@@ -13,9 +13,19 @@ class controllerCategorieUNSPSC extends Controller
      */
     public function index()
     {
-        $categories = CategorieUNSPSC::all();
-        return view('welcome', compact('categories'));
+       
     }
+
+    public function getProduits()
+    {
+        $produits = CategorieUNSPSC::orderBy('segment')
+                                    ->orderBy('family')
+                                    ->orderBy('class')
+                                    ->get(['segment', 'segmentTitleFr', 'family', 'familyTitleFr', 'class', 'classTitleFr', 'commodity', 'commodityTitleFr']);
+    
+        return response()->json($produits);
+    }
+    
 
     /**
      * Show the form for creating a new resource.
