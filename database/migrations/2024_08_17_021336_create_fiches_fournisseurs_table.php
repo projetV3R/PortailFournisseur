@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('fiche_fournisseurs', function (Blueprint $table) {
             $table->id();
             $table->string('neq');
+            $table->string('etat');
             $table->string('nom_entreprise');
-            $table->string('adresse_courriel');
+            $table->string('adresse_courriel')->unique();;
             $table->string('mot_de_passe');
             $table->unsignedBigInteger('licence_id');  // Cle etrangere vers licences
             $table->unsignedBigInteger('coordonnee_id');  // Cle etrangere vers coordonnees

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('type_de_fichier');
+            $table->string('chemin');
             $table->integer('taille');
             $table->foreignId('fiche_fournisseur_id')->constrained(); // Cle etrangere vers la table fiche fournisseur
             $table->timestamps();
