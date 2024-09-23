@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CategorieUNSPSC;
 use Illuminate\Http\Request;
 
-class controllerCategorieUNSPSC extends Controller
+class CategorieUNSPSCcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
