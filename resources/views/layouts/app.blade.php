@@ -7,19 +7,21 @@
   <title>@yield('title')</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   @vite('resources/css/app.css')
   <link rel="stylesheet" href="{{ asset('style.css') }}" />
-  <link
-    rel="shortcut icon"
-    type="image/png"
-    href="{{ asset('img/apple-icon-72x72.png') }}" />
+  <link rel="shortcut icon" type="image/png" href="{{ asset('img/apple-icon-72x72.png') }}" />
 </head>
 
-<body>
-  <!-- HEADER -->
+<body class="flex flex-col min-h-screen">
+  <header>
+    @yield('header')
+  </header>
 
-  @yield('contenu')
+  <main class="flex-1">
+    @yield('contenu')
+  </main>
   @yield('footer')
   <footer class="w-full font-Alumni text-sm md:text-base text-gray-600 ">
     <div class="bg-gray-200 flex justify-between p-4">
