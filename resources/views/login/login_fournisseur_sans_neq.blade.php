@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'LoginFournisseurAvecNeq')
+@section('title', 'LoginFournisseurSansNeq')
 
 @section('contenu')
 
@@ -14,13 +14,14 @@
                     <form action="" class="mt-6">
                         <div class="mb-4">
                             <label for="numeroEntreprise" class="block font-Alumni md:text-lg mb-2">
-                                Numéro d’entreprise du Québec (NEQ)
+                                Adresse courriel
                             </label>
                             <input type="text" id="numeroEntreprise" name="numeroEntreprise"
                                 placeholder="Entrer votre numéro d'entreprise"
                                 class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black">
                             <div class="w-full md:w-2/3 flex justify-end mt-2">
-                                <h6 class="font-Alumni md:text-base text-secondary-400 cursor-pointer">Pas de NEQ ?</h6>
+                                <h6 class="font-Alumni md:text-base text-secondary-400 cursor-pointer">Avez vous un NEQ ?
+                                </h6>
                             </div>
                         </div>
 

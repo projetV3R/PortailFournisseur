@@ -13,3 +13,15 @@ Route::get('/loginFournisseur', function () {
 Route::get('/LoginFournisseurAvecNeq', function () {
     return view('login/login_fournisseur_avec_neq');
 });
+
+Route::get('/LoginFournisseurSansNeq', function () {
+    return view('login/login_fournisseur_sans_neq');
+});
+
+Route::get('/Identification', function () {
+    return view('formulaireInscription/identification');
+});
+
+Route::get('/ProduitsServices', function () {
+    return view('formulaireInscription/Produits_services');
+});
