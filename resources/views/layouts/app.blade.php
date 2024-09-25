@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
   @vite('resources/css/app.css')
   <link rel="stylesheet" href="{{ asset('style.css') }}" />
   <link
@@ -17,6 +16,7 @@
     href="{{ asset('img/apple-icon-72x72.png') }}" />
     
 </head>
+
 
 <body class="flex flex-col h-screen dark:bg-gray-900 text-black dark:text-white">
 <header>
@@ -70,6 +70,7 @@
                 </button>
             </div>
     </div>
+
   </header>
 
   <main class="flex-1 ">
@@ -197,7 +198,6 @@
     </div>
     </div>
   </footer>
-
   <script>
       const toggleDarkMode = () => {
             const htmlElement = document.documentElement;

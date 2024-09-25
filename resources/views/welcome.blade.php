@@ -2,13 +2,23 @@
 
 @section('title', 'Municipalités')
 
-@section('header')
 
+
+@section('header')
 @endsection
+
+
+
+
 @section('contenu')
 
 
+
 @endsection
+
+
+
+
 @section('footer')
 
 @endsection
