@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
   @vite('resources/css/app.css')
   <link rel="stylesheet" href="{{ asset('style.css') }}" />
   <link
@@ -18,13 +17,60 @@
     
 </head>
 
-<body class="flex flex-col min-h-screen">
+
+<body class="flex flex-col h-screen dark:bg-gray-900 text-black dark:text-white">
 <header>
     @yield('header')
-  </header>
-<body class="flex flex-col min-h-screen">
-<header>
-    @yield('header')
+
+    <div class="flex w-full bg-tertiary-400 h-32 items-center justify-between p-4 relative">
+      <div class="flex items-center">
+          <a href="/">
+              <img class="bg-white w-24 h-20 lg:hidden cursor-pointer"
+                  src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/ce/Logo_de_Trois-Rivi%C3%A8res_2022.png/600px-Logo_de_Trois-Rivi%C3%A8res_2022.png?20220917132718"
+                  alt="Logo Trois-Rivières">
+          </a>
+      </div>
+      <div class="hidden lg:flex absolute top-5 left-20 ">
+        <a href="/">
+            <img class="w-36 h-36 bg-white shadow-lg"
+                src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/ce/Logo_de_Trois-Rivi%C3%A8res_2022.png/600px-Logo_de_Trois-Rivi%C3%A8res_2022.png?20220917132718"
+                alt="Logo Trois-Rivières Desktop">
+        </a>
+    </div>
+
+    <div class="md:hidden flex items-center text-white gap-2">
+                
+                    <div>
+                    <form class="deconnexionBtn" action="" method="POST">
+                        <button >
+                            <span class="iconify size-10 hover:animate-bounce " data-icon="mdi:logout"
+                                data-inline="false"></span>
+                        </button>
+                        </form>
+                    </div>
+            
+                <div>
+                    <button id="dark-mode-toggle" class=" hover:animate-pulse">
+                        <span class="iconify size-10 " data-icon="circum:dark" data-inline="false"></span>
+                    </button>
+                </div>
+
+            </div>
+    <div class="hidden md:flex space-x-4 items-center">
+                    <form class="deconnexionBtn" action="" method="POST">
+                        @csrf
+                        <div class="flex items-center space-x-4 hover:animate-bounce">
+                            <button class="ml-4 text-white">
+                                <span class="iconify size-8 lg:size-10" data-icon="mdi:logout" data-inline="false"></span>
+                            </button>
+                        </div>
+                    </form>
+                <button id="dark-mode-toggle-desktop" class="text-white hover:animate-pulse  ">
+                    <span class="iconify size-8 lg:size-10" data-icon="circum:dark" data-inline="false"></span>
+                </button>
+            </div>
+    </div>
+
   </header>
 
   <main class="flex-1 ">
@@ -152,6 +198,28 @@
     </div>
     </div>
   </footer>
+  <script>
+      const toggleDarkMode = () => {
+            const htmlElement = document.documentElement;
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+        document.getElementById('dark-mode-toggle-desktop').addEventListener('click', toggleDarkMode);
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme && savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+  </script>
 
 </body>
 
