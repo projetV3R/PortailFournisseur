@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
 
-    @vite('resources/css/app.css')
+    @vite('resources/css/app.css', 'resources/js/app.js')
     <link rel="stylesheet" href="{{ asset('style.css') }}" />
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/apple-icon-72x72.png') }}" />
 </head>
@@ -165,11 +165,8 @@
             </div>
         </div>
         </div>
-
-
     </footer>
 
-    <script src="./node_modules/preline/dist/preline.js"></script>
+    @stack('scripts')
 </body>
-
 </html>

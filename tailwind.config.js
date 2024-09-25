@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import forms from "@tailwindcss/forms";
+
 export default {
     content: [
         "./resources/**/*.blade.php",
@@ -33,5 +35,5 @@ export default {
             },
         },
     },
-    plugins: [require("preline/plugin")],
+    plugins: [forms, require("preline/plugin")],
 };

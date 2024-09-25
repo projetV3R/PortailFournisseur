@@ -89,5 +89,8 @@
         </div>
     </div>
 
-    
 @endsection
+
+@push('scripts')
+    <script src="./node_modules/preline/dist/preline.js"></script>
+@endpush
