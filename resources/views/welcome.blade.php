@@ -1,14 +1,26 @@
 @extends('layouts.app')
 
-@section('title', 'Test')
+@section('title', 'Municipalités')
+
+
 
 @section('header')
-<h1 class="font-alumni-sans-bold">HEADER</h1>
+@endsection
 
-@section('contenue')
-<div class="bg-lime-500">CONTENUE</div>
+
+
+
+@section('contenu')
+
+
+
+@endsection
+
+
+
 
 @section('footer')
 
 @endsection
+
 
