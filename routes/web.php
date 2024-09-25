@@ -25,3 +25,11 @@ Route::get('/Identification', function () {
 Route::get('/ProduitsServices', function () {
     return view('formulaireInscription/Produits_services');
 });
+
+Route::get('/LicencesAutorisations', function () {
+    return view('formulaireInscription/licences_autorisations');
+});
+
+Route::get('/Coordonnees', function () {
+    return view('formulaireInscription/coordonnees');
+});

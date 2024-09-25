@@ -48,7 +48,7 @@
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Identification</h4>
 
                 <div class="mt-6">
-                    <label for="email" class="block font-Alumni text-md md:text-lg mb-2">
+                    <label for="numeroEntreprise" class="block font-Alumni text-md md:text-lg mb-2">
                         Numéro d’entreprise du Québec (NEQ)
                     </label>
                     <input type="text" id="numeroEntreprise" name="numeroEntreprise"
