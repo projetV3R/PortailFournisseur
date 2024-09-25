@@ -21,13 +21,26 @@
 <body class="flex flex-col min-h-screen">
 <header>
     @yield('header')
-  </header>
-<body class="flex flex-col min-h-screen">
-<header>
-    @yield('header')
+
+    <div class="flex w-full bg-blueV3R h-32 items-center justify-between p-4 relative">
+      <div class="flex items-center">
+          <a href="/">
+              <img class="bg-white w-24 h-20 lg:hidden cursor-pointer"
+                  src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/ce/Logo_de_Trois-Rivi%C3%A8res_2022.png/600px-Logo_de_Trois-Rivi%C3%A8res_2022.png?20220917132718"
+                  alt="Logo Trois-Rivières">
+          </a>
+      </div>
+      <div class="hidden lg:flex absolute top-5 left-20 ">
+        <a href="/">
+            <img class="w-36 h-36 bg-white shadow-lg"
+                src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/ce/Logo_de_Trois-Rivi%C3%A8res_2022.png/600px-Logo_de_Trois-Rivi%C3%A8res_2022.png?20220917132718"
+                alt="Logo Trois-Rivières Desktop">
+        </a>
+    </div>
+    </div>
   </header>
 
-  <main class="flex-1 ">
+  <main class="flex w-full h-screen ">
     @yield('contenu')
     
   </main>
