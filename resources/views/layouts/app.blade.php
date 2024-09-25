@@ -18,11 +18,11 @@
     
 </head>
 
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col h-screen dark:bg-gray-900 text-black dark:text-white">
 <header>
     @yield('header')
 
-    <div class="flex w-full bg-blueV3R h-32 items-center justify-between p-4 relative">
+    <div class="flex w-full bg-tertiary-400 h-32 items-center justify-between p-4 relative">
       <div class="flex items-center">
           <a href="/">
               <img class="bg-white w-24 h-20 lg:hidden cursor-pointer"
@@ -37,10 +37,42 @@
                 alt="Logo Trois-Rivières Desktop">
         </a>
     </div>
+
+    <div class="md:hidden flex items-center text-white gap-2">
+                
+                    <div>
+                    <form class="deconnexionBtn" action="" method="POST">
+                        <button >
+                            <span class="iconify size-10 hover:animate-bounce " data-icon="mdi:logout"
+                                data-inline="false"></span>
+                        </button>
+                        </form>
+                    </div>
+            
+                <div>
+                    <button id="dark-mode-toggle" class=" hover:animate-pulse">
+                        <span class="iconify size-10 " data-icon="circum:dark" data-inline="false"></span>
+                    </button>
+                </div>
+
+            </div>
+    <div class="hidden md:flex space-x-4 items-center">
+                    <form class="deconnexionBtn" action="" method="POST">
+                        @csrf
+                        <div class="flex items-center space-x-4 hover:animate-bounce">
+                            <button class="ml-4 text-white">
+                                <span class="iconify size-8 lg:size-10" data-icon="mdi:logout" data-inline="false"></span>
+                            </button>
+                        </div>
+                    </form>
+                <button id="dark-mode-toggle-desktop" class="text-white hover:animate-pulse  ">
+                    <span class="iconify size-8 lg:size-10" data-icon="circum:dark" data-inline="false"></span>
+                </button>
+            </div>
     </div>
   </header>
 
-  <main class="flex w-full h-screen ">
+  <main class="flex-1 ">
     @yield('contenu')
     
   </main>
@@ -165,6 +197,29 @@
     </div>
     </div>
   </footer>
+
+  <script>
+      const toggleDarkMode = () => {
+            const htmlElement = document.documentElement;
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+        document.getElementById('dark-mode-toggle-desktop').addEventListener('click', toggleDarkMode);
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme && savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+  </script>
 
 </body>
 

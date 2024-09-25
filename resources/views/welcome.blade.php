@@ -4,10 +4,11 @@
 
 @section('header')
 
-
+@endsection
 @section('contenu')
 
 
+@endsection
 @section('footer')
 
 @endsection
