@@ -12,7 +12,7 @@ class CategorieUNSPSCcontroller extends Controller
      */
     public function index()
     {
-       
+       return view('categorie');
     }
 
     public function getProduits()
