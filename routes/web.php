@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\CategorieUNSPSCcontroller;
+use App\Http\Controllers\CoordonneeController;
+use App\Http\Controllers\IdentificationController;
+use App\Http\Controllers\LicenceController;
+use App\Http\Controllers\ProduitServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegionMunicipalitesController;
 
@@ -42,3 +46,28 @@ Route::get('/LicencesAutorisations', function () {
 Route::get('/Coordonnees', function () {
     return view('formulaireInscription/coordonnees');
 });
+
+// Identification
+
+Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification");
+
+Route::post('/Identification', [IdentificationController::class, "store"])->name("StoreIdentification");
+
+// Produits Services
+
+Route::get('/ProduitsServices', [ProduitServiceController::class, "create"])->name("createProduitsServices");
+
+Route::post('/ProduitsServices', [ProduitServiceController::class, "store"])->name("StoreProduitsServices");
+
+
+// Coordonnees
+
+Route::post('/Coordonnees', [CoordonneeController::class, "store"])->name("StoreCoordonnees");
+
+Route::get('/Coordonnees', [CoordonneeController::class, "create"])->name("CreateCoordonnees");
+
+// Licence
+
+Route::get('/Licences', [LicenceController::class, "create"])->name("createLicences");
+
+Route::post('/Licences', [LicenceController::class, "store"])->name("storeLicences");

@@ -7,7 +7,6 @@
 @section('contenu')
     <form action="{{ route('StoreCoordonnees') }}" method="post">
         @csrf
-
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-8 lg:p-16">
             <!-- Première colonne -->
             <div>

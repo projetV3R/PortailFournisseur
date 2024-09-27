@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('code_postal');
             $table->string('code_region_administrative');
             $table->string('region_administrative');
+            $table->json('telephones');
             $table->timestamps();
         });
     }
