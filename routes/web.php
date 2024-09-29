@@ -18,4 +18,3 @@ Route::get('/produits', [CategorieUNSPSCcontroller::class, 'getProduits']);
 Route::get('/loginFournisseur', function () {
     return view('login_fournisseur');
 });
-Route::get('/send-test-email', [RegionMunicipalitesController::class, 'sendWelcomeEmailTest']);
