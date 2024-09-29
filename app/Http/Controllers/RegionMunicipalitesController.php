@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
-
 class RegionMunicipalitesController extends Controller
 {
     public function getMunicipalites()
@@ -21,4 +19,5 @@ class RegionMunicipalitesController extends Controller
     
         return response()->json(['error' => 'Erreur lors de la récupération des municipalités'], 500);
     }
+
 }
