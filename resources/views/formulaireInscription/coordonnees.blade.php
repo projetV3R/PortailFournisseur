@@ -67,7 +67,7 @@
 
 
                     <div class="mt-4 w-full max-w-md">
-                        <label for="motDePasse" class="block font-Alumni text-md md:text-lg mb-2">
+                        <label for="municipalite" class="block font-Alumni text-md md:text-lg mb-2">
                             Municipalités
                         </label>
                         <!-- Select -->
@@ -191,7 +191,7 @@
                             <input type="text" id="ligne" name="ligne[]" placeholder="Fixe"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
-                            @error('ligne')
+                            @error('ligne[]')
                                 <span
                                     class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
@@ -209,7 +209,7 @@
                                 placeholder="514-453-9867"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
-                            @error('numeroTelephone')
+                            @error('numeroTelephone[]')
                                 <span
                                     class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
@@ -226,7 +226,7 @@
                             <input type="text" id="poste" name="poste[]" placeholder="9845"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
-                            @error('poste')
+                            @error('poste[]')
                                 <span
                                     class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}

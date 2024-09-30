@@ -4,6 +4,7 @@ use App\Http\Controllers\BrochureCarteAffaireController;
 use App\Http\Controllers\CategorieUNSPSCcontroller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CoordonneeController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\IdentificationController;
 use App\Http\Controllers\LicenceController;
 use App\Http\Controllers\ProduitServiceController;
@@ -85,3 +86,9 @@ Route::post('/Contacts', [ContactController::class, "store"])->name("storeContac
 Route::get('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "create"])->name("createBrochuresCartesAffaires");
 
 Route::post('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "store"])->name("storeBrochuresCartesAffaires");
+
+// Finance
+
+Route::get('/Finances', [FinanceController::class, "create"])->name("createFinances");
+
+Route::post('/Finances', [FinanceController::class, "store"])->name("storeFinances");

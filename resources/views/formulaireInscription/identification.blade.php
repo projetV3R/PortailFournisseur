@@ -20,6 +20,7 @@
                             Adresse courriel
                         </label>
                         <input type="email" id="email" name="email" placeholder="Entrer votre email"
+                            value="{{ old('email') }}"
                             class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
 
                         @error('email')
@@ -31,13 +32,14 @@
                     </div>
 
                     <div class="mt-4">
-                        <label for="motDePasse" class="block font-Alumni text-md md:text-lg mb-2">
+                        <label for="password" class="block font-Alumni text-md md:text-lg mb-2">
                             Choisir un mot de passe
                         </label>
-                        <input type="password" id="motDePasse" name="motDePasse" placeholder="Entrer votre mot de passe"
+                        <input type="password" id="password" name="password" placeholder="Entrer votre mot de passe"
+                            value="{{ old('password') }}"
                             class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
 
-                        @error('motDePasse')
+                        @error('password')
                             <span
                                 class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                 {{ $message }}
@@ -46,14 +48,14 @@
                     </div>
 
                     <div class="mt-4">
-                        <label for="verifierMotDePasse" class="block font-Alumni text-md md:text-lg mb-2">
+                        <label for="password_confirmation" class="block font-Alumni text-md md:text-lg mb-2">
                             Ressaisir votre mot de passe
                         </label>
-                        <input type="password" id="verifierMotDePasse" name="verifierMotDePasse"
-                            placeholder="Ressaisir votre mot de passe"
+                        <input type="password" id="password_confirmation" name="password_confirmation"
+                            value="{{ old('password_confirmation') }}" placeholder="Ressaisir votre mot de passe"
                             class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
 
-                        @error('verifierMotDePasse')
+                        @error('password_confirmation')
                             <span
                                 class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                 {{ $message }}
@@ -76,7 +78,7 @@
                             Numéro d’entreprise du Québec (NEQ)
                         </label>
                         <input type="text" id="numeroEntreprise" name="numeroEntreprise"
-                            placeholder="Entrer votre numéro d’entreprise du Québec"
+                            value="{{ old('numeroEntreprise') }}" placeholder="Entrer votre numéro d’entreprise du Québec"
                             class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
 
                         @error('numeroEntreprise')
@@ -92,7 +94,7 @@
                         <label for="nomEntreprise" class="block font-Alumni text-md md:text-lg mb-2">
                             Nom de l’entreprise
                         </label>
-                        <input type="text" id="nomEntreprise" name="nomEntreprise"
+                        <input type="text" id="nomEntreprise" name="nomEntreprise" value="{{ old('nomEntreprise') }}"
                             placeholder="Entrer le nom de votre entreprise"
                             class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
 
