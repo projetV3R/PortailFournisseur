@@ -30,9 +30,12 @@ class CoordonneeRequest extends FormRequest
             'codeRegionAdministrative' => 'required',
             'regionAdministrative' => 'required',
             'siteWeb' => 'required',
-            'ligne' => 'required',
-            'poste' => 'required',
-            'numeroTelephone' => 'required',
+            'ligne.0' => 'required',
+            'poste.0' => 'required',
+            'numeroTelephone.0' => 'required',
+            'ligne.*' => 'nullable',
+            'poste.*' => 'nullable',
+            'numeroTelephone.*' => 'nullable',
         ];
     }
 }

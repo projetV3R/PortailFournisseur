@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\BrochureCarteAffaireController;
 use App\Http\Controllers\CategorieUNSPSCcontroller;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CoordonneeController;
 use App\Http\Controllers\IdentificationController;
 use App\Http\Controllers\LicenceController;
@@ -71,3 +73,15 @@ Route::get('/Coordonnees', [CoordonneeController::class, "create"])->name("Creat
 Route::get('/Licences', [LicenceController::class, "create"])->name("createLicences");
 
 Route::post('/Licences', [LicenceController::class, "store"])->name("storeLicences");
+
+// Contact
+
+Route::get('/Contacts', [ContactController::class, "create"])->name("createContacts");
+
+Route::post('/Contacts', [ContactController::class, "store"])->name("storeContacts");
+
+// Brochure carte affaire
+
+Route::get('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "create"])->name("createBrochuresCartesAffaires");
+
+Route::post('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "store"])->name("storeBrochuresCartesAffaires");

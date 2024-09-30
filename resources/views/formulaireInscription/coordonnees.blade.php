@@ -158,7 +158,7 @@
                 <h1 class="font-Alumni text-white font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous
                 </h1>
 
-                <div class="bg-secondary-100 py-8 px-4 mt-8">
+                <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreNumero">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Adresse en ligne</h4>
 
                     <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
@@ -188,7 +188,7 @@
                                 Ligne
                             </label>
 
-                            <input type="text" id="ligne" name="ligne" placeholder="Fixe"
+                            <input type="text" id="ligne" name="ligne[]" placeholder="Fixe"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
                             @error('ligne')
@@ -205,7 +205,7 @@
                                 Numero Telephone
                             </label>
 
-                            <input type="phonenumber" id="numeroTelephone" name="numeroTelephone"
+                            <input type="phonenumber" id="numeroTelephone" name="numeroTelephone[]"
                                 placeholder="514-453-9867"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
@@ -223,7 +223,7 @@
                                 Poste
                             </label>
 
-                            <input type="text" id="poste" name="poste" placeholder="9845"
+                            <input type="text" id="poste" name="poste[]" placeholder="9845"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
                             @error('poste')
@@ -237,6 +237,11 @@
                     </div>
                 </div>
 
+                <button type="button" id="ajoutNumeroTelephone"
+                    class="mt-4 w-full text-white bg-secondary-400 hover:bg-tertiary-300 py-2.5">
+                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">Ajouter un numero</h1>
+                </button>
+
                 <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
                 </button>
@@ -244,4 +249,66 @@
             </div>
         </div>
     </form>
+
+    <script>
+        document.getElementById('ajoutNumeroTelephone').addEventListener('click', function() {
+
+            let cadre = document.getElementById('cadreNumero');
+
+            cadre.insertAdjacentHTML('beforeend', `<div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
+
+                        <div class="w-full">
+                            <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2">
+                                Ligne
+                            </label>
+
+                            <input type="text" id="ligne" name="ligne[]" placeholder="Fixe"
+                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+
+                            @error('ligne')
+                                <span
+                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+                        </div>
+
+                        <div class="w-full">
+                            <label for="numeroTelephone" class="block font-Alumni text-md md:text-lg mb-2">
+                                Numero Telephone
+                            </label>
+
+                            <input type="phonenumber" id="numeroTelephone" name="numeroTelephone[]"
+                                placeholder="514-453-9867"
+                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+
+                            @error('numeroTelephone')
+                                <span
+                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+                        </div>
+
+                        <div class="w-full">
+                            <label for="poste" class="block font-Alumni text-md md:text-lg mb-2">
+                                Poste
+                            </label>
+
+                            <input type="text" id="poste" name="poste[]" placeholder="9845"
+                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+
+                            @error('poste')
+                                <span
+                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
+                        </div>
+                    </div>`);
+        });
+    </script>
 @endsection

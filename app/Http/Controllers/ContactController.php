@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CoordonneeRequest;
-use App\Models\Coordonnee;
+use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 
-class CoordonneeController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $coordonnees = Coordonnee::all();
+        //
     }
 
     /**
@@ -22,18 +21,17 @@ class CoordonneeController extends Controller
      */
     public function create()
     {
-        return view("formulaireInscription/coordonnees");
+        return View('formulaireInscription/contacts');
     }
-
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CoordonneeRequest $request)
+    public function store(ContactRequest $request)
     {
-        session()->put("coordonnees", $request->all());
+        session()->put("contacts", $request->all());
         //dd($request->all());
-        return redirect()->route('createLicences');
+        return redirect()->route('createBrochuresCartesAffaires');
     }
 
     /**
