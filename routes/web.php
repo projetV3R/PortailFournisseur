@@ -15,9 +15,9 @@ Route::get('/', function () {
 //Route::get('/produits', [CategorieUNSPSCcontroller::class, 'getProduits']);
 
 Route::get('/categorie', [CategorieUNSPSCcontroller::class, 'index'])->name('categorie.index');
-Route::post('/get-families', [CategorieUNSPSCcontroller::class, 'getFamilies']);
-Route::post('/get-classes', [CategorieUNSPSCcontroller::class, 'getClasses']);
-Route::post('/get-commodities', [CategorieUNSPSCcontroller::class, 'getCommodities']);
+Route::get('/get-families', [CategorieUNSPSCcontroller::class, 'getFamilies']);
+Route::get('/get-classes', [CategorieUNSPSCcontroller::class, 'getClasses']);
+Route::get('/get-commodities', [CategorieUNSPSCcontroller::class, 'getCommodities']);
 
 Route::get('/loginFournisseur', function () {
     return view('login_fournisseur');

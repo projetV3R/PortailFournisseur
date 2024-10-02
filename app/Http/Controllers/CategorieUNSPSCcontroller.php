@@ -3,47 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategorieUNSPSC;
+use Illuminate\Http\Request;
+
+use App\Models\Segment;
+use App\Models\Family;
 use App\Models\Classe;
 use App\Models\Commodity;
-use App\Models\Family;
-use App\Models\Segment;
-use Illuminate\Http\Request;
+
 
 class CategorieUNSPSCcontroller extends Controller
 {
     public function index()
     {
-        $segments = Segment::All();
-        //$families = Family::All(); $classes = Classe::All(); $commodities = Commodity::All();, 'families', 'classes', 'commodities'
+        $segments = Segment::all();
+        $families = Family::all(); 
+        $classes = Classe::all();
+        $commodities = Commodity::all();
 
-        return view('categorie', compact('segments'));
-    }
-
-    public function getFamilies(Request $request)
-    {
-        $families = Family::whereHas('segments', function ($query) use ($request) {
-            $query->where('segment', $request->segment);
-        })->get();
-
-        return response()->json($families);
-    }
-
-    public function getClasses(Request $request)
-    {
-        $classes = Classe::whereHas('families', function ($query) use ($request) {
-            $query->where('family', $request->family); 
-        })->get();
-
-        return response()->json($classes);
-    }
-
-    public function getCommodities(Request $request)
-    {
-        $commodities = Commodity::whereHas('classes', function ($query) use ($request) {
-            $query->where('class', $request->class);
-        })->get();
-
-        return response()->json($commodities);
+        return view('categorie', compact('segments', 'families', 'classes', 'commodities'));
     }
 
     /**

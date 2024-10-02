@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Classe;
 
 class Commodity extends Model
 {
@@ -12,4 +13,9 @@ class Commodity extends Model
         'commodity',
         'commodityTitleFr',
     ];
+
+    public function getCommodities()
+    {
+        return $this->belongsTo(Classe::class);
+    }
 }
