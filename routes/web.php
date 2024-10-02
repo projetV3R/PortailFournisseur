@@ -12,7 +12,7 @@ Route::get('/', function () {
 });
 
 // Cette route permet de récupérer la liste des produits via la méthode 'getProduits' du contrôleur 'CategorieUNSPSCcontroller'
-Route::get('/produits', [CategorieUNSPSCcontroller::class, 'getProduits']);
+//Route::get('/produits', [CategorieUNSPSCcontroller::class, 'getProduits']);
 
 Route::get('/categorie', [CategorieUNSPSCcontroller::class, 'index'])->name('categorie.index');
 Route::post('/get-families', [CategorieUNSPSCcontroller::class, 'getFamilies']);

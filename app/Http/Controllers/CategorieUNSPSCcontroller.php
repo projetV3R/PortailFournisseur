@@ -3,55 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategorieUNSPSC;
+use App\Models\Classe;
+use App\Models\Commodity;
+use App\Models\Family;
+use App\Models\Segment;
 use Illuminate\Http\Request;
 
 class CategorieUNSPSCcontroller extends Controller
 {
     public function index()
     {
-        $segments = CategorieUNSPSC::select('segment', 'segmentTitleFr')
-            ->distinct()
-            ->orderBy('segment')
-            ->get();
+        $segments = Segment::All();
+        $families = Family::All();
+        $classes = Classe::All();
+        $commodities = Commodity::All();
 
-        return view('categorie', compact('segments'));
+        return view('categorie', compact('segments', 'families', 'classes', 'commodities'));
     }
 
-    public function getFamilies(Request $request)
-    {
-        $families = CategorieUNSPSC::select('family', 'familyTitleFr')
-            ->where('segment', $request->segment)
-            ->distinct()
-            ->orderBy('family')
-            ->get();
+    /*
+    juste la bd unspsc
 
-        return response()->json($families);
-    }
-
-    public function getClasses(Request $request)
-    {
-        $classes = CategorieUNSPSC::select('class', 'classTitleFr')
-            ->where('segment', $request->segment)
-            ->where('family', $request->family)
-            ->distinct()
-            ->orderBy('class')
-            ->get();
-
-        return response()->json($classes);
-    }
-
-    public function getCommodities(Request $request)
-    {
-        $commodities = CategorieUNSPSC::select('commodity', 'commodityTitleFr')
-            ->where('segment', $request->segment)
-            ->where('family', $request->family)
-            ->where('class', $request->class)
-            ->distinct()
-            ->orderBy('commodity')
-            ->get();
-
-        return response()->json($commodities);
-    }
     public function getProduits()
     {
         $produits = CategorieUNSPSC::orderBy('segment')
@@ -60,7 +32,7 @@ class CategorieUNSPSCcontroller extends Controller
             ->get(['segment', 'segmentTitleFr', 'family', 'familyTitleFr', 'class', 'classTitleFr', 'commodity', 'commodityTitleFr']);
 
         return response()->json($produits);
-    }
+    }*/
 
 
     /**
