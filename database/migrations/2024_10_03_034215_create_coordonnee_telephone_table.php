@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contacts', function (Blueprint $table) {
+        Schema::create('coordonnee_telephone', function (Blueprint $table) {
             $table->id();
-            $table->string('prenom');
-            $table->string('nom');
-            $table->string('fonction');
-            $table->string('adresse_courrriel');
-            $table->foreignId('fiche_fournisseur_id')->constrained(); // Cle etrangere vers la table fiches fournisseurs
-            $table->unsignedBigInteger('telephone_id');   // Cle etrangere vers la table fiches telephones
             $table->timestamps();
-
+            $table->unsignedBigInteger('coordonnee_id'); 
+            $table->unsignedBigInteger('telephone_id'); 
+            $table->timestamps(); 
+    
+            $table->foreign('coordonnee_id')->references('id')->on('coordonnees')->onDelete('cascade');
             $table->foreign('telephone_id')->references('id')->on('telephones')->onDelete('cascade');
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contacts');
+        Schema::dropIfExists('coordonnee_contact');
     }
 };
