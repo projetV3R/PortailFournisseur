@@ -67,8 +67,12 @@
 
             <!-- Deuxième colonne -->
             <div>
-                <h6 class="font-Alumni text-white font-bold text-3xl md:text-5xl hide">Merci de vous identifier !</h6>
-                <h1 class="font-Alumni text-white font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous</h1>
+
+                <div class="w-full border-2 h-10">
+                    <div class="w-1/6 bg-tertiary-400 h-full  flex-1"></div>
+                </div>
+
+                <h1 class="font-Alumni text-black mt-4 font-semibold text-md md:text-lg ">Votre progression.</h1>
 
                 <div class="bg-secondary-100 py-8 px-4 mt-8">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Identification</h4>

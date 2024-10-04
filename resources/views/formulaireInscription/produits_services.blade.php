@@ -122,23 +122,24 @@
                 const index = event.currentTarget.getAttribute('data-index');
                 const isActive = event.currentTarget.getAttribute('data-active') === 'true';
                 const icon = event.currentTarget.querySelector('.iconify');
-    
+
                 const targetDiv = document.getElementById('produitsServicesSelectionnees');
                 const originalDiv = document.getElementById('toutLesProduitsServices');
-    
+
                 if (isActive) {
-              
-                    event.currentTarget.setAttribute('data-active', 'false'); 
-                    icon.setAttribute('data-icon', 'material-symbols:delete'); // Change l'icône en corbeille
+
+                    event.currentTarget.setAttribute('data-active', 'false');
+                    icon.setAttribute('data-icon',
+                        'material-symbols:delete'); // Change l'icône en corbeille
                     targetDiv.appendChild(event.currentTarget);
                 } else {
-             
-                    event.currentTarget.setAttribute('data-active', 'true'); 
+
+                    event.currentTarget.setAttribute('data-active', 'true');
                     icon.setAttribute('data-icon', 'material-symbols:add'); // Rétablit l'icône en ajout
                     originalDiv.appendChild(event.currentTarget);
                 }
             });
         });
     </script>
-    
+
 @endsection
