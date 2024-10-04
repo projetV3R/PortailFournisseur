@@ -50,8 +50,8 @@
                                         les pêcheries</h1>
                                 </div>
 
-                                <div class="w-1/6 bg-tertiary-400 p-2 m-8">
-                                    <p class="text-white text-5xl">+</p>
+                                <div class="w-1/6 flex items-center justify-center text-white  bg-tertiary-400 p-2 m-8">
+                                    <span class="iconify size-8 lg:size-10 " data-icon="material-symbols:add" data-inline="false"></span>
                                 </div>
                             </div>
                         @endfor
