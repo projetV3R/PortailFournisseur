@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -52,6 +51,20 @@ class IdentificationRequest extends FormRequest
                 'string',
                 'max:64'
             ],
+        ];
+    }
+
+    /**
+     * 
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'password.regex' => 'Le mot de passe doit contenir entre 7 et 12 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.',
+            'numeroEntreprise.regex' => 'Le numéro d\'entreprise doit commencer par 11, 22, 33 ou 88, suivi de 8 chiffres.',
+
         ];
     }
 }
