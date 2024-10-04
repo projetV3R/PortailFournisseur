@@ -42,8 +42,7 @@
 
                     <div id="toutLesProduitsServices">
                         @for ($i = 0; $i < 5; $i++)
-                            <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService"
-                                data-index="{{ $i }}" id="produitService{{ $i }}">
+                            <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService" data-index="{{ $i }}" data-active="true" id="produitService{{ $i }}">
                                 <div>
                                     <h6 class="font-Alumni font-bold md:text-3xl">Services</h6>
                                     <h4 class="font-Alumni md:text-xl mt-2">Recherche et développement (R et D)</h4>
@@ -112,75 +111,25 @@
 
     </form>
 
-    <script>
-        document.querySelectorAll('.produitService').forEach(item => {
-            item.addEventListener('click', (event) => {
-                const index = event.currentTarget.getAttribute('data-index');
-                console.log('Service avec index : ' + index + ' a été cliqué');
-
-                // Sélectionner le div cible (où déplacer l'élément cloné)
-                const targetDiv = document.getElementById('produitsServicesSelectionnees');
-
-                // Cloner l'élément cliqué avec ses enfants
-                const clonedItem = event.currentTarget.cloneNode(true);
-
-                // Déplacer le clone dans le div cible
-                targetDiv.appendChild(clonedItem);
-
-                // Supprimer l'élément original
-                event.currentTarget.remove();
-
-                // Ajouter un événement click au clone pour le faire revenir
-                clonedItem.addEventListener('click', () => {
-                    // Vérifier si l'élément est déjà dans la zone d'origine
-                    const originalDiv = document.querySelector('.produitService[data-index="' +
-                        index + '"]');
-
-                    if (!originalDiv) {
-                        // Si l'élément original n'existe plus, on recrée un nouvel élément avec la même structure
-                        const newOriginalDiv = document.createElement('div');
-                        newOriginalDiv.className =
-                            'bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService';
-                        newOriginalDiv.setAttribute('data-index', index);
-
-                        // Ajouter le contenu de l'élément original
-                        newOriginalDiv.innerHTML = `
-                    <div>
-                        <h6 class="font-Alumni font-bold md:text-3xl">Services</h6>
-                        <h4 class="font-Alumni md:text-xl mt-2">Recherche et développement (R et D)</h4>
-                        <h1 class="font-Alumni italic md:text-lg">Services d'expérimentation ou de recherche sur les pêcheries</h1>
-                    </div>
-                    <div class="w-1/6 bg-tertiary-400 p-2 m-8">
-                        <p class="text-white text-5xl">+</p>
-                    </div>
-                `;
-
-                        // Ajouter le nouvel élément à la zone d'origine
-                        document.getElementById('toutLesProduitsServices').appendChild(
-                            newOriginalDiv);
-
-                        // Ajouter à nouveau l'événement de clic pour pouvoir le déplacer à nouveau
-                        newOriginalDiv.addEventListener('click', (event) => {
-                            const index = event.currentTarget.getAttribute('data-index');
-                            console.log('Service avec index : ' + index +
-                                ' a été cliqué à nouveau');
-
-                            // Cloner et déplacer l'élément vers la zone cible
-                            const clonedItem = event.currentTarget.cloneNode(true);
-                            targetDiv.appendChild(clonedItem);
-
-                            // Supprimer l'élément original
-                            event.currentTarget.remove();
-                        });
-                    } else {
-                        // Si l'élément original existe déjà, on le déplace à la zone d'origine
-                        originalDiv.parentNode.appendChild(clonedItem);
-                    }
-
-                    // Supprimer l'élément cloné de la zone cible
-                    clonedItem.remove();
-                });
-            });
+    <script>document.querySelectorAll('.produitService').forEach(item => {
+        item.addEventListener('click', (event) => {
+            const index = event.currentTarget.getAttribute('data-index');
+            const isActive = event.currentTarget.getAttribute('data-active') === 'true';
+    
+            const targetDiv = document.getElementById('produitsServicesSelectionnees');
+            const originalDiv = document.getElementById('toutLesProduitsServices');
+    
+            if (isActive) {
+                // Déplace l'élément vers la liste sélectionnée
+                event.currentTarget.setAttribute('data-active', 'false'); // Désactive l'élément
+                targetDiv.appendChild(event.currentTarget);
+            } else {
+                // Déplace l'élément vers la liste originale
+                event.currentTarget.setAttribute('data-active', 'true'); // Réactive l'élément
+                originalDiv.appendChild(event.currentTarget);
+            }
         });
+    });
+    
     </script>
 @endsection
