@@ -129,7 +129,7 @@
                 if (isActive) {
               
                     event.currentTarget.setAttribute('data-active', 'false'); 
-                    icon.setAttribute('data-icon', 'mdi:bin'); // Change l'icône en corbeille
+                    icon.setAttribute('data-icon', 'material-symbols:delete'); // Change l'icône en corbeille
                     targetDiv.appendChild(event.currentTarget);
                 } else {
              
