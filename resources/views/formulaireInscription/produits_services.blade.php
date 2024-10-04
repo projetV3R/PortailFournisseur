@@ -26,8 +26,8 @@
                                 placeholder="En peu de mots décrivez vos produits ou services"
                                 class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
 
-                            <div class="w-1/6 bg-tertiary-400 p-2 ml-4">
-
+                            <div class="cursor-pointer w-1/6 bg-tertiary-400 p-1 ml-4 flex items-center justify-center">
+                                <span class="iconify text-white size-6" data-icon="material-symbols:search"></span>
                             </div>
                         </div>
 
@@ -42,7 +42,8 @@
 
                     <div id="toutLesProduitsServices">
                         @for ($i = 0; $i < 5; $i++)
-                            <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService" data-index="{{ $i }}" data-active="true" id="produitService{{ $i }}">
+                            <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService"
+                                data-index="{{ $i }}" data-active="true" id="produitService{{ $i }}">
                                 <div>
                                     <h6 class="font-Alumni font-bold md:text-3xl">Services</h6>
                                     <h4 class="font-Alumni md:text-xl mt-2">Recherche et développement (R et D)</h4>
@@ -111,25 +112,25 @@
 
     </form>
 
-    <script>document.querySelectorAll('.produitService').forEach(item => {
-        item.addEventListener('click', (event) => {
-            const index = event.currentTarget.getAttribute('data-index');
-            const isActive = event.currentTarget.getAttribute('data-active') === 'true';
-    
-            const targetDiv = document.getElementById('produitsServicesSelectionnees');
-            const originalDiv = document.getElementById('toutLesProduitsServices');
-    
-            if (isActive) {
-                // Déplace l'élément vers la liste sélectionnée
-                event.currentTarget.setAttribute('data-active', 'false'); // Désactive l'élément
-                targetDiv.appendChild(event.currentTarget);
-            } else {
-                // Déplace l'élément vers la liste originale
-                event.currentTarget.setAttribute('data-active', 'true'); // Réactive l'élément
-                originalDiv.appendChild(event.currentTarget);
-            }
+    <script>
+        document.querySelectorAll('.produitService').forEach(item => {
+            item.addEventListener('click', (event) => {
+                const index = event.currentTarget.getAttribute('data-index');
+                const isActive = event.currentTarget.getAttribute('data-active') === 'true';
+
+                const targetDiv = document.getElementById('produitsServicesSelectionnees');
+                const originalDiv = document.getElementById('toutLesProduitsServices');
+
+                if (isActive) {
+                    // Déplace l'élément vers la liste sélectionnée
+                    event.currentTarget.setAttribute('data-active', 'false'); // Désactive l'élément
+                    targetDiv.appendChild(event.currentTarget);
+                } else {
+                    // Déplace l'élément vers la liste originale
+                    event.currentTarget.setAttribute('data-active', 'true'); // Réactive l'élément
+                    originalDiv.appendChild(event.currentTarget);
+                }
+            });
         });
-    });
-    
     </script>
 @endsection

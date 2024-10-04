@@ -127,12 +127,18 @@
                 <h1 class="font-Alumni text-white font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous</h1>
 
                 <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreCategorie">
-                    
-                    <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Catégories et sous-catégories</h4>
-                    
-                    <div class="w-1/6 bg-tertiary-400 p-2 mt-9" id="ajouterCategorie">
-                        <span class="iconify size-8 lg:size-10 text-red-500" data-icon="material-symbols:add" data-inline="false"></span>
+
+                    <div class="mt-4 flex justify-between items-center">
+
+                        <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Catégories et sous-catégories</h4>
+
+                        <div class="cursor-pointer w-26 h-26 bg-tertiary-400 p-1 flex justify-center items-center"
+                            id="ajouterCategorie">
+                            <span class="iconify size-8 lg:size-10 text-white text-center" data-icon="material-symbols:add"
+                                data-inline="false"></span>
+                        </div>
                     </div>
+
 
                     <div class="mt-6 w-full max-w-md flex gap-4 columns-3 ">
 
@@ -213,37 +219,39 @@
     </form>
 
     <script>
-document.getElementById('ajouterCategorie').addEventListener('click', function() {
-    // Sélectionne le premier composant à cloner
-    let composantOriginal = document.querySelector('#cadreCategorie > .columns-3');
-    
-    if (composantOriginal) {
-        // Clone le composant avec tous ses enfants
-        let nouveauComposant = composantOriginal.cloneNode(true);
-        
-        // Réinitialise les champs du nouveau composant (optionnel)
-        nouveauComposant.querySelectorAll('input, select').forEach(function(input) {
-            input.value = ''; // Réinitialise les champs si nécessaire
+        document.getElementById('ajouterCategorie').addEventListener('click', function() {
+            // Sélectionne le premier composant à cloner
+            let composantOriginal = document.querySelector('#cadreCategorie > .columns-3');
+
+            if (composantOriginal) {
+                // Clone le composant avec tous ses enfants
+                let nouveauComposant = composantOriginal.cloneNode(true);
+
+                // Réinitialise les champs du nouveau composant (optionnel)
+                nouveauComposant.querySelectorAll('input, select').forEach(function(input) {
+                    input.value = ''; // Réinitialise les champs si nécessaire
+                });
+
+                // Ajoute un bouton de suppression à la fin du composant cloné
+                let boutonSuppression = document.createElement('div');
+
+                boutonSuppression.innerHTML =
+                    '<span class="iconify hover:text-red-500" data-icon="material-symbols:delete"></span>';
+                boutonSuppression.className =
+                    'cursor-pointer flex justify-center items-center  bg-tertiary-400 text-white h-11 px-4 py-4 mt-9';
+                boutonSuppression.addEventListener('click', function() {
+                    // Supprime le composant parent du bouton (le clone)
+                    nouveauComposant.remove();
+                });
+
+                // Ajoute le bouton au clone
+                nouveauComposant.appendChild(boutonSuppression);
+
+                // Ajoute le composant cloné avec le bouton de suppression à la fin du conteneur
+                document.getElementById('cadreCategorie').appendChild(nouveauComposant);
+            } else {
+                console.error("Impossible de trouver le composant à cloner.");
+            }
         });
-
-        // Ajoute un bouton de suppression à la fin du composant cloné
-        let boutonSuppression = document.createElement('button');
-        boutonSuppression.textContent = 'Supprimer';
-        boutonSuppression.className = 'bg-red-500 text-white px-2 py-1 mt-2';
-        boutonSuppression.addEventListener('click', function() {
-            // Supprime le composant parent du bouton (le clone)
-            nouveauComposant.remove();
-        });
-
-        // Ajoute le bouton au clone
-        nouveauComposant.appendChild(boutonSuppression);
-
-        // Ajoute le composant cloné avec le bouton de suppression à la fin du conteneur
-        document.getElementById('cadreCategorie').appendChild(nouveauComposant);
-    } else {
-        console.error("Impossible de trouver le composant à cloner.");
-    }
-});
-
-</script>
+    </script>
 @endsection
