@@ -121,20 +121,24 @@
             item.addEventListener('click', (event) => {
                 const index = event.currentTarget.getAttribute('data-index');
                 const isActive = event.currentTarget.getAttribute('data-active') === 'true';
-
+                const icon = event.currentTarget.querySelector('.iconify');
+    
                 const targetDiv = document.getElementById('produitsServicesSelectionnees');
                 const originalDiv = document.getElementById('toutLesProduitsServices');
-
+    
                 if (isActive) {
-                    // Déplace l'élément vers la liste sélectionnée
-                    event.currentTarget.setAttribute('data-active', 'false'); // Désactive l'élément
+              
+                    event.currentTarget.setAttribute('data-active', 'false'); 
+                    icon.setAttribute('data-icon', 'mdi:bin'); // Change l'icône en corbeille
                     targetDiv.appendChild(event.currentTarget);
                 } else {
-                    // Déplace l'élément vers la liste originale
-                    event.currentTarget.setAttribute('data-active', 'true'); // Réactive l'élément
+             
+                    event.currentTarget.setAttribute('data-active', 'true'); 
+                    icon.setAttribute('data-icon', 'material-symbols:add'); // Rétablit l'icône en ajout
                     originalDiv.appendChild(event.currentTarget);
                 }
             });
         });
     </script>
+    
 @endsection
