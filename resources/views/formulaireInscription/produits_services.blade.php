@@ -51,8 +51,10 @@
                                         les pêcheries</h1>
                                 </div>
 
-                                <div class="w-1/6 flex items-center justify-center text-white  bg-tertiary-400 p-2 m-8 rounded-full">
-                                    <span class="iconify size-8 lg:size-10 " data-icon="material-symbols:add" data-inline="false"></span>
+                                <div
+                                    class="w-1/6 flex items-center justify-center text-white  bg-tertiary-400 p-2 m-8 rounded-full">
+                                    <span class="iconify size-8 lg:size-10 " data-icon="material-symbols:add"
+                                        data-inline="false"></span>
                                 </div>
                             </div>
                         @endfor
@@ -82,8 +84,10 @@
                                     les pêcheries</h1>
                             </div>
 
-                            <div class="w-1/6 bg-tertiary-400 flex justify-center items-end text-white rounded-full p-2 m-8">
-                                <span class="iconify size-8 lg:size-10 " data-icon="material-symbols:add" data-inline="false"></span>
+                            <div
+                                class="cursor-pointer w-1/6 flex items-center justify-center text-white  bg-tertiary-400 p-2 m-8 rounded-full">
+                                <span class="iconify size-8 lg:size-10 hover:text-red-500"
+                                    data-icon="material-symbols:delete" data-inline="false"></span>
                             </div>
                         </div>
                     </div>
