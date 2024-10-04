@@ -27,7 +27,7 @@
                                 class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
 
                             <div class="w-1/6 bg-tertiary-400 p-2 ml-4">
-
+                                <span class="iconify hover:text-red-500" data-icon="material-symbols:delete"></span>
                             </div>
                         </div>
 

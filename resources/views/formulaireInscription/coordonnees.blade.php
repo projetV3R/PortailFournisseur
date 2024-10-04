@@ -71,7 +71,7 @@
                             Municipalités
                         </label>
                         <!-- Select -->
-                        <select name="municipalite[]" id="municipalite" multiple=""
+                        <select name="municipalite" id="municipalite"
                             data-hs-select='{
     "placeholder": "Selectionner la municipalité",
     "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
@@ -252,63 +252,54 @@
 
     <script>
         document.getElementById('ajoutNumeroTelephone').addEventListener('click', function() {
-
             let cadre = document.getElementById('cadreNumero');
 
-            cadre.insertAdjacentHTML('beforeend', `<div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
+            // Ajoute une nouvelle ligne avec les inputs et le bouton de suppression
+            cadre.insertAdjacentHTML('beforeend', `
+                <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ligne-numeros">
+    
+                    <div class="w-full">
+                        <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2">Ligne</label>
+                        <input type="text" id="ligne" name="ligne[]" placeholder="Fixe"
+                            class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                        @error('ligne')
+                            <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+    
+                    <div class="w-full">
+                        <label for="numeroTelephone" class="block font-Alumni text-md md:text-lg mb-2">Numero Telephone</label>
+                        <input type="phonenumber" id="numeroTelephone" name="numeroTelephone[]" placeholder="514-453-9867"
+                            class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                        @error('numeroTelephone')
+                            <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+    
+                    <div class="w-full">
+                        <label for="poste" class="block font-Alumni text-md md:text-lg mb-2">Poste</label>
+                        <input type="text" id="poste" name="poste[]" placeholder="9845"
+                            class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                        @error('poste')
+                            <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+    
+                    <!-- Bouton de suppression -->
+                    <div class="w-auto cursor-pointer flex justify-center items-center remove-ligne bg-tertiary-400 text-white h-12 px-4 py-4 mt-9">
+                        <span class="iconify hover:text-red-500" data-icon="material-symbols:delete"></span>
+                    </div>
+                </div>
+            `);
 
-                        <div class="w-full">
-                            <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2">
-                                Ligne
-                            </label>
-
-                            <input type="text" id="ligne" name="ligne[]" placeholder="Fixe"
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-
-                            @error('ligne')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-
-                        </div>
-
-                        <div class="w-full">
-                            <label for="numeroTelephone" class="block font-Alumni text-md md:text-lg mb-2">
-                                Numero Telephone
-                            </label>
-
-                            <input type="phonenumber" id="numeroTelephone" name="numeroTelephone[]"
-                                placeholder="514-453-9867"
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-
-                            @error('numeroTelephone')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-
-                        </div>
-
-                        <div class="w-full">
-                            <label for="poste" class="block font-Alumni text-md md:text-lg mb-2">
-                                Poste
-                            </label>
-
-                            <input type="text" id="poste" name="poste[]" placeholder="9845"
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-
-                            @error('poste')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-
-                        </div>
-                    </div>`);
+            // Ajoute un gestionnaire d'événements au bouton de suppression
+            cadre.querySelectorAll('.remove-ligne').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Supprime la div parente de la ligne
+                    button.closest('.ligne-numeros').remove();
+                });
+            });
         });
     </script>
+
 @endsection

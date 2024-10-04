@@ -74,8 +74,9 @@
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Identification</h4>
 
                     <div class="mt-6">
-                        <label for="numeroEntreprise" class="block font-Alumni text-md md:text-lg mb-2">
-                            Numéro d’entreprise du Québec (NEQ)
+                        <label for="numeroEntreprise" class=" flex items-center font-Alumni text-md md:text-lg mb-2">
+                            Numéro d’entreprise du Québec (NEQ) <p class="italic text-sm ml-2">*Ce numero n'est pas
+                                obligatoire</p>
                         </label>
                         <input type="text" id="numeroEntreprise" name="numeroEntreprise"
                             value="{{ old('numeroEntreprise') }}" placeholder="Entrer votre numéro d’entreprise du Québec"

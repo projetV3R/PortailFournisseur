@@ -44,11 +44,12 @@
                     </form>
 
                     <div class="mt-4">
-                        <h6 class="font-Alumni font-semibold text-base md:text-base">Première connexion ou NEQ non trouvée ?
+                        <h6 class="font-Alumni font-semibold text-base md:text-base">Nouvel utilisateur ?
                         </h6>
                         <a href="{{ route('CreateIdentification') }}">
                             <h6 class="font-Alumni font-semibold text-base md:text-base text-secondary-400 cursor-pointer">
-                                Soumettre une demande !</h6>
+                                Inscrivez vous
+                                maintenat !</h6>
                         </a>
 
                     </div>
