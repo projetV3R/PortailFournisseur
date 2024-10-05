@@ -15,51 +15,55 @@ class ContactsTableSeeder extends Seeder
     {
         DB::table('contacts')->insert([
             [
-                'id' => 1,
                 'prenom' => 'Jean',
                 'nom' => 'Dupont',
-                'fonction' => 'Directeur des ventes',
-                'adresse_courrriel' => 'jean.dupont@entreprise1.com',
-                'fiche_fournisseur_id' => 1,  // Référence à la table fiche_fournisseurs
-                'created_at' => '2024-09-18 10:00:00',
+                'fonction' => 'Directeur',
+                'adresse_courrriel' => 'jean.dupont@example.com',
+                'ligne' => 1,
+                'poste' => '101',
+                'numero_telephone' => '555-1234',
+                'fiche_fournisseur_id' => 1, // clé étrangère vers une fiche fournisseur existante
             ],
             [
-                'id' => 2,
                 'prenom' => 'Marie',
-                'nom' => 'Durand',
-                'fonction' => 'Responsable des achats',
-                'adresse_courrriel' => 'marie.durand@entreprise2.com',
-                'fiche_fournisseur_id' => 2,  // Référence à la table fiche_fournisseurs
-                'created_at' => '2024-09-18 10:30:00',
+                'nom' => 'Lefebvre',
+                'fonction' => 'Responsable achats',
+                'adresse_courrriel' => 'marie.lefebvre@example.com',
+                'ligne' => 2,
+                'poste' => '102',
+                'numero_telephone' => '555-5678',
+                'fiche_fournisseur_id' => 2,
             ],
             [
-                'id' => 3,
-                'prenom' => 'Pierre',
-                'nom' => 'Martin',
-                'fonction' => 'Chef de projet',
-                'adresse_courrriel' => 'pierre.martin@entreprise3.com',
-                'fiche_fournisseur_id' => 3,  // Référence à la table fiche_fournisseurs
-                'created_at' => '2024-09-18 11:00:00',
-            ],
-            [
-                'id' => 4,
-                'prenom' => 'Sophie',
-                'nom' => 'Leroy',
-                'fonction' => 'Chargée de communication',
-                'adresse_courrriel' => 'sophie.leroy@entreprise4.com',
-                'fiche_fournisseur_id' => 4,  // Référence à la table fiche_fournisseurs
-                'created_at' => '2024-09-18 11:30:00',
-            ],
-            [
-                'id' => 5,
                 'prenom' => 'Luc',
-                'nom' => 'Bernard',
-                'fonction' => 'Ingénieur commercial',
-                'adresse_courrriel' => 'luc.bernard@entreprise5.com',
-                'fiche_fournisseur_id' => 5,  // Référence à la table fiche_fournisseurs
-                'created_at' => '2024-09-18 12:00:00',
+                'nom' => 'Martin',
+                'fonction' => 'Comptable',
+                'adresse_courrriel' => 'luc.martin@example.com',
+                'ligne' => 3,
+                'poste' => '103',
+                'numero_telephone' => '555-9101',
+                'fiche_fournisseur_id' => 3,
+            ],
+            [
+                'prenom' => 'Isabelle',
+                'nom' => 'Durand',
+                'fonction' => 'Assistante de direction',
+                'adresse_courrriel' => 'isabelle.durand@example.com',
+                'ligne' => 4,
+                'poste' => '104',
+                'numero_telephone' => '555-1213',
+                'fiche_fournisseur_id' => 4,
+            ],
+            [
+                'prenom' => 'Pierre',
+                'nom' => 'Moreau',
+                'fonction' => 'Chef de projet',
+                'adresse_courrriel' => 'pierre.moreau@example.com',
+                'ligne' => 5,
+                'poste' => '105',
+                'numero_telephone' => '555-1415',
+                'fiche_fournisseur_id' => 5,
             ],
         ]);
-        
     }
 }

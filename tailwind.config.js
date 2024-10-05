@@ -1,9 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+import forms from "@tailwindcss/forms";
+
 export default {
+    darkMode: 'class',
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
+        "node_modules/preline/dist/*.js",
     ],
     theme: {
         extend: {
@@ -32,5 +36,5 @@ export default {
             },
         },
     },
-    plugins: [],
+    plugins: [forms, require("preline/plugin")],
 };

@@ -17,7 +17,7 @@ class TelephonesTableSeeder extends Seeder
             [
                 'id' => 1,
                 'numero_telephone' => '5145551234',
-                'ligne' => 1,
+                'ligne' => 'bureau',
                 'poste' => '101',
                 'coordonnee_id' => 1,  // Référence à la table coordonnees
                 'contact_id' => 1,  // Référence à la table contacts
@@ -26,7 +26,7 @@ class TelephonesTableSeeder extends Seeder
             [
                 'id' => 2,
                 'numero_telephone' => '4185555678',
-                'ligne' => 2,
+                'ligne' => 'bureau',
                 'poste' => '102',
                 'coordonnee_id' => 2,  // Référence à la table coordonnees
                 'contact_id' => 2,  // Référence à la table contacts
@@ -35,7 +35,7 @@ class TelephonesTableSeeder extends Seeder
             [
                 'id' => 3,
                 'numero_telephone' => '4505557890',
-                'ligne' => 3,
+                'ligne' => 'bureau',
                 'poste' => '103',
                 'coordonnee_id' => 3,  // Référence à la table coordonnees
                 'contact_id' => 3,  // Référence à la table contacts
@@ -44,7 +44,7 @@ class TelephonesTableSeeder extends Seeder
             [
                 'id' => 4,
                 'numero_telephone' => '6135553456',
-                'ligne' => 4,
+                'ligne' => 'fixe',
                 'poste' => '104',
                 'coordonnee_id' => 4,  // Référence à la table coordonnees
                 'contact_id' => 4,  // Référence à la table contacts
@@ -53,7 +53,7 @@ class TelephonesTableSeeder extends Seeder
             [
                 'id' => 5,
                 'numero_telephone' => '8195559876',
-                'ligne' => 5,
+                'ligne' => 'fixe',
                 'poste' => '105',
                 'coordonnee_id' => 5,  // Référence à la table coordonnees
                 'contact_id' => 5,  // Référence à la table contacts
