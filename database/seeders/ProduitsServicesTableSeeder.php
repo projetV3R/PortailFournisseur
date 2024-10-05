@@ -18,9 +18,6 @@ class ProduitsServicesTableSeeder extends Seeder
             [
                 'id' => 1,
                 'nature' => 'Produit',
-                'segment' => 'Électronique',
-                'famille' => 'Télévisions',
-                'classe' => 'Écran plat',
                 'code_categorie' => 'TV123',
                 'categorie' => 'Multimédia',
                 'code_unspsc' => '52161547',
@@ -31,9 +28,6 @@ class ProduitsServicesTableSeeder extends Seeder
             [
                 'id' => 2,
                 'nature' => 'Service',
-                'segment' => 'Entretien',
-                'famille' => 'Nettoyage',
-                'classe' => 'Service de nettoyage',
                 'code_categorie' => 'SVC001',
                 'categorie' => 'Services',
                 'code_unspsc' => '76111501',
@@ -44,9 +38,6 @@ class ProduitsServicesTableSeeder extends Seeder
             [
                 'id' => 3,
                 'nature' => 'Produit',
-                'segment' => 'Mobilier',
-                'famille' => 'Chaises',
-                'classe' => 'Chaise de bureau',
                 'code_categorie' => 'MBL045',
                 'categorie' => 'Mobilier de bureau',
                 'code_unspsc' => '56101504',
@@ -57,9 +48,6 @@ class ProduitsServicesTableSeeder extends Seeder
             [
                 'id' => 4,
                 'nature' => 'Produit',
-                'segment' => 'Informatique',
-                'famille' => 'Ordinateurs',
-                'classe' => 'Ordinateur portable',
                 'code_categorie' => 'PC678',
                 'categorie' => 'Informatique',
                 'code_unspsc' => '43211503',
@@ -70,9 +58,6 @@ class ProduitsServicesTableSeeder extends Seeder
             [
                 'id' => 5,
                 'nature' => 'Service',
-                'segment' => 'Formation',
-                'famille' => 'Informatique',
-                'classe' => 'Formation en ligne',
                 'code_categorie' => 'TRN009',
                 'categorie' => 'Formation',
                 'code_unspsc' => '86101601',
@@ -81,6 +66,5 @@ class ProduitsServicesTableSeeder extends Seeder
                 'created_at' => '2024-09-18 14:00:00',
             ],
         ]);
-        
     }
 }

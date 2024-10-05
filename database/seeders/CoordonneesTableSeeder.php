@@ -80,6 +80,5 @@ class CoordonneesTableSeeder extends Seeder
                 'created_at' => '2024-09-18 14:00:00',
             ],
         ]);
-        
     }
 }
