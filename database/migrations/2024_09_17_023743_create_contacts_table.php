@@ -21,7 +21,10 @@ return new class extends Migration
             $table->string('poste');
             $table->string('numero_telephone');
             $table->foreignId('fiche_fournisseur_id')->constrained(); // Cle etrangere vers la table fiches fournisseurs
+            $table->unsignedBigInteger('telephone_id');   // Cle etrangere vers la table fiches telephones
             $table->timestamps();
+
+            $table->foreign('telephone_id')->references('id')->on('telephones')->onDelete('cascade');
         });
     }
 

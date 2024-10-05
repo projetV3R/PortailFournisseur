@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('categorie');
             $table->string('code_unspsc');
             $table->string('description');
-            $table->string('details_specifications', 500);
             $table->timestamps();
         });
     }

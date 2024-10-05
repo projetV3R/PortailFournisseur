@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('telephones', function (Blueprint $table) {
+        Schema::create('sous_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('numero_telephone');
-            $table->integer('ligne');
-            $table->string('poste');
-            $table->string('type_numero');
             $table->timestamps();
+            $table->String('categorie');
+            $table->String('code_sous_categorie');
+            $table->string('travaux_permis');
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('telephones');
+        Schema::dropIfExists('sous_categories');
     }
 };
