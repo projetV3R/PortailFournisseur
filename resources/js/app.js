@@ -8,3 +8,4 @@ window._ = _;
 // Importation de Dropzone
 import Dropzone from "dropzone";
 window.Dropzone = Dropzone;
+

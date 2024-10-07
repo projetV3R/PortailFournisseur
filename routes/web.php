@@ -11,7 +11,7 @@ use App\Http\Controllers\ProduitServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegionMunicipalitesController;
 
-Route::get('/get-municipalites', [RegionMunicipalitesController::class, 'getMunicipalites']);
+Route::get('/municipalites-par-region', [RegionMunicipalitesController::class, 'getMunicipalitesParRegion']);
 
 
 Route::get('/', function () {
