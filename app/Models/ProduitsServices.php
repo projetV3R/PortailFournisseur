@@ -23,4 +23,15 @@ class ProduitsServices extends Model
         'description',
         'details_specifications',
     ];
+
+    public static function search($key)
+    {
+        return self::query()
+            ->where('nature', 'like', "%{$key}%")
+            ->orWhere('code_categorie', 'like', "%{$key}%")
+            ->orWhere('categorie', 'like', "%{$key}%")
+            ->orWhere('code_unspsc', 'like', "%{$key}%")
+            ->orWhere('description', 'like', "%{$key}%")
+            ->get();
+    }
 }

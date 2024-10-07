@@ -10,6 +10,7 @@ use App\Http\Controllers\LicenceController;
 use App\Http\Controllers\ProduitServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegionMunicipalitesController;
+use App\Models\ProduitsServices;
 
 Route::get('/get-municipalites', [RegionMunicipalitesController::class, 'getMunicipalites']);
 
@@ -63,6 +64,9 @@ Route::get('/ProduitsServices', [ProduitServiceController::class, "create"])->na
 Route::post('/ProduitsServices', [ProduitServiceController::class, "store"])->name("StoreProduitsServices");
 
 Route::get('/ProduitsServicess', [ProduitServiceController::class, "index"])->name("IndexProduitsServices");
+
+Route::get('/search', [ProduitServiceController::class, 'search']);
+
 
 // Coordonnees
 

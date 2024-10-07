@@ -14,9 +14,23 @@ class ProduitServiceController extends Controller
      */
     public function index()
     {
-        $produitsServices = ProduitsServices::orderBy('code_unspsc')->paginate(20);
+        $produitsServices = ProduitsServices::select('nature', 'code_categorie', 'categorie', 'code_unspsc', 'description')
+            ->distinct()
+            ->orderBy('code_unspsc')
+            ->paginate(20);
+
         return view('formulaireInscription/Produits_services', compact('produitsServices'));
     }
+
+    public function search(Request $request)
+    {
+        $key = trim($request->get('recherche'));
+        $posts = ProduitsServices::search($key);
+
+        return view('formulaireInscription/Produits_services', compact('key', 'posts'));
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
