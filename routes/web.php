@@ -62,6 +62,7 @@ Route::get('/ProduitsServices', [ProduitServiceController::class, "create"])->na
 
 Route::post('/ProduitsServices', [ProduitServiceController::class, "store"])->name("StoreProduitsServices");
 
+Route::get('/ProduitsServicess', [ProduitServiceController::class, "index"])->name("IndexProduitsServices");
 
 // Coordonnees
 

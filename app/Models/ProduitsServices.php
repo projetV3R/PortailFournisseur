@@ -9,25 +9,18 @@ use Illuminate\Notifications\Notifiable;
 class ProduitsServices extends Model
 {
     use HasFactory, Notifiable;
-
+ protected $table = 'produits_services';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
+        'nature',
+        'code_categorie',
+        'categorie',
+        'code_unspsc',
+        'description',
+        'details_specifications',
     ];
 }

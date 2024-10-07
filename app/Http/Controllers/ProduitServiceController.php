@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProduitServiceRequest;
+use App\Models\ProduitsServices;
 use Illuminate\Http\Request;
 
 class ProduitServiceController extends Controller
@@ -13,7 +14,8 @@ class ProduitServiceController extends Controller
      */
     public function index()
     {
-        //
+        $produitsServices = ProduitsServices::all();
+        return view('formulaireInscription/Produits_services', compact('produitsServices'));
     }
 
     /**
