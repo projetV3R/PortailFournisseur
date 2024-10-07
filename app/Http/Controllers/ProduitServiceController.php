@@ -14,7 +14,7 @@ class ProduitServiceController extends Controller
      */
     public function index()
     {
-        $produitsServices = ProduitsServices::all();
+        $produitsServices = ProduitsServices::orderBy('code_unspsc')->paginate(20);
         return view('formulaireInscription/Produits_services', compact('produitsServices'));
     }
 

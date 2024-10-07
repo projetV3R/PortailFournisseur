@@ -37,32 +37,27 @@
                         {{ $message }}
                     </span>
                     @enderror
-
                 </div>
 
+                @foreach ($produitsServices as $produit)
                 <div id="toutLesProduitsServices">
-
                     @for ($i = 0; $i < 5; $i++)
                         <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService"
                         data-index="{{ $i }}" data-active="true" id="produitService{{ $i }}">
-
-                        @foreach ($produitsServices as $produit)
                         <div>
                             <h6 class="font-Alumni font-bold md:text-3xl">{{$produit->nature}}</h6>
-                            <h4 class="font-Alumni md:text-xl mt-2">Code Catégories + categories</h4>
-                            <h1 class="font-Alumni italic md:text-lg">code unspsc + description</h1>
+                            <h4 class="font-Alumni md:text-xl mt-2">{{$produit->code_categorie}} - {{$produit->categorie}}</h4>
+                            <h1 class="font-Alumni italic md:text-lg">{{$produit->code_unspsc}} - {{$produit->description}}</h1>
                         </div>
-                        @endforeach
-
                         <div
                             class="w-1/6 flex items-center justify-center text-white  bg-tertiary-400 p-2 m-8 rounded-full">
                             <span class="iconify size-8 lg:size-10 " data-icon="material-symbols:add"
                                 data-inline="false"></span>
                         </div>
                 </div>
-
                 @endfor
             </div>
+            @endforeach
         </div>
     </div>
 
