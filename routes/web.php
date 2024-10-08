@@ -92,3 +92,11 @@ Route::post('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, 
 Route::get('/Finances', [FinanceController::class, "create"])->name("createFinances");
 
 Route::post('/Finances', [FinanceController::class, "store"])->name("storeFinances");
+
+// ResumeInscription
+
+Route::get('/ResumeInscription', [FinanceController::class, "create"])->name("createResumeInscription");
+
+Route::get('/ResumeInscription', function () {
+    return view('formulaireInscription/resume_inscription');
+});
