@@ -93,10 +93,8 @@ Route::get('/Finances', [FinanceController::class, "create"])->name("createFinan
 
 Route::post('/Finances', [FinanceController::class, "store"])->name("storeFinances");
 
-// ResumeInscription
+// ProfilFournisseur
 
-Route::get('/ResumeInscription', [FinanceController::class, "create"])->name("createResumeInscription");
-
-Route::get('/ResumeInscription', function () {
-    return view('formulaireInscription/resume_inscription');
+Route::get('/ProfilFournisseur', function () {
+    return view('formulaireInscription/profil_fournisseur');
 });
