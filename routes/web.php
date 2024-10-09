@@ -67,7 +67,7 @@ Route::post('/ProduitsServices', [ProduitServiceController::class, "store"])->na
 
 Route::post('/Coordonnees', [CoordonneeController::class, "store"])->name("StoreCoordonnees");
 
-Route::get('/Coordonnees', [CoordonneeController::class, "create"])->name("CreateCoordonnees");
+Route::get('/Coordonnees/store', [CoordonneeController::class, "create"])->name("CreateCoordonnees");
 
 // Licence
 

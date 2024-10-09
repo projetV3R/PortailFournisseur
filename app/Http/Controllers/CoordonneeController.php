@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CoordonneeRequest;
 use App\Models\Coordonnee;
 use Illuminate\Http\Request;
+use Log;
 
 class CoordonneeController extends Controller
 {
@@ -31,7 +32,11 @@ class CoordonneeController extends Controller
      */
     public function store(CoordonneeRequest $request)
     {
+        Log::info('Test log message');
+
         session()->put("coordonnees", $request->all());
+        Log::info('Coordonnées enregistrées : ', $request->all());
+        session()->forget('coordonnees');
         //dd($request->all());
         return redirect()->route('createContacts');
     }

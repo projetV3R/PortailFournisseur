@@ -36,6 +36,11 @@ class CoordonneeRequest extends FormRequest
                 'max:64',
                 'regex:/^[a-zA-Z0-9À-ÿ\'\- ]+$/u'
             ],
+            'province' => [
+                'required',
+                'string',
+                'max:64',
+            ],
 
             'bureau' => [
                 'nullable',
@@ -44,31 +49,11 @@ class CoordonneeRequest extends FormRequest
                 'regex:/^[a-zA-Z0-9]+$/u'
             ],
 
-            'municipalite' => [
-                'required',
-                'string',
-                'max:64',
-            ],
-
             'codePostale' => [
                 'required',
                 'string',
                 'max:6',
                 'regex:/^[a-zA-Z0-9]+$/u'
-            ],
-
-            'codeRegionAdministrative' => [
-                'required',
-                'string',
-                'size:2',
-                'regex:/^\d{2}$/',
-                Rule::in(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17'])
-            ],
-
-            'regionAdministrative' => [
-                'required_if:province,Québec',
-                'string',
-                Rule::in(['Bas-Saint-Laurent', 'Saguenay–Lac-Saint-Jean', 'Capitale-Nationale'])
             ],
 
             'siteWeb' => [
@@ -100,5 +85,13 @@ class CoordonneeRequest extends FormRequest
             'poste.*' => 'nullable',
             'numeroTelephone.*' => 'nullable',
         ];
+    if ($this->input('province') === 'Québec') {
+        $rules['municipalite'] = ['required', 'string', 'max:64'];
+        $rules['regionAdministrative'] = ['required', 'string'];
+    } else {
+        $rules['municipaliteInput'] = ['required', 'string', 'max:64'];
+    }
+
+    return $rules;
     }
 }
