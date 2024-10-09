@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProduitServiceRequest;
 use App\Models\ProduitsServices;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class ProduitServiceController extends Controller
@@ -24,12 +25,11 @@ class ProduitServiceController extends Controller
 
     public function search(Request $request)
     {
-        $key = trim($request->get('recherche'));
-        $posts = ProduitsServices::search($key);
+        $query = trim($request->get('recherche'));
+        $posts = ProduitsServices::where('nature', 'LIKE', '%' . $query .'%')->paginate(50);
 
-        return view('formulaireInscription/Produits_services', compact('key', 'posts'));
+        return response()->json($posts);
     }
-
 
 
     /**
