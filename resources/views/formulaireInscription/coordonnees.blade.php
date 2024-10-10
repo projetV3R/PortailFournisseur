@@ -4,6 +4,16 @@
 @section('title', 'Coordonnees')
 
 @section('contenu')
+@if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <form action="{{ route('StoreCoordonnees') }}" method="post">
         @csrf
 
@@ -218,13 +228,13 @@
                                 Ligne
                             </label>
 
-                                <select name="ligne" id="ligne" name="ligne[]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                <select  id="ligne" name="ligne[0][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                     <option value="Bureau">Bureau</option>
                                     <option value="Télécopieur">Télécopieur</option>
                                     <option value="Cellulaire">Cellulaire</option>
                                 </select>
 
-                            @error('ligne[]')
+                            @error('ligne.0.type')
                                 <span
                                     class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
@@ -237,11 +247,11 @@
                                 Numero Telephone
                             </label>
 
-                            <input type="phonenumber" id="numeroTelephone" name="numeroTelephone[]"
+                            <input type="phonenumber" id="numeroTelephone" name="ligne[0][numeroTelephone]"
                                 placeholder="514-453-9867"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
-                            @error('numeroTelephone[]')
+                            @error('ligne.0.numeroTelephone')
                                 <span
                                     class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
@@ -255,10 +265,10 @@
                                 Poste
                             </label>
 
-                            <input type="text" id="poste" name="poste[]" placeholder="9845"
+                            <input type="text" id="poste" name="ligne[0][poste]" placeholder="9845"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
-                            @error('poste[]')
+                            @error('ligne.0.poste')
                                 <span
                                     class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
@@ -282,7 +292,53 @@
         </div>
     </form>
 
-
     <script src="{{ asset('js/Inscription/Coordonnees.js') }}"></script>
+    <script>
+        document.getElementById('ajoutNumeroTelephone').addEventListener('click', function() {
+            let index = document.querySelectorAll('.ligne-numeros').length + 1;
+            let cadre = document.getElementById('cadreNumero');
+            cadre.insertAdjacentHTML('beforeend', `
+                <div class="mt-6 w-full flex  justify-center gap-2 columns-2 ligne-numeros">
+                    <div class="w-full">
+                        <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2">Ligne</label>
+                        <select id="ligne" name="ligne[${index}][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                            <option value="Bureau">Bureau</option>
+                            <option value="Télécopieur">Télécopieur</option>
+                            <option value="Cellulaire">Cellulaire</option>
+                        </select>
+                    </div>
+        
+                    <div class="w-full flex flex-col ">
+                        <label for="numeroTelephone" class="block font-Alumni text-md md:text-lg mb-2 truncate">Numero Telephone</label>
+                        <input type="phonenumber" id="numeroTelephone" name="ligne[${index}][numeroTelephone]" placeholder="514-453-9867"
+                            class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                    </div>
+        
+                    <div class="w-full">
+                        <label for="poste" class="block font-Alumni text-md md:text-lg mb-2">Poste</label>
+                        <input type="text" id="poste" name="ligne[${index}][poste]" placeholder="9845"
+                            class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                    </div>
+        
+                    <!-- Bouton de suppression -->
+                    <div class="w-full flex flex-row justify-start items-end">
+                    <button type="button" class="remove-ligne cursor-pointer items-center flex justify-center   bg-tertiary-400 text-white h-12 w-12 ">
+                       <span class="iconify size-6 hover:text-red-500 remove-ligne  " data-icon="mdi:trash-can-outline"></span> 
+                    </button>
+                      </div>
+                </div>
+            `);
+        });
+        
+
+        document.getElementById('cadreNumero').addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-ligne')) {
+                event.target.closest('.ligne-numeros').remove();
+            }
+        });
+        
+     
+        </script>
+        
 
 @endsection

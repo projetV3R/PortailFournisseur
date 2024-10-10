@@ -46,9 +46,7 @@ Route::get('/LicencesAutorisations', function () {
     return view('formulaireInscription/licences_autorisations');
 });
 
-Route::get('/Coordonnees', function () {
-    return view('formulaireInscription/coordonnees');
-});
+
 
 // Identification
 
@@ -65,9 +63,9 @@ Route::post('/ProduitsServices', [ProduitServiceController::class, "store"])->na
 
 // Coordonnees
 
-Route::post('/Coordonnees', [CoordonneeController::class, "store"])->name("StoreCoordonnees");
+Route::post('/Coordonnees/store', [CoordonneeController::class, "store"])->name("StoreCoordonnees");
 
-Route::get('/Coordonnees/store', [CoordonneeController::class, "create"])->name("CreateCoordonnees");
+Route::get('/Coordonnees', [CoordonneeController::class, "create"])->name("CreateCoordonnees");
 
 // Licence
 

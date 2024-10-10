@@ -62,28 +62,23 @@ class CoordonneeRequest extends FormRequest
                 'url',
                 'max:64'
             ],
-            'ligne.0' => [
+            'ligne' => ['required', 'array'], 
+            'ligne.*.type' => [
                 'required',
                 'string',
-                Rule::in(['Bureau', 'Télécopieur', 'Cellulaire'])
+                Rule::in(['Bureau', 'Télécopieur', 'Cellulaire']), 
             ],
-            'poste.0' => [
+            'ligne.*.numeroTelephone' => [
                 'required',
+                'string',
+                'regex:/^\d{3}-\d{3}-\d{4}$/', 
+            ],
+            'ligne.*.poste' => [
                 'nullable',
                 'string',
                 'max:6',
-                'regex:/^\d+$/',
-
-            ],
-            'numeroTelephone.0' => [
-                'required',
-                'string',
-                'size:12',
-                'regex:/^\d{3}-\d{3}-\d{4}$/'
-            ],
-            'ligne.*' => 'nullable',
-            'poste.*' => 'nullable',
-            'numeroTelephone.*' => 'nullable',
+                'regex:/^\d+$/', 
+            ]
         ];
     if ($this->input('province') === 'Québec') {
         $rules['municipalite'] = ['required', 'string', 'max:64'];

@@ -36,8 +36,9 @@ class CoordonneeController extends Controller
 
         session()->put("coordonnees", $request->all());
         Log::info('Coordonnées enregistrées : ', $request->all());
+        dd($request->all());
         session()->forget('coordonnees');
-        //dd($request->all());
+      
         return redirect()->route('createContacts');
     }
 
