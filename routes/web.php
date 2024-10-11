@@ -77,7 +77,7 @@ Route::post('/Licences', [LicenceController::class, "store"])->name("storeLicenc
 
 Route::get('/Contacts', [ContactController::class, "create"])->name("createContacts");
 
-Route::post('/Contacts', [ContactController::class, "store"])->name("storeContacts");
+Route::post('/Contacts/Store', [ContactController::class, "store"])->name("storeContacts");
 
 // Brochure carte affaire
 

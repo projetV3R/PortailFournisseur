@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
+use Log;
 
 class ContactController extends Controller
 {
@@ -29,8 +30,10 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request)
     {
+        Log::info('Test log message');
         session()->put("contacts", $request->all());
         //dd($request->all());
+        Log::info('Contacts enregistrées : ', $request->all());
         return redirect()->route('createBrochuresCartesAffaires');
     }
 
