@@ -22,7 +22,7 @@ class CoordonneeRequest extends FormRequest
      */
     public function rules(): array
     {
-        // Déclaration initiale des règles de validation
+      
         $rules = [
             'numeroCivique' => [
                 'required',
