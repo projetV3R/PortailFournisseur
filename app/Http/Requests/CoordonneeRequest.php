@@ -22,7 +22,8 @@ class CoordonneeRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        // Déclaration initiale des règles de validation
+        $rules = [
             'numeroCivique' => [
                 'required',
                 'string',
@@ -62,6 +63,7 @@ class CoordonneeRequest extends FormRequest
                 'url',
                 'max:64'
             ],
+
             'ligne' => ['required', 'array'], 
             'ligne.*.type' => [
                 'required',
@@ -80,13 +82,15 @@ class CoordonneeRequest extends FormRequest
                 'regex:/^\d+$/', 
             ]
         ];
-    if ($this->input('province') === 'Québec') {
-        $rules['municipalite'] = ['required', 'string', 'max:64'];
-        $rules['regionAdministrative'] = ['required', 'string'];
-    } else {
-        $rules['municipaliteInput'] = ['required', 'string', 'max:64'];
-    }
 
-    return $rules;
+        // Validation conditionnelle selon la province
+        if ($this->input('province') === 'Québec') {
+            $rules['municipalite'] = ['required', 'string', 'max:64'];
+            $rules['regionAdministrative'] = ['required', 'string'];
+        } else {
+            $rules['municipaliteInput'] = ['required', 'string', 'max:64'];
+        }
+
+        return $rules;
     }
 }

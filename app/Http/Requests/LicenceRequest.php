@@ -22,12 +22,13 @@ class LicenceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numeroLicence' => 'required',
-            'statut' => 'required',
-            'typeLicence' => 'required',
-            'travauxPermis' => 'required',
-            'categorie' => 'required',
-            'sousCategorie' => 'required',
+            'numeroLicence' => 'required_with:statut,typeLicence,travauxPermis,categorie,sousCategorie|nullable',
+            'statut' => 'required_with:numeroLicence|nullable',
+            'typeLicence' => 'required_with:numeroLicence|nullable',
+            'travauxPermis' => 'required_with:numeroLicence|nullable',
+            'categorie' => 'required_with:numeroLicence|nullable',
+            'sousCategorie' => 'required_with:numeroLicence|nullable',
         ];
     }
+    
 }
