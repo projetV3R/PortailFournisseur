@@ -24,47 +24,41 @@ class ContactRequest extends FormRequest
     {
         return [
             'contacts' => ['required', 'array'],
-            'prenom.*' => [
+            'contacts.*.prenom' => [
                 'required',
                 'string',
                 'max:32',
                 'regex:/^[a-zA-ZÀ-ÿ\'\- ]+$/u'
             ],
-
-            'nom.*' => [
+            'contacts.*.nom' => [
                 'required',
                 'string',
                 'max:32',
                 'regex:/^[a-zA-ZÀ-ÿ\'\- ]+$/u'
             ],
-
-            'fonction.*' => [
+            'contacts.*.fonction' => [
                 'required',
                 'string',
                 'max:32'
             ],
-
-            'email.*' => [
+            'contacts.*.email' => [
                 'required',
                 'string',
                 'email',
                 'max:64'
             ],
-
-            'ligne.*' => [
+            'contacts.*.ligne' => [
                 'required',
                 'string',
                 Rule::in(['Bureau', 'Télécopieur', 'Cellulaire'])
             ],
-
-            'numeroTelephone.*' => [
+            'contacts.*.numeroTelephone' => [
                 'required',
                 'string',
                 'size:12',
                 'regex:/^\d{3}-\d{3}-\d{4}$/'
             ],
-
-            'poste.*' => [
+            'contacts.*.poste' => [
                 'nullable',
                 'string',
                 'max:6',
@@ -72,4 +66,5 @@ class ContactRequest extends FormRequest
             ],
         ];
     }
+    
 }

@@ -24,7 +24,7 @@
                             <label for="prenom" class="block font-Alumni text-md md:text-lg mb-2">
                                 Prenom
                             </label>
-                            <input type="text" id="prenom" name="prenom[]" placeholder="Doe"
+                            <input type="text" id="prenom" name="contacts[0][prenom]" placeholder="Doe"
                                 class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
 
                             @error('prenom')
@@ -41,7 +41,7 @@
                             Nom
                         </label>
 
-                        <input type="text" id="nom" name="nom[]" placeholder="John"
+                        <input type="text" id="nom" name="contacts[0][nom]" placeholder="John"
                             class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
 
                         @error('nom')
@@ -58,7 +58,7 @@
                             <label for="fonction" class="block font-Alumni text-md md:text-lg mb-2">
                                 Fonction
                             </label>
-                            <input type="text" id="fonction" name="fonction[]" placeholder="Comptable"
+                            <input type="text" id="fonction" name="contacts[0][fonction]" placeholder="Comptable"
                                 class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
 
                             @error('fonction')
@@ -76,7 +76,7 @@
                             <label for="email" class="block font-Alumni text-md md:text-lg mb-2">
                                 Email
                             </label>
-                            <input type="text" id="email" name="email[]" placeholder="johndoe@gmail.com"
+                            <input type="text" id="email" name="contacts[0][email]" placeholder="johndoe@gmail.com"
                                 class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
 
                             @error('email')
@@ -105,7 +105,7 @@
                             <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2">
                                 Ligne
                             </label>
-                            <select  id="ligne" name="ligne[]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                            <select  id="ligne" name="contacts[0][ligne]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                 <option value="Bureau">Bureau</option>
                                 <option value="Télécopieur">Télécopieur</option>
                                 <option value="Cellulaire">Cellulaire</option>
@@ -125,7 +125,7 @@
                                 Numero Telephone
                             </label>
 
-                            <input type="phonenumber" id="numeroTelephone" name="numeroTelephone[]" placeholder="514-453-9867"
+                            <input type="phonenumber" id="numeroTelephone" name="contacts[0][numeroTelephone]" placeholder="514-453-9867"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
                             @error('numeroTelephone')
@@ -142,7 +142,7 @@
                                 Poste
                             </label>
 
-                            <input type="text" id="poste" name="poste[]" placeholder="9845"
+                            <input type="text" id="poste" name="contacts[0][poste]" placeholder="9845"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
                             @error('poste')
@@ -170,70 +170,101 @@
     </form>
     <script>
 document.getElementById('addContactBtn').addEventListener('click', function() {
-  
     var contactFieldsContainer = document.getElementById('contactFieldsContainer');
     
     // Cloner le conteneur
     var clone = contactFieldsContainer.cloneNode(true);
     
- 
-    clone.querySelector('button[type="submit"]').remove(); 
-    clone.querySelector('#addContactBtn').remove(); 
-    
-   
+    var currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7; // Calculer l'index en fonction des champs existants
+
+    // Modifier les noms des inputs dans le clone
+    clone.querySelectorAll('input, select').forEach(function(input) {
+        var name = input.getAttribute('name');
+        if (name) {
+            var newName = name.replace(/\[0\]/, '[' + currentIndex + ']');
+            input.setAttribute('name', newName);
+        }
+        input.value = ''; // Réinitialiser les valeurs
+    });
+
+    // Ajout du bouton supprimer dans le clone
     var deleteButton = document.createElement('button');
     deleteButton.type = 'button';
-    deleteButton.classList.add('w-full','text-xl','flex' ,'items-center' ,'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
+    deleteButton.classList.add('w-full', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
     deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
-    
-  
     deleteButton.addEventListener('click', function() {
         clone.remove();
     });
-    
- 
     clone.appendChild(deleteButton);
-    
-  
-    clone.querySelectorAll('input').forEach(input => input.value = '');
-    
 
     contactFieldsContainer.parentNode.appendChild(clone);
 });
+
 document.addEventListener('DOMContentLoaded', function() {
-        
-      
-          @if(session('contacts'))
-          let contacts = @json(session('contacts'));
-          
-            contacts.forEach(function(contact) {
-                addContactFields(contact);
-            });
+    @if(session('contacts'))
+    let sessionData = @json(session('contacts'));
 
-   
-            document.getElementById('addContactBtn').addEventListener('click', function() {
-                addContactFields({});
-            });
-        });
+    // Extraire le tableau contacts de l'objet sessionData
+    let contacts = sessionData.contacts;
 
-   
-        function addContactFields(contact) {
-            var contactFieldsContainer = document.getElementById('contactFieldsContainer');
-            var clone = contactFieldsContainer.cloneNode(true);
-
-     
-            clone.querySelector('input[name="prenom[]"]').value = contact.prenom || '';
-            clone.querySelector('input[name="nom[]"]').value = contact.nom || '';
-            clone.querySelector('input[name="fonction[]"]').value = contact.fonction || '';
-            clone.querySelector('input[name="email[]"]').value = contact.email || '';
-            clone.querySelector('input[name="numeroTelephone[]"]').value = contact.numeroTelephone || '';
-            clone.querySelector('input[name="poste[]"]').value = contact.poste || '';
-            clone.querySelector('select[name="ligne[]"]').value = contact.ligne || 'Bureau';
-
-        
-            document.getElementById('contactFieldsContainer').appendChild(clone);
-            @endif
+    // Vérifier que contacts est bien un tableau
+    if (Array.isArray(contacts)) {
+        // Remplir le premier contact si présent
+        if (contacts.length > 0 && contacts[0]) {
+            const contact = contacts[0];
+            document.querySelector('input[name="contacts[0][prenom]"]').value = contact.prenom || '';
+            document.querySelector('input[name="contacts[0][nom]"]').value = contact.nom || '';
+            document.querySelector('input[name="contacts[0][fonction]"]').value = contact.fonction || '';
+            document.querySelector('input[name="contacts[0][email]"]').value = contact.email || '';
+            document.querySelector('select[name="contacts[0][ligne]"]').value = contact.ligne || 'Bureau';
+            document.querySelector('input[name="contacts[0][numeroTelephone]"]').value = contact.numeroTelephone || '';
+            document.querySelector('input[name="contacts[0][poste]"]').value = contact.poste || '';
         }
+
+        // Ajouter dynamiquement des formulaires de contact supplémentaires s'il y a plus d'un contact
+        contacts.forEach((contact, index) => {
+            if (index > 0) {
+                ajouterContactFields(index, contact);
+            }
+        });
+    } else {
+        console.error("Les contacts ne sont pas un tableau :", contacts);
+    }
+    @endif
+});
+
+
+function ajouterContactFields(index, contact = {}) {
+    const contactFieldsContainer = document.getElementById('contactFieldsContainer');
+    var clone = contactFieldsContainer.cloneNode(true);
+    
+    clone.querySelector('button[type="submit"]').remove();
+    clone.querySelector('#addContactBtn').remove();
+
+    clone.querySelectorAll('input, select').forEach(function(input) {
+        var name = input.getAttribute('name');
+        if (name) {
+            var newName = name.replace(/\[0\]/, '[' + index + ']');
+            input.setAttribute('name', newName);
+        }
+  
+        input.value = contact[input.getAttribute('name').match(/\[([^\]]+)\]$/)[1]] || '';
+    });
+
+    var deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
+    deleteButton.classList.add('w-full', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
+    deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
+    deleteButton.addEventListener('click', function() {
+        clone.remove();
+    });
+    clone.appendChild(deleteButton);
+
+
+    contactFieldsContainer.parentNode.appendChild(clone);
+}
+
+
 
     </script>
     
