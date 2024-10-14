@@ -83,7 +83,10 @@ Route::post('/Contacts/Store', [ContactController::class, "store"])->name("store
 
 Route::get('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "create"])->name("createBrochuresCartesAffaires");
 
-Route::post('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "store"])->name("storeBrochuresCartesAffaires");
+Route::post('/BrochuresCartesAffaires/Store', [BrochureCarteAffaireController::class, "store"])->name("storeBrochuresCartesAffaires");
+
+Route::post('/delete-brochure', [BrochureCarteAffaireController::class, 'delete'])->name('deleteBrochure');
+
 
 // Finance
 
