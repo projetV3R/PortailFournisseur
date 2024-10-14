@@ -28,6 +28,8 @@
                         @foreach($produitsServices as $produit)
                         <div>
                             <h6>{{ $produit->nature }}</h6>
+                            <h4>{{ $produit->code_categorie }} - {{ $produit->categorie }}</h4>
+                            <h1>{{ $produit->code_unspsc }} - {{ $produit->description }}</h1>
                         </div>
                         @endforeach
                     </div>
