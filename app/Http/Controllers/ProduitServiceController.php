@@ -26,7 +26,13 @@ class ProduitServiceController extends Controller
     public function search(Request $request)
     {
         $query = trim($request->get('recherche'));
-        $posts = ProduitsServices::where('nature', 'LIKE', '%' . $query .'%')->paginate(50);
+        $posts = ProduitsServices::where(function($queryBuilder) use ($query) {
+            $queryBuilder->where('nature', 'LIKE', '%' . $query . '%')
+                         ->orWhere('code_categorie', 'LIKE', '%' . $query . '%')
+                         ->orWhere('categorie', 'LIKE', '%' . $query . '%')
+                         ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
+                         ->orWhere('description', 'LIKE', '%' . $query . '%');
+        })->paginate(50);
 
         return response()->json($posts);
     }
