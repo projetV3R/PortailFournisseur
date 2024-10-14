@@ -224,6 +224,9 @@
         </div>
     </footer>
     <script>
+         window.addEventListener('beforeunload', function () {
+        navigator.sendBeacon('/delete-temp-files'); // Envoie une requête silencieuse avant fermeture
+    });
         const toggleDarkMode = () => {
             const htmlElement = document.documentElement;
             if (htmlElement.classList.contains('dark')) {

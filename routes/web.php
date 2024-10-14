@@ -85,7 +85,10 @@ Route::get('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "
 
 Route::post('/BrochuresCartesAffaires/Store', [BrochureCarteAffaireController::class, "store"])->name("storeBrochuresCartesAffaires");
 
-Route::post('/delete-brochure', [BrochureCarteAffaireController::class, 'delete'])->name('deleteBrochure');
+Route::post('/delete-temp-files', [BrochureCarteAffaireController::class, 'deleteTempFiles'])
+    ->name('deleteTempFiles');
+
+
 
 
 // Finance

@@ -24,46 +24,36 @@ class BrochureCarteAffaireController extends Controller
     public function create()
     {
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
+     //   session()->flush();
         return view("formulaireInscription/brochure_cartes_affaires", compact('maxFileSize'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BrochureCarteAffaireRequest $request)
+    public function store(Request $request)
     {
-        $fichiers = $request->file('fichiers');
     
+        if (!$request->hasFile('fichiers')) {
+            return back()->with('error', 'Aucun fichier envoyé.');
+        }
+
         $brochures = [];
-        foreach ($fichiers as $fichier) {
-            $path = $fichier->store('brochures_temp'); // Stock temporaire
+
+        foreach ($request->file('fichiers') as $fichier) {
+            $path = $fichier->store('brochures_temp');
             $brochures[] = [
                 'nom' => $fichier->getClientOriginalName(),
-                'type_de_fichier' => $fichier->getClientOriginalExtension(),
                 'taille' => $fichier->getSize(),
-                'chemin' => $path
+                'chemin' => $path,
+                'timestamp' => time(),
             ];
         }
-        Log::info('Brochures enregistreés : ', $request->all());
-       
+
         session()->put('brochures_cartes_affaires', $brochures);
-        return response()->json(['success' => true]);
-      
+
+        return redirect()->route('createContacts')->with('success', 'Fichiers téléversés avec succès.');
     }
-    public function delete(Request $request)
-{
-    $path = $request->input('path');
-
-    if (Storage::exists($path)) {
-        Storage::delete($path); // Suppression du fichier
-        return response()->json(['success' => true, 'message' => 'Fichier supprimé avec succès.']);
-    }
-
-    return response()->json(['success' => false, 'message' => 'Fichier non trouvé.'], 404);
-}
-
-    
-    
 
     /**
      * Display the specified resource.
