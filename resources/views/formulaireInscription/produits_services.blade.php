@@ -140,6 +140,9 @@
         searchInput.addEventListener('input', function() {
             performSearch(); // Appelle la fonction de recherche à chaque fois que l'utilisateur tape
         });
+
+        // Écouteurs d'événements pour les produits au chargement
+        assignClickEventsToProducts();
     });
 
     function performSearch() {
@@ -148,78 +151,80 @@
         console.log("Recherche effectuée pour: ", query);
         if (query.length >= 3) { // Requête uniquement si 3 caractères ou plus
             axios.get('/search', {
-                    params: {
-                        recherche: query // Paramètre à envoyer avec la requête
-                    }
-                })
-                .then(function(response) {
-                    console.log("Réponse reçue", response.data); // Affiche la réponse dans la console
+                params: {
+                    recherche: query // Paramètre à envoyer avec la requête
+                }
+            })
+            .then(function(response) {
+                console.log("Réponse reçue", response.data); // Affiche la réponse dans la console
 
-                    let resultsContainer = document.getElementById('toutLesProduitsServices');
-                    console.log("Conteneur des résultats trouvé: ", resultsContainer);
+                let resultsContainer = document.getElementById('toutLesProduitsServices');
+                resultsContainer.innerHTML = ''; // Efface les résultats précédents
 
-                    resultsContainer.innerHTML = ''; // Efface les résultats précédents
+                if (response.data.length === 0) {
+                    resultsContainer.innerHTML = '<p class="font-Alumni text-md text-gray-600">Aucun produit ou service trouvé.</p>';
+                } else {
+                    let content = ''; // Prépare le contenu
+                    response.data.data.forEach(function(produit) {
+                        let produitDiv = `
+                        <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService"
+                            data-index="${produit.id}" data-active="true" id="produitService${produit.id}">
+                            <div>
+                                <h6 class="font-Alumni font-bold md:text-3xl">${produit.nature || 'Nature non disponible'}</h6>
+                                <h4 class="font-Alumni md:text-xl mt-2">${produit.code_categorie || 'Code catégorie non disponible'} - ${produit.categorie || 'Catégorie non disponible'}</h4>
+                                <h1 class="font-Alumni italic md:text-lg">${produit.code_unspsc || 'Code unspsc non disponible'} - ${produit.description || 'Description non disponible'}</h1>
+                            </div>
+                            <div class="w-1/6 flex items-center justify-center text-white bg-tertiary-400 p-2 m-8 rounded-full">
+                                <span class="iconify size-8 lg:size-10" data-icon="material-symbols:add" data-inline="false"></span>
+                            </div>
+                        </div>`;
+                        content += produitDiv; // Ajoute à la variable content
+                    });
 
-                    if (response.data.length === 0) {
-                        resultsContainer.innerHTML = '<p class="font-Alumni text-md text-gray-600">Aucun produit ou service trouvé.</p>';
-                    } else {
-                        let content = ''; // Prépare le contenu
-                        response.data.data.forEach(function(produit) {
-                            let produitDiv = `
-                            <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService">
-                                <div data-index="${produit.id}" data-active="true" id="produitService${produit.id}">
-                                    <h6 class="font-Alumni font-bold md:text-3xl">${produit.nature || 'Nature non disponible'}</h6>
-                                    <h4 class="font-Alumni md:text-xl mt-2">${produit.code_categorie || 'Code catégorie non disponible'} - ${produit.categorie || 'Catégorie non disponible'}</h4>
-                                    <h1 class="font-Alumni italic md:text-lg">${produit.code_unspsc || 'Code unspsc non disponible'} - ${produit.description || 'Description non disponible'}</h1>
-                                </div>
-                                <div class="w-1/6 flex items-center justify-center text-white bg-tertiary-400 p-2 m-8 rounded-full">
-                                    <span class="iconify size-8 lg:size-10" data-icon="material-symbols:add" data-inline="false"></span>
-                                </div>
-                            </div>`;
-                            content += produitDiv; // Ajoute à la variable content
-                        });
+                    resultsContainer.innerHTML = content;
 
-                        const resultsContainer = document.getElementById('toutLesProduitsServices');
-                        resultsContainer.innerHTML = content;
-
-                        // Réaffecte les événements de clic pour les nouveaux éléments
-                        assignClickEventsToProducts();
-                    }
-                })
-                .catch(function(error) {
-                    console.error("Erreur lors de la recherche :", error);
-                });
+                    // Réaffecte les événements de clic pour les nouveaux éléments
+                    assignClickEventsToProducts();
+                }
+            })
+            .catch(function(error) {
+                console.error("Erreur lors de la recherche :", error);
+            });
         } else {
             document.getElementById('toutLesProduitsServices').innerHTML = ''; // Efface les résultats si moins de 3 caractères
         }
+    }
 
-        function assignClickEventsToProducts() {
-            document.querySelectorAll('.produitService').forEach(item => {
-                item.addEventListener('click', (event) => {
-                    const index = event.currentTarget.getAttribute('data-index');
-                    const isActive = event.currentTarget.getAttribute('data-active') === 'true';
-                    const icon = event.currentTarget.querySelector('.iconify');
+    function assignClickEventsToProducts() {
+        document.querySelectorAll('.produitService').forEach(item => {
+            item.addEventListener('click', (event) => {
+                const index = event.currentTarget.getAttribute('data-index');
+                const isActive = event.currentTarget.getAttribute('data-active') === 'true';
+                const icon = event.currentTarget.querySelector('.iconify');
 
-                    const targetDiv = document.getElementById('produitsServicesSelectionnees');
-                    const originalDiv = document.getElementById('toutLesProduitsServices');
+                const targetDiv = document.getElementById('produitsServicesSelectionnees');
+                const originalDiv = document.getElementById('toutLesProduitsServices');
 
-                    if (isActive) {
+                if (isActive) {
+                    // Vérifier si l'élément est déjà sélectionné
+                    const existingItem = targetDiv.querySelector(`[data-index="${index}"]`);
+                    if (!existingItem) { // Si l'élément n'est pas trouvé
                         event.currentTarget.setAttribute('data-active', 'false');
                         icon.setAttribute('data-icon', 'material-symbols:delete'); // Change l'icône en corbeille
                         targetDiv.appendChild(event.currentTarget);
                     } else {
-                        event.currentTarget.setAttribute('data-active', 'true');
-                        icon.setAttribute('data-icon', 'material-symbols:add'); // Rétablit l'icône en ajout
-                        originalDiv.appendChild(event.currentTarget);
+                        alert("Cet élément est déjà sélectionné."); // Alerte si l'élément existe déjà
                     }
-                });
+                } else {
+                    event.currentTarget.setAttribute('data-active', 'true');
+                    icon.setAttribute('data-icon', 'material-symbols:add'); // Rétablit l'icône en ajout
+                    originalDiv.appendChild(event.currentTarget);
+                }
             });
-        }
-
-        // Appelle la fonction de recherche si nécessaire
-        effectuerRecherche();
+        });
     }
 </script>
+
 
 
 
