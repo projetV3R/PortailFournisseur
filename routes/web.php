@@ -71,7 +71,10 @@ Route::get('/Coordonnees', [CoordonneeController::class, "create"])->name("Creat
 
 Route::get('/Licences', [LicenceController::class, "create"])->name("createLicences");
 
-Route::post('/Licences', [LicenceController::class, "store"])->name("storeLicences");
+Route::post('/Licences/store', [LicenceController::class, "store"])->name("storeLicences");
+
+Route::get('/sous-categories/{type}', [LicenceController::class, 'getSousCategories']);
+
 
 // Contact
 

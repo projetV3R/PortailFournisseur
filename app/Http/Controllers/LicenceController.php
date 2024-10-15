@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LicenceRequest;
 use Illuminate\Http\Request;
+use Log;
 
 class LicenceController extends Controller
 {
@@ -33,6 +34,18 @@ class LicenceController extends Controller
 
         return redirect()->route('CreateCoordonnees');
     }
+    public function getSousCategories($type)
+    {
+        // Récupérer les sous-catégories correspondant au type de licence, en gérant les champs multi-catégories
+        $sousCategories = \DB::table('sous_categories')
+            ->where('categorie', 'LIKE', "%$type%") // Vérifie si le type est contenu dans la colonne
+            ->get();
+    
+        return response()->json($sousCategories);
+    }
+    
+    
+
 
     /**
      * Display the specified resource.

@@ -20,15 +20,15 @@ class LicenceRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        return [
-            'numeroLicence' => 'required_with:statut,typeLicence,travauxPermis,categorie,sousCategorie|nullable',
-            'statut' => 'required_with:numeroLicence|nullable',
-            'typeLicence' => 'required_with:numeroLicence|nullable',
-            'travauxPermis' => 'required_with:numeroLicence|nullable',
-            'categorie' => 'required_with:numeroLicence|nullable',
-            'sousCategorie' => 'required_with:numeroLicence|nullable',
-        ];
-    }
+{
+    return [
+        'numeroLicence' => 'required_with:statut,typeLicence,categorie,sousCategorie|nullable',
+        'statut' => 'required_with:numeroLicence|nullable',
+        'typeLicence' => 'required_with:numeroLicence|nullable',
+        'sousCategorie' => 'required_with:numeroLicence|array|nullable',
+        'sousCategorie.*' => 'integer|exists:sous_categories,id', // Vérifie chaque sous-catégorie
+    ];
+}
+
     
 }
