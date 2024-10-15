@@ -24,6 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('coordonnee_id');  // Cle etrangere vers coordonnees
             $table->unsignedBigInteger('finance_id');  // Cle etrangere vers finances
             $table->timestamps();
+            $table->rememberToken();
 
 
             $table->foreign('licence_id')->references('id')->on('licences')->onDelete('cascade');

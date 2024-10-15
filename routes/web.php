@@ -4,6 +4,7 @@ use App\Http\Controllers\BrochureCarteAffaireController;
 use App\Http\Controllers\CategorieUNSPSCcontroller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CoordonneeController;
+use App\Http\Controllers\FicheFournisseurController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\IdentificationController;
 use App\Http\Controllers\LicenceController;
@@ -24,30 +25,6 @@ Route::get('/produits', [CategorieUNSPSCcontroller::class, 'getProduits']);
 
 Route::get('/loginFournisseur', function () {
     return view('login/login_fournisseur');
-});
-
-Route::get('/LoginFournisseurAvecNeq', function () {
-    return view('login/login_fournisseur_avec_neq');
-});
-
-Route::get('/LoginFournisseurSansNeq', function () {
-    return view('login/login_fournisseur_sans_neq');
-});
-
-Route::get('/Identification', function () {
-    return view('formulaireInscription/identification');
-});
-
-Route::get('/ProduitsServices', function () {
-    return view('formulaireInscription/Produits_services');
-});
-
-Route::get('/LicencesAutorisations', function () {
-    return view('formulaireInscription/licences_autorisations');
-});
-
-Route::get('/Coordonnees', function () {
-    return view('formulaireInscription/coordonnees');
 });
 
 // Identification
@@ -92,3 +69,17 @@ Route::post('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, 
 Route::get('/Finances', [FinanceController::class, "create"])->name("createFinances");
 
 Route::post('/Finances', [FinanceController::class, "store"])->name("storeFinances");
+
+// Login avec NEQ
+Route::get('/FicheFournisseur/avecNeq', [FicheFournisseurController::class, "indexAvecNeq"])->name("showLoginFormAvecNeq");
+Route::post('/FicheFournisseur/avecNeq', [FicheFournisseurController::class, "loginAvecNeq"])->name("loginAvecNeq");
+
+// Login sans NEQ
+Route::get('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "indexSansNeq"])->name("showLoginFormSansNeq");
+Route::post('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "loginSansNeq"])->name("loginSansNeq");
+
+// Logout
+Route::post('/FicheFournisseur/logout', [FicheFournisseurController::class, "logout"])->name("logout");
+
+// Création Fiche Fournisseur
+Route::get('/FicheFournisseur/choix', [FicheFournisseurController::class, "create"])->name("choixLogin");
