@@ -15,12 +15,9 @@ class ProduitServiceController extends Controller
      */
     public function index()
     {
-        $produitsServices = ProduitsServices::select('nature', 'code_categorie', 'categorie', 'code_unspsc', 'description')
-            ->distinct()
-            ->orderBy('code_unspsc')
-            ->paginate(20);
+  
 
-        return view('formulaireInscription/Produits_services', compact('produitsServices'));
+        return view('formulaireInscription/Produits_services');
     }
 
     public function search(Request $request)
@@ -32,7 +29,7 @@ class ProduitServiceController extends Controller
                          ->orWhere('categorie', 'LIKE', '%' . $query . '%')
                          ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
                          ->orWhere('description', 'LIKE', '%' . $query . '%');
-        })->paginate(50);
+        })->paginate(20);
 
         return response()->json($posts);
     }

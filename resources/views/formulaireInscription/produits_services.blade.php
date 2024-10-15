@@ -5,13 +5,16 @@
 @section('title', 'ProduitService')
 
 @section('contenu')
-<form action="{{ route('StoreProduitsServices') }}" method="post">
+<form id="produitsServicesForm" action="{{ route('StoreProduitsServices') }}" method="post">
     @csrf
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-8 lg:p-16">
+
         <!-- Première colonne -->
         <div>
             <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Produits et services</h6>
-            <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Parlez-nous des services que vous offrez</h1>
+            <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">
+                Parlez-nous des services que vous offrez
+            </h1>
 
             <div class="bg-primary-100 py-8 px-4 mt-8">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et services</h4>
@@ -22,40 +25,22 @@
                     </label>
 
                     <div class="flex">
-                        <form onsubmit="event.preventDefault(); performSearch();">
-                            <input type="text" id="recherche" name="recherche"
-                                placeholder="En peu de mots décrivez vos produits ou services"
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black"
-                                required>
-
-                            <div class="cursor-pointer w-1/6 bg-tertiary-400 p-1 ml-4 flex items-center justify-center">
-                                <button type="submit">
-                                    <span class="iconify text-white size-6" data-icon="material-symbols:search"></span>
-                                </button>
-                            </div>
-                        </form>
+                        <input type="text" id="recherche" name="recherche"
+                            placeholder="En peu de mots décrivez vos produits ou services"
+                            class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                        <button type="button" class="cursor-pointer w-1/6 bg-tertiary-400 p-1 ml-4 flex items-center justify-center"
+                            id="searchButton">
+                            <span class="iconify text-white size-6" data-icon="material-symbols:search"></span>
+                        </button>
                     </div>
 
-                    <div id="toutLesProduitsServices">
-                        @foreach($produitsServices as $produit)
-                        <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService"
-                            data-index="{{ $produit->id }}" data-active="true" id="produitService{{ $produit->id }}">
-                            <div>
-                                <h6 class="font-Alumni font-bold md:text-3xl">{{ $produit->nature }}</h6>
-                                <h4 class="font-Alumni md:text-xl mt-2">{{ $produit->code_categorie }} - {{ $produit->categorie }}</h4>
-                                <h1 class="font-Alumni italic md:text-lg">{{ $produit->code_unspsc }} - {{ $produit->description }}</h1>
-                            </div>
-                            <div class="w-1/6 flex items-center justify-center text-white bg-tertiary-400 p-2 m-8 rounded-full">
-                                <span class="iconify size-8 lg:size-10" data-icon="material-symbols:add" data-inline="false"></span>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
+                    <div id="toutLesProduitsServices" class="mt-8"></div>
+
+                    <!-- Pagination -->
+                    <div id="pagination" class="mt-4 flex justify-center"></div>
 
                     @error('recherche')
-                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                        {{ $message }}
-                    </span>
+                    <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
@@ -69,35 +54,20 @@
             <div class="bg-secondary-100 py-8 px-4 mt-8">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et services sélectionnés</h4>
 
-                <div id="produitsServicesSelectionnees">
-                    <div class="bg-white px-4 py-2 mt-8 w-full max-w-md mr-8 flex">
-                        <div>
-                            <h6 class="font-Alumni font-bold md:text-3xl">Nature</h6>
-                            <h4 class="font-Alumni md:text-xl mt-2">Recherche et développement (R et D)</h4>
-                            <h1 class="font-Alumni italic md:text-lg">Services d'expérimentation ou de recherche sur les pêcheries</h1>
-                        </div>
-
-                        <div class="cursor-pointer w-1/6 flex items-center justify-center text-white bg-tertiary-400 p-2 m-8 rounded-full">
-                            <span class="iconify size-8 lg:size-10 hover:text-red-500" data-icon="material-symbols:delete" data-inline="false"></span>
-                        </div>
-                    </div>
-                </div>
+                <div id="produitsServicesSelectionnees" class="mt-8"></div>
 
                 <div class="mt-6">
-                    <label for="details" class="block font-Alumni text-md md:text-lg mb-2">
-                        Détails
-                    </label>
-                    <textarea id="details" name="details" placeholder="Entrer des détails supplémentaires"
-                        class="font-Alumni w-full max-w-md p-2 h-28 focus:outline-none focus:border-blue-500 border border-black"></textarea>
+                    <label for="details" class="block font-Alumni text-md md:text-lg mb-2">Détails</label>
+                    <textarea id="details" name="details"
+                        class="font-Alumni w-full max-w-md p-2 h-28 focus:outline-none focus:border-blue-500 border border-black"
+                        placeholder="Entrer des détails supplémentaires"></textarea>
 
                     @error('details')
-                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                        {{ $message }}
-                    </span>
+                    <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <button type="submit" class="mt-2 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
+                <button type="submit" class="mt-2 w-full bg-tertiary-400 hover:bg-tertiary-300 py-2.5 text-white">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
                 </button>
             </div>
@@ -105,128 +75,129 @@
     </div>
 </form>
 
-
 <script>
-    document.querySelectorAll('.produitService').forEach(item => {
-        item.addEventListener('click', (event) => {
-            const index = event.currentTarget.getAttribute('data-index');
-            const isActive = event.currentTarget.getAttribute('data-active') === 'true';
-            const icon = event.currentTarget.querySelector('.iconify');
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('recherche');
+        const searchButton = document.getElementById('searchButton');
 
-            const targetDiv = document.getElementById('produitsServicesSelectionnees');
-            const originalDiv = document.getElementById('toutLesProduitsServices');
+        searchButton.addEventListener('click', () => performSearch());
 
-            if (isActive) {
-
-                event.currentTarget.setAttribute('data-active', 'false');
-                icon.setAttribute('data-icon',
-                    'material-symbols:delete'); // Change l'icône en corbeille
-                targetDiv.appendChild(event.currentTarget);
-            } else {
-
-                event.currentTarget.setAttribute('data-active', 'true');
-                icon.setAttribute('data-icon', 'material-symbols:add'); // Rétablit l'icône en ajout
-                originalDiv.appendChild(event.currentTarget);
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value.length >= 3 || searchInput.value === '') {
+                performSearch();
             }
         });
+
+        performSearch(); 
     });
-</script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const searchInput = document.getElementById('recherche');
+    function performSearch(page = 1) {
+        const query = document.getElementById('recherche').value.trim();
+        axios.get('/search', { params: { recherche: query, page } })
+            .then(response => {
+                afficherResultats(response.data.data);
+                afficherPagination(response.data);
+            })
+            .catch(error => console.error("Erreur lors de la recherche :", error));
+    }
 
-        // Ajoute un écouteur d'événements sur l'input
-        searchInput.addEventListener('input', function() {
-            performSearch(); // Appelle la fonction de recherche à chaque fois que l'utilisateur tape
-        });
-
-        // Écouteurs d'événements pour les produits au chargement
+    function afficherResultats(produits) {
+        const resultsContainer = document.getElementById('toutLesProduitsServices');
+        resultsContainer.innerHTML = produits.length
+            ? produits.map(createProduitHTML).join('')
+            : '<p class="font-Alumni text-md text-gray-600">Aucun produit ou service trouvé.</p>';
         assignClickEventsToProducts();
-    });
+    }
 
-    function performSearch() {
-        let query = document.getElementById('recherche').value.trim(); // Récupère la valeur et enlève les espaces
+    function afficherPagination(data) {
+        const paginationContainer = document.getElementById('pagination');
+        paginationContainer.innerHTML = `
+            <button type="button" class="rounded-full bg-gray-300 p-2" 
+                onclick="performSearch(${data.current_page - 1})" 
+                ${!data.prev_page_url ? 'disabled' : ''}>
+                Précédent
+            </button>
+            <span>Page ${data.current_page} sur ${data.last_page}</span>
+            <button  type="button"  class="rounded-full bg-gray-300 p-2" 
+                onclick="performSearch(${data.current_page + 1})" 
+                ${!data.next_page_url ? 'disabled' : ''}>
+                Suivant
+            </button>`;
+    }
 
-        console.log("Recherche effectuée pour: ", query);
-        if (query.length >= 3) { // Requête uniquement si 3 caractères ou plus
-            axios.get('/search', {
-                params: {
-                    recherche: query // Paramètre à envoyer avec la requête
-                }
-            })
-            .then(function(response) {
-                console.log("Réponse reçue", response.data); // Affiche la réponse dans la console
-
-                let resultsContainer = document.getElementById('toutLesProduitsServices');
-                resultsContainer.innerHTML = ''; // Efface les résultats précédents
-
-                if (response.data.length === 0) {
-                    resultsContainer.innerHTML = '<p class="font-Alumni text-md text-gray-600">Aucun produit ou service trouvé.</p>';
-                } else {
-                    let content = ''; // Prépare le contenu
-                    response.data.data.forEach(function(produit) {
-                        let produitDiv = `
-                        <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService"
-                            data-index="${produit.id}" data-active="true" id="produitService${produit.id}">
-                            <div>
-                                <h6 class="font-Alumni font-bold md:text-3xl">${produit.nature || 'Nature non disponible'}</h6>
-                                <h4 class="font-Alumni md:text-xl mt-2">${produit.code_categorie || 'Code catégorie non disponible'} - ${produit.categorie || 'Catégorie non disponible'}</h4>
-                                <h1 class="font-Alumni italic md:text-lg">${produit.code_unspsc || 'Code unspsc non disponible'} - ${produit.description || 'Description non disponible'}</h1>
-                            </div>
-                            <div class="w-1/6 flex items-center justify-center text-white bg-tertiary-400 p-2 m-8 rounded-full">
-                                <span class="iconify size-8 lg:size-10" data-icon="material-symbols:add" data-inline="false"></span>
-                            </div>
-                        </div>`;
-                        content += produitDiv; // Ajoute à la variable content
-                    });
-
-                    resultsContainer.innerHTML = content;
-
-                    // Réaffecte les événements de clic pour les nouveaux éléments
-                    assignClickEventsToProducts();
-                }
-            })
-            .catch(function(error) {
-                console.error("Erreur lors de la recherche :", error);
-            });
-        } else {
-            document.getElementById('toutLesProduitsServices').innerHTML = ''; // Efface les résultats si moins de 3 caractères
-        }
+    function createProduitHTML(produit) {
+        return `
+            <div class="bg-white cursor-pointer px-4 py-2 mt-8 w-full max-w-md mr-8 flex produitService"
+                data-index="${produit.id}" data-unspsc="${produit.code_unspsc}">
+                <div>
+                    <h6 class="font-Alumni font-bold md:text-3xl">${produit.nature || 'Nature non disponible'}</h6>
+                    <h4 class="font-Alumni md:text-xl mt-2">${produit.code_categorie || ''} - ${produit.categorie || ''}</h4>
+                    <h1 class="font-Alumni italic md:text-lg">${produit.code_unspsc || ''} - ${produit.description || ''}</h1>
+                </div>
+                <div class="w-1/6 flex items-center justify-center bg-tertiary-400 p-2 m-8 rounded-full">
+                    <span class="iconify size-8 lg:size-10 text-white" data-icon="material-symbols:add"></span>
+                </div>
+            </div>`;
     }
 
     function assignClickEventsToProducts() {
         document.querySelectorAll('.produitService').forEach(item => {
-            item.addEventListener('click', (event) => {
-                const index = event.currentTarget.getAttribute('data-index');
-                const isActive = event.currentTarget.getAttribute('data-active') === 'true';
-                const icon = event.currentTarget.querySelector('.iconify');
-
-                const targetDiv = document.getElementById('produitsServicesSelectionnees');
-                const originalDiv = document.getElementById('toutLesProduitsServices');
-
-                if (isActive) {
-                    // Vérifier si l'élément est déjà sélectionné
-                    const existingItem = targetDiv.querySelector(`[data-index="${index}"]`);
-                    if (!existingItem) { // Si l'élément n'est pas trouvé
-                        event.currentTarget.setAttribute('data-active', 'false');
-                        icon.setAttribute('data-icon', 'material-symbols:delete'); // Change l'icône en corbeille
-                        targetDiv.appendChild(event.currentTarget);
-                    } else {
-                        alert("Cet élément est déjà sélectionné."); // Alerte si l'élément existe déjà
-                    }
-                } else {
-                    event.currentTarget.setAttribute('data-active', 'true');
-                    icon.setAttribute('data-icon', 'material-symbols:add'); // Rétablit l'icône en ajout
-                    originalDiv.appendChild(event.currentTarget);
-                }
-            });
+            item.addEventListener('click', () => cloneProduit(item));
         });
     }
+
+    function cloneProduit(item) {
+    const productUnspsc = item.getAttribute('data-unspsc');
+    const targetDiv = document.getElementById('produitsServicesSelectionnees');
+
+    // Vérifie si un clone existe déjà
+    const existingClone = targetDiv.querySelector(`[data-unspsc="${productUnspsc}"].cloned`);
+    if (existingClone) {
+        afficherMessage("Ce produit est déjà dans la liste sélectionnée.");
+        return; 
+    }
+
+
+    const clonedItem = item.cloneNode(true);
+    clonedItem.classList.add('cloned'); 
+
+
+    const iconContainer = clonedItem.querySelector('.iconify');
+    const deleteIcon = document.createElement('span');
+    deleteIcon.className = 'iconify size-8 lg:size-10 text-white';
+    deleteIcon.setAttribute('data-icon', 'material-symbols:delete');
+
+    iconContainer.replaceWith(deleteIcon);
+
+
+    clonedItem.addEventListener('click', (e) => {
+        e.stopImmediatePropagation(); 
+        clonedItem.remove(); 
+    });
+
+
+    targetDiv.appendChild(clonedItem);
+}
+
+
+function afficherMessage(message) {
+    const messageContainer = document.createElement('p');
+    messageContainer.className = 'text-red-500 mt-2'; // Style du message
+    messageContainer.textContent = message;
+
+  
+    const targetDiv = document.getElementById('produitsServicesSelectionnees');
+    targetDiv.appendChild(messageContainer);
+
+
+    setTimeout(() => messageContainer.remove(), 3000);
+}
+
+
+
+
+
+
+
 </script>
-
-
-
-
-
 @endsection
