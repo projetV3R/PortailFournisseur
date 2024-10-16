@@ -20,15 +20,26 @@ class LicenceRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-{
-    return [
-        'numeroLicence' => 'required_with:statut,typeLicence,categorie,sousCategorie|nullable',
-        'statut' => 'required_with:numeroLicence|nullable',
-        'typeLicence' => 'required_with:numeroLicence|nullable',
-        'sousCategorie' => 'required_with:numeroLicence|array|nullable',
-        'sousCategorie.*' => 'integer|exists:sous_categories,id', // Vérifie chaque sous-catégorie
-    ];
-}
-
+    {
+        return [
+            'numeroLicence' => [
+                'required_with:statut,typeLicence,sousCategorie',
+                'nullable', 
+               'regex:/^\d{4}-\d{4}-\d{2}$/' // Assure que le format respecte ####-####-##
+            ],
+            'statut' => 'required_with:numeroLicence|nullable',
+            'typeLicence' => 'required_with:numeroLicence|nullable',
+            'sousCategorie' => 'required_with:numeroLicence|array|nullable',
+            'sousCategorie.*' => 'integer|exists:sous_categories,id', 
+        ];
+    }
+    
+    public function messages(): array
+    {
+        return [
+            'numeroLicence.required_with' => 'Le numéro de licence est obligatoire lorsque le statut, le type de licence ou la sous-catégorie est renseigné.',
+            'numeroLicence.regex' => 'Le format du numéro de licence est invalide. Veuillez utiliser le format suivant et respecter qu\'il contient bien 10 chiffres uniquement : ####-####-##.',
+        ];
+    }
     
 }

@@ -22,6 +22,7 @@ class LicenceController extends Controller
      */
     public function create()
     {
+    
         return view('formulaireInscription/licences_autorisations');
     }
 
@@ -37,9 +38,8 @@ class LicenceController extends Controller
     }
     public function getSousCategories($type)
     {
-        // Récupérer les sous-catégories correspondant au type de licence, en gérant les champs multi-catégories
         $sousCategories = \DB::table('sous_categories')
-            ->where('categorie', 'LIKE', "%$type%") // Vérifie si le type est contenu dans la colonne
+            ->where('categorie', 'LIKE', "%$type%")
             ->get();
     
         return response()->json($sousCategories);

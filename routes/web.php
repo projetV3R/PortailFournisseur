@@ -34,17 +34,7 @@ Route::get('/LoginFournisseurSansNeq', function () {
     return view('login/login_fournisseur_sans_neq');
 });
 
-Route::get('/Identification', function () {
-    return view('formulaireInscription/identification');
-});
 
-Route::get('/ProduitsServices', function () {
-    return view('formulaireInscription/Produits_services');
-});
-
-Route::get('/LicencesAutorisations', function () {
-    return view('formulaireInscription/licences_autorisations');
-});
 
 
 

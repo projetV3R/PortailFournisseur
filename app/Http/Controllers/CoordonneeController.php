@@ -23,6 +23,7 @@ class CoordonneeController extends Controller
      */
     public function create()
     {
+     
         return view("formulaireInscription/coordonnees");
     }
 

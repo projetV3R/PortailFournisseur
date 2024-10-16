@@ -13,119 +13,72 @@
                 <h6 class="font-Alumni font-bold text-3xl md:text-5xl">LICENCES ET AUTORISATIONS</h6>
                 <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Parler nous des services que vous offrez</h1>
 
-                <div class="bg-primary-100 py-8 px-4 mt-8 ">
+                <div class="bg-primary-100 py-8 px-4 mt-8">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Licence RBQ</h4>
 
-                    <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
-
-                        <!-- Conteneur du nom d'entreprise -->
+                    <div class="mt-6 w-full max-w-md flex gap-4 columns-2">
+                        <!-- Conteneur du numeroLicence -->
                         <div class="w-1/2">
-                            <label for="numeroLicence" class="block font-Alumni text-md md:text-lg mb-2">
-                                Numero de licence
-                            </label>
+                            <label for="numeroLicence" class="block font-Alumni text-md md:text-lg mb-2">Numero de licence</label>
                             <input type="text" id="numeroLicence" name="numeroLicence"
                                 placeholder="Entrer votre numero de licence"
-                                class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
+                                value="{{ session('licences.numeroLicence') }}"  {{-- auto-remplissage --}}
+                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                             @error('numeroLicence')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
                                 </span>
                             @enderror
                         </div>
 
-                        <!-- Conteneur du segment -->
+                        <!-- Conteneur du statut -->
                         <div class="w-1/2">
-                            <label for="statut" class="block font-Alumni text-md md:text-lg mb-2">
-                                Statut
-                            </label>
-                            <!-- Select -->
-                            <select name="statut" id="statut"
-                              
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-blackl ">
-                                <option value="valide">Valide</option>
-                                <option value="valide_restriction">Valide avec restriction</option>
-                                <option value="non_valide">Non valide</option>
+                            <label for="statut" class="block font-Alumni text-md md:text-lg mb-2">Statut</label>
+                            <select name="statut" id="statut" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-blackl">
+                                <option value="valide" {{ session('licences.statut') == 'valide' ? 'selected' : '' }}>Valide</option>
+                                <option value="valide_restriction" {{ session('licences.statut') == 'valide_restriction' ? 'selected' : '' }}>Valide avec restriction</option>
+                                <option value="non_valide" {{ session('licences.statut') == 'non_valide' ? 'selected' : '' }}>Non valide</option>
                             </select>
                             @error('statut')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
                                 </span>
                             @enderror
-                            <!-- End Select -->
                         </div>
                     </div>
 
-                    <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
-
-                        <!-- Conteneur du segment -->
+                    <!-- Type de licence -->
+                    <div class="mt-6 w-full max-w-md flex gap-4 columns-2">
                         <div class="w-full">
-                            <label for="typeLicence" class="block font-Alumni text-md md:text-lg mb-2">
-                                Type de licence
-                            </label>
-                            <!-- Select -->
-                            <select name="typeLicence" id="typeLicence"
-                  
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                                <option value="">Choose</option>
-                                <option value="entrepreneur général">Entrepreneur général</option>
-                                <option value="constructeur-propriétaire général">Constructeur-propriétaire général</option>
-                                <option value="entrepreneur spécialisé">Entrepreneur spécialisé</option>
-                                <option value="constructeur-propriétaire spécialisé">Constructeur-propriétaire spécialisé</option>
+                            <label for="typeLicence" class="block font-Alumni text-md md:text-lg mb-2">Type de licence</label>
+                            <select name="typeLicence" id="typeLicence" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                <option value="entrepreneur général" {{ session('licences.typeLicence') == 'entrepreneur général' ? 'selected' : '' }}>Entrepreneur général</option>
+                                <option value="constructeur-propriétaire général" {{ session('licences.typeLicence') == 'constructeur-propriétaire général' ? 'selected' : '' }}>Constructeur-propriétaire général</option>
+                                <option value="entrepreneur spécialisé" {{ session('licences.typeLicence') == 'entrepreneur spécialisé' ? 'selected' : '' }}>Entrepreneur spécialisé</option>
+                                <option value="constructeur-propriétaire spécialisé" {{ session('licences.typeLicence') == 'constructeur-propriétaire spécialisé' ? 'selected' : '' }}>Constructeur-propriétaire spécialisé</option>
                             </select>
-                            <!-- End Select -->
-
                             @error('typeLicence')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
                                 </span>
                             @enderror
                         </div>
-
-                        <!-- Conteneur du segment -->
-                      
                     </div>
                 </div>
             </div>
 
             <!-- Deuxième colonne -->
             <div>
-                <h6 class="font-Alumni text-white font-bold text-3xl md:text-5xl hide">Merci de vous identifier !</h6>
-                <h1 class="font-Alumni text-white font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous</h1>
-
+           
+                <h6 class="font-Alumni text-white font-bold text-3xl md:text-5xl">Catégories et sous-catégories</h6>
+                @error('sousCategorie')
+                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                    {{ $message }}
+                </span>
+            @enderror
                 <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreCategorie">
-
-                    <div class="mt-4 flex justify-between items-center">
-
-                        <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Catégories et sous-catégories</h4>
-
-                        
-                    </div>
-
-
-                    <div class="mt-6 w-full  flex gap-4 columns-3 ">
-
-                        
-
-                        <!-- Conteneur du segment -->
-                        <div class="w-full flex flex-col">
-                            <div class="flex w-full flex-col">
-                            <label for="sousCategorie" class="block font-Alumni text-md md:text-lg mb-2">
-                                Sous-catégorie
-                            </label>
-                            <div id="checklistContainer" class="mt-6">
-                                <p>Sélectionnez un type de licence pour voir les sous-catégories disponibles.</p>
-                            </div>
-                        </select>
-                        
-                            @error('sousCategorie')
-                                <span class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</span>
-                            @enderror
-                            </div>
-                         </div>
-                        
+                    <div id="checklistContainer" class="mt-6">
+                        <p>Sélectionnez un type de licence pour voir les sous-catégories disponibles.</p>
                     </div>
                 </div>
 
@@ -136,62 +89,94 @@
         </div>
     </form>
 
-    <script>document.addEventListener('DOMContentLoaded', function () {
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const numeroLicenceInput = document.getElementById('numeroLicence');
         const typeLicenceSelect = document.getElementById('typeLicence');
         const checklistContainer = document.getElementById('checklistContainer');
+        const selectedSousCategories = @json(session('licences.sousCategorie', [])); // Récupérer les valeurs de session
+
+        // Application automatique du format 1234-1234-12
+        numeroLicenceInput.addEventListener('input', function () {
+            let value = numeroLicenceInput.value;
+          
+            value = value.replace(/\D/g, '');
+
+            //Ajout du tiret en fonction du nombre caractères numérique 
+            if (value.length > 4 && value.length <= 8) {
+                value = value.slice(0, 4) + '-' + value.slice(4);
+            } else if (value.length > 8) {
+                value = value.slice(0, 4) + '-' + value.slice(4, 8) + '-' + value.slice(8, 10);
+            }
+
     
+            numeroLicenceInput.value = value;
+        });
+
+     
+        if (typeLicenceSelect.value) {
+            fetchSousCategories(typeLicenceSelect.value);
+        }
+
+ 
         typeLicenceSelect.addEventListener('change', function () {
             const selectedType = this.value;
-    
+
             if (selectedType) {
-                axios.get(`/sous-categories/${selectedType}`)
-                    .then(response => {
-                        renderChecklist(response.data);
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors de la récupération des sous-catégories:', error);
-                    });
+                fetchSousCategories(selectedType); 
             } else {
                 checklistContainer.innerHTML = '<p>Sélectionnez un type de licence pour voir les sous-catégories disponibles.</p>';
             }
         });
-    
+
+        function fetchSousCategories(selectedType) {
+           
+            axios.get(`/sous-categories/${selectedType}`)
+                .then(response => {
+                    renderChecklist(response.data);
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des sous-catégories:', error);
+                });
+        }
+
         function renderChecklist(data) {
-    checklistContainer.innerHTML = ''; // Réinitialiser
+            checklistContainer.innerHTML = ''; // Réinitialiser
 
-    data.forEach(cat => {
-        const checkboxWrapper = document.createElement('div');
-        checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group','bg-gray-300','rounded-md','p-2','px-2');
+            data.forEach(cat => {
+                const checkboxWrapper = document.createElement('div');
+                checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group', 'bg-gray-300', 'rounded-md', 'p-2', 'px-2');
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.name = 'sousCategorie[]';
-        checkbox.value = cat.id;
-        checkbox.classList.add('mr-2');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'sousCategorie[]';
+                checkbox.value = cat.id;
+                checkbox.classList.add('mr-2');
 
-        const label = document.createElement('label');
-        label.textContent = cat.code_sous_categorie;
+                if (selectedSousCategories.includes(String(cat.id))) {
+                    checkbox.checked = true; // Auto cocher si présent dans la session
+                }
 
-        // Infobulle (tooltip) pour afficher les travaux permis
-        const tooltip = document.createElement('div');
-        tooltip.classList.add(
-            'absolute', 'right-0', 'w-64', 'bg-gray-700', 'text-white', 
-            'text-sm', 'p-2', 'rounded', 'hidden', 'group-hover:block', 
-            'z-10', 'shadow-lg', 'mt-8'
-        );
-        tooltip.textContent = cat.travaux_permis || 'Aucun descriptif disponible';
+                const label = document.createElement('label');
+                label.textContent = cat.code_sous_categorie;
 
-        checkboxWrapper.appendChild(checkbox);
-        checkboxWrapper.appendChild(label);
-        checkboxWrapper.appendChild(tooltip);
+                // Infobulle (tooltip) pour afficher description sous categorie et ses travaux permis 
+                const tooltip = document.createElement('div');
+                tooltip.classList.add(
+                    'absolute', 'right-0', 'w-64', 'bg-gray-700', 'text-white', 
+                    'text-sm', 'p-2', 'rounded', 'hidden', 'group-hover:block', 
+                    'z-10', 'shadow-lg', 'mt-8'
+                );
+                tooltip.textContent = cat.travaux_permis || 'Aucun descriptif disponible';
 
-        checklistContainer.appendChild(checkboxWrapper);
+                checkboxWrapper.appendChild(checkbox);
+                checkboxWrapper.appendChild(label);
+                checkboxWrapper.appendChild(tooltip);
+
+                checklistContainer.appendChild(checkboxWrapper);
+            });
+        }
     });
-
-}})
-    
-    
-    
 
     </script>
 @endsection
