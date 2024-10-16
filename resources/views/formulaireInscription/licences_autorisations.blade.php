@@ -43,10 +43,9 @@
                             <select name="statut" id="statut"
                               
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-blackl ">
-                                <option value="active">Active</option>
-                                <option value="suspendue">Suspendue</option>
-                                <option value="annulee">Annulée ou révoquée</option>
-                                <option value="renouvellement">En attente de renouvellement</option>
+                                <option value="valide">Valide</option>
+                                <option value="valide_restriction">Valide avec restriction</option>
+                                <option value="non_valide">Non valide</option>
                             </select>
                             @error('statut')
                                 <span
@@ -102,11 +101,7 @@
 
                         <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Catégories et sous-catégories</h4>
 
-                        <div class="cursor-pointer w-26 h-26 bg-tertiary-400 p-1 flex justify-center items-center"
-                            id="ajouterCategorie">
-                            <span class="iconify size-8 lg:size-10 text-white text-center" data-icon="material-symbols:add"
-                                data-inline="false"></span>
-                        </div>
+                        
                     </div>
 
 
@@ -166,7 +161,7 @@
 
     data.forEach(cat => {
         const checkboxWrapper = document.createElement('div');
-        checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group','bg-gray-300','rounded-md');
+        checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group','bg-gray-300','rounded-md','p-2','px-2');
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';

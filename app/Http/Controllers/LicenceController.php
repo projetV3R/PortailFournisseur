@@ -31,6 +31,7 @@ class LicenceController extends Controller
     public function store(LicenceRequest $request)
     {
         session()->put("licences", $request->all());
+        \Log::info('Données enregistrées dans la session licences:', session('licences'));
 
         return redirect()->route('CreateCoordonnees');
     }
