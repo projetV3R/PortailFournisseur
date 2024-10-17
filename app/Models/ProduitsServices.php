@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class ProduitsServices extends Model
 {
     use HasFactory, Notifiable;
- protected $table = 'produits_services';
+    protected $table = 'produits_services';
     /**
      * The attributes that are mass assignable.
      *
