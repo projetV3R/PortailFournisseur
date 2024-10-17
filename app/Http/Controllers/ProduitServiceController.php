@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProduitServiceRequest;
 use App\Models\ProduitsServices;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
 class ProduitServiceController extends Controller
@@ -15,7 +16,7 @@ class ProduitServiceController extends Controller
      */
     public function index()
     {
-  
+
 
         return view('formulaireInscription/Produits_services');
     }
@@ -23,12 +24,12 @@ class ProduitServiceController extends Controller
     public function search(Request $request)
     {
         $query = trim($request->get('recherche'));
-        $posts = ProduitsServices::where(function($queryBuilder) use ($query) {
+        $posts = ProduitsServices::where(function ($queryBuilder) use ($query) {
             $queryBuilder->where('nature', 'LIKE', '%' . $query . '%')
-                         ->orWhere('code_categorie', 'LIKE', '%' . $query . '%')
-                         ->orWhere('categorie', 'LIKE', '%' . $query . '%')
-                         ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
-                         ->orWhere('description', 'LIKE', '%' . $query . '%');
+                ->orWhere('code_categorie', 'LIKE', '%' . $query . '%')
+                ->orWhere('categorie', 'LIKE', '%' . $query . '%')
+                ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
+                ->orWhere('description', 'LIKE', '%' . $query . '%');
         })->paginate(20);
 
         return response()->json($posts);
@@ -48,8 +49,18 @@ class ProduitServiceController extends Controller
      */
     public function store(ProduitServiceRequest $request)
     {
-        session()->put("produitsServices", $request->all());
+        $data = $request->all();
 
+        if (session()->has('produitsServices')) {
+            $produitsServices = session()->get('produitsServices');
+        } else {
+            $produitsServices = [];
+        }
+
+        $produitsServices[] = $data;
+
+        session()->put("produitsServices", $request->all());
+        
         return redirect()->route('createLicences');
     }
 
