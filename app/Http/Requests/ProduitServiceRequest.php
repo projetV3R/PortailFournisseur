@@ -23,11 +23,11 @@ class ProduitServiceRequest extends FormRequest
     {
         return [
             'nature' => 'required',
-            'codeCategorie' => 'required',
-            'categorie' => 'required',
-            'codeUNSPSC' => 'required',
-            'description' => 'required',
-            'details' => 'required',
+            'codeCategorie' => 'required_with:nature,categorie',
+            'categorie' => 'required_with:nature,codeCategorie',
+            'codeUNSPSC' => 'required_with:nature,codeCategorie,categorie,description',
+            'description' => 'required_with:nature,codeCategorie,categorie,codeUNSPSC',
+            'details' => 'required_with:nature,codeCategorie,categorie,codeUNSPSC,description',
         ];
     }
 }

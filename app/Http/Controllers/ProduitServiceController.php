@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProduitServiceRequest;
 use App\Models\ProduitsServices;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProduitServiceRequest;
+
 
 class ProduitServiceController extends Controller
 {
@@ -16,8 +17,6 @@ class ProduitServiceController extends Controller
      */
     public function index()
     {
-
-
         return view('formulaireInscription/Produits_services');
     }
 
@@ -49,19 +48,19 @@ class ProduitServiceController extends Controller
      */
     public function store(ProduitServiceRequest $request)
     {
-        $data = $request->all();
+        $produitServiceData = [
+            'codeUSPSC' => $request->input('codeUSPSC'),
+            'description' => $request->input('description')
+        ];
 
-        if (session()->has('produitsServices')) {
-            $produitsServices = session()->get('produitsServices');
-        } else {
-            $produitsServices = [];
-        }
-
-        $produitsServices[] = $data;
-
+        // Met les données soumises du formulaire dans la session sous la clé "licences"
         session()->put("produitsServices", $request->all());
-        
-        return redirect()->route('createLicences');
+
+        // Enregistre les données dans les logs pour suivi et débogage
+        Log::info('Données enregistrées dans la session produitsServices:', session('produitsServices'));
+
+        // Redirige l'utilisateur vers la route 'CreateProduitsServices'
+        return redirect()->route('createProduitsServices');
     }
 
     /**
