@@ -5,17 +5,45 @@
 @section('title', 'ProduitService')
 
 @section('contenu')
-<form id="produitsServicesForm" action="{{ route('StoreProduitsServices') }}" method="post">
+<form id="produitsServicesForm" action="{{ route('StoreProduitsServices') }}" method="post"> 
     @csrf
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-8 lg:p-16">
 
-        <!-- Première colonne -->
-        <div>
-            <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Produits et services</h6>
-            <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">
-                Parlez-nous des services que vous offrez
-            </h1>
+    <!-- Texte qui doit s'afficher avant les deux boîtes -->
+    <div class="text-center mt-8 mb-4">
+        <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Produits et services</h6>
+        <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">
+            Parlez-nous des services que vous offrez
+        </h1>
+    </div>
 
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-8 lg:p-8">
+
+        <!-- Deuxième colonne (produits et services sélectionnés) -->
+        <div class="order-1 lg:order-2">
+            <div class="bg-secondary-100 py-8 px-4 mt-8">
+                <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et services sélectionnés</h4>
+
+                <div id="produitsServicesSelectionnees" class="mt-8"></div>
+
+                <div class="mt-6">
+                    <label for="details" class="block font-Alumni text-md md:text-lg mb-2">Détails</label>
+                    <textarea id="details" name="details"
+                        class="font-Alumni w-full max-w-md p-2 h-28 focus:outline-none focus:border-blue-500 border border-black"
+                        placeholder="Entrer des détails supplémentaires"></textarea>
+
+                    @error('details')
+                    <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <button type="submit" class="mt-2 w-full bg-tertiary-400 hover:bg-tertiary-300 py-2.5 text-white">
+                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                </button>
+            </div>
+        </div>
+
+        <!-- Première colonne (recherche) -->
+        <div class="order-2 lg:order-1">
             <div class="bg-primary-100 py-8 px-4 mt-8">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et services</h4>
 
@@ -43,33 +71,6 @@
                     <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
                     @enderror
                 </div>
-            </div>
-        </div>
-
-        <!-- Deuxième colonne -->
-        <div>
-            <h6 class="font-Alumni text-white font-bold text-3xl md:text-5xl">Merci de vous identifier !</h6>
-            <h1 class="font-Alumni text-white font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous</h1>
-
-            <div class="bg-secondary-100 py-8 px-4 mt-8">
-                <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et services sélectionnés</h4>
-
-                <div id="produitsServicesSelectionnees" class="mt-8"></div>
-
-                <div class="mt-6">
-                    <label for="details" class="block font-Alumni text-md md:text-lg mb-2">Détails</label>
-                    <textarea id="details" name="details"
-                        class="font-Alumni w-full max-w-md p-2 h-28 focus:outline-none focus:border-blue-500 border border-black"
-                        placeholder="Entrer des détails supplémentaires"></textarea>
-
-                    @error('details')
-                    <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit" class="mt-2 w-full bg-tertiary-400 hover:bg-tertiary-300 py-2.5 text-white">
-                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
-                </button>
             </div>
         </div>
     </div>
