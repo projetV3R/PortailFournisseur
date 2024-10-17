@@ -40,7 +40,7 @@ class IdentificationRequest extends FormRequest
                 'required'
             ],
             'numeroEntreprise' => [
-                'required',
+                'nullable',
                 'string',
                 'size:10',
                 'regex:/^(11|22|33|88)[4-9]\d{7}$/',

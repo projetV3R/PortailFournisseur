@@ -42,14 +42,16 @@ Route::get('/LoginFournisseurSansNeq', function () {
 
 Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification");
 
-Route::post('/Identification', [IdentificationController::class, "store"])->name("StoreIdentification");
+Route::post('/Identification/store', [IdentificationController::class, "store"])->name("StoreIdentification");
+
 
 // Produits Services
 
 Route::get('/ProduitsServices', [ProduitServiceController::class, "create"])->name("createProduitsServices");
 
-Route::post('/ProduitsServices', [ProduitServiceController::class, "store"])->name("StoreProduitsServices");
+Route::post('/ProduitsServices/store', [ProduitServiceController::class, "store"])->name("StoreProduitsServices");
 
+Route::get('/produits-services/multiple', [ProduitServiceController::class, 'getMultiple'])->name('produits-services.getMultiple');
 
 // Coordonnees
 
@@ -64,7 +66,7 @@ Route::get('/Licences', [LicenceController::class, "create"])->name("createLicen
 Route::post('/Licences/store', [LicenceController::class, "store"])->name("storeLicences");
 
 Route::get('/sous-categories/{type}', [LicenceController::class, 'getSousCategories']);
-
+Route::get('/search', [ProduitServiceController::class, 'search']);
 
 // Contact
 
@@ -77,9 +79,10 @@ Route::post('/Contacts/Store', [ContactController::class, "store"])->name("store
 Route::get('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "create"])->name("createBrochuresCartesAffaires");
 
 Route::post('/BrochuresCartesAffaires/Store', [BrochureCarteAffaireController::class, "store"])->name("storeBrochuresCartesAffaires");
+Route::post('/remove-uploaded-file', [BrochureCarteAffaireController::class, 'removeUploadedFile'])->name('removeUploadedFile');
 
-Route::post('/delete-temp-files', [BrochureCarteAffaireController::class, 'deleteTempFiles'])
-    ->name('deleteTempFiles');
+//Route::post('/delete-temp-files', [BrochureCarteAffaireController::class, 'deleteTempFiles'])
+  //  ->name('deleteTempFiles');
 
 
 

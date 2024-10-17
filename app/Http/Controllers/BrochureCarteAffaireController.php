@@ -33,27 +33,46 @@ class BrochureCarteAffaireController extends Controller
      */
     public function store(Request $request)
     {
-    
-        if (!$request->hasFile('fichiers')) {
-            return back()->with('error', 'Aucun fichier envoyé.');
+        // Récupérer les brochures déjà en session
+        $brochures = session('brochures_cartes_affaires', []);
+
+        // Traiter la suppression des fichiers marqués
+        $indicesASupprimer = $request->input('fichiers_a_supprimer', []);
+
+        // S'assurer que les indices sont des entiers
+        $indicesASupprimer = array_map('intval', $indicesASupprimer);
+        
+        foreach ($indicesASupprimer as $index) {
+            if (isset($brochures[$index])) {
+                // Supprimer le fichier physique
+                Storage::delete($brochures[$index]['chemin']);
+                // Supprimer du tableau
+                unset($brochures[$index]);
+            }
+        }
+        // Réindexer le tableau
+        $brochures = array_values($brochures);
+
+        // Traiter les nouveaux fichiers téléversés
+        if ($request->hasFile('fichiers')) {
+            foreach ($request->file('fichiers') as $fichier) {
+                $path = $fichier->store('brochures_temp');
+                $brochures[] = [
+                    'nom' => $fichier->getClientOriginalName(),
+                    'taille' => $fichier->getSize(),
+                    'chemin' => $path,
+                    'timestamp' => time(),
+                ];
+            }
         }
 
-        $brochures = [];
-
-        foreach ($request->file('fichiers') as $fichier) {
-            $path = $fichier->store('brochures_temp');
-            $brochures[] = [
-                'nom' => $fichier->getClientOriginalName(),
-                'taille' => $fichier->getSize(),
-                'chemin' => $path,
-                'timestamp' => time(),
-            ];
-        }
-
+        // Mettre à jour la session
         session()->put('brochures_cartes_affaires', $brochures);
 
         return redirect()->route('createContacts')->with('success', 'Fichiers téléversés avec succès.');
     }
+
+  
 
     /**
      * Display the specified resource.
