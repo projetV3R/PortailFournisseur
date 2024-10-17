@@ -49,12 +49,15 @@ class ProduitServiceController extends Controller
     public function store(ProduitServiceRequest $request)
     {
         $produitServiceData = [
+            'nature' => $request->input('nature'),
+            'codeCategorie' => $request->input('codeCategorie'),
+            'categorie' => $request->input('categorie'),
             'codeUSPSC' => $request->input('codeUSPSC'),
             'description' => $request->input('description')
         ];
 
         // Met les données soumises du formulaire dans la session sous la clé "licences"
-        session()->put("produitsServices", $request->all());
+        session()->put("produitsServices", $produitServiceData);
 
         // Enregistre les données dans les logs pour suivi et débogage
         Log::info('Données enregistrées dans la session produitsServices:', session('produitsServices'));
