@@ -22,12 +22,8 @@ class ProduitServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nature' => 'required',
-            'codeCategorie' => 'required_with:nature,categorie',
-            'categorie' => 'required_with:nature,codeCategorie',
-            'codeUNSPSC' => 'required_with:nature,codeCategorie,categorie,description',
-            'description' => 'required_with:nature,codeCategorie,categorie,codeUNSPSC',
-            'details' => 'required_with:nature,codeCategorie,categorie,codeUNSPSC,description',
+            'codeUNSPSC' => 'required_with:codeUNSPSC|array|nullable',
+            'codeUNSPSC.*' => 'integer|exists:codeUNSPSC,id',
         ];
     }
 }
