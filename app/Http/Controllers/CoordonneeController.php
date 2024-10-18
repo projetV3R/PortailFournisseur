@@ -23,7 +23,7 @@ class CoordonneeController extends Controller
      */
     public function create()
     {
-     
+    // session()->flush();
         return view("formulaireInscription/coordonnees");
     }
 

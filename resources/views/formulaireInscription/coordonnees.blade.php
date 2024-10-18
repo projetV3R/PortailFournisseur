@@ -354,14 +354,16 @@ document.getElementById('codePostale').addEventListener('input', function() {
     }
     });
 
-    function ajouterNumeroTelephone(index, ligne = {}) {
+    let currentIndex = document.querySelectorAll('.ligne-numeros').length;
+
+function ajouterNumeroTelephone(index, ligne = {}) {
     const cadre = document.getElementById('cadreNumero');
     const type = ligne.type || '';
     const numeroTelephone = ligne.numeroTelephone || '';
-    const poste = ligne.poste || '';  
+    const poste = ligne.poste || '';
 
     cadre.insertAdjacentHTML('beforeend', `
-        <div class="mt-6 w-full flex justify-center  md:gap-2 columns-2 ligne-numeros">
+        <div class="mt-6 w-full flex justify-center md:gap-2 columns-2 ligne-numeros" data-index="${index}">
             <div class="w-full">
                 <label for="ligne_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Ligne</label>
                 <select id="ligne_${index}" name="ligne[${index}][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
@@ -374,43 +376,53 @@ document.getElementById('codePostale').addEventListener('input', function() {
                 <label for="numeroTelephone_${index}" class="block font-Alumni text-md md:text-lg mb-2 truncate">Numéro Téléphone</label>
                 <input type="phonenumber" id="numeroTelephone_${index}" name="ligne[${index}][numeroTelephone]" placeholder="514-453-9867"
                     value="${numeroTelephone}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                    
             </div>
-            
             <div class="w-full">
                 <label for="poste_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Poste</label>
                 <input type="text" id="poste_${index}" name="ligne[${index}][poste]" placeholder="9845"
                     value="${poste}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
             </div>
-             <div class="w-full flex flex-row justify-start items-end pl-2">
+            <div class="w-full flex flex-row justify-start items-end pl-2">
                 <button type="button" class="remove-ligne cursor-pointer items-center flex justify-center bg-tertiary-400 text-white h-12 w-12" data-index="${index}">
                     <span class="iconify size-6 hover:text-red-500 remove-ligne" data-icon="mdi:trash-can-outline"></span>
                 </button>
+            </div>
         </div>
     `);
 }
 
-    
-        document.getElementById('ajoutNumeroTelephone').addEventListener('click', function() {
-            let index = document.querySelectorAll('.ligne-numeros').length + 1;
-            ajouterNumeroTelephone(index); 
-        });
-        
+document.getElementById('ajoutNumeroTelephone').addEventListener('click', function() {
+    currentIndex++;
+    ajouterNumeroTelephone(currentIndex);
+});
 
-        document.getElementById('cadreNumero').addEventListener('click', function(event) {
-            if (event.target.classList.contains('remove-ligne')) {
-                event.target.closest('.ligne-numeros').remove();
-            }
+document.getElementById('cadreNumero').addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-ligne')) {
+        event.target.closest('.ligne-numeros').remove();
+    }
+});
+
+
+function reindexLignes() {
+    document.querySelectorAll('.ligne-numeros').forEach((ligne, newIndex) => {
+        const oldIndex = ligne.getAttribute('data-index');
+        ligne.setAttribute('data-index', newIndex);
+        
+        ligne.querySelectorAll('[name^="ligne"]').forEach((input) => {
+            input.name = input.name.replace(/\[.*?\]/, `[${newIndex}]`);
+            input.id = input.id.replace(`_${oldIndex}`, `_${newIndex}`);
+            input.previousElementSibling.setAttribute('for', input.id);
         });
+    });
+}
 
         
-        
-        document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     @if(session('coordonnees'))
     let coordonnees = @json(session('coordonnees'));
     
     // Liste des champs à remplir
-    const champs = ['numeroCivique', 'bureau', 'rue', 'codePostale','province','regionAdministrative','siteWeb'];  
+    const champs = ['numeroCivique', 'bureau', 'rue', 'codePostale', 'province', 'regionAdministrative', 'siteWeb'];
 
     champs.forEach(champ => {
         if (coordonnees[champ]) {
@@ -418,43 +430,35 @@ document.getElementById('codePostale').addEventListener('input', function() {
         }
     });
 
-    if (coordonnees['ligne'] && coordonnees['ligne'].length > 0) {
-
-    if (coordonnees['ligne'][0]) {
-        const ligne = coordonnees['ligne'][0];
-      
-        if (ligne.type) document.getElementById('ligne').value = ligne.type;
-        if (ligne.numeroTelephone) document.getElementById('numeroTelephone').value = ligne.numeroTelephone;
-        if (ligne.poste) document.getElementById('poste').value = ligne.poste;
+    if (coordonnees['ligne']) {
+        Object.keys(coordonnees['ligne']).forEach(index => {
+            const ligne = coordonnees['ligne'][index];
+            if (index == 0) {
+                // Remplir la première ligne
+                if (ligne.type) document.getElementById('ligne').value = ligne.type;
+                if (ligne.numeroTelephone) document.getElementById('numeroTelephone').value = ligne.numeroTelephone;
+                if (ligne.poste) document.getElementById('poste').value = ligne.poste;
+            } else {
+                setTimeout(() => {
+                    ajouterNumeroTelephone(index, ligne);
+                }, 1000);
+            }
+        });
     }
 
-
-    coordonnees['ligne'].forEach((ligne, index) => {
-    
-        if (index > 0 && ligne) {
-        setTimeout(() => {
-            ajouterNumeroTelephone(index, ligne); 
-        }, 1000);  
-        }
-    });
-}
-
-
-  
     if (coordonnees['province'] === 'Québec') {
-        // Appel manuel au change pour charger l'appel API 
+    
         document.getElementById('regionAdministrative').dispatchEvent(new Event('change'));
 
-        //Délai pour laisser le temps que l'api se charge dans le select 
+        // Délai pour laisser le temps que l'API se charge dans le select
         setTimeout(() => {
             document.getElementById('municipaliteSelect').value = coordonnees['municipalite'];
-        }, 2000); 
+        }, 2000);
     } else {
-           // Appel manuel au change pour charger le switch de input 
+        // Appel manuel au changement pour charger le switch de input
         document.getElementById('province').dispatchEvent(new Event('change'));
         document.getElementById('municipaliteInput').value = coordonnees['municipaliteInput'];
     }
-    
     @endif
 });
 
