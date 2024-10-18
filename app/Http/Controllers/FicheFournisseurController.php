@@ -72,7 +72,7 @@ class FicheFournisseurController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('choixLogin')->with('message', "Bye!");
+        return redirect()->route('login')->with('message', "Bye!");
     }
 
     /**
