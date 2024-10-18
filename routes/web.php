@@ -29,7 +29,7 @@ Route::get('/loginFournisseur', function () {
 
 // Identification
 
-Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification");
+Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification")->middleware('auth');
 
 Route::post('/Identification', [IdentificationController::class, "store"])->name("StoreIdentification");
 
@@ -82,4 +82,4 @@ Route::post('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "lo
 Route::post('/FicheFournisseur/logout', [FicheFournisseurController::class, "logout"])->name("logout");
 
 // Création Fiche Fournisseur
-Route::get('/FicheFournisseur/choix', [FicheFournisseurController::class, "create"])->name("choixLogin");
+Route::get('/FicheFournisseur/choix', [FicheFournisseurController::class, "create"])->name("login");
