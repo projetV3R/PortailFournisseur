@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('numero_civique', 8);
             $table->string('rue', 64);
-            $table->string('bureau', 8);
+            $table->string('bureau', 8)->nullable();
             $table->string('ville', 64);
-            $table->string('province');
-            $table->string('site_internet');
+            $table->string('province')->default('Québec');
+            $table->string('site_internet')->nullable();
             $table->string('code_postal');
             $table->string('code_region_administrative');
             $table->string('region_administrative');
