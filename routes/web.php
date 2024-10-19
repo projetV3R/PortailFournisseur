@@ -27,6 +27,12 @@ Route::get('/loginFournisseur', function () {
     return view('login/login_fournisseur');
 });
 
+// ProfilFournisseur
+
+Route::get('/ProfilFournisseur', function () {
+    return view('formulaireInscription/profil_fournisseur');
+});
+
 // Identification
 
 Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification")->middleware('auth');
@@ -69,6 +75,7 @@ Route::post('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, 
 Route::get('/Finances', [FinanceController::class, "create"])->name("createFinances");
 
 Route::post('/Finances', [FinanceController::class, "store"])->name("storeFinances");
+
 
 // Login avec NEQ
 Route::get('/FicheFournisseur/avecNeq', [FicheFournisseurController::class, "indexAvecNeq"])->name("showLoginFormAvecNeq");
