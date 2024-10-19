@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +15,6 @@ class ContactsTableSeeder extends Seeder
     {
         DB::table('contacts')->insert([
             [
-                'id' => 1,
                 'prenom' => 'Jean',
                 'nom' => 'Dupont',
                 'fonction' => 'Directeur',
@@ -22,13 +22,9 @@ class ContactsTableSeeder extends Seeder
                 'ligne' => 1,
                 'poste' => '101',
                 'numero_telephone' => '555-1234',
-                'fiche_fournisseur_id' => 1, // Référence à une fiche fournisseur existante
-                'telephone_id' => 1,  // Référence à une ligne de téléphone existante
-                'created_at' => now(),
-                'updated_at' => now(),
+                'fiche_fournisseur_id' => 1, // clé étrangère vers une fiche fournisseur existante
             ],
             [
-                'id' => 2,
                 'prenom' => 'Marie',
                 'nom' => 'Lefebvre',
                 'fonction' => 'Responsable achats',
@@ -37,12 +33,8 @@ class ContactsTableSeeder extends Seeder
                 'poste' => '102',
                 'numero_telephone' => '555-5678',
                 'fiche_fournisseur_id' => 2,
-                'telephone_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'id' => 3,
                 'prenom' => 'Luc',
                 'nom' => 'Martin',
                 'fonction' => 'Comptable',
@@ -51,12 +43,8 @@ class ContactsTableSeeder extends Seeder
                 'poste' => '103',
                 'numero_telephone' => '555-9101',
                 'fiche_fournisseur_id' => 3,
-                'telephone_id' => 3,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'id' => 4,
                 'prenom' => 'Isabelle',
                 'nom' => 'Durand',
                 'fonction' => 'Assistante de direction',
@@ -65,12 +53,8 @@ class ContactsTableSeeder extends Seeder
                 'poste' => '104',
                 'numero_telephone' => '555-1213',
                 'fiche_fournisseur_id' => 4,
-                'telephone_id' => 4,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'id' => 5,
                 'prenom' => 'Pierre',
                 'nom' => 'Moreau',
                 'fonction' => 'Chef de projet',
@@ -79,9 +63,6 @@ class ContactsTableSeeder extends Seeder
                 'poste' => '105',
                 'numero_telephone' => '555-1415',
                 'fiche_fournisseur_id' => 5,
-                'telephone_id' => 5,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
         ]);
     }
