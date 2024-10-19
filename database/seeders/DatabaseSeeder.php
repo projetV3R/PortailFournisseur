@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(LicencesTableSeeder::class);
         $this->call(FicheFournisseursTableSeeder::class);
         $this->call(BrochuresCartesTableSeeder::class);
-        $this->call(ContactsTableSeeder::class);
         $this->call(TelephonesTableSeeder::class);
+        $this->call(ContactsTableSeeder::class);
         $this->call(ProduitServiceFicheFournisseurTableSeeder::class);
 
 
