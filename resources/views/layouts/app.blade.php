@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="resources/css/custum_scrollbar.css">
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="{{ asset('style.css') }}" />
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/apple-icon-72x72.png') }}" />
-
 </head>
 
 
@@ -38,9 +38,13 @@
             <div class="md:hidden flex items-center text-white gap-2">
 
                 <div>
-
+                    <form class="deconnexionBtn" action="" method="POST">
+                        <button>
+                            <span class="iconify size-10 hover:animate-bounce " data-icon="mdi:logout"
+                                data-inline="false"></span>
+                        </button>
+                    </form>
                 </div>
-
 
                 <div>
                     <button id="dark-mode-toggle" class=" hover:animate-pulse">
@@ -50,7 +54,7 @@
 
             </div>
             <div class="hidden md:flex space-x-4 items-center">
-                <form class="deconnexionBtn" action="{{ route('logout') }}" method="POST">
+                <form class="deconnexionBtn" action="" method="POST">
                     @csrf
                     <div class="flex items-center space-x-4 hover:animate-bounce">
                         <button class="ml-4 text-white">

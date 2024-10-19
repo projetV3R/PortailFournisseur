@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,8 +15,9 @@ class FicheFournisseursTableSeeder extends Seeder
     {
         DB::table('fiche_fournisseurs')->insert([
             [
-                'neq' => '1145678901',  // Respect des règles: 11 suivi de 4-9 puis 7 chiffres
-                'etat' => 'En attente',
+                'id' => 1,
+                'neq' => '1145678901',
+                'etat' => 'accepter',
                 'nom_entreprise' => 'Construction ABC Inc.',
                 'adresse_courriel' => 'contact@abcconstruction.com',
                 'password' => bcrypt('Abc123!@'),  // Respect des règles du mot de passe
