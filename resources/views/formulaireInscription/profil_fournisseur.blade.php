@@ -197,12 +197,7 @@
                                     pêcheries</p>
                             </div>
 
-                            <!-- Icône de suppression plus petite -->
-                            <div
-                                class="cursor-pointer flex items-center justify-center text-white bg-tertiary-400 p-2 ml-4 rounded-full">
-                                <span class="iconify text-sm hover:text-red-500" data-icon="material-symbols:delete"
-                                    data-inline="false"></span>
-                            </div>
+
                         </div>
 
                         <div class="bg-white px-4 py-2 w-full flex items-center">
@@ -213,12 +208,7 @@
                                     pêcheries</p>
                             </div>
 
-                            <!-- Icône de suppression plus petite -->
-                            <div
-                                class="cursor-pointer flex items-center justify-center text-white bg-tertiary-400 p-2 ml-4 rounded-full">
-                                <span class="iconify text-sm hover:text-red-500" data-icon="material-symbols:delete"
-                                    data-inline="false"></span>
-                            </div>
+
                         </div>
 
                         <div class="bg-white px-4 py-2 w-full flex items-center">
@@ -229,12 +219,7 @@
                                     pêcheries</p>
                             </div>
 
-                            <!-- Icône de suppression plus petite -->
-                            <div
-                                class="cursor-pointer flex items-center justify-center text-white bg-tertiary-400 p-2 ml-4 rounded-full">
-                                <span class="iconify text-sm hover:text-red-500" data-icon="material-symbols:delete"
-                                    data-inline="false"></span>
-                            </div>
+
                         </div>
 
                         <div class="bg-white px-4 py-2 w-full flex items-center">
@@ -245,12 +230,7 @@
                                     pêcheries</p>
                             </div>
 
-                            <!-- Icône de suppression plus petite -->
-                            <div
-                                class="cursor-pointer flex items-center justify-center text-white bg-tertiary-400 p-2 ml-4 rounded-full">
-                                <span class="iconify text-sm hover:text-red-500" data-icon="material-symbols:delete"
-                                    data-inline="false"></span>
-                            </div>
+
                         </div>
 
                         <div class="bg-white px-4 py-2 w-full flex items-center">
@@ -261,12 +241,7 @@
                                     pêcheries</p>
                             </div>
 
-                            <!-- Icône de suppression plus petite -->
-                            <div
-                                class="cursor-pointer flex items-center justify-center text-white bg-tertiary-400 p-2 ml-4 rounded-full">
-                                <span class="iconify text-sm hover:text-red-500" data-icon="material-symbols:delete"
-                                    data-inline="false"></span>
-                            </div>
+
                         </div>
 
                         <div class="bg-white px-4 py-2 w-full flex items-center">
@@ -277,12 +252,7 @@
                                     pêcheries</p>
                             </div>
 
-                            <!-- Icône de suppression plus petite -->
-                            <div
-                                class="cursor-pointer flex items-center justify-center text-white bg-tertiary-400 p-2 ml-4 rounded-full">
-                                <span class="iconify text-sm hover:text-red-500" data-icon="material-symbols:delete"
-                                    data-inline="false"></span>
-                            </div>
+
                         </div>
 
                         <!-- Ajouter d'autres produits/services sélectionnés de la même manière -->
