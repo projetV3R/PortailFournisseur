@@ -92,3 +92,9 @@ Route::post('/remove-uploaded-file', [BrochureCarteAffaireController::class, 're
 Route::get('/Finances', [FinanceController::class, "create"])->name("createFinances");
 
 Route::post('/Finances', [FinanceController::class, "store"])->name("storeFinances");
+
+// Resume
+
+Route::get('/Resume', function () {
+    return view('formulaireInscription/resume');
+});
