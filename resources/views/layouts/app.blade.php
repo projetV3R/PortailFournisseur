@@ -38,9 +38,13 @@
             <div class="md:hidden flex items-center text-white gap-2">
 
                 <div>
-
+                    <form class="deconnexionBtn" action="" method="POST">
+                        <button>
+                            <span class="iconify size-10 hover:animate-bounce " data-icon="mdi:logout"
+                                data-inline="false"></span>
+                        </button>
+                    </form>
                 </div>
-
 
                 <div>
                     <button id="dark-mode-toggle" class=" hover:animate-pulse">
@@ -50,7 +54,7 @@
 
             </div>
             <div class="hidden md:flex space-x-4 items-center">
-                <form class="deconnexionBtn" action="{{ route('logout') }}" method="POST">
+                <form class="deconnexionBtn" action="" method="POST">
                     @csrf
                     <div class="flex items-center space-x-4 hover:animate-bounce">
                         <button class="ml-4 text-white">
