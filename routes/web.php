@@ -79,11 +79,11 @@ Route::post('/Finances', [FinanceController::class, "store"])->name("storeFinanc
 
 // Login avec NEQ
 Route::get('/FicheFournisseur/avecNeq', [FicheFournisseurController::class, "indexAvecNeq"])->name("showLoginFormAvecNeq");
-Route::post('/FicheFournisseur/avecNeq', [FicheFournisseurController::class, "loginAvecNeq"])->name("loginAvecNeq");
+Route::post('/FicheFournisseur/avecNeq', [FicheFournisseurController::class, "login"])->name("loginAvecNeq");
 
 // Login sans NEQ
 Route::get('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "indexSansNeq"])->name("showLoginFormSansNeq");
-Route::post('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "loginSansNeq"])->name("loginSansNeq");
+Route::post('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "login"])->name("loginSansNeq");
 
 // Logout
 Route::post('/FicheFournisseur/logout', [FicheFournisseurController::class, "logout"])->name("logout");

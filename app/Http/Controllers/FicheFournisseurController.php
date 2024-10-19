@@ -11,53 +11,45 @@ use Illuminate\Support\Facades\Log;
 
 class FicheFournisseurController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function loginAvecNeq(LoginAvecNeqRequest $request)
-    {
-        // Essayer de connecter l'utilisateur
-        $credentials = [
-            'neq' => $request->numeroEntreprise, // Remplacez par le nom du champ approprié dans le formulaire
-            'password' => $request->motDePasse, // Remplacez par le nom du champ approprié dans le formulaire
-        ];
 
-        // Essayer d'authentifier l'utilisateur
+    public function login(Request $request)
+    {
+        if ($request->has('numeroEntreprise')) {
+            $request->validate([
+                'numeroEntreprise' => 'required|string|max:255',
+                'motDePasse' => 'required|string',
+            ]);
+
+            $credentials = [
+                'neq' => $request->numeroEntreprise,
+                'password' => $request->motDePasse,
+            ];
+        } elseif ($request->has('adresse_courriel')) {
+            $request->validate([
+                'adresse_courriel' => 'required|email|max:255',
+                'motDePasse' => 'required|string',
+            ]);
+
+            $credentials = [
+                'adresse_courriel' => $request->adresse_courriel,
+                'password' => $request->motDePasse,
+            ];
+        } else {
+            return back()->withErrors([
+                'login_error' => 'Vous devez fournir soit un numéro d\'entreprise (NEQ) soit une adresse courriel.',
+            ]);
+        }
+
         if (Auth::attempt($credentials)) {
-            // Connexion réussie
             return redirect()->route('CreateIdentification')->with('message', 'Connexion réussie');
         } else {
-            // Journaliser les informations d'authentification pour voir les détails
             Log::error('Échec de connexion', ['credentials' => $credentials]);
 
-            // Afficher une erreur personnalisée
             return back()->withErrors([
                 'login_error' => 'Ces informations ne correspondent pas à nos enregistrements ou le mot de passe est incorrect.',
             ]);
         }
     }
-
-    public function loginSansNeq(LoginSansNeqRequest $request)
-    {
-
-        // Essayer de connecter l'utilisateur
-        $credentials = ['adresse_courriel' => $request->adresse_courriel, 'password' => $request->motDePasse];
-
-        if (Auth::attempt($credentials)) {
-            // Connexion réussie
-            return redirect()->route('CreateIdentification')->with('message', 'Connexion réussie');
-        } else {
-            // Journaliser les informations d'authentification pour voir les détails
-            Log::error('Echec de connexion', ['credentials' => $credentials]);
-
-            // Afficher une erreur personnalisée
-            return back()->withErrors([
-                'login_error' => 'Ces informations ne correspondent pas à nos enregistrements ou le mot de passe est incorrect.',
-            ]);
-        }
-    }
-
-
 
     public function indexAvecNeq()
     {
@@ -69,10 +61,17 @@ class FicheFournisseurController extends Controller
         return view('login/login_fournisseur_sans_neq');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->route('login')->with('message', "Bye!");
+
+        session()->flush();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('message', 'Déconnexion réussie');
     }
 
     /**
