@@ -88,5 +88,6 @@ Route::post('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "lo
 // Logout
 Route::post('/FicheFournisseur/logout', [FicheFournisseurController::class, "logout"])->name("logout");
 
+
 // Création Fiche Fournisseur
 Route::get('/FicheFournisseur/choix', [FicheFournisseurController::class, "create"])->name("login");
