@@ -58,11 +58,7 @@
                                 </div>
                             </div>
                         @endfor
-
-
                     </div>
-
-
 
                 </div>
             </div>

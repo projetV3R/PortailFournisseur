@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,64 +14,74 @@ class FicheFournisseursTableSeeder extends Seeder
     {
         DB::table('fiche_fournisseurs')->insert([
             [
-                'id' => 1,
-                'neq' => '1145678901',
-                'etat' => 'accepter',
+                'neq' => '1145678901',  // Respect des règles: 11 suivi de 4-9 puis 7 chiffres
+                'etat' => 'En attente',
                 'nom_entreprise' => 'Construction ABC Inc.',
                 'adresse_courriel' => 'contact@abcconstruction.com',
-                'mot_de_passe' => bcrypt('password123'),
-                'licence_id' => 1,  // Référence à la table licences
-                'coordonnee_id' => 1,  // Référence à la table coordonnees
-                'finance_id' => 1,  // Référence à la table finances
-                'created_at' => '2024-09-18 10:00:00',
+                'mot_de_passe' => bcrypt('Abc123!@'),  // Respect des règles du mot de passe
+                'details_specifications' => 'Construction de bâtiments commerciaux et résidentiels',
+                'date_changement_etat' => null,
+                'licence_id' => 1,
+                'coordonnee_id' => 1,
+                'finance_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'id' => 2,
-                'neq' => '2145678902',
-                'etat' => 'accepter',
+                'neq' => '2245678902',
+                'etat' => 'En attente',
                 'nom_entreprise' => 'Rénovation Xyz Ltée',
                 'adresse_courriel' => 'info@renovxyz.ca',
-                'mot_de_passe' => bcrypt('securePass456'),
-                'licence_id' => 2,  // Référence à la table licences
-                'coordonnee_id' => 2,  // Référence à la table coordonnees
-                'finance_id' => 2,  // Référence à la table finances
-                'created_at' => '2024-09-18 11:00:00',
+                'mot_de_passe' => bcrypt('Xyz456@!'),  // Respect des règles du mot de passe
+                'details_specifications' => 'Rénovation et agrandissement résidentiel',
+                'date_changement_etat' => null,
+                'licence_id' => 2,
+                'coordonnee_id' => 2,
+                'finance_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'id' => 3,
-                'neq' => '3145678903',
-                'etat' => 'refuser',
+                'neq' => '3345678903',
+                'etat' => 'En attente',
                 'nom_entreprise' => 'Plomberie 123',
                 'adresse_courriel' => 'support@plomberie123.com',
-                'mot_de_passe' => bcrypt('plomb789'),
-                'licence_id' => 3,  // Référence à la table licences
-                'coordonnee_id' => 3,  // Référence à la table coordonnees
-                'finance_id' => 3,  // Référence à la table finances
-                'created_at' => '2024-09-18 12:00:00',
+                'mot_de_passe' => bcrypt('Plomb789$#'),  // Respect des règles du mot de passe
+                'details_specifications' => 'Services de plomberie résidentielle et commerciale',
+                'date_changement_etat' => null,
+                'licence_id' => 3,
+                'coordonnee_id' => 3,
+                'finance_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'id' => 4,
-                'neq' => '4145678904',
-                'etat' => 'a reviser',
+                'neq' => '8845678904',
+                'etat' => 'En attente',
                 'nom_entreprise' => 'Électricité Pro',
                 'adresse_courriel' => 'contact@electropro.com',
-                'mot_de_passe' => bcrypt('elecpro321'),
-                'licence_id' => 4,  // Référence à la table licences
-                'coordonnee_id' => 4,  // Référence à la table coordonnees
-                'finance_id' => 4,  // Référence à la table finances
-                'created_at' => '2024-09-18 13:00:00',
+                'mot_de_passe' => bcrypt('ElecPro321@#'),  // Respect des règles du mot de passe
+                'details_specifications' => 'Installation de systèmes électriques pour bâtiments industriels',
+                'date_changement_etat' => null,
+                'licence_id' => 4,
+                'coordonnee_id' => 4,
+                'finance_id' => 4,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'id' => 5,
-                'neq' => '5145678905',
-                'etat' => 'a reviser',
+                'neq' => '1145678905',
+                'etat' => 'En attente',
                 'nom_entreprise' => 'Excavation Max',
                 'adresse_courriel' => 'info@excavationmax.ca',
-                'mot_de_passe' => bcrypt('excaMax123'),
-                'licence_id' => 5,  // Référence à la table licences
-                'coordonnee_id' => 5,  // Référence à la table coordonnees
-                'finance_id' => 5,  // Référence à la table finances
-                'created_at' => '2024-09-18 14:00:00',
+                'mot_de_passe' => bcrypt('ExcaMax123$%'),  // Respect des règles du mot de passe
+                'details_specifications' => 'Excavation et terrassement',
+                'date_changement_etat' => null,
+                'licence_id' => 5,
+                'coordonnee_id' => 5,
+                'finance_id' => 5,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }
