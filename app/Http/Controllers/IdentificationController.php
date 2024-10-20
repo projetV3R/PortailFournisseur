@@ -24,6 +24,11 @@ class IdentificationController extends Controller
         return view('formulaireInscription/identification');
     }
 
+    public function resume()
+    {
+        return view('formulaireInscription/resume');
+    }
+
     /**
      * Store a newly created resource in storage.
      */

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('numero_telephone');
             $table->integer('ligne');
             $table->string('poste');
-            $table->string('type_numero');
             $table->timestamps();
         });
     }

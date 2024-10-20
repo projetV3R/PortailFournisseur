@@ -101,6 +101,4 @@ Route::get('/ProfilFournisseur', function () {
 
 // Resume
 
-Route::get('/Resume', function () {
-    return view('formulaireInscription/resume');
-});
+Route::get('/Resume', [IdentificationController::class, "resume"])->name("resumeFournisseur");

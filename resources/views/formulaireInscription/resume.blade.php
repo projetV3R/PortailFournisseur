@@ -30,11 +30,11 @@
 
                     <div class="mt-6">
                         <p class="font-Alumni text-md md:text-lg"><strong>Nom de l'entreprise :</strong>
-                            {{ session('nomEntreprise') }}</p>
+                            {{ session('identification.nomEntreprise') }}</p>
                     </div>
 
                     <div class="mt-6">
-                        <p class="font-Alumni text-md md:text-lg"><strong>Email :</strong> {{ session('email') }}</p>
+                        <p class="font-Alumni text-md md:text-lg"><strong>Email :</strong> {{ session('identification.email') }}</p>
                     </div>
 
                     <div class="mt-4">
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="mt-4">
-                        <p class="font-Alumni text-md md:text-lg"><strong>Numero d'entrepreise (NEQ) :</strong> 1123323454
+                        <p class="font-Alumni text-md md:text-lg"><strong>Numero d'entrepreise (NEQ) :</strong>{{ session('identification.numeroEntreprise') }}
                         </p>
                     </div>
 
@@ -132,6 +132,7 @@
                             <p class="font-Alumni text-md md:text-lg"><strong>Nom:</strong> Contact Test</p>
                             <p class="font-Alumni text-md md:text-lg"><strong>Email:</strong> contact@example.com</p>
                             <p class="font-Alumni text-md md:text-lg"><strong>Téléphone:</strong> 514-123-4567</p>
+                            
                         </div>
 
                         <!-- Autres contacts -->

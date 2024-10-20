@@ -69,7 +69,7 @@ class BrochureCarteAffaireController extends Controller
         // Mettre à jour la session
         session()->put('brochures_cartes_affaires', $brochures);
 
-        return redirect()->route('createContacts')->with('success', 'Fichiers téléversés avec succès.');
+        return redirect()->route('resumeFournisseur')->with('success', 'Fichiers téléversés avec succès.');
     }
 
   
