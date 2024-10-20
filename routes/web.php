@@ -86,7 +86,7 @@ Route::get('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "ind
 Route::post('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "login"])->name("loginSansNeq");
 
 // Logout
-Route::post('/FicheFournisseur/logout', [FicheFournisseurController::class, "logout"])->name("logout");
+Route::post('/FicheFournisseur/logout', [FicheFournisseurController::class, "logout"])->name("logout")->middleware('auth');
 
 // Création Fiche Fournisseur
 Route::get('/FicheFournisseur/choix', [FicheFournisseurController::class, "create"])->name("login");
