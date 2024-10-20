@@ -52,19 +52,17 @@
                             </div>
                         </div>
 
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
+                        @if ($errors->has('login_error'))
+                            <div class="mb-4">
+                                <span class="text-red-500 font-Alumni md:text-sm">
+                                    {{ $errors->first('login_error') }}
+                                </span>
                             </div>
                         @endif
 
                         <div class="bg-red-500 w-full md:w-2/3 mt-6 rounded">
                             <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 py-2.5">
-                                <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                                <h1 class="font-Alumni font-bold text-lg md:text-2xl">Connexion</h1>
                             </button>
                         </div>
                     </form>

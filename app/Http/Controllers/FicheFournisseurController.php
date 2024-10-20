@@ -43,6 +43,7 @@ class FicheFournisseurController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->route('CreateIdentification')->with('message', 'Connexion réussie');
         } else {
+            // Log an error in case of failed authentication
             Log::error('Échec de connexion', ['credentials' => $credentials]);
 
             return back()->withErrors([
@@ -50,6 +51,7 @@ class FicheFournisseurController extends Controller
             ]);
         }
     }
+
 
     public function indexAvecNeq()
     {
