@@ -49,19 +49,23 @@
                 </div>
 
             </div>
+
             <div class="hidden md:flex space-x-4 items-center">
-                <form class="deconnexionBtn" action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <div class="flex items-center space-x-4 hover:animate-bounce">
-                        <button class="ml-4 text-white">
-                            <span class="iconify size-8 lg:size-10" data-icon="mdi:logout" data-inline="false"></span>
-                        </button>
-                    </div>
-                </form>
+                @auth
+                    <form class="deconnexionBtn" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <div class="flex items-center space-x-4 hover:animate-bounce">
+                            <button class="ml-4 text-white">
+                                <span class="iconify size-8 lg:size-10" data-icon="mdi:logout" data-inline="false"></span>
+                            </button>
+                        </div>
+                    </form>
+                @endauth
                 <button id="dark-mode-toggle-desktop" class="text-white hover:animate-pulse  ">
                     <span class="iconify size-8 lg:size-10" data-icon="circum:dark" data-inline="false"></span>
                 </button>
             </div>
+
         </div>
 
     </header>
