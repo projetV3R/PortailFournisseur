@@ -4,6 +4,7 @@ use App\Http\Controllers\BrochureCarteAffaireController;
 use App\Http\Controllers\CategorieUNSPSCcontroller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CoordonneeController;
+use App\Http\Controllers\FicheFournisseurController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\IdentificationController;
 use App\Http\Controllers\LicenceController;
@@ -37,10 +38,15 @@ Route::get('/LoginFournisseurSansNeq', function () {
 
 
 
+// ProfilFournisseur
+
+Route::get('/ProfilFournisseur', function () {
+    return view('formulaireInscription/profil_fournisseur');
+});
 
 // Identification
 
-Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification");
+Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification")->middleware('auth');
 
 Route::post('/Identification/store', [IdentificationController::class, "store"])->name("StoreIdentification");
 
@@ -93,12 +99,20 @@ Route::get('/Finances', [FinanceController::class, "create"])->name("createFinan
 
 Route::post('/Finances', [FinanceController::class, "store"])->name("storeFinances");
 
-// ProfilFournisseur
 
-Route::get('/ProfilFournisseur', function () {
-    return view('formulaireInscription/profil_fournisseur');
-});
+// Login avec NEQ
+Route::get('/FicheFournisseur/avecNeq', [FicheFournisseurController::class, "indexAvecNeq"])->name("showLoginFormAvecNeq");
+Route::post('/FicheFournisseur/avecNeq', [FicheFournisseurController::class, "login"])->name("loginAvecNeq");
 
-// Resume
+// Login sans NEQ
+Route::get('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "indexSansNeq"])->name("showLoginFormSansNeq");
+Route::post('/FicheFournisseur/sansNeq', [FicheFournisseurController::class, "login"])->name("loginSansNeq");
+
+// Logout
+Route::post('/FicheFournisseur/logout', [FicheFournisseurController::class, "logout"])->name("logout")->middleware('auth');
+
+// Création Fiche Fournisseur
+Route::get('/FicheFournisseur/choix', [FicheFournisseurController::class, "create"])->name("login");
+
 
 Route::get('/Resume', [IdentificationController::class, "resume"])->name("resumeFournisseur");

@@ -17,13 +17,14 @@ return new class extends Migration
             $table->string('etat')->default('En attente');
             $table->string('nom_entreprise');
             $table->string('adresse_courriel')->unique();
-            $table->string('mot_de_passe');
+            $table->string('password');
             $table->string('details_specifications', 500);
             $table->timestamp('date_changement_etat')->nullable();
             $table->unsignedBigInteger('licence_id');  // Cle etrangere vers licences
             $table->unsignedBigInteger('coordonnee_id');  // Cle etrangere vers coordonnees
             $table->unsignedBigInteger('finance_id');  // Cle etrangere vers finances
             $table->timestamps();
+            $table->rememberToken();
 
 
             $table->foreign('licence_id')->references('id')->on('licences')->onDelete('cascade');
