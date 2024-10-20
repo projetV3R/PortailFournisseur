@@ -16,8 +16,8 @@ class FicheFournisseurController extends Controller
     {
         if ($request->has('numeroEntreprise')) {
             $request->validate([
-                'numeroEntreprise' => 'required|string|max:255',
-                'motDePasse' => 'required|string',
+                'numeroEntreprise' => 'required|string|max:255|size:10|regex:/^(11|22|33|88)[4-9]\d{7}$/',
+                'motDePasse' => 'required|string|min:7|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{7,12}$/',
             ]);
 
             $credentials = [
@@ -26,8 +26,8 @@ class FicheFournisseurController extends Controller
             ];
         } elseif ($request->has('adresse_courriel')) {
             $request->validate([
-                'adresse_courriel' => 'required|email|max:255',
-                'motDePasse' => 'required|string',
+                'adresse_courriel' => 'required|email|max:64',
+                'motDePasse' => 'required|string|min:7|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{7,12}$/',
             ]);
 
             $credentials = [
