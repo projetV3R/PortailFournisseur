@@ -58,24 +58,23 @@ document.addEventListener('DOMContentLoaded', function () {
     // Récupérer les brochures depuis la session
     const brochuresFromSession = {!! json_encode(session('brochures_cartes_affaires', [])) !!};
 
-    // Tableau pour les indices des fichiers à supprimer
+   
     let indicesFichiersASupprimer = [];
 
     // **Calculer la taille des fichiers déjà téléversés (non supprimés)**
     brochuresFromSession.forEach((brochure, index) => {
         if (!indicesFichiersASupprimer.includes(index)) {
-            totalSize += brochure.taille / (1024 * 1024); // Convertir en Mo
+            totalSize += brochure.taille / (1024 * 1024); 
         }
     });
 
-    // **Appeler les fonctions d'affichage et de mise à jour**
+
     afficherFichiersDejaTeleverses();
     updateUI();
 
     function afficherFichiersDejaTeleverses() {
-        uploadedFileList.innerHTML = ''; // Réinitialiser la liste
-
-        // Supprimer les anciens champs cachés
+        uploadedFileList.innerHTML = ''; 
+     
         const anciensChamps = document.querySelectorAll('input[name="fichiers_a_supprimer[]"]');
         anciensChamps.forEach(champ => champ.remove());
 

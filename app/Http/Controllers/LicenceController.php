@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LicenceRequest;
 use Illuminate\Http\Request;
+use App\Models\SousCategorie;
 use Log;
 
 class LicenceController extends Controller
@@ -46,7 +47,26 @@ class LicenceController extends Controller
     }
     
     
-
+    public function getSousCategoriesMultiple(Request $request)
+    {
+        $ids = $request->query('ids', []);
+    
+        if (!is_array($ids) || empty($ids)) {
+            return response()->json([], 200);
+        }
+    
+   
+        $validatedIds = array_filter($ids, function ($id) {
+            return filter_var($id, FILTER_VALIDATE_INT) !== false;
+        });
+    
+    
+        $sousCategories = SousCategorie::whereIn('id', $validatedIds)->get();
+    
+        return response()->json($sousCategories);
+    }
+    
+    
 
     /**
      * Display the specified resource.

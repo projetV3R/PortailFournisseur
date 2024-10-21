@@ -22,7 +22,7 @@
                             <label for="numeroLicence" class="block font-Alumni text-md md:text-lg mb-2">Numero de licence</label>
                             <input type="text" id="numeroLicence" name="numeroLicence"
                                 placeholder="Entrer votre numero de licence"
-                                value="{{ session('licences.numeroLicence') }}"  {{-- auto-remplissage --}}
+                                value="{{ session('licences.numeroLicence') }}"  
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                             @error('numeroLicence')
                                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">

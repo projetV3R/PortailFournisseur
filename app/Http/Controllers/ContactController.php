@@ -22,6 +22,7 @@ class ContactController extends Controller
      */
     public function create()
     {
+ 
         return View('formulaireInscription/contacts');
     }
 
@@ -30,13 +31,16 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request)
     {
-        Log::info('Test log message');
-        session()->put("contacts", $request->all());
-        //dd($request->all());
-        Log::info('Contacts enregistrées : ', $request->all());
+      
+        $contacts = $request->input('contacts');
+    
+        session()->put('contacts', $contacts);
+    
+        Log::info('Contacts enregistrées : ', ['contacts' => $contacts]);
+    
         return redirect()->route('createBrochuresCartesAffaires');
     }
-
+    
     /**
      * Display the specified resource.
      */

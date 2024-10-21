@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IdentificationRequest;
 use Illuminate\Http\Request;
-
+use App\Models\ParametreSysteme;
 class IdentificationController extends Controller
 {
     /**
@@ -25,8 +25,9 @@ class IdentificationController extends Controller
     }
 
     public function resume()
-    {
-        return view('formulaireInscription/resume');
+    { 
+        $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
+        return view('formulaireInscription/resume' , compact('maxFileSize'));
     }
 
     /**
@@ -34,6 +35,7 @@ class IdentificationController extends Controller
      */
     public function store(IdentificationRequest $request)
     {
+       
         session()->put("identification", $request->all());
 
         return redirect()->route('createProduitsServices');

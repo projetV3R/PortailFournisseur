@@ -46,7 +46,7 @@ Route::get('/ProfilFournisseur', function () {
 
 // Identification
 
-Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification")->middleware('auth');
+Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification");
 
 Route::post('/Identification/store', [IdentificationController::class, "store"])->name("StoreIdentification");
 
@@ -72,6 +72,10 @@ Route::get('/Licences', [LicenceController::class, "create"])->name("createLicen
 Route::post('/Licences/store', [LicenceController::class, "store"])->name("storeLicences");
 
 Route::get('/sous-categories/{type}', [LicenceController::class, 'getSousCategories']);
+//recuperer information dans page resume 
+Route::get('/sous-categories/affichage/multiple', [LicenceController::class, 'getSousCategoriesMultiple']);
+
+
 Route::get('/search', [ProduitServiceController::class, 'search']);
 
 // Contact

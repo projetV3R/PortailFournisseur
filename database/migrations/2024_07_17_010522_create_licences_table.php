@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('numero_licence_rbq');
             $table->string('statut');
             $table->string('type_licence');
+            $table->foreignId('fiche_fournisseur_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

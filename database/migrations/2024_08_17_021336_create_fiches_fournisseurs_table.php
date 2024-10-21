@@ -20,16 +20,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('details_specifications', 500);
             $table->timestamp('date_changement_etat')->nullable();
-            $table->unsignedBigInteger('licence_id');  // Cle etrangere vers licences
-            $table->unsignedBigInteger('coordonnee_id');  // Cle etrangere vers coordonnees
-            $table->unsignedBigInteger('finance_id');  // Cle etrangere vers finances
             $table->timestamps();
             $table->rememberToken();
 
-
-            $table->foreign('licence_id')->references('id')->on('licences')->onDelete('cascade');
-            $table->foreign('coordonnee_id')->references('id')->on('coordonnees')->onDelete('cascade');
-            $table->foreign('finance_id')->references('id')->on('finances')->onDelete('cascade');
         });
     }
 

@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginAvecNeqRequest;
-use App\Http\Requests\LoginSansNeqRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Storage;
+use App\Models\FicheFournisseur;
+use App\Models\Coordonnee;
+use App\Models\Telephone;
+use App\Models\CoordonneeTelephone;
+use App\Models\Contact;
+use App\Models\Licence;
+use App\Models\SousCategorieLicence;
+use App\Models\BrochureCarte;
+use App\Models\ProduitService;
+use App\Models\ProduitServiceFicheFournisseur;
 class FicheFournisseurController extends Controller
 {
 
@@ -43,7 +51,7 @@ class FicheFournisseurController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->route('CreateIdentification')->with('message', 'Connexion réussie');
         } else {
-            // Log an error in case of failed authentication
+          
             Log::error('Échec de connexion', ['credentials' => $credentials]);
 
             return back()->withErrors([

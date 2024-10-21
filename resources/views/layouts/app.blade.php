@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="resources/css/custum_scrollbar.css">
+  
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @vite('resources/css/app.css')
@@ -226,9 +226,6 @@
         </div>
     </footer>
     <script>
-         window.addEventListener('beforeunload', function () {
-        navigator.sendBeacon('/delete-temp-files'); // Envoie une requête silencieuse avant fermeture
-    });
         const toggleDarkMode = () => {
             const htmlElement = document.documentElement;
             if (htmlElement.classList.contains('dark')) {
