@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('condition_paiement');
             $table->string('devise');
             $table->string('mode_communication');
-            $table->foreignId('fiche_fournisseur_id')->constrained()->onDelete('cascade');
+            $table->foreignId('fiche_fournisseur_id')->constrained('fiche_fournisseurs')->onDelete('cascade');
             $table->timestamps();
         });
     }

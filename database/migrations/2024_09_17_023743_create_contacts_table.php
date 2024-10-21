@@ -16,12 +16,11 @@ return new class extends Migration
             $table->string('prenom');
             $table->string('nom');
             $table->string('fonction');
-            $table->string('adresse_courrriel');
-            $table->foreignId('fiche_fournisseur_id')->constrained()->onDelete('cascade'); // Cle etrangere vers la table fiches fournisseurs
-            $table->unsignedBigInteger('telephone_id');   // Cle etrangere vers la table fiches telephones
+            $table->string('adresse_courriel');
+            $table->foreignId('fiche_fournisseur_id')->constrained('fiche_fournisseurs')->onDelete('cascade'); // Cle etrangere vers la table fiches fournisseurs
+            $table->foreignId('telephone_id')->constrained('telephones');   // Cle etrangere vers la table fiches telephones
             $table->timestamps();
 
-            $table->foreign('telephone_id')->references('id')->on('telephones')->onDelete('cascade');
         });
     }
 

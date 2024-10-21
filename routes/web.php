@@ -40,9 +40,6 @@ Route::get('/LoginFournisseurSansNeq', function () {
 
 // ProfilFournisseur
 
-Route::get('/ProfilFournisseur', function () {
-    return view('formulaireInscription/profil_fournisseur');
-});
 
 // Identification
 
@@ -117,6 +114,7 @@ Route::post('/FicheFournisseur/logout', [FicheFournisseurController::class, "log
 
 // Création Fiche Fournisseur
 Route::get('/FicheFournisseur/choix', [FicheFournisseurController::class, "create"])->name("login");
-
+Route::post('/FicheFournisseur/store', [FicheFournisseurController::class, "store"])->name("FicheFournisseursStore");
+Route::get('/FicheFournisseur/profil', [FicheFournisseurController::class, "profil"])->name("profil");
 
 Route::get('/Resume', [IdentificationController::class, "resume"])->name("resumeFournisseur");

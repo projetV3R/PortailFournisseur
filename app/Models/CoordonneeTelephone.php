@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CoordonneeTelephone extends Model
 {
     use HasFactory;
+    protected $table = 'coordonnee_telephone';
+    protected $fillable = [
+        'coordonnee_id',
+        'telephone_id',
+    ];
 }

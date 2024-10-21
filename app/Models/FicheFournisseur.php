@@ -14,8 +14,9 @@ class FicheFournisseur extends Authenticatable
         "neq",
         "etat",
         "password",
+        "nom_entreprise",
         "adresse_courriel",
-        "mot_de_passe",
+        "password",
         "details_specifications",
         "date_changement_etat",
     ];

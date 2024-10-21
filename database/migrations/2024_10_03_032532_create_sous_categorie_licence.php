@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('sous_categorie_licence', function (Blueprint $table) {
         $table->id(); 
-        $table->unsignedBigInteger('licence_id'); 
-        $table->unsignedBigInteger('sous_categorie_id'); 
+        $table->foreignId('licence_id')->constrained('licences')->onDelete('cascade');
+        $table->foreignId('sous_categorie_id')->constrained('sous_categories')->onDelete('cascade');
         $table->timestamps(); 
 
         $table->foreign('licence_id')->references('id')->on('licences')->onDelete('cascade');

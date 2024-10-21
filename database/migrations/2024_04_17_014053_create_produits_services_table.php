@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nature');
             $table->string('code_categorie');
-            $table->string('categorie');
             $table->string('code_unspsc');
             $table->string('description');
             $table->string('details_specifications');

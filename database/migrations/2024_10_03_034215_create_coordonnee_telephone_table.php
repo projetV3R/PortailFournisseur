@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('coordonnee_telephone', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('coordonnee_id'); 
-            $table->unsignedBigInteger('telephone_id'); 
+            $table->foreignId('coordonnee_id')->constrained('coordonnees')->onDelete('cascade');
+            $table->foreignId('telephone_id')->constrained('telephones')->onDelete('cascade');
             $table->timestamps(); 
     
-            $table->foreign('coordonnee_id')->references('id')->on('coordonnees')->onDelete('cascade');
-            $table->foreign('telephone_id')->references('id')->on('telephones')->onDelete('cascade');
+       
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coordonnee_contact');
+        Schema::dropIfExists('coordonnee_telephone');
     }
 };

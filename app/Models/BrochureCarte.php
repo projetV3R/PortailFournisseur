@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Licence extends Model
+class BrochureCarte extends Model
 {
     use HasFactory;
-    protected $table = 'licences';
+    protected $table = 'brochures_cartes';
     protected $fillable = [
-        'numero_licence_rbq',
-        'statut',
-        'type_licence',
+        'nom',
+        'type_de_fichier',
+        'chemin',
+        'taille',
         'fiche_fournisseur_id'
     ];
 }

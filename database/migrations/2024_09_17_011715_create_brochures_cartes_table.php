@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('type_de_fichier');
             $table->string('chemin');
             $table->integer('taille');
-            $table->foreignId('fiche_fournisseur_id')->constrained()->onDelete('cascade'); // Cle etrangere vers la table fiche fournisseur
+            $table->foreignId('fiche_fournisseur_id')->constrained('fiche_fournisseurs')->onDelete('cascade'); // Cle etrangere vers la table fiche fournisseur
             $table->timestamps();
         });
     }
