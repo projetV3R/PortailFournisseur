@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="flex-1">
-                        <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Coordonnées en ligne</h4>
+                        <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Site web :</h4>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Site web :</strong> {{ session('coordonnees.siteWeb', 'N/A') }}</p>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                                 <p class="font-Alumni text-md md:text-lg"><strong>Nom :</strong> {{ $contact['nom'] }}</p>
                                 <p class="font-Alumni text-md md:text-lg"><strong>Fonction :</strong> {{ $contact['fonction'] }}</p>
                                 <p class="font-Alumni text-md md:text-lg"><strong>Email :</strong> {{ $contact['email'] }}</p>
-                                <p class="font-Alumni text-md md:text-lg"><strong>Ligne :</strong> {{ $contact['ligne'] }}</p>
+                                <p class="font-Alumni text-md md:text-lg"><strong>Ligne :</strong> {{ $contact['type'] }}</p>
                                 <p class="font-Alumni text-md md:text-lg"><strong>Numéro de téléphone :</strong> {{ $contact['numeroTelephone'] }}</p>
                                 <p class="font-Alumni text-md md:text-lg"><strong>Poste :</strong> {{ $contact['poste'] ?? 'N/A' }}</p>
                             </div>

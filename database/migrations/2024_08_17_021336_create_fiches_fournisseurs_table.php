@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('fiche_fournisseurs', function (Blueprint $table) {
             $table->id();
-            $table->string('neq')->unique();
+            $table->string('neq')->unique()->nullable();
             $table->string('etat')->default('En attente');
             $table->string('nom_entreprise');
             $table->string('adresse_courriel')->unique();

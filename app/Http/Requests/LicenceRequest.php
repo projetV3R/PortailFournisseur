@@ -25,7 +25,8 @@ class LicenceRequest extends FormRequest
             'numeroLicence' => [
                 'required_with:statut,typeLicence,sousCategorie',
                 'nullable', 
-               'regex:/^\d{4}-\d{4}-\d{2}$/' // Assure que le format respecte ####-####-##
+               'regex:/^\d{4}-\d{4}-\d{2}$/' ,// Assure que le format respecte ####-####-##
+               //Demander si RBQ est unique ?
             ],
             'statut' => 'required_with:numeroLicence|nullable',
             'typeLicence' => 'required_with:numeroLicence|nullable',

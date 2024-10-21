@@ -60,6 +60,12 @@ class FicheFournisseurController extends Controller
             ]);
         }
     }
+    
+    public function resume()
+    { 
+        $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
+        return view('formulaireInscription/resume' , compact('maxFileSize'));
+    }
 
     public function profil()
     { 
@@ -107,7 +113,7 @@ class FicheFournisseurController extends Controller
 
         // 1. Créer la fiche fournisseur
         $ficheFournisseur = FicheFournisseur::create([
-            'neq' => session('identification.numeroEntreprise'),
+            'neq' => session('identification.numeroEntreprise')?? null,
             'etat' => 'En attente',
             'nom_entreprise' => session('identification.nomEntreprise'),
             'adresse_courriel' => session('identification.email'),
@@ -134,8 +140,8 @@ class FicheFournisseurController extends Controller
         foreach ($telephones as $telephoneData) {
             $telephone = Telephone::create([
                 'numero_telephone' => $telephoneData['numeroTelephone'],
-                'ligne' => $telephoneData['poste']?? null,
-                'poste' => $telephoneData['type'] ?? null, // Optionnel
+                'poste' => $telephoneData['poste']?? null,
+                'type' => $telephoneData['type'] ?? 'Bureau', // Optionnel
             ]);
 
             // Lier la coordonnée et le numéro de téléphone
@@ -158,8 +164,8 @@ class FicheFournisseurController extends Controller
             // Créer le numéro de téléphone du contact
             $telephone = Telephone::create([
                 'numero_telephone' => $contactData['numeroTelephone'],
-                'ligne' => $contactData['poste'] ?? null,// Optionnel
-                'poste' => $contactData['ligne'] ?? null, // Optionnel
+                'poste' => $contactData['poste'] ?? null,// Optionnel
+                'type' => $contactData['type'] ?? 'Bureau', // Optionnel
             ]);
 
             // Créer le contact lié au fournisseur

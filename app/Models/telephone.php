@@ -10,7 +10,7 @@ class telephone extends Model
     use HasFactory;
     protected $fillable = [
         "numero_telephone",
-        "ligne",
-        "poste"
+        "poste",
+        "type"
     ];
 }

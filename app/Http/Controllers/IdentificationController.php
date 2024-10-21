@@ -21,14 +21,10 @@ class IdentificationController extends Controller
      */
     public function create()
     {
+       // session()->flush();
         return view('formulaireInscription/identification');
     }
 
-    public function resume()
-    { 
-        $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
-        return view('formulaireInscription/resume' , compact('maxFileSize'));
-    }
 
     /**
      * Store a newly created resource in storage.

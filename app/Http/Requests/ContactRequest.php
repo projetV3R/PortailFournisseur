@@ -47,7 +47,7 @@ class ContactRequest extends FormRequest
                 'email',
                 'max:64'
             ],
-            'contacts.*.ligne' => [
+            'contacts.*.type' => [
                 'required',
                 'string',
                 Rule::in(['Bureau', 'Télécopieur', 'Cellulaire'])

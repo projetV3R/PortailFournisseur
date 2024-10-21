@@ -82,13 +82,13 @@
                                 <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2">
                                     Ligne
                                 </label>
-                                <select id="ligne" name="contacts[0][ligne]"
+                                <select id="type" name="contacts[0][type]"
                                     class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                     <option value="Bureau">Bureau</option>
                                     <option value="Télécopieur">Télécopieur</option>
                                     <option value="Cellulaire">Cellulaire</option>
                                 </select>
-                                @error('contacts.0.ligne')
+                                @error('contacts.0.type')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -213,7 +213,7 @@
         if (name.includes('nom') && contact.nom) input.value = contact.nom;
         if (name.includes('fonction') && contact.fonction) input.value = contact.fonction;
         if (name.includes('email') && contact.email) input.value = contact.email;
-        if (name.includes('ligne') && contact.ligne) input.value = contact.ligne;
+        if (name.includes('type') && contact.type) input.value = contact.type;
         if (name.includes('numeroTelephone') && contact.numeroTelephone) input.value = contact.numeroTelephone;
         if (name.includes('poste')) input.value = contact.poste || ''; // Gérer la valeur vide pour 'poste'
     });
@@ -244,7 +244,7 @@ function remplirPremierContact(contact) {
     document.querySelector('input[name="contacts[0][nom]"]').value = contact.nom || '';
     document.querySelector('input[name="contacts[0][fonction]"]').value = contact.fonction || '';
     document.querySelector('input[name="contacts[0][email]"]').value = contact.email || '';
-    document.querySelector('select[name="contacts[0][ligne]"]').value = contact.ligne || 'Bureau';
+    document.querySelector('select[name="contacts[0][type]"]').value = contact.type || 'Bureau';
     document.querySelector('input[name="contacts[0][numeroTelephone]"]').value = contact.numeroTelephone || '';
     document.querySelector('input[name="contacts[0][poste]"]').value = contact.poste || ''; // Gérer la valeur vide pour 'poste'
 }
