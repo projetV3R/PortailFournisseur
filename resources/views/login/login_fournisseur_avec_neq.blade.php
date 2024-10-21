@@ -17,7 +17,7 @@
                             <label for="numeroEntreprise" class="block font-Alumni md:text-lg mb-2">
                                 Numéro d’entreprise du Québec (NEQ)
                             </label>
-                            <input type="text" id="numeroEntreprise" name="numeroEntreprise"
+                            <input type="text" id="numeroEntreprise" name="numeroEntreprise" maxlength="10"
                                 placeholder="Entrer votre numéro d'entreprise"
                                 class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black">
                             @error('numeroEntreprise')
