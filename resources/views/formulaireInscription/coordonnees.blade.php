@@ -238,7 +238,7 @@
 
                             <input type="phonenumber" id="numeroTelephone" name="ligne[0][numeroTelephone]"
                                 placeholder="514-453-9867"
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black numerotelephone">
 
                             @error('ligne.0.numeroTelephone')
                                 <span
@@ -369,7 +369,7 @@ function ajouterNumeroTelephone(index, ligne = {}) {
             <div class="w-full">
                 <label for="numeroTelephone_${index}" class="block font-Alumni text-md md:text-lg mb-2 truncate">Numéro Téléphone</label>
                 <input type="phonenumber" id="numeroTelephone_${index}" name="ligne[${index}][numeroTelephone]" placeholder="514-453-9867"
-                    value="${numeroTelephone}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                    value="${numeroTelephone}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black numerotelephone">
             </div>
             <div class="w-full">
                 <label for="poste_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Poste</label>
@@ -383,6 +383,10 @@ function ajouterNumeroTelephone(index, ligne = {}) {
             </div>
         </div>
     `);
+    const nouvelInput = document.getElementById(`numeroTelephone_${index}`);
+        if (nouvelInput) {
+            formatTel(nouvelInput);
+        }
 }
 
 document.getElementById('ajoutNumeroTelephone').addEventListener('click', function() {
@@ -408,8 +412,27 @@ document.getElementById('cadreNumero').addEventListener('click', function(event)
 document.querySelector('form').addEventListener('submit', function() {
         document.getElementById('currentIndexInput').value = currentIndex; // Fix de l'indexation des inputs !!!important!!!
     });
+
+    //format tel ###-###-####
+    function formatTel(input) {
+        input.addEventListener('input', function() {
+            let value = input.value.replace(/\D/g, ''); // Retirer les caractères non numériques
+            if (value.length > 3 && value.length <= 6) {
+                value = value.slice(0, 3) + '-' + value.slice(3);
+            } else if (value.length > 6) {
+                value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
+            }
+            input.value = value;
+        });
+    }
       
 document.addEventListener('DOMContentLoaded', function() {
+    
+     //Format tel pour input pos 0
+        document.querySelectorAll('.numerotelephone').forEach(function(input) {
+            formatTel(input);
+        });
+
     @if(session('coordonnees'))
     let coordonnees = @json(session('coordonnees'));
     console.log(currentIndex);

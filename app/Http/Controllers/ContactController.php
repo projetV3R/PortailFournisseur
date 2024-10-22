@@ -22,7 +22,6 @@ class ContactController extends Controller
      */
     public function create()
     {
- 
         return View('formulaireInscription/contacts');
     }
 

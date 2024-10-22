@@ -133,69 +133,122 @@
     </form>
 
     <script>
-        document.getElementById('addContactBtn').addEventListener('click', function() {
-            var contactFieldsContainer = document.getElementById('contactFieldsContainer');
-            var clone = contactFieldsContainer.cloneNode(true);
-            var currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7;
+ document.addEventListener('DOMContentLoaded', function() {
 
-            clone.querySelector('#addContactBtn')?.remove();
-            clone.querySelector('#submitBtn')?.remove();
+    document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(function(input) {
+        formatTel(input);
+    });
 
-            clone.querySelectorAll('input, select').forEach(function(input) {
-                var name = input.getAttribute('name');
-                if (name) {
-                    var newName = name.replace(/\[0\]/, '[' + currentIndex + ']');
-                    input.setAttribute('name', newName);
+
+    @if(session('contacts'))
+        let contacts = @json(session('contacts'));
+        if (Array.isArray(contacts)) {
+            contacts.forEach((contact, index) => {
+                if (index > 0) {
+                    ajouterContactFields(index, contact);
+                } else {
+                    remplirPremierContact(contact);
                 }
-                input.value = '';
             });
-
-            var deleteButton = document.createElement('button');
-            deleteButton.type = 'button';
-            deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
-            deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
-            deleteButton.addEventListener('click', function() {
-                clone.remove();
-                reindexContacts();
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Suppression du contact réussie',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            });
-            clone.appendChild(deleteButton);
-
-            contactFieldsContainer.parentNode.appendChild(clone);
-        });
-
-        function reindexContacts() {
-            document.querySelectorAll('[name^="contacts"]').forEach((input, index) => {
-                let name = input.getAttribute('name');
-                name = name.replace(/\[.*?\]/, '[' + Math.floor(index / 7) + ']');
-                input.setAttribute('name', name);
-            });
+            reindexContacts(); 
         }
+    @endif
+});
 
-        document.addEventListener('DOMContentLoaded', function() {
-            @if(session('contacts'))
-                let contacts = @json(session('contacts'));
 
-                if (Array.isArray(contacts)) {
-                    contacts.forEach((contact, index) => {
-                        if (index > 0) {
-                            ajouterContactFields(index, contact);
-                        } else {
-                            remplirPremierContact(contact);
-                        }
-                    });
-                    reindexContacts(); 
-                }
-            @endif
+function formatTel(input) {
+    input.addEventListener('input', function() {
+        let value = input.value.replace(/\D/g, '');
+        if (value.length > 3 && value.length <= 6) {
+            value = value.slice(0, 3) + '-' + value.slice(3);
+        } else if (value.length > 6) {
+            value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
+        }
+        input.value = value;
+    });
+}
+
+
+document.getElementById('addContactBtn').addEventListener('click', function() {
+    var contactFieldsContainer = document.getElementById('contactFieldsContainer');
+    var clone = contactFieldsContainer.cloneNode(true);
+    var currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7;
+
+
+    clone.querySelector('#addContactBtn')?.remove();
+    clone.querySelector('#submitBtn')?.remove();
+
+
+    clone.querySelectorAll('input, select').forEach(function(input) {
+        var name = input.getAttribute('name');
+        if (name) {
+            var newName = name.replace(/\[0\]/, '[' + currentIndex + ']');
+            input.setAttribute('name', newName);
+        }
+        input.value = '';
+        if (input.name.includes('numeroTelephone')) {
+            formatTel(input); 
+        }
+    });
+
+
+    var deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
+    deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
+    deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
+    deleteButton.addEventListener('click', function() {
+        clone.remove();
+        reindexContacts();
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Suppression du contact réussie',
+            showConfirmButton: false,
+            timer: 1500
         });
+    });
+    clone.appendChild(deleteButton);
 
-        function ajouterContactFields(index, contact = {}) {
+ 
+    contactFieldsContainer.parentNode.appendChild(clone);
+});
+
+
+function reindexContacts() {
+    document.querySelectorAll('[name^="contacts"]').forEach((input, index) => {
+        let name = input.getAttribute('name');
+        name = name.replace(/\[.*?\]/, '[' + Math.floor(index / 7) + ']');
+        input.setAttribute('name', name);
+        if (input.name.includes('numeroTelephone')) {
+            formatTel(input);
+        }
+    });
+}
+
+
+function remplirPremierContact(contact) {
+    document.querySelector('input[name="contacts[0][prenom]"]').value = contact.prenom || '';
+    document.querySelector('input[name="contacts[0][nom]"]').value = contact.nom || '';
+    document.querySelector('input[name="contacts[0][fonction]"]').value = contact.fonction || '';
+    document.querySelector('input[name="contacts[0][email]"]').value = contact.email || '';
+    document.querySelector('select[name="contacts[0][type]"]').value = contact.type || 'Bureau';
+    document.querySelector('input[name="contacts[0][numeroTelephone]"]').value = formatTelValue(contact.numeroTelephone || '');
+    document.querySelector('input[name="contacts[0][poste]"]').value = contact.poste || '';
+}
+
+
+function formatTelValue(value) {
+    value = value.replace(/\D/g, '');
+    if (value.length > 3 && value.length <= 6) {
+        value = value.slice(0, 3) + '-' + value.slice(3);
+    } else if (value.length > 6) {
+        value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
+    }
+    return value;
+}
+
+
+function ajouterContactFields(index, contact = {}) {
     var contactFieldsContainer = document.getElementById('contactFieldsContainer');
     var clone = contactFieldsContainer.cloneNode(true);
     clone.querySelector('#addContactBtn')?.remove();
@@ -208,14 +261,15 @@
             input.setAttribute('name', newName);
         }
 
-        // Remplir les champs avec les données de contact
         if (name.includes('prenom') && contact.prenom) input.value = contact.prenom;
         if (name.includes('nom') && contact.nom) input.value = contact.nom;
         if (name.includes('fonction') && contact.fonction) input.value = contact.fonction;
         if (name.includes('email') && contact.email) input.value = contact.email;
         if (name.includes('type') && contact.type) input.value = contact.type;
-        if (name.includes('numeroTelephone') && contact.numeroTelephone) input.value = contact.numeroTelephone;
-        if (name.includes('poste')) input.value = contact.poste || ''; // Gérer la valeur vide pour 'poste'
+        if (name.includes('numeroTelephone') && contact.numeroTelephone) {
+            input.value = formatTelValue(contact.numeroTelephone);
+        }
+        if (name.includes('poste')) input.value = contact.poste || '';
     });
 
 
@@ -237,16 +291,6 @@
     clone.appendChild(deleteButton);
 
     contactFieldsContainer.parentNode.appendChild(clone);
-}
-
-function remplirPremierContact(contact) {
-    document.querySelector('input[name="contacts[0][prenom]"]').value = contact.prenom || '';
-    document.querySelector('input[name="contacts[0][nom]"]').value = contact.nom || '';
-    document.querySelector('input[name="contacts[0][fonction]"]').value = contact.fonction || '';
-    document.querySelector('input[name="contacts[0][email]"]').value = contact.email || '';
-    document.querySelector('select[name="contacts[0][type]"]').value = contact.type || 'Bureau';
-    document.querySelector('input[name="contacts[0][numeroTelephone]"]').value = contact.numeroTelephone || '';
-    document.querySelector('input[name="contacts[0][poste]"]').value = contact.poste || ''; // Gérer la valeur vide pour 'poste'
 }
 
     </script>

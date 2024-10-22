@@ -134,12 +134,15 @@ class FicheFournisseurController extends Controller
             'region_administrative' => session('coordonnees.regionAdministrative', null), // Optionnel
             'fiche_fournisseur_id' => $ficheFournisseur->id,
         ]);
-        Log::info('Coordonnée créée avec succès', ['coordonnee_id' => $coordonnee->id]);
+  
    
         $telephones = session('coordonnees.ligne', []);
         foreach ($telephones as $telephoneData) {
+
+            $numeroNettoye = str_replace('-', '', $telephoneData['numeroTelephone']);
+
             $telephone = Telephone::create([
-                'numero_telephone' => $telephoneData['numeroTelephone'],
+                'numero_telephone' => $numeroNettoye,
                 'poste' => $telephoneData['poste']?? null,
                 'type' => $telephoneData['type'] ?? 'Bureau', // Optionnel
             ]);
@@ -158,9 +161,11 @@ class FicheFournisseurController extends Controller
 
         $contacts = session('contacts', []);
         foreach ($contacts as $contactData) {
-            // Créer le numéro de téléphone du contact
+
+            $numeroNettoyeContacts = str_replace('-', '', $contactData['numeroTelephone']);
+
             $telephone = Telephone::create([
-                'numero_telephone' => $contactData['numeroTelephone'],
+                'numero_telephone' => $numeroNettoyeContacts,
                 'poste' => $contactData['poste'] ?? null,// Optionnel
                 'type' => $contactData['type'] ?? 'Bureau',
             ]);
@@ -179,8 +184,10 @@ class FicheFournisseurController extends Controller
 
         $licenceData = session('licences', []);
         if (!empty($licenceData)) {
+            $numeroNettoyeRbq = str_replace('-', '', $licenceData['numeroLicence']);
+
             $licence = Licence::create([
-                'numero_licence_rbq' => $licenceData['numeroLicence'],
+                'numero_licence_rbq' => $numeroNettoyeRbq,
                 'statut' => $licenceData['statut'],
                 'type_licence' => $licenceData['typeLicence'],
                 'fiche_fournisseur_id' => $ficheFournisseur->id,
