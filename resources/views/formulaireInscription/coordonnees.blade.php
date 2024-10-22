@@ -386,6 +386,7 @@ function ajouterNumeroTelephone(index, ligne = {}) {
     const nouvelInput = document.getElementById(`numeroTelephone_${index}`);
         if (nouvelInput) {
             formatTel(nouvelInput);
+           nouvelInput.value = formatTelValue(ligne.numeroTelephone);
         }
 }
 
@@ -426,6 +427,17 @@ document.querySelector('form').addEventListener('submit', function() {
         });
     }
       
+
+function formatTelValue(value) {
+    value = value.replace(/\D/g, '');
+    if (value.length > 3 && value.length <= 6) {
+        value = value.slice(0, 3) + '-' + value.slice(3);
+    } else if (value.length > 6) {
+        value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
+    }
+    return value;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     
      //Format tel pour input pos 0
@@ -451,7 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (index == 0) {
                 // Remplir la première ligne
                 if (ligne.type) document.getElementById('ligne').value = ligne.type;
-                if (ligne.numeroTelephone) document.getElementById('numeroTelephone').value = ligne.numeroTelephone;
+                if (ligne.numeroTelephone)  document.getElementById('numeroTelephone').value = formatTelValue(ligne.numeroTelephone);
                 if (ligne.poste) document.getElementById('poste').value = ligne.poste;
             } else {
                 setTimeout(() => {
