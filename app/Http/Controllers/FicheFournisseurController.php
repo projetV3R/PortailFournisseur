@@ -18,6 +18,7 @@ use App\Models\BrochureCarte;
 use App\Models\ProduitService;
 use App\Models\ProduitServiceFicheFournisseur;
 use App\Models\ParametreSysteme;
+use App\Notifications\WelcomeEmail;
 class FicheFournisseurController extends Controller
 {
 
@@ -247,6 +248,8 @@ class FicheFournisseurController extends Controller
 
         DB::commit();
         Auth::loginUsingId($ficheFournisseur->id);
+        $ficheFournisseur->notify(new WelcomeEmail());
+
         return redirect()->route('profil')->with('success', 'La fiche fournisseur a été créée avec succès.');
 
     } catch (\Exception $e) {
