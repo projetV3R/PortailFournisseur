@@ -218,7 +218,7 @@
         if (name.includes('poste')) input.value = contact.poste || ''; // Gérer la valeur vide pour 'poste'
     });
 
-    // Ajout du bouton "Supprimer"
+
     var deleteButton = document.createElement('button');
     deleteButton.type = 'button';
     deleteButton.classList.add('w-full', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');

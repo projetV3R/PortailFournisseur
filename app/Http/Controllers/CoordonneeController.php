@@ -36,7 +36,10 @@ class CoordonneeController extends Controller
         Log::info('Test log message');
 
         session()->put("coordonnees", $request->all());
+        $currentIndex = $request->input('currentIndex', 0);
+        session()->put("currentIndex", $currentIndex);
         Log::info('Coordonnées enregistrées : ', $request->all());
+        Log::info('Index enregistré : ' . $currentIndex);
   
       
         return redirect()->route('createContacts');

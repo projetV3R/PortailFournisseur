@@ -63,6 +63,10 @@ class CoordonneeRequest extends FormRequest
                 'url',
                 'max:64'
             ],
+            'currentIndex'=>[
+                'nullable',
+                'integer',
+            ],
 
             'ligne' => ['required', 'array'], 
             'ligne.*.type' => [

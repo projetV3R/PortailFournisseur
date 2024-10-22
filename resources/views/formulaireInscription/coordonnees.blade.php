@@ -19,7 +19,6 @@
 
                     <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
 
-                        <!-- Conteneur du nom d'entreprise -->
                         <div class="w-1/4">
                             <label for="numeroCivique" class="block font-Alumni text-md md:text-lg mb-2">
                                 N Civique
@@ -87,7 +86,7 @@
                         <label for="province" class="block font-Alumni text-md md:text-lg mb-2">
                             Provinces
                         </label>
-                        <!-- Select -->
+                   
                         <select name="province" id="province"
                  
                             class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
@@ -113,14 +112,13 @@
                                 {{ $message }}
                             </span>
                         @enderror
-                        <!-- End Select -->
+    
                     </div>
-
                     <div class="mt-4 w-full max-w-md">
                         <label for="regionAdministrative" class="block font-Alumni text-md md:text-lg mb-2">
                             Régions Administratives
                         </label>
-                        <!-- Select -->
+                   
                         <select name="regionAdministrative" id="regionAdministrative"
                     
                             class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
@@ -151,7 +149,7 @@
                                 {{ $message }}
                             </span>
                         @enderror
-                        <!-- End Select -->
+                   
                     </div>
 
                     <div class="mt-4 w-full max-w-md">
@@ -178,13 +176,8 @@
                              {{ $message }}
                             </span>
                         @enderror
-                        <!-- End Select -->
+              
                     </div>
-
-         
-
-               
-
                 </div>
             </div>
 
@@ -274,7 +267,7 @@
                         </div>
                     </div>
                 </div>
-
+                <input type="hidden" id="currentIndexInput" name="currentIndex" >
                 <button type="button" id="ajoutNumeroTelephone"
                     class="mt-4 w-full text-white bg-secondary-400 hover:bg-tertiary-300 py-2.5">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Ajouter un numero</h1>
@@ -287,19 +280,20 @@
             </div>
         </div>
     </form>
-
-   
     <script>
         
 //Supprime les espaces créer par l'utilisateur dans l'input de code postale
 document.getElementById('codePostale').addEventListener('input', function() {
     this.value = this.value.replace(/\s+/g, ''); 
     });
-           
+   let currentIndex = @json(session('currentIndex', 0));
+    document.getElementById('currentIndexInput').value = currentIndex;
+
     
     document.getElementById('regionAdministrative').addEventListener('change', function() {
         const regionCode = this.value;
-        const municipaliteSelect = document.getElementById('municipaliteSelect'); if (regionCode) {
+        const municipaliteSelect = document.getElementById('municipaliteSelect'); 
+        if (regionCode) {
             axios.get('/municipalites-par-region', { params: { region: regionCode } })
                 .then(response => {
                     response.data.forEach(muni => {
@@ -354,7 +348,7 @@ document.getElementById('codePostale').addEventListener('input', function() {
     }
     });
 
-    let currentIndex = document.querySelectorAll('.ligne-numeros').length;
+  
 
 function ajouterNumeroTelephone(index, ligne = {}) {
     const cadre = document.getElementById('cadreNumero');
@@ -394,33 +388,31 @@ function ajouterNumeroTelephone(index, ligne = {}) {
 document.getElementById('ajoutNumeroTelephone').addEventListener('click', function() {
     currentIndex++;
     ajouterNumeroTelephone(currentIndex);
+    document.getElementById('currentIndexInput').value = currentIndex;
+    console.log(currentIndex);
 });
 
 document.getElementById('cadreNumero').addEventListener('click', function(event) {
     if (event.target.classList.contains('remove-ligne')) {
         event.target.closest('.ligne-numeros').remove();
+        Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Suppression du numéro réussie',
+                    showConfirmButton: false,
+                    timer: 1000
+                });
     }
 });
 
-
-function reindexLignes() {
-    document.querySelectorAll('.ligne-numeros').forEach((ligne, newIndex) => {
-        const oldIndex = ligne.getAttribute('data-index');
-        ligne.setAttribute('data-index', newIndex);
-        
-        ligne.querySelectorAll('[name^="ligne"]').forEach((input) => {
-            input.name = input.name.replace(/\[.*?\]/, `[${newIndex}]`);
-            input.id = input.id.replace(`_${oldIndex}`, `_${newIndex}`);
-            input.previousElementSibling.setAttribute('for', input.id);
-        });
+document.querySelector('form').addEventListener('submit', function() {
+        document.getElementById('currentIndexInput').value = currentIndex; // Fix de l'indexation des inputs !!!important!!!
     });
-}
-
-        
+      
 document.addEventListener('DOMContentLoaded', function() {
     @if(session('coordonnees'))
     let coordonnees = @json(session('coordonnees'));
-    
+    console.log(currentIndex);
     // Liste des champs à remplir
     const champs = ['numeroCivique', 'bureau', 'rue', 'codePostale', 'province', 'regionAdministrative', 'siteWeb'];
 
@@ -465,3 +457,4 @@ document.addEventListener('DOMContentLoaded', function() {
      
         </script>
 @endsection
+
