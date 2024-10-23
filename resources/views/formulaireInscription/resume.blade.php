@@ -53,9 +53,9 @@
 
                 <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
-                    <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('CreateIdentification') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
-                    </button>
+                    </a>
                 </div>
 
                 <div class="mt-6">
@@ -81,9 +81,9 @@
 
                 <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
-                    <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('CreateCoordonnees') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
-                    </button>
+                    </a>
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-4 mt-4">
@@ -127,9 +127,9 @@
 
                 <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
-                    <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('createBrochuresCartesAffaires') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Conteneur pour les brochures -->
@@ -158,9 +158,9 @@
 
                 <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
-                    <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('createContacts') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Conteneur avec défilement -->
@@ -191,9 +191,9 @@
 
                 <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
-                    <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('createProduitsServices') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
-                    </button>
+                    </a>
                 </div>
 
             
@@ -212,9 +212,9 @@
 
                 <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
-                    <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('createLicences') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
-                    </button>
+                    </a>
                 </div>
 
             

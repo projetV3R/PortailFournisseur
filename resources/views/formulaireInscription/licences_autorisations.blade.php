@@ -95,23 +95,27 @@
         const typeLicenceSelect = document.getElementById('typeLicence');
         const checklistContainer = document.getElementById('checklistContainer');
         const selectedSousCategories = @json(session('licences.sousCategorie', [])); // Récupérer les valeurs de session
+//Formattage pour la valeur en session et la valeur de l'input A reformat peut etre pour plus efficace
+        function formatLicence(value) {
+        value = value.replace(/\D/g, ''); // Retirer les caractères non numériques
 
-        // Application automatique du format 1234-1234-12
-        numeroLicenceInput.addEventListener('input', function () {
-            let value = numeroLicenceInput.value;
-          
-            value = value.replace(/\D/g, '');
+        if (value.length > 4 && value.length <= 8) {
+            value = value.slice(0, 4) + '-' + value.slice(4);
+        } else if (value.length > 8) {
+            value = value.slice(0, 4) + '-' + value.slice(4, 8) + '-' + value.slice(8, 10);
+        }
 
-            //Ajout du tiret en fonction du nombre caractères numérique 
-            if (value.length > 4 && value.length <= 8) {
-                value = value.slice(0, 4) + '-' + value.slice(4);
-            } else if (value.length > 8) {
-                value = value.slice(0, 4) + '-' + value.slice(4, 8) + '-' + value.slice(8, 10);
-            }
+        return value;
+    }
 
-    
-            numeroLicenceInput.value = value;
-        });
+  
+    if (numeroLicenceInput.value) {
+        numeroLicenceInput.value = formatLicence(numeroLicenceInput.value);
+    }
+
+    numeroLicenceInput.addEventListener('input', function () {
+        numeroLicenceInput.value = formatLicence(numeroLicenceInput.value);
+    });
 
      
         if (typeLicenceSelect.value) {
