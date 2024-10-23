@@ -13,106 +13,52 @@
                 <h6 class="font-Alumni font-bold text-3xl md:text-5xl">LICENCES ET AUTORISATIONS</h6>
                 <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Parler nous des services que vous offrez</h1>
 
-                <div class="bg-primary-100 py-8 px-4 mt-8 ">
+                <div class="bg-primary-100 py-8 px-4 mt-8">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Licence RBQ</h4>
 
-                    <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
-
-                        <!-- Conteneur du nom d'entreprise -->
+                    <div class="mt-6 w-full max-w-md flex gap-4 columns-2">
+                        <!-- Conteneur du numeroLicence -->
                         <div class="w-1/2">
-                            <label for="numeroLicence" class="block font-Alumni text-md md:text-lg mb-2">
-                                Numero de licence
-                            </label>
+                            <label for="numeroLicence" class="block font-Alumni text-md md:text-lg mb-2">Numero de licence</label>
                             <input type="text" id="numeroLicence" name="numeroLicence"
                                 placeholder="Entrer votre numero de licence"
-                                class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
+                                value="{{ session('licences.numeroLicence') }}"  
+                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                             @error('numeroLicence')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
                                 </span>
                             @enderror
                         </div>
 
-                        <!-- Conteneur du segment -->
+                        <!-- Conteneur du statut -->
                         <div class="w-1/2">
-                            <label for="statut" class="block font-Alumni text-md md:text-lg mb-2">
-                                Statut
-                            </label>
-                            <!-- Select -->
-                            <select name="statut" id="statut"
-                                data-hs-select='{
-                                "placeholder": "Choisir un statut",
-                                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                                "toggleClasses": "font-Alumni hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-black text-start text-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-blue-500",
-                                "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-black overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
-                                "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100 font-Alumni",
-                                "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
-                                "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
-                            }'
-                                class="w-full ">
-                                <option value="">Choose</option>
-                                <option>Name</option>
-                                <option>Email address</option>
-                                <option>Description</option>
-                                <option>User ID</option>
+                            <label for="statut" class="block font-Alumni text-md md:text-lg mb-2">Statut</label>
+                            <select name="statut" id="statut" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-blackl">
+                                <option value="valide" {{ session('licences.statut') == 'valide' ? 'selected' : '' }}>Valide</option>
+                                <option value="valide_restriction" {{ session('licences.statut') == 'valide_restriction' ? 'selected' : '' }}>Valide avec restriction</option>
+                                <option value="non_valide" {{ session('licences.statut') == 'non_valide' ? 'selected' : '' }}>Non valide</option>
                             </select>
                             @error('statut')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
                                 </span>
                             @enderror
-                            <!-- End Select -->
                         </div>
                     </div>
 
-                    <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
-
-                        <!-- Conteneur du segment -->
-                        <div class="w-1/2">
-                            <label for="typeLicence" class="block font-Alumni text-md md:text-lg mb-2">
-                                Type de licence
-                            </label>
-                            <!-- Select -->
-                            <select name="typeLicence" id="typeLicence"
-                                data-hs-select='{
-    "placeholder": "Type de licence",
-    "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-    "toggleClasses": "font-Alumni hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-black text-start text-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-blue-500",
-    "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-black overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
-    "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100 font-Alumni",
-    "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600 \" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
-    "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
-    }'
-                                class="hidden">
-                                <option value="">Choose</option>
-                                <option>Name</option>
-                                <option>Email address</option>
-                                <option>Description</option>
-                                <option>User ID</option>
+                    <!-- Type de licence -->
+                    <div class="mt-6 w-full max-w-md flex gap-4 columns-2">
+                        <div class="w-full">
+                            <label for="typeLicence" class="block font-Alumni text-md md:text-lg mb-2">Type de licence</label>
+                            <select name="typeLicence" id="typeLicence" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                <option value="entrepreneur général" {{ session('licences.typeLicence') == 'entrepreneur général' ? 'selected' : '' }}>Entrepreneur général</option>
+                                <option value="constructeur-propriétaire général" {{ session('licences.typeLicence') == 'constructeur-propriétaire général' ? 'selected' : '' }}>Constructeur-propriétaire général</option>
+                                <option value="entrepreneur spécialisé" {{ session('licences.typeLicence') == 'entrepreneur spécialisé' ? 'selected' : '' }}>Entrepreneur spécialisé</option>
+                                <option value="constructeur-propriétaire spécialisé" {{ session('licences.typeLicence') == 'constructeur-propriétaire spécialisé' ? 'selected' : '' }}>Constructeur-propriétaire spécialisé</option>
                             </select>
-                            <!-- End Select -->
-
                             @error('typeLicence')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-
-                        <!-- Conteneur du segment -->
-                        <div class="w-1/2">
-                            <label for="travauxPermis" class="block font-Alumni text-md md:text-lg mb-2">
-                                Travaux permis
-                            </label>
-                            <input type="text" id="travauxPermis" name="travauxPermis"
-                                placeholder="Entrer le type de travaux permis"
-                                class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
-                            @error('travauxPermis')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
                                 </span>
                             @enderror
@@ -123,91 +69,16 @@
 
             <!-- Deuxième colonne -->
             <div>
-                <h6 class="font-Alumni text-white font-bold text-3xl md:text-5xl hide">Merci de vous identifier !</h6>
-                <h1 class="font-Alumni text-white font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous</h1>
-
+           
+                <h6 class="font-Alumni text-white font-bold text-3xl md:text-5xl">Catégories et sous-catégories</h6>
+                @error('sousCategorie')
+                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                    {{ $message }}
+                </span>
+            @enderror
                 <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreCategorie">
-
-                    <div class="mt-4 flex justify-between items-center">
-
-                        <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Catégories et sous-catégories</h4>
-
-                        <div class="cursor-pointer w-26 h-26 bg-tertiary-400 p-1 flex justify-center items-center"
-                            id="ajouterCategorie">
-                            <span class="iconify size-8 lg:size-10 text-white text-center" data-icon="material-symbols:add"
-                                data-inline="false"></span>
-                        </div>
-                    </div>
-
-
-                    <div class="mt-6 w-full max-w-md flex gap-4 columns-3 ">
-
-                        <!-- Conteneur du segment -->
-                        <div class="w-1/2">
-                            <label for="categorie" class="block font-Alumni text-md md:text-lg mb-2">
-                                Categorie
-                            </label>
-                            <!-- Select -->
-                            <select name="categorie" id="categorie"
-                                data-hs-select='{
-                                "placeholder": "Choisir une categorie",
-                                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                                "toggleClasses": "font-Alumni hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-black text-start text-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-blue-500",
-                                "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-black overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
-                                "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100 font-Alumni",
-                                "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
-                                "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
-                            }'
-                                class="w-full ">
-                                <option value="">Choose</option>
-                                <option>Name</option>
-                                <option>Email address</option>
-                                <option>Description</option>
-                                <option>User ID</option>
-                            </select>
-                            <!-- End Select -->
-
-                            @error('categorie')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-
-                        <!-- Conteneur du segment -->
-                        <div class="w-1/2">
-                            <label for="sousCategorie" class="block font-Alumni text-md md:text-lg mb-2">
-                                Sous-categorie
-                            </label>
-                            <!-- Select -->
-                            <select name="sousCategorie[]" id="sousCategorie" multiple=""
-                                data-hs-select='{
-                                "placeholder": "Choisir une sous-categorie",
-                                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                                "toggleClasses": "font-Alumni hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-black text-start text-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-blue-500",
-                                "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-black overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
-                                "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100 font-Alumni",
-                                "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
-                                "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
-                            }'
-                                class="w-full ">
-                                <option value="">Choose</option>
-                                <option>Name</option>
-                                <option>Email address</option>
-                                <option>Description</option>
-                                <option>User ID</option>
-                            </select>
-                            <!-- End Select -->
-
-                            @error('sousCategorie')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-
+                    <div id="checklistContainer" class="mt-6">
+                        <p>Sélectionnez un type de licence pour voir les sous-catégories disponibles.</p>
                     </div>
                 </div>
 
@@ -219,39 +90,97 @@
     </form>
 
     <script>
-        document.getElementById('ajouterCategorie').addEventListener('click', function() {
-            // Sélectionne le premier composant à cloner
-            let composantOriginal = document.querySelector('#cadreCategorie > .columns-3');
+    document.addEventListener('DOMContentLoaded', function () {
+        const numeroLicenceInput = document.getElementById('numeroLicence');
+        const typeLicenceSelect = document.getElementById('typeLicence');
+        const checklistContainer = document.getElementById('checklistContainer');
+        const selectedSousCategories = @json(session('licences.sousCategorie', [])); // Récupérer les valeurs de session
+//Formattage pour la valeur en session et la valeur de l'input A reformat peut etre pour plus efficace
+        function formatLicence(value) {
+        value = value.replace(/\D/g, ''); // Retirer les caractères non numériques
 
-            if (composantOriginal) {
-                // Clone le composant avec tous ses enfants
-                let nouveauComposant = composantOriginal.cloneNode(true);
+        if (value.length > 4 && value.length <= 8) {
+            value = value.slice(0, 4) + '-' + value.slice(4);
+        } else if (value.length > 8) {
+            value = value.slice(0, 4) + '-' + value.slice(4, 8) + '-' + value.slice(8, 10);
+        }
 
-                // Réinitialise les champs du nouveau composant (optionnel)
-                nouveauComposant.querySelectorAll('input, select').forEach(function(input) {
-                    input.value = ''; // Réinitialise les champs si nécessaire
-                });
+        return value;
+    }
 
-                // Ajoute un bouton de suppression à la fin du composant cloné
-                let boutonSuppression = document.createElement('div');
+  
+    if (numeroLicenceInput.value) {
+        numeroLicenceInput.value = formatLicence(numeroLicenceInput.value);
+    }
 
-                boutonSuppression.innerHTML =
-                    '<span class="iconify hover:text-red-500" data-icon="material-symbols:delete"></span>';
-                boutonSuppression.className =
-                    'cursor-pointer flex justify-center items-center  bg-tertiary-400 text-white h-11 px-4 py-4 mt-9';
-                boutonSuppression.addEventListener('click', function() {
-                    // Supprime le composant parent du bouton (le clone)
-                    nouveauComposant.remove();
-                });
+    numeroLicenceInput.addEventListener('input', function () {
+        numeroLicenceInput.value = formatLicence(numeroLicenceInput.value);
+    });
 
-                // Ajoute le bouton au clone
-                nouveauComposant.appendChild(boutonSuppression);
+     
+        if (typeLicenceSelect.value) {
+            fetchSousCategories(typeLicenceSelect.value);
+        }
 
-                // Ajoute le composant cloné avec le bouton de suppression à la fin du conteneur
-                document.getElementById('cadreCategorie').appendChild(nouveauComposant);
+ 
+        typeLicenceSelect.addEventListener('change', function () {
+            const selectedType = this.value;
+
+            if (selectedType) {
+                fetchSousCategories(selectedType); 
             } else {
-                console.error("Impossible de trouver le composant à cloner.");
+                checklistContainer.innerHTML = '<p>Sélectionnez un type de licence pour voir les sous-catégories disponibles.</p>';
             }
         });
+
+        function fetchSousCategories(selectedType) {
+           
+            axios.get(`/sous-categories/${selectedType}`)
+                .then(response => {
+                    renderChecklist(response.data);
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des sous-catégories:', error);
+                });
+        }
+
+        function renderChecklist(data) {
+            checklistContainer.innerHTML = ''; // Réinitialiser
+
+            data.forEach(cat => {
+                const checkboxWrapper = document.createElement('div');
+                checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group', 'bg-gray-300', 'rounded-md', 'p-2', 'px-2');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'sousCategorie[]';
+                checkbox.value = cat.id;
+                checkbox.classList.add('mr-2');
+
+                if (selectedSousCategories.includes(String(cat.id))) {
+                    checkbox.checked = true; // Auto cocher si présent dans la session
+                }
+
+                const label = document.createElement('label');
+                label.textContent = cat.code_sous_categorie;
+
+                // Infobulle (tooltip) pour afficher description sous categorie et ses travaux permis 
+                const tooltip = document.createElement('div');
+                tooltip.classList.add(
+                    'absolute', 'right-0', 'w-64', 'bg-gray-700', 'text-white', 
+                    'text-sm', 'p-2', 'rounded', 'hidden', 'group-hover:block', 
+                    'z-10', 'shadow-lg', 'mt-8'
+                );
+                tooltip.textContent = cat.travaux_permis || 'Aucun descriptif disponible';
+
+                checkboxWrapper.appendChild(checkbox);
+                checkboxWrapper.appendChild(label);
+                checkboxWrapper.appendChild(tooltip);
+
+                checklistContainer.appendChild(checkboxWrapper);
+            });
+        }
+    });
+
     </script>
 @endsection

@@ -22,12 +22,10 @@ class ProduitServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nature' => 'required',
-            'codeCategorie' => 'required',
-            'categorie' => 'required',
-            'codeUNSPSC' => 'required',
-            'description' => 'required',
-            'details' => 'required',
+            'details_specifications' => 'required',
+            'produits_services' => 'required|array',
+            'produits_services.*' => 'integer|exists:produits_services,id', 
+            
         ];
     }
 }

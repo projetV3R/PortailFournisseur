@@ -22,55 +22,48 @@ class ContactRequest extends FormRequest
      */
     public function rules(): array
     {
-        return
-
-            [
-                'prenom' => [
-                    'required',
-                    'string',
-                    'max:32',
-                    'regex:/^[a-zA-ZÀ-ÿ\'\- ]+$/u'
-                ],
-
-                'nom' => [
-                    'required',
-                    'string',
-                    'max:32',
-                    'regex:/^[a-zA-ZÀ-ÿ\'\- ]+$/u'
-                ],
-
-                'fonction' => [
-                    'required',
-                    'string',
-                    'max:32'
-                ],
-
-                'email' => [
-                    'required',
-                    'string',
-                    'email',
-                    'max:64'
-                ],
-
-                'ligne' => [
-                    'required',
-                    'string',
-                    Rule::in(['Bureau', 'Télécopieur', 'Cellulaire'])
-                ],
-
-                'numeroTelephone' => [
-                    'required',
-                    'string',
-                    'size:12',
-                    'regex:/^\d{3}-\d{3}-\d{4}$/'
-                ],
-
-                'poste' => [
-                    'nullable',
-                    'string',
-                    'max:6',
-                    'regex:/^\d+$/'
-                ],
-            ];
+        return [
+            'contacts' => ['required', 'array'],
+            'contacts.*.prenom' => [
+                'required',
+                'string',
+                'max:32',
+                'regex:/^[a-zA-ZÀ-ÿ\'\- ]+$/u'
+            ],
+            'contacts.*.nom' => [
+                'required',
+                'string',
+                'max:32',
+                'regex:/^[a-zA-ZÀ-ÿ\'\- ]+$/u'
+            ],
+            'contacts.*.fonction' => [
+                'required',
+                'string',
+                'max:32'
+            ],
+            'contacts.*.email' => [
+                'required',
+                'string',
+                'email',
+                'max:64'
+            ],
+            'contacts.*.type' => [
+                'required',
+                'string',
+                Rule::in(['Bureau', 'Télécopieur', 'Cellulaire'])
+            ],
+            'contacts.*.numeroTelephone' => [
+                'required',
+                'string',
+                'regex:/^\d{3}-\d{3}-\d{4}$/'
+            ],
+            'contacts.*.poste' => [
+                'nullable',
+                'string',
+                'max:6',
+                'regex:/^\d+$/'
+            ],
+        ];
     }
+    
 }

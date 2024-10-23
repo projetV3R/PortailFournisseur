@@ -40,7 +40,7 @@ class IdentificationRequest extends FormRequest
                 'required'
             ],
             'numeroEntreprise' => [
-                'required',
+                'nullable',
                 'string',
                 'size:10',
                 'regex:/^(11|22|33|88)[4-9]\d{7}$/',
@@ -63,8 +63,7 @@ class IdentificationRequest extends FormRequest
     {
         return [
             'password.regex' => 'Le mot de passe doit contenir entre 7 et 12 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.',
-            'numeroEntreprise.regex' => 'Le numéro d\'entreprise doit commencer par 11, 22, 33 ou 88, suivi de 8 chiffres.',
-
+            'numeroEntreprise.regex' => 'Le numéro d\'entreprise doit commencer par "11", "22", "33" ou "88", suivi d\'un chiffre entre 4 et 9, puis de 7 autres chiffres.',
         ];
     }
 }

@@ -6,12 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="resources/css/custum_scrollbar.css">
+  
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @vite('resources/css/app.css')
-    <link rel="stylesheet" href="{{ asset('style.css') }}" />
-    <link rel="shortcut icon" type="image/png" href="{{ asset('img/apple-icon-72x72.png') }}" />
+    @vite('resources/js/app.js')
+
+    <link rel="shortcut icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/fr/thumb/c/ce/Logo_de_Trois-Rivi%C3%A8res_2022.png/600px-Logo_de_Trois-Rivi%C3%A8res_2022.png?20220917132718" />
+
 </head>
 
 
@@ -245,10 +247,6 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
-
-    <script src="./node_modules/lodash/lodash.min.js"></script>
-    <script src="./node_modules/dropzone/dist/dropzone-min.js"></script>
-    <script src="./node_modules/preline/dist/preline.js"></script>
 
 </body>
 
