@@ -5,18 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Coordonnee extends Model
+class ProduitServiceFicheFournisseur extends Model
 {
     use HasFactory;
+    protected $table = 'produit_service_fiche_fournisseur';
     protected $fillable = [
-        "numero_civique",
-        "rue",
-        "bureau",
-        "ville",
-        "province",
-        "site_internet",
-        "code_postal",
-        "region_administrative",
+        "produit_service_id",
         "fiche_fournisseur_id"
     ];
 }

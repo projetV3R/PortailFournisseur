@@ -14,8 +14,9 @@ class FicheFournisseur extends Authenticatable
         "neq",
         "etat",
         "password",
+        "nom_entreprise",
         "adresse_courriel",
-        "mot_de_passe",
+        "password",
         "details_specifications",
         "date_changement_etat",
     ];
@@ -24,7 +25,10 @@ class FicheFournisseur extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    public function routeNotificationForMail($notification)
+    {
+        return $this->adresse_courriel;
+    }
     /**
      * Retrouve le mot de passe de l'usager.
      * Nécessaire pour l'authentification puisque Laravel a besoin d'un champ qui s'appelle password.

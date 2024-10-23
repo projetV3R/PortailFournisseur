@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IdentificationRequest;
 use Illuminate\Http\Request;
-
+use App\Models\ParametreSysteme;
 class IdentificationController extends Controller
 {
     /**
@@ -21,14 +21,17 @@ class IdentificationController extends Controller
      */
     public function create()
     {
+       // session()->flush();
         return view('formulaireInscription/identification');
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(IdentificationRequest $request)
     {
+       
         session()->put("identification", $request->all());
 
         return redirect()->route('createProduitsServices');

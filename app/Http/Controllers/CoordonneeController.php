@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CoordonneeRequest;
 use App\Models\Coordonnee;
 use Illuminate\Http\Request;
+use Log;
 
 class CoordonneeController extends Controller
 {
@@ -22,6 +23,7 @@ class CoordonneeController extends Controller
      */
     public function create()
     {
+    // session()->flush();
         return view("formulaireInscription/coordonnees");
     }
 
@@ -31,8 +33,15 @@ class CoordonneeController extends Controller
      */
     public function store(CoordonneeRequest $request)
     {
+        Log::info('Test log message');
+
         session()->put("coordonnees", $request->all());
-        //dd($request->all());
+        $currentIndex = $request->input('currentIndex', 0);
+        session()->put("currentIndex", $currentIndex);
+        Log::info('Coordonnées enregistrées : ', $request->all());
+        Log::info('Index enregistré : ' . $currentIndex);
+  
+      
         return redirect()->route('createContacts');
     }
 
