@@ -5,24 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Licence extends Model
+class Finance extends Model
 {
     use HasFactory;
-    protected $table = 'licences';
+    protected $table = 'finances';
     protected $fillable = [
-        'numero_licence_rbq',
-        'statut',
-        'type_licence',
-        'fiche_fournisseur_id'
+        'numero_tps',
+        'numero_tvq',
+        'condition_paiement',
+        'devise',
+        'mode_communication',
+        'fiche_fournisseur_id',
     ];
-
-
     public function ficheFournisseur()
     {
         return $this->belongsTo(FicheFournisseur::class);
-    }
-    public function sousCategories()
-    {
-        return $this->hasMany(SousCategorieLicence::class);
     }
 }

@@ -19,4 +19,10 @@ class Coordonnee extends Model
         "region_administrative",
         "fiche_fournisseur_id"
     ];
+
+    public function telephones()
+{
+    return $this->belongsToMany(Telephone::class, 'coordonnee_telephone');
+}
+
 }

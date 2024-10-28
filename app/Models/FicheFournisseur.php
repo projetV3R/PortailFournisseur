@@ -29,6 +29,45 @@ class FicheFournisseur extends Authenticatable
     {
         return $this->adresse_courriel;
     }
+
+    public function licence()
+    {
+        return $this->hasOne(Licence::class);
+    }
+
+    public function coordonnees()
+    {
+        return $this->hasOne(Coordonnee::class);
+    }
+
+    public function finance()
+    {
+        return $this->hasOne(Finance::class);
+    }
+    public function brochuresCarte()
+    {
+        return $this->hasMany(BrochureCarte::class, 'fiche_fournisseur_id');
+    }
+
+    public function produitsServices()
+    {
+        return $this->belongsToMany(
+            ProduitsServices::class,
+            'produit_service_fiche_fournisseur',
+            'fiche_fournisseur_id',
+            'produit_service_id'
+        );
+    }
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
+    }
+    public function coordonnee()
+{
+    return $this->hasOne(Coordonnee::class);
+}
+
+
     /**
      * Retrouve le mot de passe de l'usager.
      * Nécessaire pour l'authentification puisque Laravel a besoin d'un champ qui s'appelle password.
