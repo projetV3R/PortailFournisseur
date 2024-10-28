@@ -70,8 +70,11 @@ class FicheFournisseurController extends Controller
 
     public function profil()
     { 
+        $fournisseur = Auth::user();
+        $licence = $fournisseur->licence()->with('sousCategories.categorie')->first();
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
-        return view('formulaireInscription/profil_fournisseur' , compact('maxFileSize'));
+        
+        return view('formulaireInscription/profil_fournisseur' , compact('maxFileSize','fournisseur', 'licence'));
     }
     public function indexAvecNeq()
     {

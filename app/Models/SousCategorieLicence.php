@@ -14,4 +14,9 @@ class SousCategorieLicence extends Model
         "sous_categorie_id",
     
     ];
+
+    public function categorie()
+    {
+        return $this->belongsTo(SousCategorie::class, 'sous_categorie_id');
+    }
 }
