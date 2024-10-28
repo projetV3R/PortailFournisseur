@@ -17,8 +17,6 @@ return new class extends Migration
         $table->foreignId('sous_categorie_id')->constrained('sous_categories')->onDelete('cascade');
         $table->timestamps(); 
 
-        $table->foreign('licence_id')->references('id')->on('licences')->onDelete('cascade');
-        $table->foreign('sous_categorie_id')->references('id')->on('sous_categories')->onDelete('cascade');
         });
     }
 
