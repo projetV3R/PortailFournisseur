@@ -17,4 +17,15 @@ class Contact extends Model
         "fiche_fournisseur_id",
         "telephone_id"
     ];
+
+    public function ficheFournisseur()
+    {
+        return $this->belongsTo(FicheFournisseur::class);
+    }
+
+
+    public function telephone()
+    {
+        return $this->belongsTo(Telephone::class);
+    }
 }
