@@ -13,16 +13,14 @@ return new class extends Migration
     {
         Schema::create('historique_fournisseurs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('fournisseur_id');
-            $table->string('type_modification'); // 'etat' ou 'modification'
-            $table->string('etat')->nullable(); // Pour les changements d'état : 'accepté', 'refusé', 'en attente'
-            $table->string('table_modifiee')->nullable(); // Nom de la table modifiée (ex: 'telephone', 'coordonnees')
-            $table->text('details_modifications')->nullable(); // Détails des modifications (ajout, suppression, mise à jour)
-            $table->text('raison')->nullable(); // Pour les raisons des changements d'état
+            $table->foreignId('fiche_fournisseur_id')->constrained();
+            $table->string('type_modification')->nullable();
+            $table->string('etat')->nullable();
+            $table->string('table_modifiee')->nullable();
+            $table->text('details_modifications')->nullable();
+            $table->text('raison')->nullable();
             $table->timestamp('date_modification')->useCurrent();
             $table->timestamps();
-
-            $table->foreign('fournisseur_id')->references('id')->on('fournisseurs')->onDelete('cascade');
         });
     }
 

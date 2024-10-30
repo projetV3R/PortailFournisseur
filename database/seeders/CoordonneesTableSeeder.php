@@ -23,8 +23,8 @@ class CoordonneesTableSeeder extends Seeder
                 'province' => 'Québec',
                 'site_internet' => 'https://example.com',
                 'code_postal' => 'H2X 3K9',
-                'code_region_administrative' => '06',
                 'region_administrative' => 'Montréal',
+                'fiche_fournisseur_id' => 1,
                 'created_at' => '2024-09-18 10:00:00',
             ],
             [
@@ -36,8 +36,8 @@ class CoordonneesTableSeeder extends Seeder
                 'province' => 'Québec',
                 'site_internet' => 'https://quebecweb.com',
                 'code_postal' => 'G1R 2B3',
-                'code_region_administrative' => '03',
                 'region_administrative' => 'Capitale-Nationale',
+                'fiche_fournisseur_id' => 2,
                 'created_at' => '2024-09-18 11:00:00',
             ],
             [
@@ -49,8 +49,8 @@ class CoordonneesTableSeeder extends Seeder
                 'province' => 'Québec',
                 'site_internet' => 'https://gatineau.ca',
                 'code_postal' => 'J8T 4H5',
-                'code_region_administrative' => '07',
                 'region_administrative' => 'Outaouais',
+                'fiche_fournisseur_id' => 3,
                 'created_at' => '2024-09-18 12:00:00',
             ],
             [
@@ -62,8 +62,8 @@ class CoordonneesTableSeeder extends Seeder
                 'province' => 'Québec',
                 'site_internet' => 'https://sherbrooke.ca',
                 'code_postal' => 'J1H 3Z1',
-                'code_region_administrative' => '05',
                 'region_administrative' => 'Estrie',
+                'fiche_fournisseur_id' => 4,
                 'created_at' => '2024-09-18 13:00:00',
             ],
             [
@@ -75,7 +75,7 @@ class CoordonneesTableSeeder extends Seeder
                 'province' => 'Québec',
                 'site_internet' => 'https://laval.ca',
                 'code_postal' => 'H7V 3Z4',
-                'code_region_administrative' => '13',
+                'fiche_fournisseur_id' => 5,
                 'region_administrative' => 'Laval',
                 'created_at' => '2024-09-18 14:00:00',
             ],

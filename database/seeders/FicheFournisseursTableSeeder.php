@@ -21,9 +21,6 @@ class FicheFournisseursTableSeeder extends Seeder
                 'password' => bcrypt('Abc123!@'),  // Respect des règles du mot de passe
                 'details_specifications' => 'Construction de bâtiments commerciaux et résidentiels',
                 'date_changement_etat' => null,
-                'licence_id' => 1,
-                'coordonnee_id' => 1,
-                'finance_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -35,9 +32,6 @@ class FicheFournisseursTableSeeder extends Seeder
                 'password' => bcrypt('Xyz456@!'),  // Respect des règles du mot de passe
                 'details_specifications' => 'Rénovation et agrandissement résidentiel',
                 'date_changement_etat' => null,
-                'licence_id' => 2,
-                'coordonnee_id' => 2,
-                'finance_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -49,9 +43,6 @@ class FicheFournisseursTableSeeder extends Seeder
                 'password' => bcrypt('Plomb789$#'),  // Respect des règles du mot de passe
                 'details_specifications' => 'Services de plomberie résidentielle et commerciale',
                 'date_changement_etat' => null,
-                'licence_id' => 3,
-                'coordonnee_id' => 3,
-                'finance_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -63,9 +54,6 @@ class FicheFournisseursTableSeeder extends Seeder
                 'password' => bcrypt('ElecPro321@#'),  // Respect des règles du mot de passe
                 'details_specifications' => 'Installation de systèmes électriques pour bâtiments industriels',
                 'date_changement_etat' => null,
-                'licence_id' => 4,
-                'coordonnee_id' => 4,
-                'finance_id' => 4,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -77,9 +65,6 @@ class FicheFournisseursTableSeeder extends Seeder
                 'password' => bcrypt('ExcaMax123$%'),  // Respect des règles du mot de passe
                 'details_specifications' => 'Excavation et terrassement',
                 'date_changement_etat' => null,
-                'licence_id' => 5,
-                'coordonnee_id' => 5,
-                'finance_id' => 5,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

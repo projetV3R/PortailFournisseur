@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginAvecNeqRequest;
 use App\Http\Requests\LoginSansNeqRequest;
+use App\Models\FicheFournisseur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -41,6 +42,15 @@ class FicheFournisseurController extends Controller
         }
 
         if (Auth::attempt($credentials)) {
+
+            $fournisseur = FicheFournisseur::where('neq', $request->numeroEntreprise)
+                ->orWhere('adresse_courriel', $request->adresse_courriel)
+                ->first();
+
+            if ($fournisseur) {
+                session(['fournisseur_id' => $fournisseur->id]);
+            }
+
             return redirect()->route('CreateIdentification')->with('message', 'Connexion réussie');
         } else {
             // Log an error in case of failed authentication

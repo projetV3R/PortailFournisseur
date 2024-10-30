@@ -14,11 +14,17 @@ class FicheFournisseur extends Authenticatable
         "neq",
         "etat",
         "password",
+        "nom_entreprise",
         "adresse_courriel",
-        "mot_de_passe",
+        "password",
         "details_specifications",
         "date_changement_etat",
     ];
+
+    public function historique()
+    {
+        return $this->hasMany(HistoriqueFournisseur::class);
+    }
 
     protected $hidden = [
         'password',
@@ -30,5 +36,4 @@ class FicheFournisseur extends Authenticatable
      * Nécessaire pour l'authentification puisque Laravel a besoin d'un champ qui s'appelle password.
      * @return string
      */
-
 }
