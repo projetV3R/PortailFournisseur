@@ -20,7 +20,9 @@ class FinancesTableSeeder extends Seeder
                 'condition_paiement' => 'Net 30 jours',
                 'devise' => 'CAD',
                 'mode_communication' => 'Courriel',
+                'fiche_fournisseur_id' => 1,
                 'created_at' => '2024-09-18 10:00:00',
+                'updated_at' => '2024-09-18 10:00:00',
             ],
             [
                 'id' => 2,
@@ -29,7 +31,9 @@ class FinancesTableSeeder extends Seeder
                 'condition_paiement' => 'Net 15 jours',
                 'devise' => 'USD',
                 'mode_communication' => 'Téléphone',
+                'fiche_fournisseur_id' => 2,
                 'created_at' => '2024-09-18 11:00:00',
+                'updated_at' => '2024-09-18 11:00:00',
             ],
             [
                 'id' => 3,
@@ -38,7 +42,9 @@ class FinancesTableSeeder extends Seeder
                 'condition_paiement' => 'Net 45 jours',
                 'devise' => 'EUR',
                 'mode_communication' => 'Fax',
+                'fiche_fournisseur_id' => 3,
                 'created_at' => '2024-09-18 12:00:00',
+                'updated_at' => '2024-09-18 12:00:00',
             ],
             [
                 'id' => 4,
@@ -47,7 +53,9 @@ class FinancesTableSeeder extends Seeder
                 'condition_paiement' => 'Paiement à réception',
                 'devise' => 'GBP',
                 'mode_communication' => 'Courrier postal',
+                'fiche_fournisseur_id' => 4,
                 'created_at' => '2024-09-18 13:00:00',
+                'updated_at' => '2024-09-18 13:00:00',
             ],
             [
                 'id' => 5,
@@ -56,9 +64,10 @@ class FinancesTableSeeder extends Seeder
                 'condition_paiement' => 'Paiement anticipé',
                 'devise' => 'CAD',
                 'mode_communication' => 'Courriel',
+                'fiche_fournisseur_id' => 5,
                 'created_at' => '2024-09-18 14:00:00',
+                'updated_at' => '2024-09-18 14:00:00',
             ],
         ]);
-        
     }
 }
