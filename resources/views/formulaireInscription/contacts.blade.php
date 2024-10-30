@@ -290,17 +290,31 @@
 
         var deleteButton = document.createElement('button');
         deleteButton.type = 'button';
-        deleteButton.classList.add('w-full', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
+        deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
         deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
         deleteButton.addEventListener('click', function() {
-            clone.remove();
-            reindexContacts();
             Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Suppression du contact réussie',
-                showConfirmButton: false,
-                timer: 1500
+                position: 'top-center',
+                title: "Êtes-vous sur de vouloir supprimer?",
+                text: "La suppression n'est pas réversible !",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0076D5",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Supprimer",
+                cancelButtonText: "Annuler"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    clone.remove();
+                    reindexContacts();
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Suppression du contact réussie',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             });
         });
         clone.appendChild(deleteButton);
