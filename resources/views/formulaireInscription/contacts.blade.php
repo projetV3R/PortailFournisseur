@@ -197,19 +197,21 @@
         deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
         deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
         deleteButton.addEventListener('click', function() {
-            clone.remove();
-            reindexContacts();
+
             Swal.fire({
-                position: 'top-end',
+                position: 'top-center',
                 title: "Êtes-vous sur de vouloir supprimer?",
-                text: "Vous ne pourrez pas annuler après!",
+                text: "La suppression n'est pas réversible !",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Supprimer"
+                confirmButtonText: "Supprimer",
+                cancelButtonText: "Annuler"
             }).then((result) => {
                 if (result.isConfirmed) {
+                    clone.remove();
+                    reindexContacts();
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
