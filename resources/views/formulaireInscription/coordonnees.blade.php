@@ -15,7 +15,11 @@
                 <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Ou vous situez vous ?</h1>
 
                 <div class="bg-primary-100 py-8 px-4 mt-8 ">
+                    <div class="flex items-center gap-0.5">
+                    <span class="iconify  size-4 md:size-6" data-icon="material-symbols:home-outline"></span>
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Adresse physique</h4>
+                   
+                    </div>
 
                     <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
 
@@ -188,8 +192,10 @@
                 </h1>
 
                 <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreNumero">
+                    <div class="flex items-center gap-1">
+                    <span class="iconify  size-4 md:size-6" data-icon="material-symbols:contact-phone-outline"></span>
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Adresse en ligne</h4>
-
+                    </div>
                     <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
 
                         <div class="w-full">
@@ -397,18 +403,30 @@ document.getElementById('ajoutNumeroTelephone').addEventListener('click', functi
     console.log(currentIndex);
 });
 
-document.getElementById('cadreNumero').addEventListener('click', function(event) {
-    if (event.target.classList.contains('remove-ligne')) {
-        event.target.closest('.ligne-numeros').remove();
-        Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Suppression du numéro réussie',
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-    }
-});
+    document.getElementById('cadreNumero').addEventListener('click', function(event) {
+
+        if (event.target.classList.contains('remove-ligne')) {
+            Swal.fire({
+    title: "Êtes-vous sûr de vouloir supprimer ce numéro",
+    text: "La suppresion n'est pas réversible !",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Supprimer",
+    cancelButtonText:"Annuler",
+    }).then((result) => {
+        if(result.isConfirmed){
+            event.target.closest('.ligne-numeros').remove();
+            Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Suppression du numéro réussie',
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                } }); }
+    });
 
 document.querySelector('form').addEventListener('submit', function() {
         document.getElementById('currentIndexInput').value = currentIndex; // Fix de l'indexation des inputs !!!important!!!
