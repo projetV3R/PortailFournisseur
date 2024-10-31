@@ -4,24 +4,34 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\Municipalites; 
 class RegionMunicipalitesController extends Controller
 {
     public function getMunicipalitesParRegion(Request $request)
 {
-    $region = $request->query('region'); // Récupérer le code de la région depuis la requête
+    $region = $request->query('region'); 
 
-    
-
-    $response = Http::withoutVerifying()->get('https://donneesquebec.ca/recherche/api/action/datastore_search_sql', [
-        'sql' => 'SELECT DISTINCT "munnom", "regadm" FROM "19385b4e-5503-4330-9e59-f998f5918363" WHERE "regadm" = \'' . $region . '\' ORDER BY "munnom"'
-    ]);
-
-    if ($response->successful()) {
-        $municipalites = $response->json()['result']['records'];
-        return response()->json($municipalites);
+    if ($region) {
+        
+        $municipalites = Municipalites::where('regionAdministrative', $region)
+            ->orderBy('nom')
+            ->distinct()
+            ->get(['nom', 'regionAdministrative']);
+    } else {
+        
+        $municipalites = Municipalites::orderBy('nom')
+            ->distinct()
+            ->get(['nom', 'regionAdministrative']);
     }
 
-    return response()->json(['error' => 'Erreur lors de la récupération des municipalités'], 500);
+    return response()->json($municipalites);
+}
+public function getRegionByMunicipalite(Request $request)
+{
+    $municipalite = $request->query('municipalite'); 
+    $region = Municipalites::where('nom', $municipalite)->first(['regionAdministrative']);
+
+    return response()->json($region);
 }
 
 
