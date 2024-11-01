@@ -492,7 +492,8 @@ function tooglePosteInput(index) {
         
         // Suppression d'un numéro de téléphone
         document.getElementById('cadreNumero').addEventListener('click', function(event) {
-            if (event.target.classList.contains('remove-ligne')) {
+            const supbtn=event.target.closest('.remove-ligne')
+            if (supbtn) {
                 Swal.fire({
                     title: "Êtes-vous sûr de vouloir supprimer ce numéro",
                     text: "La suppression n'est pas réversible !",
