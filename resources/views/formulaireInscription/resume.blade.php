@@ -4,6 +4,9 @@
 
 @section('contenu')
 
+@vite('resources/css/page_resume.css')
+
+
 <div class="p-4 md:p-16 ">
     <div class="flex flex-col md:flex-row w-full justify-between items-center ">
         <div class="flex flex-col">
@@ -44,50 +47,47 @@
             
         </div>
     </div>
+    <div class="tab absolute rounded dark:bg-gray-900 text-black dark:text-white">
+        <button class="tablinks font-Alumni" onclick="information(event, '1')">Information</button>
+        <button class="tablinks font-Alumni" onclick="information(event, '2')">Documentation</button>
+    </div>
 
-    <div class="flex flex-col lg:flex-row gap-4">
-        <div class="flex-1">
+<div class="flex flex-col gap-4 w-full h-full">
+
+    <div id="1" class="tabcontent flex-1 rounded shadow-lg">
+        <div class="flex flex-col md:flex-row gap-4 mt-4 flex-1">
             <!-- Informations d’authentification -->
-            <div class="bg-primary-100 py-8 px-4 mt-8 relative">
+            <div class="bg-primary-100 py-8 px-4 mt-10 relative flex-1 dark:bg-gray-500 text-black dark:text-white">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Informations d’authentification</h4>
-
-                <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
                     <a href="{{ route('CreateIdentification') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                     </a>
                 </div>
-
                 <div class="mt-6">
                     <p class="font-Alumni text-md md:text-lg"><strong>Nom de l'entreprise :</strong> {{ session('identification.nomEntreprise') }}</p>
                 </div>
-
                 <div class="mt-6">
                     <p class="font-Alumni text-md md:text-lg"><strong>Email :</strong> {{ session('identification.email') }}</p>
                 </div>
-
                 <div class="mt-4">
                     <p class="font-Alumni text-md md:text-lg"><strong>Mot de passe :</strong> ••••••••</p>
                 </div>
-
                 <div class="mt-4">
                     <p class="font-Alumni text-md md:text-lg"><strong>Numero d'entreprise (NEQ) :</strong> {{ session('identification.numeroEntreprise') }}</p>
                 </div>
             </div>
 
-            <!-- Coordonnées -->
-            <div class="mt-8 px-4 py-8 bg-primary-100 relative">
-                <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Coordonnées</h4>
-
-                <!-- Bouton "modifier" -->
-                <div class="absolute right-4 top-4">
-                    <a href="{{ route('CreateCoordonnees') }}" class="text-tertiary-400 hover:text-tertiary-300">
-                        <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
-                    </a>
-                </div>
-
-                <div class="flex flex-col md:flex-row gap-4 mt-4">
-                    <div class="flex-1">
+            <div class="mt-10 px-4 py-8 bg-primary-100 relative flex md:flex-[1.5] dark:bg-gray-500 text-black dark:text-white">
+                <!-- Colonne 1 -->
+                <div class="flex-1 md:flex-[2]">
+                    <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Coordonnées</h4>
+                    <div class="absolute right-4 top-4">
+                        <a href="{{ route('CreateCoordonnees') }}" class="text-tertiary-400 hover:text-tertiary-300">
+                            <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
+                        </a>
+                    </div>
+                    <div>
                         <p class="font-Alumni md:text-lg"><strong>Numéro Civique :</strong> {{ session('coordonnees.numeroCivique', 'N/A') }}</p>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Rue :</strong> {{ session('coordonnees.rue', 'N/A') }}</p>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Bureau :</strong> {{ session('coordonnees.bureau', 'N/A') }}</p>
@@ -96,79 +96,49 @@
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Région Administrative :</strong> {{ session('coordonnees.regionAdministrative', 'N/A') }}</p>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Province :</strong> {{ session('coordonnees.province', 'N/A') }}</p>
                     </div>
+                </div>
 
-                    <div class="flex-1">
-                        <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Site web :</h4>
-                        <p class="mt-2 font-Alumni md:text-lg"><strong>Site web :</strong> {{ session('coordonnees.siteWeb', 'N/A') }}</p>
+                <!-- Colonne 2 -->
+                <div class="flex-1 md:flex-[1.5]">
+                    <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Site web :</h4>
+                    <p class="mt-2 font-Alumni md:text-lg"><strong>Site web :</strong> {{ session('coordonnees.siteWeb', 'N/A') }}</p>
+
+                    <h4 class="font-Alumni font-bold text-lg md:text-2xl underline mt-6">Numéros de téléphone</h4>
+                    <div class="max-h-64 overflow-y-auto mt-2">
+                        @if(session('coordonnees.ligne'))
+                            <div class="flex flex-col gap-4 max-h-64 overflow-y-auto">
+                                @foreach (session('coordonnees.ligne') as $index => $ligne)
+                                    <p class="mt-2 font-Alumni md:text-lg"><strong>Ligne {{ $loop->iteration }} :</strong> [{{ $ligne['type'] }}]-{{ $ligne['numeroTelephone'] }}
+                                        @if($ligne['poste'])
+                                            - Poste : {{ $ligne['poste'] }}
+                                        @endif
+                                    </p>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="font-Alumni text-md md:text-lg">Aucune ligne de téléphone enregistrée.</p>
+                        @endif
                     </div>
                 </div>
-
-                <h4 class="font-Alumni font-bold text-lg md:text-2xl underline mt-6">Numéros de téléphone</h4>
-                <div class="max-h-64 overflow-y-auto mt-2">
-                    @if(session('coordonnees.ligne'))
-                        <div class="flex flex-col gap-4 max-h-64 overflow-y-auto">
-                            @foreach (session('coordonnees.ligne') as $index => $ligne)
-                                <p class="mt-2 font-Alumni md:text-lg"><strong>Ligne {{ $loop->iteration }} :</strong> [{{ $ligne['type'] }}]-{{ $ligne['numeroTelephone'] }}
-                                    @if($ligne['poste'])
-                                        - Poste : {{ $ligne['poste'] }}
-                                    @endif
-                                </p>
-                            @endforeach
-                        </div>
-                    @else
-                        <p class="font-Alumni text-md md:text-lg">Aucune ligne de téléphone enregistrée.</p>
-                    @endif
-                </div>
             </div>
 
-            <!-- Documents téléchargés -->
-            <div class="mt-8 bg-primary-100 p-4 relative">
-                <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Documents téléchargés</h4>
-
-                <!-- Bouton "modifier" -->
-                <div class="absolute right-4 top-4">
-                    <a href="{{ route('createBrochuresCartesAffaires') }}" class="text-tertiary-400 hover:text-tertiary-300">
-                        <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
-                    </a>
-                </div>
-
-                <!-- Conteneur pour les brochures -->
-                <div class="mt-4 max-h-64 overflow-y-auto" id="brochuresContainer">
-              
-                </div>
-
-                <div class="mt-4 shadow-lg rounded-lg p-1 bg-white">
-                    <p class="font-Alumni text-md md:text-lg"><strong>Taille totale des fichiers :</strong> <span id="totalSize">0</span> MB</p>
-                    <p class="font-Alumni text-md md:text-lg"><strong>Nombre de fichiers :</strong> <span id="fileCount">0</span></p>
-                    <p class="font-Alumni text-md md:text-lg"><strong>Taille maximale autorisée :</strong> {{ $maxFileSize }} MB</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Deuxième colonne -->
-        <div class="flex-1">
             <!-- Liste des contacts -->
-            <div class="bg-primary-100 p-4 mt-8 relative">
+            <div class="bg-primary-100 px-4 py-8 mt-10 relative flex-1 dark:bg-gray-500 text-black dark:text-white">
                 <div class="flex items-center gap-2">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Contacts</h4>
                     @if(session('contacts'))
                         <span class="font-normal text-lg"> ({{ count(session('contacts')) }})</span>
                     @endif
                 </div>
-
-                <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
                     <a href="{{ route('createContacts') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                     </a>
                 </div>
-
-                <!-- Conteneur avec défilement -->
                 <div class="flex flex-col gap-4 mt-4 max-h-64 overflow-y-auto">
                     @if(session('contacts'))
                         @foreach (session('contacts') as $index => $contact)
                             <h5 class="font-Alumni font-semibold text-md md:text-lg">Contact {{ $loop->iteration }}</h5>
-
                             <div class="border-b pb-4">
                                 <p class="font-Alumni text-md md:text-lg"><strong>Prénom :</strong> {{ $contact['prenom'] }}</p>
                                 <p class="font-Alumni text-md md:text-lg"><strong>Nom :</strong> {{ $contact['nom'] }}</p>
@@ -184,48 +154,57 @@
                     @endif
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="2" class="tabcontent flex-1 rounded shadow-lg">
+        <div class="flex flex-col md:flex-row gap-4 mt-4 flex-1">
+            <!-- Documents téléchargés -->
+            <div class="bg-primary-100 px-4 py-8 mt-10 relative flex-1 dark:bg-gray-500 text-black dark:text-white">
+                <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Documents téléchargés</h4>
+                <div class="absolute right-4 top-4">
+                    <a href="{{ route('createBrochuresCartesAffaires') }}" class="text-tertiary-400 hover:text-tertiary-300">
+                        <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
+                    </a>
+                </div>
+                <div class="mt-4 max-h-64 overflow-y-auto" id="brochuresContainer"></div>
+                <div class="mt-4 shadow-lg rounded-lg p-1 bg-white text-black">
+                    <p class="font-Alumni text-md md:text-lg"><strong>Taille totale des fichiers :</strong> <span id="totalSize">0</span> MB</p>
+                    <p class="font-Alumni text-md md:text-lg"><strong>Nombre de fichiers :</strong> <span id="fileCount">0</span></p>
+                    <p class="font-Alumni text-md md:text-lg"><strong>Taille maximale autorisée :</strong> {{ $maxFileSize }} MB</p>
+                </div>
+            </div>
 
             <!-- Produits et Services -->
-            <div class="bg-primary-100 p-4 mt-8 relative">
+            <div class="bg-primary-100 px-4 py-8 mt-10 relative flex-1 dark:bg-gray-500 text-black dark:text-white">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et Services</h4>
-
-                <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
                     <a href="{{ route('createProduitsServices') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                     </a>
                 </div>
-
-            
                 <div class="flex flex-col gap-4 mt-4 max-h-64 overflow-y-auto" id="produitsServicesContainer">
                     <p class="font-Alumni text-md md:text-lg">Chargement des produits et services...</p>
                 </div>
-
                 <div class="mt-4">
                     <p class="font-Alumni text-md md:text-lg"><strong>Nombre de produits et services :</strong> <span id="produitServiceCount">0</span></p>
                 </div>
             </div>
 
             <!-- Licences et Autorisations -->
-            <div class="bg-primary-100 p-4 mt-8 relative">
+            <div class="bg-primary-100 px-4 py-8 mt-10 relative flex-1 dark:bg-gray-500 text-black dark:text-white">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Licences et Autorisations</h4>
-
-                <!-- Bouton "modifier" -->
                 <div class="absolute right-4 top-4">
                     <a href="{{ route('createLicences') }}" class="text-tertiary-400 hover:text-tertiary-300">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                     </a>
                 </div>
-
-            
-                <div class="mt-4 shadow-lg rounded-lg p-1 bg-white">
+                <div class="mt-4 shadow-lg rounded-lg p-1 bg-white text-black">
                     <p class="font-Alumni text-md md:text-lg"><strong>Numéro de licence RBQ :</strong> {{ session('licences.numeroLicence', 'N/A') }}</p>
                     <p class="font-Alumni text-md md:text-lg"><strong>Statut :</strong> {{ session('licences.statut', 'N/A') }}</p>
                     <p class="font-Alumni text-md md:text-lg"><strong>Type de licence :</strong> {{ session('licences.typeLicence', 'N/A') }}</p>
                     <p class="font-Alumni text-md md:text-lg"><strong>Nombre de sous-catégories :</strong> <span id="sousCategorieCount">0</span></p>
                 </div>
-
-             
                 <div class="flex flex-col gap-4 mt-4 max-h-64 overflow-y-auto" id="licencesContainer">
                     <p class="font-Alumni text-md md:text-lg">Chargement des licences et autorisations...</p>
                 </div>
@@ -233,6 +212,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    function information(evt, numPage) 
+    {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(numPage).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector(".tablinks").click();
+    });
+</script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
