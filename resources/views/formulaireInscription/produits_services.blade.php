@@ -137,14 +137,24 @@
     let currentPageSelected = 1;
 
     function performSearch(page = 1) {
-        const query = document.getElementById('recherche').value.trim();
-        axios.get('/search', { params: { recherche: query, page } })
-            .then(response => {
-                afficherResultats(response.data.data);
-                afficherPagination(response.data);
-            })
-            .catch(error => console.error("Erreur lors de la recherche :", error));
-    }
+    const query = document.getElementById('recherche').value.trim();
+    const selectedCategory = document.getElementById('selectCategorie').value || null; // Gérer l'option vide
+
+    axios.get('/search', { 
+        params: { 
+            recherche: query, 
+            categorie: selectedCategory, 
+            page 
+        } 
+    })
+    .then(response => {
+        afficherResultats(response.data.data);
+        afficherPagination(response.data);
+    })
+    .catch(error => console.error("Erreur lors de la recherche :", error));
+}
+
+
 
     function afficherResultats(produits) {
         const resultsContainer = document.getElementById('toutLesProduitsServices');
@@ -285,8 +295,7 @@
             <div class="bg-white cursor-pointer px-4 py-2 w-full flex flex-row produitSelectionne hover:bg-red-500"
                 data-index="${produit.id}">
                 <div class="flex flex-col w-full">
-                    <h6 class="font-Alumni font-bold text-xs md:text-3xl">${produit.nature || 'Nature non disponible'}</h6>
-                    <h4 class="font-Alumni text-xs md:text-xl mt-2">${produit.code_categorie || ''}</h4>
+ 
                     <h1 class="font-Alumni text-xs italic md:text-lg">${produit.code_unspsc || ''} - ${produit.description || ''}</h1>
                 </div>
                 <div class="flex flex-col items-end justify-start w-full">
@@ -418,6 +427,9 @@
                 performSearch();
             }
         });
+        document.getElementById('selectCategorie').addEventListener('change', () => {
+    performSearch(); 
+});
 
         function getCategories() {
             axios.get('/categories')
@@ -425,7 +437,7 @@
                     const categories = response.data;
 
             
-                    selectCategorie.innerHTML = '<option value="" disabled selected>Choisissez une catégorie pour filtrer les produits et services</option>';
+                    selectCategorie.innerHTML = '<option value="" disabled selected>Choisissez une catégorie pour filtrer les produits et services</option>  <option value="">Toutes les catégories</option>';
 
              
                     categories.forEach(categorie => {
