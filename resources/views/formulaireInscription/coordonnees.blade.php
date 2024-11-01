@@ -385,9 +385,7 @@ function tooglePosteInput(index) {
                         if (ligne.poste) document.getElementById('poste_0').value = ligne.poste;
 
                     } else {
-                        setTimeout(() => {
-                            ajouterNumeroTelephone(index, ligne);
-                        }, 1000);
+                            ajouterNumeroTelephone(index, ligne); 
                     }
                 });
             }
@@ -397,7 +395,7 @@ function tooglePosteInput(index) {
         
                 setTimeout(() => {
                     document.getElementById('municipaliteSelect').value = coordonnees['municipalite'];
-                }, 2000);
+                }, 600);
             } else {
                 document.getElementById('province').dispatchEvent(new Event('change'));
                 document.getElementById('municipaliteInput').value = coordonnees['municipaliteInput'];
@@ -470,8 +468,8 @@ function tooglePosteInput(index) {
                             value="${poste}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                     </div>
                     <div class="w-full flex flex-row justify-start items-end pl-2">
-                        <button type="button" class="remove-ligne cursor-pointer items-center flex justify-center bg-tertiary-400 text-white h-12 w-12" data-index="${index}">
-                            <span class="iconify size-6 hover:text-red-500 remove-ligne" data-icon="mdi:trash-can-outline"></span>
+                        <button type="button" class="remove-ligne cursor-pointer hover:bg-red-500  items-center flex justify-center bg-tertiary-400 text-white h-12 w-12" data-index="${index}">
+                            <span class="iconify size-6  remove-ligne" data-icon="mdi:trash-can-outline"></span>
                         </button>
                     </div>
                 </div>
