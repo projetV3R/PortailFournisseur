@@ -40,14 +40,13 @@
                         <label for="recherche" class="block font-Alumni text-md md:text-lg mb-2">
                             En peu de mots décrivez vos produits ou services, le secteur ou le code UNSPSC
                         </label>
-                        <div class="flex">
+                        <div class="flex flex-col">
                             <input type="text" id="recherche"
                                 placeholder="En peu de mots décrivez vos produits ou services"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                            <button type="button" class="cursor-pointer w-1/6 bg-tertiary-400 p-1 ml-4 flex items-center justify-center"
-                                id="searchButton">
-                                <span class="iconify text-white size-6" data-icon="material-symbols:search"></span>
-                            </button>
+                                <select id="selectCategorie" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                    <option value="" disabled selected>Choisissez une catégorie pour filtrer les produits et services</option>
+                                </select>
                         </div>
                         <div id="pagination" class="mt-4 flex justify-center items-center gap-x-2"></div>
 
@@ -413,13 +412,36 @@
             updateSelectedCount(); 
         }
 
-        searchButton.addEventListener('click', () => performSearch());
+     
         searchInput.addEventListener('input', () => {
             if (searchInput.value.length >= 3 || searchInput.value === '') {
                 performSearch();
             }
         });
 
+        function getCategories() {
+            axios.get('/categories')
+                .then(response => {
+                    const categories = response.data;
+
+            
+                    selectCategorie.innerHTML = '<option value="" disabled selected>Choisissez une catégorie pour filtrer les produits et services</option>';
+
+             
+                    categories.forEach(categorie => {
+                        const option = document.createElement('option');
+                        option.value = categorie;
+                        option.textContent = categorie;
+                        selectCategorie.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des catégories :', error);
+                });
+        }
+
+        // Appeler la fonction pour récupérer les catégories au chargement de la page
+        getCategories();
         performSearch();
     });
 </script>

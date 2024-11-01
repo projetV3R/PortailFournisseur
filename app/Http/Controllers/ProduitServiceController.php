@@ -27,6 +27,15 @@ class ProduitServiceController extends Controller
         return response()->json($posts);
     }
 
+    public function getCategories()
+    {
+    $categories = ProduitsServices::select('code_categorie')
+        ->distinct()
+        ->orderBy('code_categorie', 'asc')
+        ->pluck('code_categorie');
+
+    return response()->json($categories);
+    }
 
     /**
      * Show the form for creating a new resource.
