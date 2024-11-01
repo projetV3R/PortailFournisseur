@@ -15,7 +15,11 @@
                 <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Ou vous situez vous ?</h1>
 
                 <div class="bg-primary-100 py-8 px-4 mt-8 ">
+                    <div class="flex items-center gap-0.5">
+                    <span class="iconify  size-4 md:size-6" data-icon="material-symbols:home-outline"></span>
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Adresse physique</h4>
+                   
+                    </div>
 
                     <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
 
@@ -124,7 +128,7 @@
                             class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                             <option value="" disabled selected>Choisissez une région administrative</option>
                             <option value="Bas-Saint-Laurent (01)"  >Bas-Saint-Laurent (01)</option>
-                            <option value="Saguenay--Lac-Saint-Jean (02)">Saguenay-Lac-Saint-Jean (02)</option>
+                            <option value="Saguenay-Lac-Saint-Jean (02)">Saguenay-Lac-Saint-Jean (02)</option>
                             <option value="Capitale-Nationale (03)">Capitale-Nationale (03)</option>
                             <option value="Mauricie (04)">Mauricie (04)</option>
                             <option value="Estrie (05)">Estrie (05)</option>
@@ -133,7 +137,7 @@
                             <option value="Abitibi-Témiscamingue (08)">Abitibi-Témiscamingue (08)</option>
                             <option value="Côte-Nord (09)">Côte-Nord (09)</option>
                             <option value="Nord-du-Québec (10)">Nord-du-Québec (10)</option>
-                            <option value="Gaspésie--Îles-de-la-Madeleine (11)">Gaspésie-Îles-de-la-Madeleine (11)</option>
+                            <option value="Gaspésie-Îles-de-la-Madeleine (11)">Gaspésie-Îles-de-la-Madeleine (11)</option>
                             <option value="Chaudière-Appalaches (12)">Chaudière-Appalaches (12)</option>
                             <option value="Laval (13)">Laval (13)</option>
                             <option value="Lanaudière (14)">Lanaudière (14)</option>
@@ -188,8 +192,10 @@
                 </h1>
 
                 <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreNumero">
+                    <div class="flex items-center gap-1">
+                    <span class="iconify  size-4 md:size-6" data-icon="material-symbols:contact-phone-outline"></span>
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Adresse en ligne</h4>
-
+                    </div>
                     <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
 
                         <div class="w-full">
@@ -217,7 +223,7 @@
                                 Ligne
                             </label>
 
-                                <select  id="ligne" name="ligne[0][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                <select  id="ligne_0" name="ligne[0][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                     <option value="Bureau">Bureau</option>
                                     <option value="Télécopieur">Télécopieur</option>
                                     <option value="Cellulaire">Cellulaire</option>
@@ -236,7 +242,7 @@
                                 Numero Telephone
                             </label>
 
-                            <input type="phonenumber" id="numeroTelephone" name="ligne[0][numeroTelephone]"
+                            <input type="phonenumber" id="numeroTelephone_0" name="ligne[0][numeroTelephone]"
                                 placeholder="514-453-9867"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black numerotelephone">
 
@@ -249,12 +255,12 @@
 
                         </div>
 
-                        <div class="w-full">
+                        <div class="w-full"  id="poste_div_0">
                             <label for="poste" class="block font-Alumni text-md md:text-lg mb-2">
                                 Poste
                             </label>
 
-                            <input type="text" id="poste" name="ligne[0][poste]" placeholder="9845"
+                            <input type="text" id="poste_0" name="ligne[0][poste]" placeholder="9845"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
                             @error('ligne.0.poste')
@@ -281,215 +287,260 @@
         </div>
     </form>
     <script>
-        
-//Supprime les espaces créer par l'utilisateur dans l'input de code postale
-document.getElementById('codePostale').addEventListener('input', function() {
-    this.value = this.value.replace(/\s+/g, ''); 
-    });
-   let currentIndex = @json(session('currentIndex', 0));
-    document.getElementById('currentIndexInput').value = currentIndex;
 
-    
-    document.getElementById('regionAdministrative').addEventListener('change', function() {
-        const regionCode = this.value;
-        const municipaliteSelect = document.getElementById('municipaliteSelect'); 
-        if (regionCode) {
-            axios.get('/municipalites-par-region', { params: { region: regionCode } })
+
+        // Supprime les espaces créés par l'utilisateur dans l'input de code postal
+        document.getElementById('codePostale').addEventListener('input', function() {
+            this.value = this.value.replace(/\s+/g, ''); 
+        });
+        let currentIndex = @json(session('currentIndex', 0));
+        document.getElementById('currentIndexInput').value = currentIndex;
+        
+        // Fonction pour charger les municipalités
+        function chargerMunicipalites(region = '') {
+            const municipaliteSelect = document.getElementById('municipaliteSelect');
+            municipaliteSelect.innerHTML = '<option value="" disabled selected>Choisissez une municipalité</option>';
+        
+            axios.get('/municipalites-par-region', { params: { region: region } })
                 .then(response => {
                     response.data.forEach(muni => {
-                        let option = new Option(muni.munnom, muni.munnom);
+                        let option = new Option(muni.nom, muni.nom);
                         municipaliteSelect.add(option);
                     });
                 })
                 .catch(error => console.error('Erreur lors de la récupération des municipalités:', error));
         }
-    });
-    
-    //Cache le select de région admnistrative quand !Québec et affiche un input text a la place d'un select pour les municipalités
-    document.getElementById('province').addEventListener('change', function() {
-    const province = this.value;
+      
+        document.getElementById('municipaliteSelect').addEventListener('change', function() {
+    const municipalite = this.value;
     const regionAdministrativeSelect = document.getElementById('regionAdministrative');
-    const municipaliteSelect = document.getElementById('municipaliteSelect');
-    const municipaliteInput = document.getElementById('municipaliteInput');
-    
-    if (province === 'Québec') {
-    
-    regionAdministrativeSelect.parentElement.classList.remove('hidden');
-    municipaliteSelect.classList.remove('hidden');
-    municipaliteInput.classList.add('hidden');
-    municipaliteInput.value='';
-    } else {
-    
-    regionAdministrativeSelect.parentElement.classList.add('hidden');
-    municipaliteSelect.classList.add('hidden');
-    municipaliteInput.classList.remove('hidden');
-    
-    
-    regionAdministrativeSelect.value = '';
-    municipaliteSelect.value = '';
-    }
-    });
-    
-    document.querySelector('form').addEventListener('submit', function(event) {
-    const province = document.getElementById('province').value;
-    const regionAdministrativeSelect = document.getElementById('regionAdministrative');
-    const municipaliteSelect = document.getElementById('municipaliteSelect');
-    const municipaliteInput = document.getElementById('municipaliteInput');
-    
-    // Double validation de sup des champs 
-    if (province !== 'Québec') {
-    regionAdministrativeSelect.value = '';
-    municipaliteSelect.value = '';
-    }
-    
-    // Double validation de sup des champs 
-    if (province === 'Québec') {
-    municipaliteInput.value = '';
-    }
-    });
 
-  
+    if (municipalite) {
+        axios.get('/region-par-municipalite', { params: { municipalite: municipalite } })
+            .then(response => {
+                const region = response.data.regionAdministrative;
+                if (region) {
+                    regionAdministrativeSelect.value = region;
+                } else {
+                    console.warn("La région n'a pas été trouvée pour cette municipalité.");
+                }
+            })
+            .catch(error => console.error('Erreur lors de la récupération de la région:', error));
+    }
+});
 
-function ajouterNumeroTelephone(index, ligne = {}) {
-    const cadre = document.getElementById('cadreNumero');
-    const type = ligne.type || '';
-    const numeroTelephone = ligne.numeroTelephone || '';
-    const poste = ligne.poste || '';
+function tooglePosteInput(index) {
+    const ligneSelect = document.getElementById(`ligne_${index}`);
+    const posteDiv = document.getElementById(`poste_div_${index}`);
+    const posteInput = document.getElementById(`poste_${index}`);
 
-    cadre.insertAdjacentHTML('beforeend', `
-        <div class="mt-6 w-full flex justify-center md:gap-2 columns-2 ligne-numeros" data-index="${index}">
-            <div class="w-full">
-                <label for="ligne_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Ligne</label>
-                <select id="ligne_${index}" name="ligne[${index}][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                    <option value="Bureau" ${type === 'Bureau' ? 'selected' : ''}>Bureau</option>
-                    <option value="Télécopieur" ${type === 'Télécopieur' ? 'selected' : ''}>Télécopieur</option>
-                    <option value="Cellulaire" ${type === 'Cellulaire' ? 'selected' : ''}>Cellulaire</option>
-                </select>
-            </div>
-            <div class="w-full">
-                <label for="numeroTelephone_${index}" class="block font-Alumni text-md md:text-lg mb-2 truncate">Numéro Téléphone</label>
-                <input type="phonenumber" id="numeroTelephone_${index}" name="ligne[${index}][numeroTelephone]" placeholder="514-453-9867"
-                    value="${numeroTelephone}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black numerotelephone">
-            </div>
-            <div class="w-full">
-                <label for="poste_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Poste</label>
-                <input type="text" id="poste_${index}" name="ligne[${index}][poste]" placeholder="9845"
-                    value="${poste}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-            </div>
-            <div class="w-full flex flex-row justify-start items-end pl-2">
-                <button type="button" class="remove-ligne cursor-pointer items-center flex justify-center bg-tertiary-400 text-white h-12 w-12" data-index="${index}">
-                    <span class="iconify size-6 hover:text-red-500 remove-ligne" data-icon="mdi:trash-can-outline"></span>
-                </button>
-            </div>
-        </div>
-    `);
-    const nouvelInput = document.getElementById(`numeroTelephone_${index}`);
-        if (nouvelInput) {
-            formatTel(nouvelInput);
-           nouvelInput.value = formatTelValue(ligne.numeroTelephone);
+    function togglePoste() {
+        if (ligneSelect.value !== "Bureau") {
+            posteDiv.classList.add('hidden'); // Masque le champ "Poste"
+            posteInput.value = ''; // Efface la valeur de l'input "Poste"
+        } else {
+            posteDiv.classList.remove('hidden'); // Affiche le champ "Poste"
         }
+    }
+
+    ligneSelect.addEventListener('change', togglePoste);
+
+    // Appel initial pour définir l'état correct au chargement
+    togglePoste();
 }
 
-document.getElementById('ajoutNumeroTelephone').addEventListener('click', function() {
-    currentIndex++;
-    ajouterNumeroTelephone(currentIndex);
-    document.getElementById('currentIndexInput').value = currentIndex;
-    console.log(currentIndex);
-});
 
-document.getElementById('cadreNumero').addEventListener('click', function(event) {
-    if (event.target.classList.contains('remove-ligne')) {
-        event.target.closest('.ligne-numeros').remove();
-        Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Suppression du numéro réussie',
-                    showConfirmButton: false,
-                    timer: 1000
+
+        // Charger toutes les municipalités au démarrage
+        document.addEventListener('DOMContentLoaded', function() {
+            chargerMunicipalites();
+            tooglePosteInput(0);
+            const regionAdministrativeSelect = document.getElementById('regionAdministrative');
+            regionAdministrativeSelect.addEventListener('change', function() {
+                const regionCode = this.value || '';
+                chargerMunicipalites(regionCode);
+            });
+        
+            document.querySelectorAll('.numerotelephone').forEach(function(input) {
+                formatTel(input);
+            });
+        
+            @if(session('coordonnees'))
+            let coordonnees = @json(session('coordonnees'));
+            console.log(currentIndex);
+            const champs = ['numeroCivique', 'bureau', 'rue', 'codePostale', 'province', 'regionAdministrative', 'siteWeb'];
+        
+            champs.forEach(champ => {
+                if (coordonnees[champ]) {
+                    document.getElementById(champ).value = coordonnees[champ];
+                }
+            });
+        
+            if (coordonnees['ligne']) {
+                Object.keys(coordonnees['ligne']).forEach(index => {
+                    const ligne = coordonnees['ligne'][index];
+                    if (index == 0) {
+                        if (ligne.type) document.getElementById('ligne_0').value = ligne.type;
+                        if (ligne.numeroTelephone) document.getElementById('numeroTelephone_0').value = formatTelValue(ligne.numeroTelephone);
+                        if (ligne.poste) document.getElementById('poste_0').value = ligne.poste;
+
+                    } else {
+                            ajouterNumeroTelephone(index, ligne); 
+                    }
                 });
-    }
-});
-
-document.querySelector('form').addEventListener('submit', function() {
-        document.getElementById('currentIndexInput').value = currentIndex; // Fix de l'indexation des inputs !!!important!!!
-    });
-
-    //format tel ###-###-####
-    function formatTel(input) {
-        input.addEventListener('input', function() {
-            let value = input.value.replace(/\D/g, ''); // Retirer les caractères non numériques
+            }
+        
+            if (coordonnees['province'] === 'Québec') {
+                document.getElementById('regionAdministrative').dispatchEvent(new Event('change'));
+        
+                setTimeout(() => {
+                    document.getElementById('municipaliteSelect').value = coordonnees['municipalite'];
+                }, 600);
+            } else {
+                document.getElementById('province').dispatchEvent(new Event('change'));
+                document.getElementById('municipaliteInput').value = coordonnees['municipaliteInput'];
+            }
+            @endif
+        });
+        
+        // Cache le select de région administrative quand !Québec et affiche un input texte pour les municipalités
+        document.getElementById('province').addEventListener('change', function() {
+            const province = this.value;
+            const regionAdministrativeSelect = document.getElementById('regionAdministrative');
+            const municipaliteSelect = document.getElementById('municipaliteSelect');
+            const municipaliteInput = document.getElementById('municipaliteInput');
+        
+            if (province === 'Québec') {
+                regionAdministrativeSelect.parentElement.classList.remove('hidden');
+                municipaliteSelect.classList.remove('hidden');
+                municipaliteInput.classList.add('hidden');
+                municipaliteInput.value = '';
+            } else {
+                regionAdministrativeSelect.parentElement.classList.add('hidden');
+                municipaliteSelect.classList.add('hidden');
+                municipaliteInput.classList.remove('hidden');
+                regionAdministrativeSelect.value = '';
+                municipaliteSelect.value = '';
+            }
+        });
+        
+        // Supprime les espaces dans le champ Code postal et validation du formulaire
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const province = document.getElementById('province').value;
+            const regionAdministrativeSelect = document.getElementById('regionAdministrative');
+            const municipaliteSelect = document.getElementById('municipaliteSelect');
+            const municipaliteInput = document.getElementById('municipaliteInput');
+        
+            if (province !== 'Québec') {
+                regionAdministrativeSelect.value = '';
+                municipaliteSelect.value = '';
+            }
+            if (province === 'Québec') {
+                municipaliteInput.value = '';
+            }
+        });
+        
+        // Ajout d'un numéro de téléphone
+        function ajouterNumeroTelephone(index, ligne = {}) {
+            const cadre = document.getElementById('cadreNumero');
+            const type = ligne.type || '';
+            const numeroTelephone = ligne.numeroTelephone || '';
+            const poste = ligne.poste || '';
+        
+            cadre.insertAdjacentHTML('beforeend', `
+                <div class="mt-6 w-full flex justify-center md:gap-2 columns-2 ligne-numeros" data-index="${index}">
+                    <div class="w-full">
+                        <label for="ligne_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Ligne</label>
+                        <select id="ligne_${index}" name="ligne[${index}][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                            <option value="Bureau" ${type === 'Bureau' ? 'selected' : ''}>Bureau</option>
+                            <option value="Télécopieur" ${type === 'Télécopieur' ? 'selected' : ''}>Télécopieur</option>
+                            <option value="Cellulaire" ${type === 'Cellulaire' ? 'selected' : ''}>Cellulaire</option>
+                        </select>
+                    </div>
+                    <div class="w-full">
+                        <label for="numeroTelephone_${index}" class="block font-Alumni text-md md:text-lg mb-2 truncate">Numéro Téléphone</label>
+                        <input type="phonenumber" id="numeroTelephone_${index}" name="ligne[${index}][numeroTelephone]" placeholder="514-453-9867"
+                            value="${numeroTelephone}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black numerotelephone">
+                    </div>
+                    <div class="w-full" id="poste_div_${index}">
+                        <label for="poste_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Poste</label>
+                        <input type="text" id="poste_${index}" name="ligne[${index}][poste]" placeholder="9845"
+                            value="${poste}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                    </div>
+                    <div class="w-full flex flex-row justify-start items-end pl-2">
+                        <button type="button" class="remove-ligne cursor-pointer hover:bg-red-500  items-center flex justify-center bg-tertiary-400 text-white h-12 w-12" data-index="${index}">
+                            <span class="iconify size-6  remove-ligne" data-icon="mdi:trash-can-outline"></span>
+                        </button>
+                    </div>
+                </div>
+            `);
+            const nouvelInput = document.getElementById(`numeroTelephone_${index}`);
+            tooglePosteInput(index);
+            if (nouvelInput) {
+                formatTel(nouvelInput);
+                nouvelInput.value = formatTelValue(ligne.numeroTelephone);
+            }
+        }
+        
+        document.getElementById('ajoutNumeroTelephone').addEventListener('click', function() {
+            currentIndex++;
+            ajouterNumeroTelephone(currentIndex);
+            document.getElementById('currentIndexInput').value = currentIndex;
+        });
+        
+        // Suppression d'un numéro de téléphone
+        document.getElementById('cadreNumero').addEventListener('click', function(event) {
+            const supbtn=event.target.closest('.remove-ligne')
+            if (supbtn) {
+                Swal.fire({
+                    title: "Êtes-vous sûr de vouloir supprimer ce numéro",
+                    text: "La suppression n'est pas réversible !",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Supprimer",
+                    cancelButtonText: "Annuler",
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        event.target.closest('.ligne-numeros').remove();
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Suppression du numéro réussie',
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    } 
+                });
+            }
+        });
+        
+        function formatTel(input) {
+            input.addEventListener('input', function() {
+                let value = input.value.replace(/\D/g, '');
+                if (value.length > 3 && value.length <= 6) {
+                    value = value.slice(0, 3) + '-' + value.slice(3);
+                } else if (value.length > 6) {
+                    value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
+                }
+                input.value = value;
+            });
+        }
+        
+        function formatTelValue(value) {
+            if (!value) return '';
+            value = value.replace(/\D/g, '');
             if (value.length > 3 && value.length <= 6) {
                 value = value.slice(0, 3) + '-' + value.slice(3);
             } else if (value.length > 6) {
                 value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
             }
-            input.value = value;
-        });
-    }
-      
-
-function formatTelValue(value) {
-    value = value.replace(/\D/g, '');
-    if (value.length > 3 && value.length <= 6) {
-        value = value.slice(0, 3) + '-' + value.slice(3);
-    } else if (value.length > 6) {
-        value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
-    }
-    return value;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    
-     //Format tel pour input pos 0
-        document.querySelectorAll('.numerotelephone').forEach(function(input) {
-            formatTel(input);
-        });
-
-    @if(session('coordonnees'))
-    let coordonnees = @json(session('coordonnees'));
-    console.log(currentIndex);
-    // Liste des champs à remplir
-    const champs = ['numeroCivique', 'bureau', 'rue', 'codePostale', 'province', 'regionAdministrative', 'siteWeb'];
-
-    champs.forEach(champ => {
-        if (coordonnees[champ]) {
-            document.getElementById(champ).value = coordonnees[champ];
+            return value;
         }
-    });
-
-    if (coordonnees['ligne']) {
-        Object.keys(coordonnees['ligne']).forEach(index => {
-            const ligne = coordonnees['ligne'][index];
-            if (index == 0) {
-                // Remplir la première ligne
-                if (ligne.type) document.getElementById('ligne').value = ligne.type;
-                if (ligne.numeroTelephone)  document.getElementById('numeroTelephone').value = formatTelValue(ligne.numeroTelephone);
-                if (ligne.poste) document.getElementById('poste').value = ligne.poste;
-            } else {
-                setTimeout(() => {
-                    ajouterNumeroTelephone(index, ligne);
-                }, 1000);
-            }
-        });
-    }
-
-    if (coordonnees['province'] === 'Québec') {
-    
-        document.getElementById('regionAdministrative').dispatchEvent(new Event('change'));
-
-        // Délai pour laisser le temps que l'API se charge dans le select
-        setTimeout(() => {
-            document.getElementById('municipaliteSelect').value = coordonnees['municipalite'];
-        }, 2000);
-    } else {
-        // Appel manuel au changement pour charger le switch de input
-        document.getElementById('province').dispatchEvent(new Event('change'));
-        document.getElementById('municipaliteInput').value = coordonnees['municipaliteInput'];
-    }
-    @endif
-});
-
-     
+        
         </script>
+
 @endsection
+        
 

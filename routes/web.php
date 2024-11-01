@@ -38,6 +38,8 @@ Route::post('/Coordonnees/store', [CoordonneeController::class, "store"])->name(
 
 Route::get('/Coordonnees', [CoordonneeController::class, "create"])->name("CreateCoordonnees");
 Route::get('/municipalites-par-region', [RegionMunicipalitesController::class, 'getMunicipalitesParRegion']);
+Route::get('/region-par-municipalite', [RegionMunicipalitesController::class, 'getRegionByMunicipalite']);
+
 // Licence
 
 Route::get('/Licences', [LicenceController::class, "create"])->name("createLicences");
