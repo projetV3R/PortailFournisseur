@@ -94,43 +94,6 @@
 </form>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Bouton UNSPSC pour ouvrir le modal
-        const unspscButton = document.getElementById('unspscButton');
-        
-        unspscButton.addEventListener('click', () => {
-            Swal.fire({
-                title: 'Petit guide des codes UNSPSC',
-                html: `
-                    <div class="text-left">
-                        <p class="font-bold mb-2">Qu'est-ce qu'un code UNSPSC ?</p>
-                        <p>Le code UNSPSC (United Nations Standard Products and Services Code) est un système de classification mondial qui attribue des codes uniques à des produits et services. Cet outil de recherche vous permet de trier les produits et services selon leur code UNSPSC, la nature, le code de catégorie, ou un élément de la description.</p>
-                        <p class="font-bold mt-4 mb-2">Différentes catégories exemple  :</p>
-<ul class="list-disc pl-5">
-    <li><strong>C01</strong> - Bâtiments : Cette catégorie comprend tous les types de bâtiments, allant des maisons aux bâtiments commerciaux, et couvre une large gamme de constructions.</li>
-    <li><strong>C02</strong> - Ouvrages de génie civil : Cela inclut les infrastructures telles que les ponts, les routes, et autres travaux d'ingénierie civile.</li>
-    <li><strong>G10</strong> - Produits électriques et électroniques : Cette catégorie regroupe les équipements électriques et électroniques, tels que les circuits et les composants électriques.</li>
-    <li><strong>G15</strong> - Alimentation : Comprend les produits alimentaires, y compris les matières premières et les produits préparés.</li>
-    <li><strong>S18</strong> - Location à bail / Location d'équipement : Cette catégorie se rapporte à la location d'équipement pour divers besoins, tels que la construction ou l'industrie.</li>
-    <!-- Ajouter d'autres catégories selon les besoins -->
-</ul>
-                        <p class="font-bold mt-4 mb-2">Attributs disponibles pour la recherche :</p>
-                        <ul class="list-disc pl-5">
-                            <li><strong>Code UNSPSC</strong> : Un code unique qui identifie un produit ou un service composé uniquement de 8 chiffres. Exemple : "12345678" pour un équipement spécifique.</li>
-                            <li><strong>Nature</strong> : Catégorie générale du produit ou service. Exemple : "Travaux de construction".</li>
-                            <li><strong>Code de catégorie</strong> : Code qui correspond à un ensemble de produits ou services liés. Exemple : "C01" pour des bâtiments.</li>
-                            <li><strong>Description</strong> : Une description textuelle qui permet de rechercher par mots-clés. Exemple : "Cafétéria" ou "Stationnement".</li>
-                        </ul>
-                    </div>
-                `,
-                icon: 'info',
-                confirmButtonText: 'Compris'
-            });
-        });
-    });
-</script>
-
-<script>
     let selectedProductIds = [];
     let selectedProducts = [];
     const itemsPerPageSelected = 10; // 2 colonnes x 5 lignes
@@ -296,7 +259,7 @@
                 data-index="${produit.id}">
                 <div class="flex flex-col w-full">
  
-                    <h1 class="font-Alumni text-xs italic md:text-lg">${produit.code_unspsc || ''} - ${produit.description || ''}</h1>
+                    <h1 class="font-Alumni text-xs italic md:text-lg">  ${produit.description || ''}</h1>
                 </div>
                 <div class="flex flex-col items-end justify-start w-full">
                     <div class="flex items-center justify-center bg-tertiary-400 md:p-2 rounded-full">
@@ -455,6 +418,38 @@
         // Appeler la fonction pour récupérer les catégories au chargement de la page
         getCategories();
         performSearch();
+
+        const unspscButton = document.getElementById('unspscButton');
+        
+        unspscButton.addEventListener('click', () => {
+            Swal.fire({
+                title: 'Petit guide des codes UNSPSC',
+                html: `
+                    <div class="text-left">
+                        <p class="font-bold mb-2">Qu'est-ce qu'un code UNSPSC ?</p>
+                        <p>Le code UNSPSC (United Nations Standard Products and Services Code) est un système de classification mondial qui attribue des codes uniques à des produits et services. Cet outil de recherche vous permet de trier les produits et services selon leur code UNSPSC, la nature, le code de catégorie, ou un élément de la description.</p>
+                        <p class="font-bold mt-4 mb-2">Différentes catégories exemple  :</p>
+<ul class="list-disc pl-5">
+    <li><strong>C01</strong> - Bâtiments : Cette catégorie comprend tous les types de bâtiments, allant des maisons aux bâtiments commerciaux, et couvre une large gamme de constructions.</li>
+    <li><strong>C02</strong> - Ouvrages de génie civil : Cela inclut les infrastructures telles que les ponts, les routes, et autres travaux d'ingénierie civile.</li>
+    <li><strong>G10</strong> - Produits électriques et électroniques : Cette catégorie regroupe les équipements électriques et électroniques, tels que les circuits et les composants électriques.</li>
+    <li><strong>G15</strong> - Alimentation : Comprend les produits alimentaires, y compris les matières premières et les produits préparés.</li>
+    <li><strong>S18</strong> - Location à bail / Location d'équipement : Cette catégorie se rapporte à la location d'équipement pour divers besoins, tels que la construction ou l'industrie.</li>
+    <!-- Ajouter d'autres catégories selon les besoins -->
+</ul>
+                        <p class="font-bold mt-4 mb-2">Attributs disponibles pour la recherche :</p>
+                        <ul class="list-disc pl-5">
+                            <li><strong>Code UNSPSC</strong> : Un code unique qui identifie un produit ou un service composé uniquement de 8 chiffres. Exemple : "12345678" pour un équipement spécifique.</li>
+                            <li><strong>Nature</strong> : Catégorie générale du produit ou service. Exemple : "Travaux de construction".</li>
+                            <li><strong>Code de catégorie</strong> : Code qui correspond à un ensemble de produits ou services liés. Exemple : "C01" pour des bâtiments.</li>
+                            <li><strong>Description</strong> : Une description textuelle qui permet de rechercher par mots-clés. Exemple : "Cafétéria" ou "Stationnement".</li>
+                        </ul>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Compris'
+            });
+        });
     });
 </script>
 
