@@ -23,8 +23,12 @@ class LicenceController extends Controller
      */
     public function create()
     {
-    
+        if (!auth()->check()){
         return view('formulaireInscription/licences_autorisations');
+
+    }
+
+    return redirect()->route('profil')->withErrors('Veuillez vous déconnecter si vous voulez créer un compte.');
     }
 
     /**

@@ -49,7 +49,11 @@ class ProduitServiceController extends Controller
      */
     public function create()
     {
+        if (!auth()->check()){
         return view('formulaireInscription/Produits_services');
+    }
+
+    return redirect()->route('profil')->withErrors('Veuillez vous déconnecter si vous voulez créer un compte.');
     }
 
     /**

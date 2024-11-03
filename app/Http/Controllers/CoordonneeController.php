@@ -24,7 +24,11 @@ class CoordonneeController extends Controller
     public function create()
     {
     // session()->flush();
+    if (!auth()->check()){
         return view("formulaireInscription/coordonnees");
+    }
+
+    return redirect()->route('profil')->withErrors('Veuillez vous déconnecter si vous voulez créer un compte.');
     }
 
 

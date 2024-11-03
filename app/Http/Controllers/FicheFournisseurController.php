@@ -68,10 +68,17 @@ class FicheFournisseurController extends Controller
     }
    
     public function resume()
-    { 
-        $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
-        return view('formulaireInscription/resume' , compact('maxFileSize'));
+    {
+        // Vérifie que l'utilisateur n'est pas connecté et que toutes les variables de session requises sont présentes
+        if (!auth()->check() && session()->has(['contacts', 'coordonnees', 'identification', 'licences', 'produitsServices'])) {
+            $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
+            return view('formulaireInscription/resume', compact('maxFileSize'));
+        }
+    
+        // Redirige vers une autre page ou affiche une erreur si les conditions ne sont pas remplies
+        return redirect()->route('login')->withErrors('Accès refusé : conditions non remplies.');
     }
+    
 
     public function profil()
     { 

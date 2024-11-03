@@ -11,11 +11,15 @@
                 <div class="flex flex-col w-full">
                     <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Merci de vous identifier !</h6>
                     <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous</h1>
+                    
                 </div>
-
-                <!-- TODO STEP BAR POUR INSCRIPTION -->
+                <div class="flex w-full ">
+                    @include('partials.progress_bar')
+                </div>
+            
+             
             </div>
-
+          
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
                 <!-- Première colonne -->
                 <div>
@@ -72,6 +76,8 @@
                         </div>
                     </div>
                 </div>
+          
+
 
                 <!-- Deuxième colonne -->
                 <div>

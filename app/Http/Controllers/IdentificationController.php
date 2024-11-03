@@ -21,8 +21,13 @@ class IdentificationController extends Controller
      */
     public function create()
     {
+       if (!auth()->check()){
        // session()->flush();
         return view('formulaireInscription/identification');
+    }
+
+        return redirect()->route('profil')->withErrors('Veuillez vous déconnecter si vous voulez créer un compte.');
+
     }
 
 

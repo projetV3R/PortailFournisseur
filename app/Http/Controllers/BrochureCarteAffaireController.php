@@ -23,9 +23,13 @@ class BrochureCarteAffaireController extends Controller
      */
     public function create()
     {
+        if (!auth()->check()){
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
      //   session()->flush();
         return view("formulaireInscription/brochure_cartes_affaires", compact('maxFileSize'));
+    }
+
+    return redirect()->route('profil')->withErrors('Veuillez vous déconnecter si vous voulez créer un compte.');
     }
 
     /**
