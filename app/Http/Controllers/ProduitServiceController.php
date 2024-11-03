@@ -14,19 +14,35 @@ class ProduitServiceController extends Controller
      * Display a listing of the resource.
      */
 
-    public function search(Request $request)
+     public function search(Request $request)
+     {
+         $query = trim($request->get('recherche'));
+         $categorie = $request->get('categorie');
+     
+         $produits = ProduitsServices::when($query, function($queryBuilder) use ($query) {
+                 $queryBuilder->where('nature', 'LIKE', '%' . $query . '%')
+                              ->orWhere('code_categorie', 'LIKE', '%' . $query . '%')
+                              ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
+                              ->orWhere('description', 'LIKE', '%' . $query . '%');
+             })
+             ->when($categorie, function ($queryBuilder) use ($categorie) {
+                 $queryBuilder->where('code_categorie', $categorie);
+             })
+             ->paginate(10);
+     
+         return response()->json($produits);
+     }
+     
+
+    public function getCategories()
     {
-        $query = trim($request->get('recherche'));
-        $posts = ProduitsServices::where(function($queryBuilder) use ($query) {
-            $queryBuilder->where('nature', 'LIKE', '%' . $query . '%')
-                         ->orWhere('code_categorie', 'LIKE', '%' . $query . '%')
-                         ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
-                         ->orWhere('description', 'LIKE', '%' . $query . '%');
-        })->paginate(10);
+    $categories = ProduitsServices::select('code_categorie')
+        ->distinct()
+        ->orderBy('code_categorie', 'asc')
+        ->pluck('code_categorie');
 
-        return response()->json($posts);
+    return response()->json($categories);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -42,7 +58,6 @@ class ProduitServiceController extends Controller
     public function store(ProduitServiceRequest $request)
     {
         session()->put("produitsServices", $request->all());
-        \Log::info('Données enregistrées dans la session produitsServices:', session('produitsServices'));
 
         return redirect()->route('createLicences');
     }
