@@ -93,7 +93,7 @@
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl ">Options de facturation</h4>
                     <span class="iconify  size-4 md:size-6" data-icon="material-symbols:attach-money"></span>
                 </div>
-                    <div class="mt-6 w-full md:max-w-full flex gap-4 columns-2 ">
+                    <div class="mt-6 w-full md:max-w-full flex flex-col md:flex-row  gap-4 columns-2 ">
                   
                         <!-- Conteneur du segment -->
                         <div class="w-1/2">
@@ -141,10 +141,10 @@
                     </div>
                 </div>
 
-                <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
+                <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 rounded transition duration-300 ease-in-out">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Enregistrer mes informations </h1>
                 </button>
-                <button type="button" class="mt-4 w-full text-white bg-tertiary-300 hover:bg-tertiary-400 py-2.5">
+                <button type="button" class="mt-4 w-full text-white bg-tertiary-300 hover:bg-tertiary-400 py-2.5 rounded transition duration-300 ease-in-out">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Remplir mes informations financières plus tard</h1>
                 </button>
 

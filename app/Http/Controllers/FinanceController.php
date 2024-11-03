@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\FicheFournisseur;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Finance;
+use App\Http\Requests\FinanceRequest;
 class FinanceController extends Controller
 {
     /**
@@ -35,11 +36,31 @@ class FinanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FinanceRequest $request)
     {
-        //
-    }
+        $fournisseur = Auth::user();
 
+          // Vérifie si la personne est co ,le statut accepter et ne possède pas une fiche finance
+        if ($fournisseur && $fournisseur->etat === 'accepter' && !$fournisseur->finance()->exists()) {
+         
+            $finance = new Finance([
+                'numero_tps' => $request->input('numeroTPS'),
+                'numero_tvq' => $request->input('numeroTVQ'),
+                'condition_paiement' => $request->input('conditionDePaiement'),
+                'devise' => $request->input('devise'),
+                'mode_communication' => $request->input('modeCommunication'),
+            ]);
+
+         
+            $fournisseur->finance()->save($finance);
+
+          
+            return redirect()->route('profil')->with('success', 'Informations financières enregistrées avec succès.');
+        }
+
+  
+        return redirect()->back()?: redirect()->route('/');
+    }
     /**
      * Display the specified resource.
      */
