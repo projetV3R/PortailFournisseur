@@ -51,7 +51,12 @@ class FicheFournisseurController extends Controller
         }
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('CreateIdentification')->with('message', 'Connexion réussie');
+            $fournisseur = Auth::user();
+                 if ($fournisseur && $fournisseur->etat === 'accepter' && !$fournisseur->finance()->exists()) {
+                     return view('formulaireInscription/Finances', compact('fournisseur'));
+                 }else{
+                     return redirect()->route('profil')->with('message', 'Connexion réussie');
+                 }
         } else {
           
             Log::error('Échec de connexion', ['credentials' => $credentials]);
@@ -61,7 +66,7 @@ class FicheFournisseurController extends Controller
             ]);
         }
     }
-    
+   
     public function resume()
     { 
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');

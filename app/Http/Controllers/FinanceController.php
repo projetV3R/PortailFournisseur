@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-
+use App\Models\FicheFournisseur;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Finance;
 class FinanceController extends Controller
 {
     /**
@@ -21,7 +23,13 @@ class FinanceController extends Controller
      */
     public function create()
     {
-        return View('formulaireInscription/Finances');
+        $fournisseur = Auth::user();
+
+        // Vérifie si la personne est co ,le statut accepter et ne possède pas une fiche finance
+        if ($fournisseur && $fournisseur->etat === 'accepter' && !$fournisseur->finance()->exists()) {
+            return view('formulaireInscription/Finances', compact('fournisseur'));
+        }
+        return redirect()->back()?: redirect()->route('/');
     }
 
     /**
