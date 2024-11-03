@@ -14,9 +14,9 @@
             </h1>
         </div>
         <!-- Conteneur principal -->
-        <div class="flex w-full gap-x-4">
+        <div class="flex w-full lg:flex-row flex-col gap-x-4">
             <!-- Colonne des produits non sélectionnés -->
-            <div class="flex flex-col w-1/2">
+            <div class="flex flex-col ">
                 @if (session('errors'))
                     <ul>
                         @foreach (session('errors')->all() as $error)
@@ -24,7 +24,7 @@
                         @endforeach
                     </ul>
                 @endif
-                <div class="bg-primary-100 py-8 px-2 md:px-4 mt-8">
+                <div class="bg-primary-100 py-8 px-2 md:px-4 mt-8  ">
                     <div class="flex w-full">
                         <div class="justify-start flex w-full">
                             <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et services</h4>
@@ -50,7 +50,7 @@
                         </div>
                         <div id="pagination" class="mt-4 flex justify-center items-center gap-x-2"></div>
 
-                        <div id="toutLesProduitsServices" class="grid grid-cols-1 2xl:grid-cols-2 gap-4 mt-4"></div>
+                        <div id="toutLesProduitsServices" class="grid  grid-cols-2 gap-4 mt-4"></div>
 
                         @error('recherche')
                             <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
@@ -91,6 +91,7 @@
             </div>
         </div>
     </div>
+
 </form>
 
 <script>
@@ -150,7 +151,7 @@
                 <span class="md:hidden">&lt;</span>
                 <span class="hidden md:inline">Précédente</span>
             </button>
-            <span class="text-xs font-bold mx-2">Page ${data.current_page} sur ${data.last_page}</span>
+            <span class="text-xs  font-bold mx-2">Page ${data.current_page} sur ${data.last_page}</span>
             <button type="button"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4
                 ${!data.next_page_url ? 'cursor-not-allowed' : ''}"
@@ -259,7 +260,7 @@
                 data-index="${produit.id}">
                 <div class="flex flex-col w-full">
  
-                    <h1 class="font-Alumni text-xs italic md:text-lg">  ${produit.description || ''}</h1>
+                    <h1 class="font-Alumni text-xs italic md:text-lg">${produit.code_unspsc || ''}-  ${produit.description || ''}</h1>
                 </div>
                 <div class="flex flex-col items-end justify-start w-full">
                     <div class="flex items-center justify-center bg-tertiary-400 md:p-2 rounded-full">
