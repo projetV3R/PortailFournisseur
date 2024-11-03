@@ -23,6 +23,9 @@ Route::get('/Identification', [IdentificationController::class, "create"])->name
 
 Route::post('/Identification/store', [IdentificationController::class, "store"])->name("StoreIdentification");
 
+// test
+
+Route::get('/Redirection', [FicheFournisseurController::class, "redirection"])->name("redirection");
 
 // Produits Services
 
@@ -61,7 +64,7 @@ Route::post('/BrochuresCartesAffaires/Store', [BrochureCarteAffaireController::c
 Route::post('/remove-uploaded-file', [BrochureCarteAffaireController::class, 'removeUploadedFile'])->name('removeUploadedFile');
 
 //Route::post('/delete-temp-files', [BrochureCarteAffaireController::class, 'deleteTempFiles'])
-  //  ->name('deleteTempFiles');
+//  ->name('deleteTempFiles');
 
 
 

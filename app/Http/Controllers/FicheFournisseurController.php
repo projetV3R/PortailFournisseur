@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ use App\Models\ProduitService;
 use App\Models\ProduitServiceFicheFournisseur;
 use App\Models\ParametreSysteme;
 use App\Notifications\WelcomeEmail;
+
 class FicheFournisseurController extends Controller
 {
 
@@ -51,9 +53,9 @@ class FicheFournisseurController extends Controller
         }
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('CreateIdentification')->with('message', 'Connexion réussie');
+            return redirect()->route('profil')->with('message', 'Connexion réussie');
         } else {
-          
+
             Log::error('Échec de connexion', ['credentials' => $credentials]);
 
             return back()->withErrors([
@@ -61,20 +63,20 @@ class FicheFournisseurController extends Controller
             ]);
         }
     }
-    
+
     public function resume()
-    { 
+    {
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
-        return view('formulaireInscription/resume' , compact('maxFileSize'));
+        return view('formulaireInscription/resume', compact('maxFileSize'));
     }
 
     public function profil()
-    { 
+    {
         $fournisseur = Auth::user();
         $licence = $fournisseur->licence()->with('sousCategories.categorie')->first();
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
-        
-        return view('formulaireInscription/profil_fournisseur' , compact('maxFileSize','fournisseur', 'licence'));
+
+        return view('formulaireInscription/profil_fournisseur', compact('maxFileSize', 'fournisseur', 'licence'));
     }
     public function indexAvecNeq()
     {
@@ -111,160 +113,164 @@ class FicheFournisseurController extends Controller
      * Store a newly created resource in storage.
      */
     public function store()
-{
-    try {
-        DB::beginTransaction();
+    {
+        try {
+            DB::beginTransaction();
 
 
-        $ficheFournisseur = FicheFournisseur::create([
-            'neq' => session('identification.numeroEntreprise')?? null,
-            'etat' => 'En attente',
-            'nom_entreprise' => session('identification.nomEntreprise'),
-            'adresse_courriel' => session('identification.email'),
-            'password' => bcrypt(session('identification.password')),
-            'details_specifications' => session('produitsServices.details_specifications', null),
-            'date_changement_etat' => now(),
-        ]);
-
- 
-        $coordonnee = Coordonnee::create([
-            'numero_civique' => session('coordonnees.numeroCivique'),
-            'rue' => session('coordonnees.rue'),
-            'bureau' => session('coordonnees.bureau'),
-            'ville' => session('coordonnees.municipalite', session('coordonnees.municipaliteInput')),
-            'province' => session('coordonnees.province'),
-            'site_internet' => session('coordonnees.siteWeb', null), // Optionnel
-            'code_postal' => session('coordonnees.codePostale'),
-            'region_administrative' => session('coordonnees.regionAdministrative', null), // Optionnel
-            'fiche_fournisseur_id' => $ficheFournisseur->id,
-        ]);
-  
-   
-        $telephones = session('coordonnees.ligne', []);
-        foreach ($telephones as $telephoneData) {
-
-            $numeroNettoye = str_replace('-', '', $telephoneData['numeroTelephone']);
-
-            $telephone = Telephone::create([
-                'numero_telephone' => $numeroNettoye,
-                'poste' => $telephoneData['poste']?? null,
-                'type' => $telephoneData['type'] ?? 'Bureau', // Optionnel
+            $ficheFournisseur = FicheFournisseur::create([
+                'neq' => session('identification.numeroEntreprise') ?? null,
+                'etat' => 'En attente',
+                'nom_entreprise' => session('identification.nomEntreprise'),
+                'adresse_courriel' => session('identification.email'),
+                'password' => bcrypt(session('identification.password')),
+                'details_specifications' => session('produitsServices.details_specifications', null),
+                'date_changement_etat' => now(),
             ]);
 
-      
-         
-            CoordonneeTelephone::create([
-                'coordonnee_id' => $coordonnee->id,
-                'telephone_id' => $telephone->id,
-            ]);
-        }
 
-      
-        
-
-
-        $contacts = session('contacts', []);
-        foreach ($contacts as $contactData) {
-
-            $numeroNettoyeContacts = str_replace('-', '', $contactData['numeroTelephone']);
-
-            $telephone = Telephone::create([
-                'numero_telephone' => $numeroNettoyeContacts,
-                'poste' => $contactData['poste'] ?? null,// Optionnel
-                'type' => $contactData['type'] ?? 'Bureau',
-            ]);
-
-    
-            Contact::create([
-                'prenom' => $contactData['prenom'],
-                'nom' => $contactData['nom'],
-                'fonction' => $contactData['fonction'],
-                'adresse_courriel' => $contactData['email'],
-                'fiche_fournisseur_id' => $ficheFournisseur->id,
-                'telephone_id' => $telephone->id,
-            ]);
-        }
-
-
-        $licenceData = session('licences', []);
-        if (!empty($licenceData)) {
-            $numeroNettoyeRbq = str_replace('-', '', $licenceData['numeroLicence']);
-
-            $licence = Licence::create([
-                'numero_licence_rbq' => $numeroNettoyeRbq,
-                'statut' => $licenceData['statut'],
-                'type_licence' => $licenceData['typeLicence'],
+            $coordonnee = Coordonnee::create([
+                'numero_civique' => session('coordonnees.numeroCivique'),
+                'rue' => session('coordonnees.rue'),
+                'bureau' => session('coordonnees.bureau'),
+                'ville' => session('coordonnees.municipalite', session('coordonnees.municipaliteInput')),
+                'province' => session('coordonnees.province'),
+                'site_internet' => session('coordonnees.siteWeb', null), // Optionnel
+                'code_postal' => session('coordonnees.codePostale'),
+                'region_administrative' => session('coordonnees.regionAdministrative', null), // Optionnel
                 'fiche_fournisseur_id' => $ficheFournisseur->id,
             ]);
 
-    
-            $sousCategories = $licenceData['sousCategorie'] ?? [];
-            foreach ($sousCategories as $sousCategorieId) {
-                SousCategorieLicence::create([
-                    'licence_id' => $licence->id,
-                    'sous_categorie_id' => $sousCategorieId,
+
+            $telephones = session('coordonnees.ligne', []);
+            foreach ($telephones as $telephoneData) {
+
+                $numeroNettoye = str_replace('-', '', $telephoneData['numeroTelephone']);
+
+                $telephone = Telephone::create([
+                    'numero_telephone' => $numeroNettoye,
+                    'poste' => $telephoneData['poste'] ?? null,
+                    'type' => $telephoneData['type'] ?? 'Bureau', // Optionnel
+                ]);
+
+
+
+                CoordonneeTelephone::create([
+                    'coordonnee_id' => $coordonnee->id,
+                    'telephone_id' => $telephone->id,
                 ]);
             }
+
+
+
+
+
+            $contacts = session('contacts', []);
+            foreach ($contacts as $contactData) {
+
+                $numeroNettoyeContacts = str_replace('-', '', $contactData['numeroTelephone']);
+
+                $telephone = Telephone::create([
+                    'numero_telephone' => $numeroNettoyeContacts,
+                    'poste' => $contactData['poste'] ?? null, // Optionnel
+                    'type' => $contactData['type'] ?? 'Bureau',
+                ]);
+
+
+                Contact::create([
+                    'prenom' => $contactData['prenom'],
+                    'nom' => $contactData['nom'],
+                    'fonction' => $contactData['fonction'],
+                    'adresse_courriel' => $contactData['email'],
+                    'fiche_fournisseur_id' => $ficheFournisseur->id,
+                    'telephone_id' => $telephone->id,
+                ]);
+            }
+
+
+            $licenceData = session('licences', []);
+            if (!empty($licenceData)) {
+                $numeroNettoyeRbq = str_replace('-', '', $licenceData['numeroLicence']);
+
+                $licence = Licence::create([
+                    'numero_licence_rbq' => $numeroNettoyeRbq,
+                    'statut' => $licenceData['statut'],
+                    'type_licence' => $licenceData['typeLicence'],
+                    'fiche_fournisseur_id' => $ficheFournisseur->id,
+                ]);
+
+
+                $sousCategories = $licenceData['sousCategorie'] ?? [];
+                foreach ($sousCategories as $sousCategorieId) {
+                    SousCategorieLicence::create([
+                        'licence_id' => $licence->id,
+                        'sous_categorie_id' => $sousCategorieId,
+                    ]);
+                }
+            }
+
+            $produitsServices = session('produitsServices.produits_services', []);
+            foreach ($produitsServices as $produitServiceId) {
+                ProduitServiceFicheFournisseur::create([
+                    'produit_service_id' => $produitServiceId,
+                    'fiche_fournisseur_id' => $ficheFournisseur->id,
+                ]);
+            }
+
+            $brochures = session('brochures_cartes_affaires', []);
+            $publicDir = 'brochures';
+
+            if (!empty($brochures)) {
+                foreach ($brochures as $brochure) {
+                    $filePath = $brochure['chemin'];
+                    $fileName = $brochure['nom'];
+
+
+                    $newPath = $publicDir . '/' . $fileName;
+
+                    if (Storage::disk('local')->exists($filePath)) {
+
+                        $fileContent = Storage::disk('local')->get($filePath);
+                        Storage::disk('public')->put($newPath, $fileContent);
+
+
+                        Storage::disk('local')->delete($filePath);
+
+
+                        $typeDeFichier = mime_content_type(storage_path('app/public/' . $newPath));
+
+
+                        BrochureCarte::create([
+                            'nom' => $fileName,
+                            'type_de_fichier' => $typeDeFichier,
+                            'chemin' => $newPath,
+                            'taille' => $brochure['taille'],
+                            'fiche_fournisseur_id' => $ficheFournisseur->id,
+                        ]);
+                    }
+                }
+            }
+
+            DB::commit();
+            Auth::loginUsingId($ficheFournisseur->id);
+            $ficheFournisseur->notify(new WelcomeEmail());
+
+            return redirect()->route('redirection')->with('success', 'La fiche fournisseur a été créée avec succès.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+
+            \Log::error('Erreur lors de la création de la fiche fournisseur : ' . $e->getMessage());
+
+
+            return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite lors de la création de la fiche fournisseur : ' . $e->getMessage()]);
         }
-
-        $produitsServices = session('produitsServices.produits_services', []);
-        foreach ($produitsServices as $produitServiceId) {
-            ProduitServiceFicheFournisseur::create([
-                'produit_service_id' => $produitServiceId,
-                'fiche_fournisseur_id' => $ficheFournisseur->id,
-            ]);
-        }   
-     
-          $brochures = session('brochures_cartes_affaires', []);
-          $publicDir = 'brochures'; 
-  
-          if (!empty($brochures)) {
-              foreach ($brochures as $brochure) {
-                  $filePath = $brochure['chemin'];
-                  $fileName = $brochure['nom'];
-          
-               
-                  $newPath = $publicDir . '/' . $fileName;
-          
-                  if (Storage::disk('local')->exists($filePath)) {
-                    
-                      $fileContent = Storage::disk('local')->get($filePath);
-                      Storage::disk('public')->put($newPath, $fileContent);
-          
-                     
-                      Storage::disk('local')->delete($filePath);
-          
-           
-                      $typeDeFichier = mime_content_type(storage_path('app/public/' . $newPath));
-          
-                     
-                      BrochureCarte::create([
-                          'nom' => $fileName,
-                          'type_de_fichier' => $typeDeFichier,
-                          'chemin' => $newPath,
-                          'taille' => $brochure['taille'],
-                          'fiche_fournisseur_id' => $ficheFournisseur->id,
-                      ]);
-                  }
-              }
-          }
-
-        DB::commit();
-        Auth::loginUsingId($ficheFournisseur->id);
-        $ficheFournisseur->notify(new WelcomeEmail());
-
-        return redirect()->route('profil')->with('success', 'La fiche fournisseur a été créée avec succès.');
-
-    } catch (\Exception $e) {
-        DB::rollBack();
-
-
-        \Log::error('Erreur lors de la création de la fiche fournisseur : ' . $e->getMessage());
-
-
-        return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite lors de la création de la fiche fournisseur : ' . $e->getMessage()]);
     }
-}
+
+    public function redirection()
+    {
+        return view('formulaireInscription/redirection');
+    }
 
     /**
      * Display the specified resource.
