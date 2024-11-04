@@ -38,9 +38,9 @@
             </div>
         @endif
         
-            <form action="{{ route('FicheFournisseursStore') }}" method="POST">
+            <form id="information" action="{{ route('FicheFournisseursStore') }}" method="POST">
                 @csrf
-                <button type="submit" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">
+                <button type="submit" onclick="confirmInformation()" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">
                     Valider les informations
                 </button>
             </form>
@@ -234,6 +234,23 @@
     });
 </script>
 
+<script>
+    function confirmInformation() {
+        Swal.fire({
+            title: "Êtes-vous sûr ?",
+            text: "Vous ne pourrez pas revenir en arrière !",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Oui, valider !"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('information').submit();
+            }
+        });
+    }
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
