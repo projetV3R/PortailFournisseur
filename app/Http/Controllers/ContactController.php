@@ -22,11 +22,11 @@ class ContactController extends Controller
      */
     public function create()
     {
-        if (!auth()->check()){
+        if (!auth()->check()  && session()->has('coordonnees') ){
         return View('formulaireInscription/contacts');
     }
 
-    return redirect()->route('profil')->withErrors('Veuillez vous déconnecter si vous voulez créer un compte.');
+    return redirect()->back();
     }
 
     /**
@@ -34,14 +34,16 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request)
     {
-      
+        if (!auth()->check()  && session()->has('coordonnees') ){
         $contacts = $request->input('contacts');
     
         session()->put('contacts', $contacts);
     
-        Log::info('Contacts enregistrées : ', ['contacts' => $contacts]);
-    
+       
         return redirect()->route('createBrochuresCartesAffaires');
+    }
+
+    return redirect()->back();
     }
     
     /**

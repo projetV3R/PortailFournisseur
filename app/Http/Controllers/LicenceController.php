@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\SousCategorie;
 use Log;
 
+
 class LicenceController extends Controller
 {
     /**
@@ -23,12 +24,11 @@ class LicenceController extends Controller
      */
     public function create()
     {
-        if (!auth()->check()){
+        if (!auth()->check() && session()->has('produitsServices')){
         return view('formulaireInscription/licences_autorisations');
 
     }
-
-    return redirect()->route('profil')->withErrors('Veuillez vous déconnecter si vous voulez créer un compte.');
+    return redirect()->back();
     }
 
     /**
@@ -36,23 +36,29 @@ class LicenceController extends Controller
      */
     public function store(LicenceRequest $request)
     {
+        if (!auth()->check() && session()->has('produitsServices')){
         session()->put("licences", $request->all());
-        \Log::info('Données enregistrées dans la session licences:', session('licences'));
-
         return redirect()->route('CreateCoordonnees');
+        }
+    return redirect()->back();
     }
+
     public function getSousCategories($type)
     {
+        if (auth()->check() || session()->has('produitsServices')){
         $sousCategories = \DB::table('sous_categories')
             ->where('categorie', 'LIKE', "%$type%")
             ->get();
     
         return response()->json($sousCategories);
     }
+    return redirect()->back();
+    }
     
     
     public function getSousCategoriesMultiple(Request $request)
     {
+        if (auth()->check() || session()->has('produitsServices')){
         $ids = $request->query('ids', []);
     
         if (!is_array($ids) || empty($ids)) {
@@ -68,6 +74,8 @@ class LicenceController extends Controller
         $sousCategories = SousCategorie::whereIn('id', $validatedIds)->get();
     
         return response()->json($sousCategories);
+     }
+     return redirect()->back();
     }
     
     

@@ -24,11 +24,11 @@ class CoordonneeController extends Controller
     public function create()
     {
     // session()->flush();
-    if (!auth()->check()){
+    if (!auth()->check() && session()->has('licences')){
         return view("formulaireInscription/coordonnees");
     }
 
-    return redirect()->route('profil')->withErrors('Veuillez vous déconnecter si vous voulez créer un compte.');
+    return redirect()->back();
     }
 
 
@@ -37,6 +37,7 @@ class CoordonneeController extends Controller
      */
     public function store(CoordonneeRequest $request)
     {
+        if (!auth()->check() && session()->has('licences')){
        
         $currentIndex = $request->input('currentIndex', 0);
         session()->put("coordonnees", $request->all());
@@ -45,6 +46,8 @@ class CoordonneeController extends Controller
   
       
         return redirect()->route('createContacts');
+     }
+     return redirect()->back();
     }
 
     /**

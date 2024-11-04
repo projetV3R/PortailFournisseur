@@ -76,7 +76,7 @@ class FicheFournisseurController extends Controller
         }
     
         // Redirige vers une autre page ou affiche une erreur si les conditions ne sont pas remplies
-        return redirect()->route('login')->withErrors('Accès refusé : conditions non remplies.');
+        return redirect()->back();
     }
     
 
@@ -124,6 +124,7 @@ class FicheFournisseurController extends Controller
      */
     public function store()
 {
+    if (!auth()->check() && session()->has(['contacts', 'coordonnees', 'identification', 'licences', 'produitsServices'])) {
     try {
         DB::beginTransaction();
 
@@ -275,7 +276,9 @@ class FicheFournisseurController extends Controller
 
 
         return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite lors de la création de la fiche fournisseur : ' . $e->getMessage()]);
+        }
     }
+    return redirect()->back();
 }
 
     /**

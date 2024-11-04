@@ -9,6 +9,7 @@ class RegionMunicipalitesController extends Controller
 {
     public function getMunicipalitesParRegion(Request $request)
 {
+    if (auth()->check() || session()->has('licences')){
     $region = $request->query('region'); 
 
     if ($region) {
@@ -25,13 +26,18 @@ class RegionMunicipalitesController extends Controller
     }
 
     return response()->json($municipalites);
+    }
+    return redirect()->back();
 }
 public function getRegionByMunicipalite(Request $request)
 {
+    if (auth()->check() || session()->has('licences')){
     $municipalite = $request->query('municipalite'); 
     $region = Municipalites::where('nom', $municipalite)->first(['regionAdministrative']);
 
     return response()->json($region);
+    }
+    return redirect()->back();
 }
 
 

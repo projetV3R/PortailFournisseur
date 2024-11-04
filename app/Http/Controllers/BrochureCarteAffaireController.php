@@ -23,13 +23,13 @@ class BrochureCarteAffaireController extends Controller
      */
     public function create()
     {
-        if (!auth()->check()){
+        if (!auth()->check()&&  session()->has('contacts')){
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
      //   session()->flush();
         return view("formulaireInscription/brochure_cartes_affaires", compact('maxFileSize'));
     }
 
-    return redirect()->route('profil')->withErrors('Veuillez vous déconnecter si vous voulez créer un compte.');
+    return redirect()->back();
     }
 
     /**
@@ -37,6 +37,7 @@ class BrochureCarteAffaireController extends Controller
      */
     public function store(Request $request)
     {
+        if (!auth()->check()&&  session()->has('contacts')){
         // Récupérer les brochures déjà en session
         $brochures = session('brochures_cartes_affaires', []);
 
@@ -74,6 +75,8 @@ class BrochureCarteAffaireController extends Controller
         session()->put('brochures_cartes_affaires', $brochures);
 
         return redirect()->route('resumeFournisseur')->with('success', 'Fichiers téléversés avec succès.');
+        }
+        return redirect()->back();
     }
 
   
