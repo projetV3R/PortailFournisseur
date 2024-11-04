@@ -24,6 +24,9 @@
             @endif
         </div>
         <span class="mt-2 hidden min-[650px]:block text-sm md:text-base ">Identification</span>
+        @if($currentStep >= 1)
+        <span class="iconify" data-icon="material-symbols:done" data-width="20" data-height="20"></span>
+        @endif
     </li>
     
   
@@ -41,6 +44,9 @@
             @endif
         </div>
         <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Produits</span>
+        @if($currentStep >= 2)
+        <span class="iconify" data-icon="material-symbols:done" data-width="20" data-height="20"></span>
+        @endif
     </li>
 
  
@@ -58,6 +64,9 @@
             @endif
         </div>
         <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Licences</span>
+        @if($currentStep >= 3)
+        <span class="iconify" data-icon="material-symbols:done" data-width="20" data-height="20"></span>
+        @endif
     </li>
 
     <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 3 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
@@ -74,6 +83,9 @@
             @endif
         </div>
         <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Coordonnée</span>
+        @if($currentStep >= 4)
+        <span class="iconify" data-icon="material-symbols:done" data-width="20" data-height="20"></span>
+        @endif
     </li>
 
     <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 4 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
@@ -90,6 +102,9 @@
             @endif
         </div>
         <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Contact</span>
+        @if($currentStep >= 5)
+        <span class="iconify" data-icon="material-symbols:done" data-width="20" data-height="20"></span>
+        @endif
     </li>
 
     <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 5 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
@@ -106,6 +121,9 @@
             @endif
         </div>
         <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Brochures</span>
+        @if($currentStep >= 6)
+        <span class="iconify" data-icon="material-symbols:done" data-width="20" data-height="20"></span>
+        @endif
     </li>
 
     
@@ -115,7 +133,7 @@
     <li class="relative flex flex-col items-center {{ $currentStep >= 6 ? 'text-green-600' : 'text-gray-500' }}">
         <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $currentStep >= 6 ? 'border-green-600' : 'border-gray-300' }}">
             @if($currentStep >= 6)
-                <a href="/Licences" class="block">
+                <a href="/Resume" class="block">
                     <span class="iconify" data-icon="material-symbols:attach-file" data-width="20" data-height="20"></span>
                 </a>
             @else
