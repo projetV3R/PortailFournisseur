@@ -129,20 +129,21 @@
                 </div>
             </div>
         </div>
-        <div class="swiper-container w-full mx-auto mt-4">
+        <div class="swiper-container">
             <div class="swiper-wrapper">
-
+                <!-- les clones doivent apparaître ici dans une div swiper-slide -->
             </div>
+            <!-- Pagination si nécessaire -->
             <div class="swiper-pagination"></div>
+            <!-- Navigation si nécessaire -->
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
         </div>
+
     </div>
 </form>
 
 <script>
-    let swiper;
-
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(function(input) {
             formatTel(input);
@@ -165,17 +166,19 @@
         initializeSwiper();
     });
 
-    function initializeSwiper() {
-        new Swiper('.swiper-container', {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            loop: false,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
-    }
+    const swiper = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+
 
     function formatTel(input) {
         input.addEventListener('input', function() {
@@ -346,11 +349,11 @@
             });
         });
         clone.appendChild(deleteButton);
+        newSlide.appendChild(clone); // Ajouter le clone à la nouvelle slide
+        document.querySelector('.swiper-wrapper').appendChild(newSlide); // Ajouter la slide au wrapper Swiper
+        swiper.appendSlide(newSlide); // Ajouter la nouvelle slide au Swiper
 
-        newSlide.appendChild(clone);
-        document.querySelector('.swiper-wrapper').appendChild(newSlide);
-
-        swiper.update();
+        swiper.update(); // Mettre à jour Swiper
     }
 </script>
 
