@@ -7,12 +7,16 @@
 <form id="produitsServicesForm" action="{{ route('StoreProduitsServices') }}" method="post">
     @csrf
     <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16">
+        <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
         <div class="flex w-full flex-col">
             <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Produits et services</h6>
             <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">
                 Parlez-nous des services que vous offrez      
             </h1>
+           
         </div>
+        @include('partials.progress_bar')
+    </div>
         <!-- Conteneur principal -->
         <div class="flex w-full lg:flex-row flex-col gap-x-4">
             <!-- Colonne des produits non sélectionnés -->

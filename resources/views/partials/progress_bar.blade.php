@@ -32,7 +32,7 @@
  
     <li class="relative flex flex-col items-center {{ $currentStep >= 2 ? 'text-green-600' : 'text-gray-500' }}">
         <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $currentStep >= 2 ? 'border-green-600' : 'border-gray-300' }}">
-            @if($currentStep >= 2)
+            @if($currentStep >= 1)
                 <a href="/ProduitsServices" class="block">
                     <span class="iconify" data-icon="mdi:package-variant-closed" data-width="20" data-height="20"></span>
                 </a>
@@ -49,7 +49,7 @@
 
     <li class="relative flex flex-col items-center {{ $currentStep >= 3 ? 'text-green-600' : 'text-gray-500' }}">
         <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $currentStep >= 3 ? 'border-green-600' : 'border-gray-300' }}">
-            @if($currentStep >= 3)
+            @if($currentStep >= 2)
                 <a href="/Licences" class="block">
                     <span class="iconify" data-icon="mdi:certificate" data-width="20" data-height="20"></span>
                 </a>
