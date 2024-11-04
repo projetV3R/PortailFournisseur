@@ -129,6 +129,8 @@
                 </div>
             </div>
         </div>
+      
+     </div>       
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <!-- les clones doivent apparaître ici dans une div swiper-slide -->
@@ -139,8 +141,9 @@
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
         </div>
+  
 
-    </div>
+   
 </form>
 
 <script>
