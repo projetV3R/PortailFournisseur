@@ -109,6 +109,24 @@
     </li>
 
     
+    <div class="w-24 h-0.5 {{ $currentStep >= 5 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
+
+    
+    <li class="relative flex flex-col items-center {{ $currentStep >= 6 ? 'text-green-600' : 'text-gray-500' }}">
+        <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $currentStep >= 6 ? 'border-green-600' : 'border-gray-300' }}">
+            @if($currentStep >= 6)
+                <a href="/Licences" class="block">
+                    <span class="iconify" data-icon="material-symbols:attach-file" data-width="20" data-height="20"></span>
+                </a>
+            @else
+                <span class="iconify" data-icon="f7:paperplane" data-width="20" data-height="20"></span>
+            @endif
+        </div>
+        <span class="mt-2 hidden xl:block">Finalisation</span>
+    </li>
+
+
+    
 
 </ol>
 
