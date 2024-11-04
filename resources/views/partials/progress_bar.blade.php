@@ -1,5 +1,5 @@
 @php
-    $steps = ['identification', 'produitsServices', 'licences', 'coordonnees', 'contacts', 'brochuresCartes'];
+    $steps = ['identification', 'produitsServices', 'licences', 'coordonnees', 'contacts', 'brochures_cartes_affaires'];
     $currentStep = 0;
 
     foreach ($steps as $index => $step) {
@@ -28,7 +28,7 @@
         <span class="iconify  size-5" data-icon="material-symbols:done" ></span>
         @endif
         @if($currentStep==0)
-        <span class="iconify animate-bounce-interval size-5" data-icon="line-md:arrow-up" ></span>
+        <span class="iconify  size-5" data-icon="line-md:arrow-up" ></span>
     @endif
     </li>
     
@@ -51,7 +51,7 @@
         <span class="iconify  size-5" data-icon="material-symbols:done" ></span>
         @endif
         @if($currentStep==1)
-        <span class="iconify animate-bounce-interval size-5" data-icon="line-md:arrow-up" ></span>
+        <span class="iconify  size-5" data-icon="line-md:arrow-up" ></span>
     @endif
     </li>
 
@@ -74,7 +74,7 @@
         <span class="iconify size-5" data-icon="material-symbols:done" ></span>
         @endif
         @if($currentStep==2)
-        <span class="iconify animate-bounce-interval size-5" data-icon="line-md:arrow-up" ></span>
+        <span class="iconify size-5" data-icon="line-md:arrow-up" ></span>
          @endif
     </li>
 
@@ -96,7 +96,7 @@
         <span class="iconify  size-5" data-icon="material-symbols:done" ></span>
         @endif
         @if($currentStep==3)
-            <span class="iconify animate-bounce-interval size-5" data-icon="line-md:arrow-up" ></span>
+            <span class="iconify size-5" data-icon="line-md:arrow-up" ></span>
         @endif
     </li>
 
@@ -106,7 +106,7 @@
     <li class="relative flex flex-col items-center {{ $currentStep >= 5 ? 'text-green-600' : 'text-gray-500' }}">
         <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $currentStep >= 5 ? 'border-green-600' : 'border-gray-300' }}">
             @if($currentStep >= 4)
-                <a href="/Licences" class="block">
+                <a href="/Contacts" class="block">
                     <span class="iconify  size-5" data-icon="material-symbols:contact-phone-rounded"></span>
                 </a>
             @else
@@ -117,6 +117,9 @@
         @if($currentStep >= 5)
         <span class="iconify  size-5" data-icon="material-symbols:done" ></span>
         @endif
+        @if($currentStep==4)
+        <span class="iconify  size-5" data-icon="line-md:arrow-up" ></span>
+    @endif
     </li>
 
     <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 5 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
@@ -136,22 +139,28 @@
         @if($currentStep >= 6)
         <span class="iconify  size-5" data-icon="material-symbols:done" ></span>
         @endif
+        @if($currentStep==5)
+        <span class="iconify  size-5" data-icon="line-md:arrow-up" ></span>
+    @endif
     </li>
 
     
-    <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 5 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
+    <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 7 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
 
     
-    <li class="relative flex flex-col items-center {{ $currentStep >= 6 ? 'text-green-600' : 'text-gray-500' }}">
-        <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $currentStep >= 6 ? 'border-green-600' : 'border-gray-300' }}">
-            @if($currentStep >= 5)
+    <li class="relative flex flex-col items-center {{ $currentStep >= 7 ? 'text-green-600' : 'text-gray-500' }}">
+        <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $currentStep >= 7 ? 'border-green-600' : 'border-gray-300' }}">
+            @if($currentStep >= 6)
                 <a href="/Resume" class="block">
-                    <span class="iconify  size-5" data-icon="material-symbols:attach-file" ></span>
+                    <span class="iconify  size-5" data-icon="f7:paperplane" ></span>
                 </a>
             @else
                 <span class="iconify  size-5" data-icon="f7:paperplane" ></span>
             @endif
         </div>
         <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Finalisation</span>
+        @if($currentStep==6)
+        <span class="iconify  size-5" data-icon="line-md:arrow-up" ></span>
+    @endif
     </li>
 </ol>
