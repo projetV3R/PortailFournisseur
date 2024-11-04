@@ -129,22 +129,18 @@
                 </div>
             </div>
         </div>
-      
-     </div>       
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <!-- les clones doivent apparaître ici dans une div swiper-slide -->
-            </div>
+    </div>
+    <div class="swiper-container w-full mx-auto mt-4">
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-wrapper">
             <!-- Pagination si nécessaire -->
-            <div class="swiper-pagination"></div>
-            <!-- Navigation si nécessaire -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-        </div>
-  
 
-   
+        </div>
+    </div>
 </form>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -359,6 +355,5 @@
         swiper.update(); // Mettre à jour Swiper
     }
 </script>
-
 
 @endsection
