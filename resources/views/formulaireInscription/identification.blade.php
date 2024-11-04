@@ -7,7 +7,7 @@
     <form action="{{ route('StoreIdentification') }}" method="post">
         @csrf
         <div class="p-4 md:p-16 flex flex-col w-full">
-            <div class="flex w-full flex-col xl:flex-row gap-4">
+            <div class="flex w-full flex-col 2xl:flex-row gap-4">
                 <div class="flex flex-col w-full">
                     <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Merci de vous identifier !</h6>
                     <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous</h1>

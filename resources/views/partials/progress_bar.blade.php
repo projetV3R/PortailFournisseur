@@ -11,7 +11,7 @@
     }
 @endphp
 
-<ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base gap-x-2 md:gap-x-0">
+<ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base justify-evenly">
     
     <li class="relative flex flex-col items-center {{ $currentStep >= 1 ? 'text-green-600' : 'text-gray-500' }}">
         <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $currentStep >= 1 ? 'border-green-600' : 'border-gray-300' }}">
@@ -23,11 +23,11 @@
                 <span class="iconify" data-icon="mdi:account-circle" data-width="20" data-height="20"></span>
             @endif
         </div>
-        <span class="mt-2 hidden xl:block">Identification</span>
+        <span class="mt-2 hidden min-[650px]:block text-sm md:text-base ">Identification</span>
     </li>
     
   
-    <div class="w-24 h-0.5 hidden md:block {{ $currentStep >= 1 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
+    <div class="w-24 h-0.5 hidden  min-[650px]:block  {{ $currentStep >= 1 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
 
  
     <li class="relative flex flex-col items-center {{ $currentStep >= 2 ? 'text-green-600' : 'text-gray-500' }}">
@@ -40,11 +40,11 @@
                 <span class="iconify" data-icon="mdi:package-variant-closed" data-width="20" data-height="20"></span>
             @endif
         </div>
-        <span class="mt-2 hidden xl:block">Produits</span>
+        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Produits</span>
     </li>
 
  
-    <div class="w-24 h-0.5 {{ $currentStep >= 2 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
+    <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 2 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
 
 
     <li class="relative flex flex-col items-center {{ $currentStep >= 3 ? 'text-green-600' : 'text-gray-500' }}">
@@ -57,10 +57,10 @@
                 <span class="iconify" data-icon="mdi:certificate" data-width="20" data-height="20"></span>
             @endif
         </div>
-        <span class="mt-2 hidden xl:block">Licences</span>
+        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Licences</span>
     </li>
 
-    <div class="w-24 h-0.5 {{ $currentStep >= 3 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
+    <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 3 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
 
   
     <li class="relative flex flex-col items-center {{ $currentStep >= 4 ? 'text-green-600' : 'text-gray-500' }}">
@@ -73,10 +73,10 @@
                 <span class="iconify" data-icon="material-symbols:location-on" data-width="20" data-height="20"></span>
             @endif
         </div>
-        <span class="mt-2 hidden xl:block">Coordonnée</span>
+        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Coordonnée</span>
     </li>
 
-    <div class="w-24 h-0.5 {{ $currentStep >= 4 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
+    <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 4 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
 
    
     <li class="relative flex flex-col items-center {{ $currentStep >= 5 ? 'text-green-600' : 'text-gray-500' }}">
@@ -89,10 +89,10 @@
                 <span class="iconify" data-icon="material-symbols:contact-phone-rounded" data-width="20" data-height="20"></span>
             @endif
         </div>
-        <span class="mt-2 hidden xl:block">Contact</span>
+        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Contact</span>
     </li>
 
-    <div class="w-24 h-0.5 {{ $currentStep >= 5 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
+    <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 5 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
 
     
     <li class="relative flex flex-col items-center {{ $currentStep >= 6 ? 'text-green-600' : 'text-gray-500' }}">
@@ -105,11 +105,11 @@
                 <span class="iconify" data-icon="material-symbols:attach-file" data-width="20" data-height="20"></span>
             @endif
         </div>
-        <span class="mt-2 hidden xl:block">Brochures</span>
+        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Brochures</span>
     </li>
 
     
-    <div class="w-24 h-0.5 {{ $currentStep >= 5 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
+    <div class="w-24 h-0.5 hidden min-[650px]:block {{ $currentStep >= 5 ? 'bg-green-600' : 'bg-gray-300' }}"></div>
 
     
     <li class="relative flex flex-col items-center {{ $currentStep >= 6 ? 'text-green-600' : 'text-gray-500' }}">
@@ -122,7 +122,7 @@
                 <span class="iconify" data-icon="f7:paperplane" data-width="20" data-height="20"></span>
             @endif
         </div>
-        <span class="mt-2 hidden xl:block">Finalisation</span>
+        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Finalisation</span>
     </li>
 
 
