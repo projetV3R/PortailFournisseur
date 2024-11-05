@@ -51,7 +51,12 @@ class FicheFournisseurController extends Controller
         }
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('CreateIdentification')->with('message', 'Connexion réussie');
+            $fournisseur = Auth::user();
+                 if ($fournisseur && $fournisseur->etat === 'accepter' && !$fournisseur->finance()->exists()) {
+                     return view('formulaireInscription/Finances', compact('fournisseur'));
+                 }else{
+                     return redirect()->route('profil')->with('message', 'Connexion réussie');
+                 }
         } else {
           
             Log::error('Échec de connexion', ['credentials' => $credentials]);
@@ -61,12 +66,19 @@ class FicheFournisseurController extends Controller
             ]);
         }
     }
-    
+   
     public function resume()
-    { 
-        $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
-        return view('formulaireInscription/resume' , compact('maxFileSize'));
+    {
+        // Vérifie que l'utilisateur n'est pas connecté et que toutes les variables de session requises sont présentes
+        if (!auth()->check() && session()->has(['contacts', 'coordonnees', 'identification', 'licences', 'produitsServices'])) {
+            $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
+            return view('formulaireInscription/resume', compact('maxFileSize'));
+        }
+    
+        // Redirige vers une autre page ou affiche une erreur si les conditions ne sont pas remplies
+        return redirect()->back();
     }
+    
 
     public function profil()
     { 
@@ -112,6 +124,7 @@ class FicheFournisseurController extends Controller
      */
     public function store()
 {
+    if (!auth()->check() && session()->has(['contacts', 'coordonnees', 'identification', 'licences', 'produitsServices'])) {
     try {
         DB::beginTransaction();
 
@@ -263,7 +276,9 @@ class FicheFournisseurController extends Controller
 
 
         return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite lors de la création de la fiche fournisseur : ' . $e->getMessage()]);
+        }
     }
+    return redirect()->back();
 }
 
     /**

@@ -7,12 +7,20 @@
 @section('contenu')
     <form action="{{ route('storeLicences') }}" method="post">
         @csrf
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-8 lg:p-16">
+        <div class="p-4 md:p-16 flex flex-col  w-full">
+            <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
+                <div class="flex flex-col w-full">
+                     <h6 class="font-Alumni font-bold text-3xl md:text-5xl">LICENCES ET AUTORISATIONS</h6>
+                    <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Parler nous des services que vous offrez</h1>
+    
+                    
+                </div>
+                @include('partials.progress_bar')
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
             <!-- Première colonne -->
             <div>
-                <h6 class="font-Alumni font-bold text-3xl md:text-5xl">LICENCES ET AUTORISATIONS</h6>
-                <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Parler nous des services que vous offrez</h1>
-
+              
                 <div class="bg-primary-100 py-8 px-4 mt-8">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Licence RBQ</h4>
 
@@ -66,17 +74,18 @@
                     </div>
                 </div>
             </div>
-
+          
             <!-- Deuxième colonne -->
             <div>
            
-                <h6 class="font-Alumni text-white font-bold text-3xl md:text-5xl">Catégories et sous-catégories</h6>
+                
+                <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreCategorie">
+                    <h6 class="font-Alumni  font-bold text-3xl md:text-5xl">Sous-catégories</h6>
                 @error('sousCategorie')
                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                     {{ $message }}
                 </span>
             @enderror
-                <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreCategorie">
                     <div id="checklistContainer" class="mt-6">
                         <p>Sélectionnez un type de licence pour voir les sous-catégories disponibles.</p>
                     </div>
@@ -87,6 +96,7 @@
                 </button>
             </div>
         </div>
+    </div>
     </form>
 
     <script>

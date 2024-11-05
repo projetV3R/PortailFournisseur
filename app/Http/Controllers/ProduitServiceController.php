@@ -14,26 +14,52 @@ class ProduitServiceController extends Controller
      * Display a listing of the resource.
      */
 
-    public function search(Request $request)
+     public function search(Request $request)
+     {
+        if (auth()->check() || session()->has('identification')){
+         $query = trim($request->get('recherche'));
+         $categorie = $request->get('categorie');
+     
+         $produits = ProduitsServices::when($query, function($queryBuilder) use ($query) {
+                 $queryBuilder->where('nature', 'LIKE', '%' . $query . '%')
+                              ->orWhere('code_categorie', 'LIKE', '%' . $query . '%')
+                              ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
+                              ->orWhere('description', 'LIKE', '%' . $query . '%');
+             })
+             ->when($categorie, function ($queryBuilder) use ($categorie) {
+                 $queryBuilder->where('code_categorie', $categorie);
+             })
+             ->paginate(10);
+     
+         return response()->json($produits);
+        }
+        return redirect()->back();
+     }
+     
+
+    public function getCategories()
     {
-        $query = trim($request->get('recherche'));
-        $posts = ProduitsServices::where(function($queryBuilder) use ($query) {
-            $queryBuilder->where('nature', 'LIKE', '%' . $query . '%')
-                         ->orWhere('code_categorie', 'LIKE', '%' . $query . '%')
-                         ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
-                         ->orWhere('description', 'LIKE', '%' . $query . '%');
-        })->paginate(10);
+        if (auth()->check() || session()->has('identification')){
+    $categories = ProduitsServices::select('code_categorie')
+        ->distinct()
+        ->orderBy('code_categorie', 'asc')
+        ->pluck('code_categorie');
 
-        return response()->json($posts);
+    return response()->json($categories);
+        }
+        return redirect()->back();
     }
-
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        if (!auth()->check() &&  session()->has('identification')){
         return view('formulaireInscription/Produits_services');
+    }
+
+    return redirect()->back();
     }
 
     /**
@@ -41,10 +67,12 @@ class ProduitServiceController extends Controller
      */
     public function store(ProduitServiceRequest $request)
     {
+        if (!auth()->check() &&  session()->has('identification')){
         session()->put("produitsServices", $request->all());
-        \Log::info('Données enregistrées dans la session produitsServices:', session('produitsServices'));
 
         return redirect()->route('createLicences');
+    }
+     return redirect()->back();
     }
 
     /**
@@ -52,6 +80,7 @@ class ProduitServiceController extends Controller
      */
     public function getMultiple(Request $request)
     {
+         if (auth()->check() || session()->has('identification')){
         $ids = $request->query('ids', []);
     
 
@@ -72,6 +101,8 @@ class ProduitServiceController extends Controller
         $produits = ProduitsServices::whereIn('id', $validatedIds)->get();
     
         return response()->json($produits);
+     }
+    return redirect()->back();
     }
     
     

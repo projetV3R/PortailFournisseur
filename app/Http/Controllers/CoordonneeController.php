@@ -24,7 +24,11 @@ class CoordonneeController extends Controller
     public function create()
     {
     // session()->flush();
+    if (!auth()->check() && session()->has('licences')){
         return view("formulaireInscription/coordonnees");
+    }
+
+    return redirect()->back();
     }
 
 
@@ -33,16 +37,17 @@ class CoordonneeController extends Controller
      */
     public function store(CoordonneeRequest $request)
     {
-        Log::info('Test log message');
-
-        session()->put("coordonnees", $request->all());
+        if (!auth()->check() && session()->has('licences')){
+       
         $currentIndex = $request->input('currentIndex', 0);
+        session()->put("coordonnees", $request->all());
+        
         session()->put("currentIndex", $currentIndex);
-        Log::info('Coordonnées enregistrées : ', $request->all());
-        Log::info('Index enregistré : ' . $currentIndex);
   
       
         return redirect()->route('createContacts');
+     }
+     return redirect()->back();
     }
 
     /**

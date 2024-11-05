@@ -27,10 +27,9 @@ Route::post('/Identification/store', [IdentificationController::class, "store"])
 // Produits Services
 
 Route::get('/ProduitsServices', [ProduitServiceController::class, "create"])->name("createProduitsServices");
-
 Route::post('/ProduitsServices/store', [ProduitServiceController::class, "store"])->name("StoreProduitsServices");
-
 Route::get('/produits-services/multiple', [ProduitServiceController::class, 'getMultiple'])->name('produits-services.getMultiple');
+Route::get('/categories', [ProduitServiceController::class, 'getCategories']);
 
 // Coordonnees
 
@@ -38,6 +37,8 @@ Route::post('/Coordonnees/store', [CoordonneeController::class, "store"])->name(
 
 Route::get('/Coordonnees', [CoordonneeController::class, "create"])->name("CreateCoordonnees");
 Route::get('/municipalites-par-region', [RegionMunicipalitesController::class, 'getMunicipalitesParRegion']);
+Route::get('/region-par-municipalite', [RegionMunicipalitesController::class, 'getRegionByMunicipalite']);
+
 // Licence
 
 Route::get('/Licences', [LicenceController::class, "create"])->name("createLicences");

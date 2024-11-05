@@ -4,12 +4,14 @@
 
 @section('contenu')
 <div class="container mx-auto mt-10">
+    <div class="mb-5">
+    @include('partials.progress_bar')</div>
+
     <form id="fileUploadForm" action="{{ route('storeBrochuresCartesAffaires') }}" method="POST" enctype="multipart/form-data">
         @csrf
-
         <div class="bg-primary-100 py-8 px-4">
             <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Brochures et cartes d'affaires</h4>
-
+     
             <!-- Input de fichiers -->
             <input type="file" id="fileInput" name="fichiers[]" multiple
                    accept=".doc,.docx,.pdf,.jpg,.jpeg,.xls,.xlsx"
