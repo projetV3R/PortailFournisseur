@@ -3,6 +3,7 @@ import forms from "@tailwindcss/forms";
 
 export default {
     darkMode: 'class',
+    daltonien: 'class',
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
