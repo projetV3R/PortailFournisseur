@@ -36,8 +36,6 @@
                 window.location.href = "{{ route('login') }}";
             }
         }
-
-
         setInterval(updateCountdown, 1000);
     </script>
 
