@@ -91,7 +91,7 @@
                 <span class="iconify  size-5" data-icon="material-symbols:location-on" ></span>
             @endif
         </div>
-        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Coordonnée</span>
+        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Coordonnées</span>
         @if($currentStep >= 4)
         <span class="iconify  size-5" data-icon="material-symbols:done" ></span>
         @endif
@@ -113,7 +113,7 @@
                 <span class="iconify  size-5" data-icon="material-symbols:contact-phone-rounded" ></span>
             @endif
         </div>
-        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Contact</span>
+        <span class="mt-2 hidden  min-[650px]:block text-sm md:text-base">Contacts</span>
         @if($currentStep >= 5)
         <span class="iconify  size-5" data-icon="material-symbols:done" ></span>
         @endif
