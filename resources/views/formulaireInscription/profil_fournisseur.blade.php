@@ -315,13 +315,13 @@
                         <!-- Résumé des conditions de paiement -->
                         <h5 class="font-Alumni font-semibold text-md md:text-lg mt-4 underline">Conditions de Paiement</h5>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Condition de Paiement:</strong>
-                            {{ old('conditionDePaiement', 'N/A') }}</p>
+                            {{ $fournisseur->finance->condition_paiement }}</p>
 
                         <!-- Résumé des informations de configuration -->
                         <h5 class="font-Alumni font-semibold text-md md:text-lg mt-4 underline">Configuration</h5>
-                        <p class="mt-2 font-Alumni md:text-lg"><strong>Devise:</strong> {{ old('devise', 'N/A') }}</p>
+                        <p class="mt-2 font-Alumni md:text-lg"><strong>Devise:</strong>{{ $fournisseur->finance->devise }}</p>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Mode de Communication:</strong>
-                            {{ old('modeCommunication', 'N/A') }}</p>
+                            {{ $fournisseur->finance->mode_communication }}</p>
                     </div>
                 </div>
                 @else
