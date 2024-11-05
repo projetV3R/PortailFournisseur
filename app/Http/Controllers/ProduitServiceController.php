@@ -16,6 +16,7 @@ class ProduitServiceController extends Controller
 
      public function search(Request $request)
      {
+        if (auth()->check() || session()->has('identification')){
          $query = trim($request->get('recherche'));
          $categorie = $request->get('categorie');
      
@@ -31,17 +32,22 @@ class ProduitServiceController extends Controller
              ->paginate(10);
      
          return response()->json($produits);
+        }
+        return redirect()->back();
      }
      
 
     public function getCategories()
     {
+        if (auth()->check() || session()->has('identification')){
     $categories = ProduitsServices::select('code_categorie')
         ->distinct()
         ->orderBy('code_categorie', 'asc')
         ->pluck('code_categorie');
 
     return response()->json($categories);
+        }
+        return redirect()->back();
     }
 
     /**
@@ -49,7 +55,11 @@ class ProduitServiceController extends Controller
      */
     public function create()
     {
+        if (!auth()->check() &&  session()->has('identification')){
         return view('formulaireInscription/Produits_services');
+    }
+
+    return redirect()->back();
     }
 
     /**
@@ -57,9 +67,12 @@ class ProduitServiceController extends Controller
      */
     public function store(ProduitServiceRequest $request)
     {
+        if (!auth()->check() &&  session()->has('identification')){
         session()->put("produitsServices", $request->all());
 
         return redirect()->route('createLicences');
+    }
+     return redirect()->back();
     }
 
     /**
@@ -67,6 +80,7 @@ class ProduitServiceController extends Controller
      */
     public function getMultiple(Request $request)
     {
+         if (auth()->check() || session()->has('identification')){
         $ids = $request->query('ids', []);
     
 
@@ -87,6 +101,8 @@ class ProduitServiceController extends Controller
         $produits = ProduitsServices::whereIn('id', $validatedIds)->get();
     
         return response()->json($produits);
+     }
+    return redirect()->back();
     }
     
     

@@ -7,12 +7,19 @@
 
     <form action="{{ route('StoreCoordonnees') }}" method="post">
         @csrf
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-8 lg:p-16">
+        <div class="p-4 md:p-16 flex flex-col  w-full">
+            <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
+                <div class="flex flex-col w-full">
+                    <h6 class="font-Alumni font-bold text-3xl md:text-5xl">COORDONNEES</h6>
+                <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Ou vous situez vous ?</h1>
+                    
+                </div>
+                @include('partials.progress_bar')
+            </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
             <!-- Première colonne -->
             <div>
-                <h6 class="font-Alumni font-bold text-3xl md:text-5xl">COORDONNEES</h6>
-                <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Ou vous situez vous ?</h1>
+                
 
                 <div class="bg-primary-100 py-8 px-4 mt-8 ">
                     <div class="flex items-center gap-0.5">
@@ -187,8 +194,7 @@
 
             <!-- Deuxième colonne -->
             <div>
-                <h6 class="font-Alumni text-white font-bold text-3xl md:text-5xl hide">Merci de vous identifier !</h6>
-                <h1 class="font-Alumni text-white font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous
+             
                 </h1>
 
                 <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreNumero">
@@ -285,6 +291,7 @@
 
             </div>
         </div>
+    </div>
     </form>
     <script>
 

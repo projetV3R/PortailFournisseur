@@ -27,8 +27,8 @@ class FinanceRequest extends FormRequest
             'numeroTPS' => ['required', 'string', 'max:15', 'regex:/^\d{9}$/'], // Numéro de TPS (format numérique à 9 chiffres)
             'numeroTVQ' => ['required', 'string', 'max:15', 'regex:/^\d{10}$/'], // Numéro de TVQ (format numérique à 10 chiffres)
             'conditionDePaiement' => ['required', 'string', 'max:255'], // Conditions de paiement
-            'devise' => ['required', 'string', Rule::in(['CAD', 'USD', 'EUR'])], // Liste prédéterminée de devises
-            'modeCommunication' => ['required', 'string', Rule::in(['email', 'téléphone', 'courrier'])], // Liste prédéterminée de modes de communication
+            'devise' => ['required', 'string', Rule::in(['CAD', 'USD'])], // Liste prédéterminée de devises
+            'modeCommunication' => ['required', 'string', Rule::in(['courriel','courrier'])], // Liste prédéterminée de modes de communication
         ];
     }
 }
