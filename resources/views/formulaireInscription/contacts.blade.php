@@ -130,13 +130,12 @@
             </div>
         </div>
     </div>
-    <div class="swiper-container w-full mx-auto mt-4">
+    <div class="swiper-container flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16">
         <div class="swiper-pagination"></div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-wrapper">
             <!-- Pagination si nécessaire -->
-
         </div>
     </div>
 </form>
