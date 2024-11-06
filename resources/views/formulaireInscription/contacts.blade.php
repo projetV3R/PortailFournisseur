@@ -8,7 +8,7 @@
 
 <form action="{{ route('storeContacts') }}" method="post" id="contactForm">
     @csrf
-    <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16" id="contactFieldsContainer">
+    <div class="flex w-full lg:flex-col flex-col gap-2 p-4 lg:p-8" id="contactFieldsContainer">
         <div class="flex w-full flex-col">
             <h6 class="font-Alumni font-bold text-3xl md:text-5xl">CONTACTS</h6>
             <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Pour rester plus proches de vous !</h1>
@@ -131,7 +131,7 @@
         </div>
     </div>
     <div>
-        <div class="swiper-container flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16 overflow-hidden">
+        <div class="swiper-container flex w-full lg:flex-col flex-col gap-2 p-4 lg:p-8 overflow-hidden">
             <div class="swiper-wrapper">
                 <!-- Pagination si nécessaire -->
             </div>
@@ -170,7 +170,6 @@
 
     const swiper = new Swiper('.swiper-container', {
         slidesPerView: 1,
-        spaceBetween: 10,
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
@@ -209,7 +208,7 @@
 
         // Create a new Swiper slide
         const newSlide = document.createElement('div');
-        newSlide.classList.add('swiper-slide');
+        newSlide.classList.add('swiper-slide', 'w-full', 'justify-center', 'p-10', 'pl-8');
         newSlide.appendChild(clone);
 
         // Reset input values in cloned fields
@@ -227,7 +226,7 @@
         // Create a delete button for the slide
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
-        deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
+        deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'p-5', 'mt-2');
         deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
         deleteButton.addEventListener('click', function() {
             Swal.fire({
