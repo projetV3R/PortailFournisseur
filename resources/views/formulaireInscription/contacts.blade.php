@@ -8,10 +8,14 @@
 
 <form action="{{ route('storeContacts') }}" method="post" id="contactForm">
     @csrf
-    <div class="flex w-full lg:flex-col flex-col gap-2 p-4 lg:p-8" id="contactFieldsContainer">
-        <div class="flex w-full flex-col">
-            <h6 class="font-Alumni font-bold text-3xl md:text-5xl">CONTACTS</h6>
-            <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Pour rester plus proches de vous !</h1>
+    <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16" id="contactFieldsContainer">
+        <div class="flex w-full flex-col 2xl:flex-row gap-4">
+            <div class="flex flex-col w-full">
+                <h6 class="font-Alumni font-bold text-3xl md:text-5xl">CONTACTS</h6>
+                <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Pour rester plus proches de vous !</h1>
+            </div>
+
+            @include('partials.progress_bar')
         </div>
 
         <div class="flex w-full gap-x-4">
@@ -292,6 +296,7 @@
         return value;
     }
 
+    //zone variables de session.
     function ajouterContactFields(index, contact = {}) {
         var contactFieldsContainer = document.getElementById('contactFieldsContainer');
         var clone = contactFieldsContainer.cloneNode(true);
