@@ -130,15 +130,14 @@
             </div>
         </div>
     </div>
-    <div>
-        <div class="swiper-container flex w-full lg:flex-col flex-col gap-2 p-4 lg:p-8 overflow-hidden">
-            <div class="swiper-wrapper">
-                <!-- Pagination si nécessaire -->
-            </div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-pagination"></div>
+    <div class="swiper-container flex relative w-full lg:flex-col flex-col gap-2 p-4 lg:p-8 overflow-hidden">
+        <div class="swiper-wrapper">
+            <!-- Pagination si nécessaire -->
         </div>
+        <div class="swiper-pagination absolute bottom-2 inset-x-0 flex justify-center"></div>
+        <div class="swiper-button-prev absolute left-2 top-1/2 transform -translate-y-1/2 text-blue-500"></div>
+        <div class="swiper-button-next absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500"></div>
+
     </div>
 
 
@@ -169,15 +168,16 @@
     });
 
     const swiper = new Swiper('.swiper-container', {
-        slidesPerView: 1,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        centeredSlides: true,
+        slidesPerView: 1,
     });
 
 
