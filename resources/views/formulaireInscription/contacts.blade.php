@@ -346,7 +346,9 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     clone.remove();
-                    reindexContacts();
+                    newSlide.remove(); // Remove the slide from the DOM
+                    swiper.update();
+                    reindexContacts(); 
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
