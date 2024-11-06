@@ -131,7 +131,7 @@
         </div>
     </div>
     <div>
-        <div class="swiper-container flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16 overflow:hidden">
+        <div class="swiper-container flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16 overflow-hidden">
             <div class="swiper-wrapper">
                 <!-- Pagination si nécessaire -->
             </div>
