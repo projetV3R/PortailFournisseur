@@ -40,7 +40,7 @@
         
             <form id="information" action="{{ route('FicheFournisseursStore') }}" method="POST">
                 @csrf
-                <button type="submit" onclick="confirmInformation()" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">
+                <button type="button" onclick="confirmInformation()" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">
                     Valider les informations
                 </button>
             </form>
