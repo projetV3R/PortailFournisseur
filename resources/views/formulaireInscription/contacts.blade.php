@@ -19,8 +19,8 @@
             </div>
         </div>
 
-        <div class="flex w-full gap-x-4">
-            <div class="flex flex-col w-1/2">
+        <div class="flex flex-col w-full gap-x-4 md:flex-row">
+            <div class="flex flex-col w-full md:w-1/2">
                 <div class="bg-primary-100 py-8 px-4 mt-8">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Information generale</h4>
 
