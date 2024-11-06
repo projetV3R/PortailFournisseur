@@ -77,7 +77,7 @@
             </div>
 
             <!-- Deuxième colonne -->
-            <div class="bg-secondary-100 lg:py-10 mt-8 w-full lg:max-w-4xl flex flex-col h-fit">
+            <div class="bg-secondary-100 p-4 lg:py-10 mt-8 w-full lg:max-w-4xl flex flex-col h-fit">
                 <div class="bg-secondary-100 lg:py-8 lg:px-4 px-2 flex flex-col">
                     <div class="w-full flex">
                         <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Numero de telephone</h4>
