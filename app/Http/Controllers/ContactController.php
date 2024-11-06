@@ -38,7 +38,6 @@ class ContactController extends Controller
         $contacts = $request->input('contacts');
     
         session()->put('contacts', $contacts);
-
         Log::info(session("contacts"));
     
        

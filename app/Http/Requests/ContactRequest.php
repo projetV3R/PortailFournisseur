@@ -24,7 +24,7 @@ class ContactRequest extends FormRequest
     {
         return [
             'contacts' => ['required', 'array'],
-            'contacts.*.prenom' => [
+            'contacts.*.preN' => [
                 'required',
                 'string',
                 'max:32',

@@ -170,7 +170,7 @@
                             <h5 class="font-Alumni font-semibold text-md md:text-lg">Contact {{ $loop->iteration }}</h5>
 
                             <div class="border-b pb-4">
-                                <p class="font-Alumni text-md md:text-lg"><strong>Prénom :</strong> {{ $contact['prenom'] }}</p>
+                                <p class="font-Alumni text-md md:text-lg"><strong>Prénom :</strong> {{ $contact['preN'] }}</p>
                                 <p class="font-Alumni text-md md:text-lg"><strong>Nom :</strong> {{ $contact['nom'] }}</p>
                                 <p class="font-Alumni text-md md:text-lg"><strong>Fonction :</strong> {{ $contact['fonction'] }}</p>
                                 <p class="font-Alumni text-md md:text-lg"><strong>Email :</strong> {{ $contact['email'] }}</p>

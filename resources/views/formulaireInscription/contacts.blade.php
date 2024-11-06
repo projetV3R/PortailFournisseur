@@ -26,12 +26,12 @@
 
                     <div class="mt-6 w-full max-w-md flex gap-4 columns-2">
                         <div class="w-full">
-                            <label for="prenom" class="block font-Alumni text-md md:text-lg mb-2">
+                            <label for="preN" class="block font-Alumni text-md md:text-lg mb-2">
                                 Prenom
                             </label>
-                            <input type="text" id="prenom" name="contacts[0][prenom]" placeholder="Doe"
+                            <input type="text" id="preN" name="contacts[0][preN]" placeholder="Doe"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                            @error('contacts.0.prenom')
+                            @error('contacts.0.preN')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
@@ -279,7 +279,7 @@
     }
 
     function remplirPremierContact(contact) {
-        document.querySelector('input[name="contacts[0][prenom]"]').value = contact.prenom || '';
+        document.querySelector('input[name="contacts[0][preN]"]').value = contact.preN || '';
         document.querySelector('input[name="contacts[0][nom]"]').value = contact.nom || '';
         document.querySelector('input[name="contacts[0][fonction]"]').value = contact.fonction || '';
         document.querySelector('input[name="contacts[0][email]"]').value = contact.email || '';
@@ -317,7 +317,7 @@
                 input.setAttribute('name', newName);
             }
 
-            if (name.includes('prenom') && contact.prenom) input.value = contact.prenom;
+            if (name.includes('preN') && contact.preN) input.value = contact.preN;
             if (name.includes('nom') && contact.nom) input.value = contact.nom;
             if (name.includes('fonction') && contact.fonction) input.value = contact.fonction;
             if (name.includes('email') && contact.email) input.value = contact.email;
