@@ -14,8 +14,9 @@
                 <h6 class="font-Alumni font-bold text-3xl md:text-5xl">CONTACTS</h6>
                 <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Pour rester plus proches de vous !</h1>
             </div>
-
-            @include('partials.progress_bar')
+            <div id="barreProgression"> 
+                @include('partials.progress_bar')
+            </div>
         </div>
 
         <div class="flex w-full gap-x-4">
@@ -209,6 +210,7 @@
         // Remove buttons from the cloned element
         clone.querySelector('#addContactBtn')?.remove();
         clone.querySelector('#submitBtn')?.remove();
+        clone.querySelector('#barreProgression')?.remove();
 
         // Create a new Swiper slide
         const newSlide = document.createElement('div');
