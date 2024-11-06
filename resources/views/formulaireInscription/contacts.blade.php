@@ -232,7 +232,7 @@
         // Create a delete button for the slide
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
-        deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'p-5', 'mt-2');
+        deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'p-5', 'mt-2', 'font-Alumni', 'font-bold', 'text-lg', 'md:text-2xl');
         deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
         deleteButton.addEventListener('click', function() {
             Swal.fire({
@@ -330,7 +330,7 @@
 
         var deleteButton = document.createElement('button');
         deleteButton.type = 'button';
-        deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
+        deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'p-5', 'mt-2', 'font-Alumni', 'font-bold', 'text-lg', 'md:text-2xl');
         deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
         deleteButton.addEventListener('click', function() {
             Swal.fire({
