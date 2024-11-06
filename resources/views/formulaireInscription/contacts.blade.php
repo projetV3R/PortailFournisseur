@@ -305,6 +305,7 @@
 
         clone.querySelector('#addContactBtn')?.remove();
         clone.querySelector('#submitBtn')?.remove();
+        clone.querySelector('#barreProgression')?.remove();
 
         const newSlide = document.createElement('div');
         newSlide.classList.add('swiper-slide')
