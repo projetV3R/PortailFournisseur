@@ -110,11 +110,11 @@
                             @enderror
                         </div>
 
-                        <div class="w-full">
+                        <div class="w-full" id="poste_div_0">
                             <label for="poste" class="block font-Alumni text-md md:text-lg mb-2">
                                 Poste
                             </label>
-                            <input type="text" id="poste" name="contacts[0][poste]" placeholder="9845"
+                            <input type="text" id="poste_0" name="contacts[0][poste]" placeholder="9845"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                             @error('contacts.0.poste')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -153,6 +153,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(function(input) {
             formatTel(input);
+            tooglePosteInput(0);
         });
 
         @if(session('contacts'))
@@ -198,6 +199,7 @@
         });
     }
 
+
     let currentContactIndex = 0;
 
     document.getElementById('addContactBtn').addEventListener('click', function() {
@@ -205,6 +207,7 @@
         const clone = contactFieldsContainer.cloneNode(true);
         const currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7; // Adjust index calculation if necessary
 
+        
         currentContactIndex++;
 
         // Remove buttons from the cloned element
@@ -266,6 +269,25 @@
         swiper.appendSlide(newSlide); // Add the new slide to Swiper
     });
 
+    function tooglePosteInput(index) {
+        const ligneSelect = document.getElementById(`ligne_${index}`);
+        const posteDiv = document.getElementById(`poste_div_${index}`);
+        const posteInput = document.getElementById(`poste_${index}`);
+
+        function togglePoste() {
+            if (ligneSelect.value !== "Bureau") {
+                posteDiv.classList.add('hidden'); // Masque le champ "Poste"
+                posteInput.value = ''; // Efface la valeur de l'input "Poste"
+            } else {
+                posteDiv.classList.remove('hidden'); // Affiche le champ "Poste"
+            }
+        }
+
+        ligneSelect.addEventListener('change', togglePoste);
+
+        // Appel initial pour définir l'état correct au chargement
+        togglePoste();
+    }
 
     function reindexContacts() {
         document.querySelectorAll('[name^="contacts"]').forEach((input, index) => {
