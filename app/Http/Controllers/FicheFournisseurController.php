@@ -19,6 +19,7 @@ use App\Models\ProduitService;
 use App\Models\ProduitServiceFicheFournisseur;
 use App\Models\ParametreSysteme;
 use App\Notifications\WelcomeEmail;
+use App\Http\Requests\IdentificationRequest;
 class FicheFournisseurController extends Controller
 {
 
@@ -280,6 +281,29 @@ class FicheFournisseurController extends Controller
     }
     return redirect()->back();
 }
+
+public function updateProfile(IdentificationRequest $request)
+{
+    $fournisseur = Auth::user();
+
+    // Mettre à jour les données du fournisseur
+    $fournisseur->adresse_courriel = $request->input('email');
+
+    if ($request->filled('password')) {
+        $fournisseur->password = Hash::make($request->input('password'));
+    }
+
+    $fournisseur->neq = $request->input('numeroEntreprise');
+    $fournisseur->nom_entreprise = $request->input('nomEntreprise');
+
+    $fournisseur->save();
+
+    // Rediriger avec un message de succès
+    return redirect()->back()
+        ->with('success', 'Votre profil a été mis à jour avec succès.');
+}
+
+
 
     /**
      * Display the specified resource.

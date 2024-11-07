@@ -38,8 +38,28 @@
 
     $etat = $fournisseur->etat;
     $etatStyle = $etatStyles[$etat] ?? $etatStyles['En attente']; // Par défaut à 'En attente' si l'état n'est pas défini
-@endphp
 
+  
+@endphp
+           <!-- Modal pour l'édition d'identification -->
+           
+           <div id="identificationModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-4xl mx-4 md:mx-8 lg:mx-12 lg:max-w-5xl relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier les informations d'identification</h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 1.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire d'identification -->
+                <div id="identificationFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+        
+        
 <div class="p-4 md:p-16">
     <div class="flex flex-col md:flex-row w-full">
         <div class="flex flex-col w-full md:w-1/2">
@@ -72,7 +92,7 @@
 
                     <!-- Bouton "modifier" ajouté en haut à droite du cadre -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300" onclick="openIdentificationModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -89,7 +109,6 @@
                     </div>
 
                 </div>
-
 
                 <div class="mt-8 px-4 py-8 bg-primary-100 relative">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Coordonnées</h4>
@@ -337,3 +356,31 @@
 
 
 @endsection
+
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+        @if (session()->has('errorsId'))
+            openIdentificationModal();
+      
+        @endif
+    });
+    function openIdentificationModal() {
+    document.getElementById('identificationModal').classList.remove('hidden');
+
+
+    axios.get("{{ route('EditIdentification') }}")
+        .then(function (response) {
+            document.getElementById('identificationFormContainer').innerHTML = response.data;
+        })
+        .catch(function (error) {
+            console.error('Erreur lors du chargement de la page d\'identification:', error);
+        });
+}
+
+            
+            function closeModal() {
+                document.getElementById('identificationModal').classList.add('hidden');
+            }
+         
+
+</script>

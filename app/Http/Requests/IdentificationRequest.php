@@ -2,6 +2,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class IdentificationRequest extends FormRequest
 {
@@ -66,4 +68,23 @@ class IdentificationRequest extends FormRequest
             'numeroEntreprise.regex' => 'Le numéro d\'entreprise doit commencer par "11", "22", "33" ou "88", suivi d\'un chiffre entre 4 et 9, puis de 7 autres chiffres.',
         ];
     }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $currentRouteName = $this->route()->getName();
+    
+        if ($currentRouteName === 'UpdateIdentification') {
+         
+            session()->put('errorsId', $validator->errors());
+    
+            throw new HttpResponseException(
+                redirect()->back()
+                    ->withInput()
+            );
+        }
+    
+     
+        parent::failedValidation($validator);
+    }
+    
 }

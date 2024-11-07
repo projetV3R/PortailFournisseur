@@ -23,6 +23,9 @@ Route::get('/Identification', [IdentificationController::class, "create"])->name
 
 Route::post('/Identification/store', [IdentificationController::class, "store"])->name("StoreIdentification");
 
+Route::get('/Identification/modif', [IdentificationController::class, "edit"])->name("EditIdentification")->middleware('auth');
+
+Route::post('/Identification/update', [FicheFournisseurController::class, "updateProfile"])->name("UpdateIdentification")->middleware('auth');
 
 // Produits Services
 
