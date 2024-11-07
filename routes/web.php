@@ -36,10 +36,9 @@ Route::post('removeInscrit', [FicheFournisseurController::class, 'removeInscrit'
 // Produits Services
 
 Route::get('/ProduitsServices', [ProduitServiceController::class, "create"])->name("createProduitsServices");
-
 Route::post('/ProduitsServices/store', [ProduitServiceController::class, "store"])->name("StoreProduitsServices");
-
 Route::get('/produits-services/multiple', [ProduitServiceController::class, 'getMultiple'])->name('produits-services.getMultiple');
+Route::get('/categories', [ProduitServiceController::class, 'getCategories']);
 
 // Coordonnees
 

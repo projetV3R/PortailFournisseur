@@ -14,9 +14,9 @@
             </h1>
         </div>
         <!-- Conteneur principal -->
-        <div class="flex w-full gap-x-4">
+        <div class="flex w-full lg:flex-row flex-col gap-x-4">
             <!-- Colonne des produits non sélectionnés -->
-            <div class="flex flex-col w-1/2">
+            <div class="flex flex-col ">
                 @if (session('errors'))
                     <ul>
                         @foreach (session('errors')->all() as $error)
@@ -24,7 +24,7 @@
                         @endforeach
                     </ul>
                 @endif
-                <div class="bg-primary-100 py-8 px-2 md:px-4 mt-8">
+                <div class="bg-primary-100 py-8 px-2 md:px-4 mt-8  ">
                     <div class="flex w-full">
                         <div class="justify-start flex w-full">
                             <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et services</h4>
@@ -40,18 +40,17 @@
                         <label for="recherche" class="block font-Alumni text-md md:text-lg mb-2">
                             En peu de mots décrivez vos produits ou services, le secteur ou le code UNSPSC
                         </label>
-                        <div class="flex">
+                        <div class="flex flex-col">
                             <input type="text" id="recherche"
                                 placeholder="En peu de mots décrivez vos produits ou services"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                            <button type="button" class="cursor-pointer w-1/6 bg-tertiary-400 p-1 ml-4 flex items-center justify-center"
-                                id="searchButton">
-                                <span class="iconify text-white size-6" data-icon="material-symbols:search"></span>
-                            </button>
+                                <select id="selectCategorie" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                    <option value="" disabled selected>Choisissez une catégorie pour filtrer les produits et services</option>
+                                </select>
                         </div>
                         <div id="pagination" class="mt-4 flex justify-center items-center gap-x-2"></div>
 
-                        <div id="toutLesProduitsServices" class="grid grid-cols-1 2xl:grid-cols-2 gap-4 mt-4"></div>
+                        <div id="toutLesProduitsServices" class="grid  grid-cols-2 gap-4 mt-4"></div>
 
                         @error('recherche')
                             <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
@@ -92,44 +91,8 @@
             </div>
         </div>
     </div>
-</form>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Bouton UNSPSC pour ouvrir le modal
-        const unspscButton = document.getElementById('unspscButton');
-        
-        unspscButton.addEventListener('click', () => {
-            Swal.fire({
-                title: 'Petit guide des codes UNSPSC',
-                html: `
-                    <div class="text-left">
-                        <p class="font-bold mb-2">Qu'est-ce qu'un code UNSPSC ?</p>
-                        <p>Le code UNSPSC (United Nations Standard Products and Services Code) est un système de classification mondial qui attribue des codes uniques à des produits et services. Cet outil de recherche vous permet de trier les produits et services selon leur code UNSPSC, la nature, le code de catégorie, ou un élément de la description.</p>
-                        <p class="font-bold mt-4 mb-2">Différentes catégories exemple  :</p>
-<ul class="list-disc pl-5">
-    <li><strong>C01</strong> - Bâtiments : Cette catégorie comprend tous les types de bâtiments, allant des maisons aux bâtiments commerciaux, et couvre une large gamme de constructions.</li>
-    <li><strong>C02</strong> - Ouvrages de génie civil : Cela inclut les infrastructures telles que les ponts, les routes, et autres travaux d'ingénierie civile.</li>
-    <li><strong>G10</strong> - Produits électriques et électroniques : Cette catégorie regroupe les équipements électriques et électroniques, tels que les circuits et les composants électriques.</li>
-    <li><strong>G15</strong> - Alimentation : Comprend les produits alimentaires, y compris les matières premières et les produits préparés.</li>
-    <li><strong>S18</strong> - Location à bail / Location d'équipement : Cette catégorie se rapporte à la location d'équipement pour divers besoins, tels que la construction ou l'industrie.</li>
-    <!-- Ajouter d'autres catégories selon les besoins -->
-</ul>
-                        <p class="font-bold mt-4 mb-2">Attributs disponibles pour la recherche :</p>
-                        <ul class="list-disc pl-5">
-                            <li><strong>Code UNSPSC</strong> : Un code unique qui identifie un produit ou un service composé uniquement de 8 chiffres. Exemple : "12345678" pour un équipement spécifique.</li>
-                            <li><strong>Nature</strong> : Catégorie générale du produit ou service. Exemple : "Travaux de construction".</li>
-                            <li><strong>Code de catégorie</strong> : Code qui correspond à un ensemble de produits ou services liés. Exemple : "C01" pour des bâtiments.</li>
-                            <li><strong>Description</strong> : Une description textuelle qui permet de rechercher par mots-clés. Exemple : "Cafétéria" ou "Stationnement".</li>
-                        </ul>
-                    </div>
-                `,
-                icon: 'info',
-                confirmButtonText: 'Compris'
-            });
-        });
-    });
-</script>
+</form>
 
 <script>
     let selectedProductIds = [];
@@ -138,14 +101,24 @@
     let currentPageSelected = 1;
 
     function performSearch(page = 1) {
-        const query = document.getElementById('recherche').value.trim();
-        axios.get('/search', { params: { recherche: query, page } })
-            .then(response => {
-                afficherResultats(response.data.data);
-                afficherPagination(response.data);
-            })
-            .catch(error => console.error("Erreur lors de la recherche :", error));
-    }
+    const query = document.getElementById('recherche').value.trim();
+    const selectedCategory = document.getElementById('selectCategorie').value || null; // Gérer l'option vide
+
+    axios.get('/search', { 
+        params: { 
+            recherche: query, 
+            categorie: selectedCategory, 
+            page 
+        } 
+    })
+    .then(response => {
+        afficherResultats(response.data.data);
+        afficherPagination(response.data);
+    })
+    .catch(error => console.error("Erreur lors de la recherche :", error));
+}
+
+
 
     function afficherResultats(produits) {
         const resultsContainer = document.getElementById('toutLesProduitsServices');
@@ -178,7 +151,7 @@
                 <span class="md:hidden">&lt;</span>
                 <span class="hidden md:inline">Précédente</span>
             </button>
-            <span class="text-xs font-bold mx-2">Page ${data.current_page} sur ${data.last_page}</span>
+            <span class="text-xs  font-bold mx-2">Page ${data.current_page} sur ${data.last_page}</span>
             <button type="button"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4
                 ${!data.next_page_url ? 'cursor-not-allowed' : ''}"
@@ -286,9 +259,8 @@
             <div class="bg-white cursor-pointer px-4 py-2 w-full flex flex-row produitSelectionne hover:bg-red-500"
                 data-index="${produit.id}">
                 <div class="flex flex-col w-full">
-                    <h6 class="font-Alumni font-bold text-xs md:text-3xl">${produit.nature || 'Nature non disponible'}</h6>
-                    <h4 class="font-Alumni text-xs md:text-xl mt-2">${produit.code_categorie || ''}</h4>
-                    <h1 class="font-Alumni text-xs italic md:text-lg">${produit.code_unspsc || ''} - ${produit.description || ''}</h1>
+ 
+                    <h1 class="font-Alumni text-xs italic md:text-lg">${produit.code_unspsc || ''}-  ${produit.description || ''}</h1>
                 </div>
                 <div class="flex flex-col items-end justify-start w-full">
                     <div class="flex items-center justify-center bg-tertiary-400 md:p-2 rounded-full">
@@ -413,14 +385,72 @@
             updateSelectedCount(); 
         }
 
-        searchButton.addEventListener('click', () => performSearch());
+     
         searchInput.addEventListener('input', () => {
             if (searchInput.value.length >= 3 || searchInput.value === '') {
                 performSearch();
             }
         });
+        document.getElementById('selectCategorie').addEventListener('change', () => {
+    performSearch(); 
+});
 
+        function getCategories() {
+            axios.get('/categories')
+                .then(response => {
+                    const categories = response.data;
+
+            
+                    selectCategorie.innerHTML = '<option value="" disabled selected>Choisissez une catégorie pour filtrer les produits et services</option>  <option value="">Toutes les catégories</option>';
+
+             
+                    categories.forEach(categorie => {
+                        const option = document.createElement('option');
+                        option.value = categorie;
+                        option.textContent = categorie;
+                        selectCategorie.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des catégories :', error);
+                });
+        }
+
+        // Appeler la fonction pour récupérer les catégories au chargement de la page
+        getCategories();
         performSearch();
+
+        const unspscButton = document.getElementById('unspscButton');
+        
+        unspscButton.addEventListener('click', () => {
+            Swal.fire({
+                title: 'Petit guide des codes UNSPSC',
+                html: `
+                    <div class="text-left">
+                        <p class="font-bold mb-2">Qu'est-ce qu'un code UNSPSC ?</p>
+                        <p>Le code UNSPSC (United Nations Standard Products and Services Code) est un système de classification mondial qui attribue des codes uniques à des produits et services. Cet outil de recherche vous permet de trier les produits et services selon leur code UNSPSC, la nature, le code de catégorie, ou un élément de la description.</p>
+                        <p class="font-bold mt-4 mb-2">Différentes catégories exemple  :</p>
+<ul class="list-disc pl-5">
+    <li><strong>C01</strong> - Bâtiments : Cette catégorie comprend tous les types de bâtiments, allant des maisons aux bâtiments commerciaux, et couvre une large gamme de constructions.</li>
+    <li><strong>C02</strong> - Ouvrages de génie civil : Cela inclut les infrastructures telles que les ponts, les routes, et autres travaux d'ingénierie civile.</li>
+    <li><strong>G10</strong> - Produits électriques et électroniques : Cette catégorie regroupe les équipements électriques et électroniques, tels que les circuits et les composants électriques.</li>
+    <li><strong>G15</strong> - Alimentation : Comprend les produits alimentaires, y compris les matières premières et les produits préparés.</li>
+    <li><strong>S18</strong> - Location à bail / Location d'équipement : Cette catégorie se rapporte à la location d'équipement pour divers besoins, tels que la construction ou l'industrie.</li>
+    <!-- Ajouter d'autres catégories selon les besoins -->
+</ul>
+                        <p class="font-bold mt-4 mb-2">Attributs disponibles pour la recherche :</p>
+                        <ul class="list-disc pl-5">
+                            <li><strong>Code UNSPSC</strong> : Un code unique qui identifie un produit ou un service composé uniquement de 8 chiffres. Exemple : "12345678" pour un équipement spécifique.</li>
+                            <li><strong>Nature</strong> : Catégorie générale du produit ou service. Exemple : "Travaux de construction".</li>
+                            <li><strong>Code de catégorie</strong> : Code qui correspond à un ensemble de produits ou services liés. Exemple : "C01" pour des bâtiments.</li>
+                            <li><strong>Description</strong> : Une description textuelle qui permet de rechercher par mots-clés. Exemple : "Cafétéria" ou "Stationnement".</li>
+                        </ul>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Compris'
+            });
+        });
     });
 </script>
 
