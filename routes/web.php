@@ -23,9 +23,15 @@ Route::get('/Identification', [IdentificationController::class, "create"])->name
 
 Route::post('/Identification/store', [IdentificationController::class, "store"])->name("StoreIdentification");
 
-// test
+// Redirection
 
 Route::get('/Redirection', [FicheFournisseurController::class, "redirection"])->name("redirection");
+
+
+//
+
+Route::post('removeInscrit', [FicheFournisseurController::class, 'removeInscrit'])->name('removeInscrit');
+
 
 // Produits Services
 

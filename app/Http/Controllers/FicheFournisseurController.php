@@ -20,6 +20,8 @@ use App\Models\ProduitService;
 use App\Models\ProduitServiceFicheFournisseur;
 use App\Models\ParametreSysteme;
 use App\Notifications\WelcomeEmail;
+use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Session as FacadesSession;
 
 class FicheFournisseurController extends Controller
 {
@@ -68,6 +70,12 @@ class FicheFournisseurController extends Controller
     {
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
         return view('formulaireInscription/resume', compact('maxFileSize'));
+    }
+
+    public function removeInscrit(Request $request)
+    {
+        $request->session()->forget('inscrit');
+        return response()->json(['status' => 'success']);
     }
 
     public function profil()
@@ -252,8 +260,9 @@ class FicheFournisseurController extends Controller
             }
 
             DB::commit();
-            Auth::loginUsingId($ficheFournisseur->id);
             $ficheFournisseur->notify(new WelcomeEmail());
+
+            session(['inscrit' => true]);
 
             return redirect()->route('redirection')->with('success', 'La fiche fournisseur a été créée avec succès.');
         } catch (\Exception $e) {
@@ -269,8 +278,17 @@ class FicheFournisseurController extends Controller
 
     public function redirection()
     {
+
+        // Vérifie si la variable de session 'inscrit' est définie et à true
+        if (!session('inscrit', false)) {
+            // Redirige vers la page de connexion si la variable de session n'est pas à true
+            return redirect()->route('login');
+        }
+
         return view('formulaireInscription/redirection');
     }
+
+
 
     /**
      * Display the specified resource.

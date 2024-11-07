@@ -265,7 +265,7 @@
             produitsServicesSelectionnees.innerHTML = '<p class="font-Alumni text-md text-gray-600">Aucun produit ou service sélectionné.</p>';
           
             document.getElementById('paginationSelected').innerHTML = '';
-            return;
+           
         }
 
         // S'assurer que currentPageSelected est au moins 1
