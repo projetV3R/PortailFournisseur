@@ -19,6 +19,7 @@ use App\Models\ProduitService;
 use App\Models\ProduitServiceFicheFournisseur;
 use App\Models\ParametreSysteme;
 use App\Notifications\WelcomeEmail;
+
 class FicheFournisseurController extends Controller
 {
 

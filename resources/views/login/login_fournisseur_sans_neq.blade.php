@@ -34,7 +34,6 @@
                                 </a>
                                 </div>
                           
-
                         </div>
 
                         <div class="mb-4">
@@ -49,8 +48,7 @@
                                 @enderror
                             </div>
                             <div class="w-full md:w-2/3 flex justify-end mt-2">
-                                <h6 class="font-Alumni md:text-base text-secondary-400 cursor-pointer">Mot de passe oublié ?
-                                </h6>
+                                <button type="button" id="forgot-password-btn" class="btn btn-link font-Alumni md:text-base text-secondary-400 cursor-pointer">Mot de passe oublié ?</button>
                             </div>
                         </div>
 
@@ -87,5 +85,60 @@
             </div>
         </div>
     </div>
+
+<script>
+    document.getElementById('forgot-password-btn').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Réinitialiser votre mot de passe',
+            input: 'email',
+            inputLabel: 'Entrez votre adresse email',
+            inputPlaceholder: 'exemple@domaine.com',
+            showCancelButton: true,
+            confirmButtonText: 'Envoyer',
+            showLoaderOnConfirm: true,
+            preConfirm: (email) => {
+                // Vérification de la présence de la balise meta CSRF
+                const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
+                if (!csrfTokenElement) {
+                    Swal.showValidationMessage(
+                        'Erreur : le token CSRF est introuvable dans la page.'
+                    );
+                    return;
+                }
+
+                const csrfToken = csrfTokenElement.getAttribute('content');
+
+                // Envoi de la requête avec Axios
+                return axios.post('/password/email', {
+                    adresse_courriel: email
+                }, {
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                .then(response => {
+                    return response.data;
+                })
+                .catch(error => {
+                    let errorMessage = 'Impossible d\'envoyer l\'email de réinitialisation.';
+                    if (error.response && error.response.data && error.response.data.message) {
+                        errorMessage = error.response.data.message;
+                    }
+                    Swal.showValidationMessage(`Erreur: ${errorMessage}`);
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Email envoyé!',
+                    text: 'Si cet email existe, un lien de réinitialisation vous a été envoyé.',
+                    icon: 'success'
+                });
+            }
+        });
+    });
+</script>
+
 
 @endsection
