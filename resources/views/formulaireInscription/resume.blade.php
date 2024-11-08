@@ -236,12 +236,13 @@
     function confirmInformation() {
         Swal.fire({
             title: "Êtes-vous sûr ?",
-            text: "Vous ne pourrez pas revenir en arrière !",
+            text: "Validez bien les informations avant de finaliser le processus d'inscription !",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Oui, valider !"
+            confirmButtonText: "Oui, valider !",
+            cancelButtonText: "Annuler"
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('information').submit();
