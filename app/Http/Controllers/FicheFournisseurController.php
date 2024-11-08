@@ -278,9 +278,6 @@ class FicheFournisseurController extends Controller
 
     public function redirection()
     {
-        if(Auth::check()){
-            return redirect()->route('profil');
-        }
 
         // Vérifie si la variable de session 'inscrit' est définie et à true
         if (!session('inscrit', false)) {
