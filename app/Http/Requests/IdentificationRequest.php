@@ -22,31 +22,23 @@ class IdentificationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $currentRouteName = $this->route()->getName();
+    
+        // Règles communes à toutes les routes
+        $rules = [
             'email' => [
                 'required',
                 'string',
                 'email',
                 'max:64',
-                'unique:fiche_fournisseurs,adresse_courriel',
-            ],
-            'password' => [
-                'required',
-                'string',
-                'min:7',
-                'max:12',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{7,12}$/',
-                'confirmed',
-            ],
-            'password_confirmation' => [
-                'required'
+                'unique:fiche_fournisseurs,adresse_courriel,'
             ],
             'numeroEntreprise' => [
                 'nullable',
                 'string',
                 'size:10',
                 'regex:/^(11|22|33|88)[4-9]\d{7}$/',
-                'unique:fiche_fournisseurs,neq',
+                'unique:fiche_fournisseurs,neq,' 
             ],
             'nomEntreprise' => [
                 'required',
@@ -54,7 +46,39 @@ class IdentificationRequest extends FormRequest
                 'max:64'
             ],
         ];
+    
+        if ($currentRouteName === 'UpdateIdentification') {
+       
+            $rules['password'] = [
+                'nullable',
+                'string',
+                'min:7',
+                'max:12',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{7,12}$/',
+                'confirmed',
+            ];
+      
+            $rules['password_confirmation'] = [
+                'required_with:password',
+            ];
+        } else {
+         
+            $rules['password'] = [
+                'required',
+                'string',
+                'min:7',
+                'max:12',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{7,12}$/',
+                'confirmed',
+            ];
+            $rules['password_confirmation'] = [
+                'required',
+            ];
+        }
+    
+        return $rules;
     }
+    
 
     /**
      * 
