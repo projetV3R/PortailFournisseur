@@ -79,6 +79,11 @@ class FicheFournisseurController extends Controller
         return redirect()->back();
     }
     
+    public function removeInscrit(Request $request)
+    {
+        $request->session()->forget('inscrit');
+        return response()->json(['status' => 'success']);
+    }
 
     public function profil()
     { 
@@ -263,10 +268,12 @@ class FicheFournisseurController extends Controller
           }
 
         DB::commit();
-        Auth::loginUsingId($ficheFournisseur->id);
+        
         $ficheFournisseur->notify(new WelcomeEmail());
 
-        return redirect()->route('profil')->with('success', 'La fiche fournisseur a été créée avec succès.');
+        session(['inscrit' => true]);
+
+        return redirect()->route('redirection')->with('success', 'La fiche fournisseur a été créée avec succès.');
 
     } catch (\Exception $e) {
         DB::rollBack();
@@ -280,6 +287,20 @@ class FicheFournisseurController extends Controller
     }
     return redirect()->back();
 }
+
+
+    public function redirection()
+    {
+
+        // Vérifie si la variable de session 'inscrit' est définie et à true
+        if (!session('inscrit', false)) {
+            // Redirige vers la page de connexion si la variable de session n'est pas à true
+            return redirect()->route('login');
+        }
+
+        return view('formulaireInscription/redirection');
+    }
+
 
     /**
      * Display the specified resource.
