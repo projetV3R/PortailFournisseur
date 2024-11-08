@@ -13,8 +13,14 @@
                     <li class="font-Alumni">{{ $error }}</li>
                 @endforeach
             </ul>
-        </div>
+        </div  
     @endif
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
         @csrf
         <div class="p-4 md:p-16 flex flex-col w-full">
             <div class="flex w-full flex-col 2xl:flex-row gap-4">
@@ -121,7 +127,7 @@
                         </div>
 
                         <button type="submit" class="mt-9 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
-                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">Enregistrer</h1>
                         </button>
                     </div>
                 </div>
@@ -130,3 +136,6 @@
     </form>
 
 @endsection
+@php
+session()->forget('errorsId');
+@endphp

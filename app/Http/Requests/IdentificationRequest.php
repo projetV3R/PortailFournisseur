@@ -31,14 +31,14 @@ class IdentificationRequest extends FormRequest
                 'string',
                 'email',
                 'max:64',
-                'unique:fiche_fournisseurs,adresse_courriel,'
+                'unique:fiche_fournisseurs,adresse_courriel,'. $this->user()->id,
             ],
             'numeroEntreprise' => [
                 'nullable',
                 'string',
                 'size:10',
                 'regex:/^(11|22|33|88)[4-9]\d{7}$/',
-                'unique:fiche_fournisseurs,neq,' 
+                'unique:fiche_fournisseurs,neq,' . $this->user()->id,
             ],
             'nomEntreprise' => [
                 'required',

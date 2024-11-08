@@ -297,7 +297,7 @@ public function updateProfile(IdentificationRequest $request)
     $fournisseur->adresse_courriel = $request->input('email');
 
     if ($request->filled('password')) {
-        $fournisseur->password = Hash::make($request->input('password'));
+        $fournisseur->password = bcrypt(($request->input('password')));
     }
 
     $fournisseur->neq = $request->input('numeroEntreprise');
