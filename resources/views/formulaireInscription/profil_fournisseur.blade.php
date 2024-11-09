@@ -73,6 +73,23 @@
                 </div>
             </div>
         </div>
+
+        <div id="coordonneeModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier les infornations de coordonnée</h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeCoordonneeModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="coordonneeFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+        
         
         
         
@@ -140,7 +157,7 @@
 
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300" onclick="openCoordonneeModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -390,6 +407,9 @@
         @if (session()->has('errorsPS'))
         openProduitsServicesModal();
         @endif
+        @if (session()->has('errorsCoordonnees'))
+        openCoordonneeModal();
+        @endif
     
         var successMessage = document.getElementById('successMessage');
         if (successMessage) {
@@ -456,6 +476,28 @@
 
 function closeProduitsServicesModal() {
     document.getElementById('produitsServicesModal').classList.add('hidden');
+}
+
+
+function openCoordonneeModal() {
+    document.getElementById('coordonneeModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditCoordonnee') }}") // Remplacez par la route correcte
+        .then(function (response) {
+            document.getElementById('coordonneeFormContainer').innerHTML = response.data;
+
+            // Charger dynamiquement le script de modification pour Produits et Services
+            loadScript('{{ asset('js/modif/coordonneeModif.js') }}', function() {
+                setTimeout(initializeCoordonneeFormScript, 100);
+            });
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page coordonnée", error);
+        });
+}
+
+function closeCoordonneeModal() {
+    document.getElementById('coordonneeModal').classList.add('hidden');
 }
     </script>
     

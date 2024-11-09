@@ -21,6 +21,7 @@ use App\Models\ParametreSysteme;
 use App\Notifications\WelcomeEmail;
 use App\Http\Requests\IdentificationRequest;
 use App\Http\Requests\ProduitServiceRequest;
+use App\Http\Requests\CoordonneeRequest;
 class FicheFournisseurController extends Controller
 {
 
@@ -329,6 +330,40 @@ public function updateProfile(IdentificationRequest $request)
         return redirect()->back()->with('success', 'Vos produits et services ont été mis à jour avec succès.');
     }
 
+    public function updateCoordonnee(CoordonneeRequest $request)
+    {
+        $fournisseur = Auth::user();
+    
+        // Mettre à jour les coordonnées
+        $coordonnee = $fournisseur->coordonnee;
+        $coordonnee->numero_civique = $request->input('numeroCivique');
+        $coordonnee->rue = $request->input('rue');
+        $coordonnee->bureau = $request->input('bureau');
+        $coordonnee->code_postal = $request->input('codePostale');
+        $coordonnee->province = $request->input('province');
+        $coordonnee->region_administrative = $request->input('regionAdministrative');
+        $coordonnee->site_internet = $request->input('siteWeb');
+        $coordonnee->ville = $request->input('municipalite') ?? $request->input('municipaliteInput');
+        $coordonnee->save();
+    
+        
+        $coordonnee->telephones()->detach();
+    
+        
+        $lignes = $request->input('ligne', []);
+        foreach ($lignes as $ligne) {
+            $numeroNettoye = str_replace('-', '', $ligne['numeroTelephone']);
+            $telephone = Telephone::create([
+                'numero_telephone' => $numeroNettoye,
+                'poste' => $ligne['poste'] ?? null,
+                'type' => $ligne['type'] ?? 'Bureau',
+            ]);
+    
+            $coordonnee->telephones()->attach($telephone->id);
+        }
+    
+        return redirect()->back()->with('success', 'Vos coordonnées ont été mises à jour avec succès.');
+    }
 
 
 

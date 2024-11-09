@@ -42,6 +42,10 @@ Route::post('/Coordonnees/store', [CoordonneeController::class, "store"])->name(
 Route::get('/Coordonnees', [CoordonneeController::class, "create"])->name("CreateCoordonnees");
 Route::get('/municipalites-par-region', [RegionMunicipalitesController::class, 'getMunicipalitesParRegion']);
 Route::get('/region-par-municipalite', [RegionMunicipalitesController::class, 'getRegionByMunicipalite']);
+Route::get('/Coordonnees/modif', [CoordonneeController::class, "edit"])->name("EditCoordonnee")->middleware('auth');
+Route::post('/Coordonnees/update', [FicheFournisseurController::class, "updateCoordonnee"])->name("UpdateCoordonnee")->middleware('auth');
+Route::get('/fournisseur/coordonnees/data', [CoordonneeController::class, 'getCoordonneeData'])->name('CoordonneesData');
+
 
 // Licence
 

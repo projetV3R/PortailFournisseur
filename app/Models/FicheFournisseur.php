@@ -35,10 +35,6 @@ class FicheFournisseur extends Authenticatable
         return $this->hasOne(Licence::class);
     }
 
-    public function coordonnees()
-    {
-        return $this->hasOne(Coordonnee::class);
-    }
 
     public function finance()
     {
