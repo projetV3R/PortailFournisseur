@@ -97,7 +97,6 @@
             confirmButtonText: 'Envoyer',
             showLoaderOnConfirm: true,
             preConfirm: (email) => {
-                // Vérification de la présence de la balise meta CSRF
                 const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
                 if (!csrfTokenElement) {
                     Swal.showValidationMessage(
@@ -108,7 +107,6 @@
 
                 const csrfToken = csrfTokenElement.getAttribute('content');
 
-                // Envoi de la requête avec Axios
                 return axios.post('/password/email', {
                     adresse_courriel: email
                 }, {

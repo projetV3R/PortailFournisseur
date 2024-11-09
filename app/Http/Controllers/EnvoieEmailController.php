@@ -14,13 +14,10 @@ class EnvoieEmailController extends Controller
 {
     $request->validate(['adresse_courriel' => 'required|email']);
 
-    // Utilisation de Log pour vérifier l'adresse utilisée
     Log::info('Adresse courriel utilisée pour le lien de réinitialisation : ' . $request->adresse_courriel);
 
-    // Laravel s'attend à une clé 'email', nous remplaçons donc 'adresse_courriel' par 'email'
     $credentials = ['email' => $request->adresse_courriel];
 
-    // Envoyer le lien de réinitialisation
     $status = Password::sendResetLink($credentials);
 
     return $status === Password::RESET_LINK_SENT
