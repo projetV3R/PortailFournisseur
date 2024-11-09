@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
+
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 

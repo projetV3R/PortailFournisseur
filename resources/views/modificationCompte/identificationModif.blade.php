@@ -4,7 +4,8 @@
 
 @section('contenu')
 
-    <form action="{{ route('UpdateIdentification') }}" method="post" >
+    <form action="{{ route('UpdateIdentification') }}" method="post" id="identificationForm" >
+        @csrf
         @if(session('errorsId'))
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
             <strong class="font-bold">Erreur!</strong>
@@ -15,13 +16,8 @@
             </ul>
         </div  
     @endif
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 
-        @csrf
+  
         <div class="p-4 md:p-16 flex flex-col w-full">
             <div class="flex w-full flex-col 2xl:flex-row gap-4">
                 <div class="flex flex-col w-full">
@@ -30,7 +26,8 @@
                 </div>
           
             </div>
-           
+       
+    
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <!-- Première colonne -->
                 <div>
@@ -126,7 +123,7 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="mt-9 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
+                        <button type="button" class="mt-9 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5" id="confirmButton">
                             <h1 class="font-Alumni font-bold text-lg md:text-2xl">Enregistrer</h1>
                         </button>
                     </div>
@@ -134,7 +131,10 @@
             </div>
         </div>
     </form>
+ 
+    <script src="{{ asset('js/modif/identificationModif.js') }}"></script>
 
+    
 @endsection
 @php
 session()->forget('errorsId');

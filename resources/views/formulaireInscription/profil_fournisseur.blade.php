@@ -68,6 +68,8 @@
                 détails de votre compte</h1>
         </div>
 
+
+
         <div class="{{ $etatStyle['bgColor'] }} mt-4 md:mt-0 md:ml-2 w-full md:w-1/2 py-4 px-6 flex items-center">
             <div class="{{ $etatStyle['textColor'] }}">
                 <span class="iconify" data-icon="{{ $etatStyle['icon'] }}" data-inline="false" style="font-size: 2rem;"></span>
@@ -358,29 +360,56 @@
 @endsection
 
 <script>
- document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         @if (session()->has('errorsId'))
             openIdentificationModal();
-      
         @endif
+    
+        var successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            setTimeout(function() {
+                successMessage.style.transition = 'opacity 0.5s ease';
+                successMessage.style.opacity = '0';
+                setTimeout(function() {
+                    successMessage.parentNode.removeChild(successMessage);
+                }, 500); 
+            }, 3000);
+        }
     });
+    
     function openIdentificationModal() {
-    document.getElementById('identificationModal').classList.remove('hidden');
+        document.getElementById('identificationModal').classList.remove('hidden');
+    
+        axios.get("{{ route('EditIdentification') }}")
+            .then(function (response) {
+          
+                document.getElementById('identificationFormContainer').innerHTML = response.data;
+    
+              
+                loadScript('{{ asset('js/modif/identificationModif.js') }}', function() {
+                
+                    setTimeout(initializeIdentificationFormScript, 100);
+                });
+            })
+            .catch(function (error) {
+                console.error("Erreur lors du chargement de la page d'identification:", error);
+            });
+    }
+    
 
-
-    axios.get("{{ route('EditIdentification') }}")
-        .then(function (response) {
-            document.getElementById('identificationFormContainer').innerHTML = response.data;
-        })
-        .catch(function (error) {
-            console.error('Erreur lors du chargement de la page d\'identification:', error);
-        });
-}
-
-            
-            function closeModal() {
-                document.getElementById('identificationModal').classList.add('hidden');
-            }
-         
-
-</script>
+    function loadScript(src, callback) {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = function() {
+            console.log(`Script ${src} chargé et exécuté`);
+            if (callback) callback();
+        };
+        document.body.appendChild(script);
+    }
+    
+    function closeModal() {
+        document.getElementById('identificationModal').classList.add('hidden');
+    }
+    </script>
+    
+    
