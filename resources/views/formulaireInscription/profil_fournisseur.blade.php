@@ -68,7 +68,14 @@
                 détails de votre compte</h1>
         </div>
 
-
+        @if (session('success'))
+        <div id="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 relative" role="alert">
+            <strong class="font-bold">Succès!</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+ 
+        </div>
+    @endif
+    
 
         <div class="{{ $etatStyle['bgColor'] }} mt-4 md:mt-0 md:ml-2 w-full md:w-1/2 py-4 px-6 flex items-center">
             <div class="{{ $etatStyle['textColor'] }}">
@@ -218,7 +225,7 @@
 
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300" onclick="openIdentificationModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
