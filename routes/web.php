@@ -34,6 +34,7 @@ Route::post('/ProduitsServices/store', [ProduitServiceController::class, "store"
 Route::get('/produits-services/multiple', [ProduitServiceController::class, 'getMultiple'])->name('produits-services.getMultiple');
 Route::get('/categories', [ProduitServiceController::class, 'getCategories']);
 Route::get('/produits-services/modif', [ProduitServiceController::class, "edit"])->name("EditProduit")->middleware('auth');
+Route::post('/produits-services/update', [FicheFournisseurController::class, "updateProduit"])->name("UpdateProduit")->middleware('auth');
 // Coordonnees
 
 Route::post('/Coordonnees/store', [CoordonneeController::class, "store"])->name("StoreCoordonnees");

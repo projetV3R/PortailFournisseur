@@ -20,6 +20,7 @@ use App\Models\ProduitServiceFicheFournisseur;
 use App\Models\ParametreSysteme;
 use App\Notifications\WelcomeEmail;
 use App\Http\Requests\IdentificationRequest;
+use App\Http\Requests\ProduitServiceRequest;
 class FicheFournisseurController extends Controller
 {
 
@@ -309,6 +310,24 @@ public function updateProfile(IdentificationRequest $request)
     return redirect()->back()
         ->with('success', 'Votre profil a été mis à jour avec succès.');
 }
+
+    public function updateProduit(ProduitServiceRequest $request)
+    {
+        $fournisseur = Auth::user();
+
+     
+        $fournisseur->details_specifications = $request->input('details_specifications');
+        $fournisseur->save();
+
+    
+        $productIds = $request->input('produits_services', []);
+
+     
+        $fournisseur->produitsServices()->sync($productIds);
+
+     
+        return redirect()->back()->with('success', 'Vos produits et services ont été mis à jour avec succès.');
+    }
 
 
 

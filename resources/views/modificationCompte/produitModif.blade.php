@@ -4,8 +4,18 @@
 
 @section('contenu')
 
-<form id="produitsServicesForm" action="{{ route('StoreProduitsServices') }}" method="post" id="produitForm">
+<form id="produitsServicesForm" action="{{ route('UpdateProduit') }}" method="post" id="produitForm">
     @csrf
+    @if(session('errorsPS'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+        <strong class="font-bold">Erreur!</strong>
+        <ul class="mt-2 list-disc list-inside">
+            @foreach (session('errorsPS')->all() as $error)
+                <li class="font-Alumni">{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div  
+@endif
     <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16">
         <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
         <div class="flex w-full flex-col">
@@ -82,7 +92,7 @@
                     <label for="details_specifications" class="block font-Alumni text-md md:text-lg mb-2">Détails</label>
                     <textarea id="details_specifications" name="details_specifications"
                         class="font-Alumni w-full max-w-md p-2 h-28 focus:outline-none focus:border-blue-500 border border-black"
-                        placeholder="Entrer des détails supplémentaires">{{ old('details_specifications', session('produitsServices.details_specifications')) }}</textarea>
+                        placeholder="Entrer des détails supplémentaires">{{ old('details_specifications', $fournisseur->details_specifications) }}</textarea>
 
                     @error('details_specifications')
                         <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
@@ -101,3 +111,6 @@
 <script src="{{ asset('js/modif/produitModif.js') }}"></script>
 
 @endsection
+@php
+session()->forget('errorsPS');
+@endphp

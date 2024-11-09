@@ -4,11 +4,6 @@ let selectedProducts = [];
 const itemsPerPageSelected = 10; // 2 colonnes x 5 lignes
 let currentPageSelected = 1;
 
-
-
-
-
-   
     axios.get('/produits-services/multiple')
         .then(response => {
             selectedProducts = response.data;
@@ -344,4 +339,30 @@ function getCategories() {
         .catch(error => {
             console.error('Erreur lors de la récupération des catégories :', error);
         });
-}}
+}
+window.performSearch = performSearch;
+window.changePageSelected = changePageSelected;
+const confirmButton = document.getElementById('confirmButton');
+const form = document.getElementById('produitsServicesForm');
+
+if (confirmButton && form) {
+    confirmButton.addEventListener('click', function () {
+        Swal.fire({
+            title: 'Êtes-vous sûr ?',
+            text: "Voulez-vous enregistrer ces informations ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui, confirmer',
+            cancelButtonText: 'Annuler'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+} else {
+    console.warn("test.");
+}
+}

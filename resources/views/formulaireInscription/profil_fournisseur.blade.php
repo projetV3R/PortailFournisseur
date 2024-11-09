@@ -59,7 +59,7 @@
             </div>
         </div>
         <div id="produitsServicesModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
-            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-4xl mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
                 <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier les informations des Produits et Services</h2>
                 
                 <!-- Bouton de fermeture -->
@@ -386,6 +386,9 @@
     document.addEventListener('DOMContentLoaded', function() {
         @if (session()->has('errorsId'))
             openIdentificationModal();
+        @endif
+        @if (session()->has('errorsPS'))
+        openProduitsServicesModal();
         @endif
     
         var successMessage = document.getElementById('successMessage');
