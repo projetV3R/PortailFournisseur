@@ -25,27 +25,7 @@ class IdentificationRequest extends FormRequest
         $currentRouteName = $this->route()->getName();
     
         // Règles communes à toutes les routes
-        $rules = [
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:64',
-                'unique:fiche_fournisseurs,adresse_courriel,'. $this->user()->id,
-            ],
-            'numeroEntreprise' => [
-                'nullable',
-                'string',
-                'size:10',
-                'regex:/^(11|22|33|88)[4-9]\d{7}$/',
-                'unique:fiche_fournisseurs,neq,' . $this->user()->id,
-            ],
-            'nomEntreprise' => [
-                'required',
-                'string',
-                'max:64'
-            ],
-        ];
+   
     
         if ($currentRouteName === 'UpdateIdentification') {
        
@@ -61,6 +41,21 @@ class IdentificationRequest extends FormRequest
             $rules['password_confirmation'] = [
                 'required_with:password',
             ];
+            $rules[ 'numeroEntreprise' ] = [
+                'nullable',
+                'string',
+                'size:10',
+                'regex:/^(11|22|33|88)[4-9]\d{7}$/',
+                'unique:fiche_fournisseurs,neq,' . $this->user()->id,
+            ];
+
+             $rules['email'] = [
+                'required',
+                'string',
+                'email',
+                'max:64',
+                'unique:fiche_fournisseurs,adresse_courriel,'. $this->user()->id,
+             ];
         } else {
          
             $rules['password'] = [
@@ -73,6 +68,28 @@ class IdentificationRequest extends FormRequest
             ];
             $rules['password_confirmation'] = [
                 'required',
+            ];
+
+            $rules = [
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:64',
+                    'unique:fiche_fournisseurs,adresse_courriel,'
+                ],
+                'numeroEntreprise' => [
+                    'nullable',
+                    'string',
+                    'size:10',
+                    'regex:/^(11|22|33|88)[4-9]\d{7}$/',
+                    'unique:fiche_fournisseurs,neq,' 
+                ],
+                'nomEntreprise' => [
+                    'required',
+                    'string',
+                    'max:64'
+                ],
             ];
         }
     

@@ -58,6 +58,22 @@
                 </div>
             </div>
         </div>
+        <div id="produitsServicesModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-4xl mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier les informations des Produits et Services</h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeProduitsServicesModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="produitsServicesFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+        
         
         
 <div class="p-4 md:p-16">
@@ -247,7 +263,7 @@
 
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300"  onclick="openProduitsServicesModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -417,6 +433,27 @@
     function closeModal() {
         document.getElementById('identificationModal').classList.add('hidden');
     }
+
+    function openProduitsServicesModal() {
+    document.getElementById('produitsServicesModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditProduit') }}") // Remplacez par la route correcte
+        .then(function (response) {
+            document.getElementById('produitsServicesFormContainer').innerHTML = response.data;
+
+            // Charger dynamiquement le script de modification pour Produits et Services
+            loadScript('{{ asset('js/modif/produitModif.js') }}', function() {
+                setTimeout(initializeProduitsServicesFormScript, 100);
+            });
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page Produits et Services:", error);
+        });
+}
+
+function closeProduitsServicesModal() {
+    document.getElementById('produitsServicesModal').classList.add('hidden');
+}
     </script>
     
     

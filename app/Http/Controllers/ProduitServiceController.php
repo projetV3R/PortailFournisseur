@@ -7,7 +7,7 @@ use App\Http\Requests\ProduitServiceRequest;
 use App\Models\ProduitsServices;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class ProduitServiceController extends Controller
 {
     /**
@@ -80,40 +80,54 @@ class ProduitServiceController extends Controller
      */
     public function getMultiple(Request $request)
     {
-         if (auth()->check() || session()->has('identification')){
-        $ids = $request->query('ids', []);
-    
-
-        if (!is_array($ids)) {
-            return response()->json(['error' => 'Invalid parameter'], 400);
+        // Vérifier si l'utilisateur est connecté
+        if (auth()->check()) {
+            $fournisseur = auth()->user();
+            
+            // Récupérer les produits et services associés à l'utilisateur connecté
+            $produits = $fournisseur->produitsServices;
+            
+            return response()->json($produits);
         }
     
-  
-        $validatedIds = array_filter($ids, function ($id) {
-            return filter_var($id, FILTER_VALIDATE_INT) !== false;
-        });
+        // Sinon, utiliser les valeurs de session pour le processus d'inscription
+        if (session()->has('identification')) {
+            $ids = $request->query('ids', []);
     
-        if (empty($validatedIds)) {
-            return response()->json([], 200);
+            if (!is_array($ids)) {
+                return response()->json(['error' => 'Invalid parameter'], 400);
+            }
+    
+            $validatedIds = array_filter($ids, function ($id) {
+                return filter_var($id, FILTER_VALIDATE_INT) !== false;
+            });
+    
+            if (empty($validatedIds)) {
+                return response()->json([], 200);
+            }
+    
+            $produits = ProduitsServices::whereIn('id', $validatedIds)->get();
+    
+            return response()->json($produits);
         }
     
-       
-        $produits = ProduitsServices::whereIn('id', $validatedIds)->get();
-    
-        return response()->json($produits);
-     }
-    return redirect()->back();
+        // Rediriger si aucune condition n'est remplie
+        return redirect()->back();
     }
+    
     
     
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        $fournisseur = Auth::user();
+        $produitsServices = $fournisseur->produitsServices; 
+        return view("modificationCompte/produitModif", compact('fournisseur', 'produitsServices'));
     }
+    
 
     /**
      * Update the specified resource in storage.
