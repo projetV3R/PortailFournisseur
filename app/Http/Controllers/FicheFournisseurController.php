@@ -439,6 +439,9 @@ public function updateProfile(IdentificationRequest $request)
         return redirect()->back()->with('success', 'Vos brochures & cartes d\'affaires ont été mises à jour avec succès.');
     }
     
+    public function updateLicence(){
+        
+    }
     
 
     public function redirection()
@@ -455,7 +458,7 @@ public function updateProfile(IdentificationRequest $request)
 
         return view('formulaireInscription/redirection');
     }
-
+    
 
     /**
      * Display the specified resource.

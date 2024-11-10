@@ -105,6 +105,22 @@
                 </div>
             </div>
         </div>
+
+        <div id="licenceModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier votre licence RBQ </h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeLicenceModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="licenceFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
         
         
         
@@ -235,7 +251,7 @@
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Licences</h4>
                     <div class="absolute right-4 top-4">
                         <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
-                            <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;"></span>
+                            <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;" onclick="openLicenceModal()"></span>
                         </button>
                     </div>
                     @if($licence)
@@ -429,6 +445,9 @@
         @if (session()->has('errorsFichiers'))
         openDocModal();
         @endif
+        @if (session()->has('errorsLicence'))
+        openLicenceModal();
+        @endif
     
         var successMessage = document.getElementById('successMessage');
         if (successMessage) {
@@ -539,6 +558,27 @@ function openDocModal() {
 
 function closeDocModal() {
     document.getElementById('docModal').classList.add('hidden');
+}
+
+function openLicenceModal() {
+    document.getElementById('licenceModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditLicence') }}") // Remplacez par la route correcte
+        .then(function (response) {
+            document.getElementById('licenceFormContainer').innerHTML = response.data;
+
+            loadScript('{{ asset('js/modif/licenceModif.js') }}', function() {
+                setTimeout( initializeLicenceFormScript, 100);
+            });
+          
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page des licences RBQ", error);
+        });
+}
+
+function closeLicenceModal() {
+    document.getElementById('licenceModal').classList.add('hidden');
 }
     </script>
     

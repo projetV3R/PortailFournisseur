@@ -56,11 +56,8 @@ class IdentificationController extends Controller
      */
     public function edit()
     {
-     
             $fournisseur = Auth::user();
             return view("modificationCompte/identificationModif" , compact('fournisseur'));
-       
-    
 
     }
 

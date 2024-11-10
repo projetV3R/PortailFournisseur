@@ -55,7 +55,8 @@ Route::get('/sous-categories/{type}', [LicenceController::class, 'getSousCategor
 //recuperer information dans page resume 
 Route::get('/sous-categories/affichage/multiple', [LicenceController::class, 'getSousCategoriesMultiple']);
 Route::get('/search', [ProduitServiceController::class, 'search']);
-
+Route::get('/Licences/modif', [LicenceController::class, "edit"])->name("EditLicence")->middleware('auth');
+Route::post('/Licences/update', [FicheFournisseurController::class, "updateLicence"])->name("UpdateLicence")->middleware('auth');
 // Contact
 
 Route::get('/Contacts', [ContactController::class, "create"])->name("createContacts");
