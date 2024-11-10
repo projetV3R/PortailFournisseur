@@ -23,6 +23,7 @@ use App\Http\Requests\IdentificationRequest;
 use App\Http\Requests\ProduitServiceRequest;
 use App\Http\Requests\CoordonneeRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\LicenceRequest;
 
 class FicheFournisseurController extends Controller
 {
@@ -439,9 +440,30 @@ public function updateProfile(IdentificationRequest $request)
         return redirect()->back()->with('success', 'Vos brochures & cartes d\'affaires ont été mises à jour avec succès.');
     }
     
-    public function updateLicence(){
+    public function updateLicence(LicenceRequest $request)
+    {
+        $fournisseur = Auth::user();
         
+        // Récupérer la licence ou créer une nouvelle si elle n'existe pas
+        $licence = $fournisseur->licence()->firstOrNew();
+        $numeroNettoyeRbq = str_replace('-', '', $request->input('numeroLicence'));
+ 
+        $licence->numero_licence_rbq =  $numeroNettoyeRbq;
+        $licence->statut = $request->input('statut');
+        $licence->type_licence = $request->input('typeLicence');
+        $licence->save();
+        
+  
+        if ($request->filled('sousCategorie')) {
+            $licence->sousCategoriess()->sync($request->input('sousCategorie'));
+        } else {
+            $licence->sousCategoriess()->sync([]); 
+        }
+        
+        return redirect()->back()->with('success', 'La licence a été mise à jour avec succès.');
     }
+    
+    
     
 
     public function redirection()

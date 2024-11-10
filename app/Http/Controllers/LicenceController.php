@@ -7,7 +7,7 @@ use App\Http\Requests\LicenceRequest;
 use Illuminate\Http\Request;
 use App\Models\SousCategorie;
 use Log;
-
+use Illuminate\Support\Facades\Auth;
 
 class LicenceController extends Controller
 {
@@ -78,7 +78,18 @@ class LicenceController extends Controller
      return redirect()->back();
     }
     
+    public function getLicenceData()
+    {
+        $fournisseur = Auth::user();
+        $licence = $fournisseur->licence()->with('sousCategories.categorie')->first();
     
+        return response()->json([
+            'licence' => $licence,
+            'selectedSousCategories' => $licence ? $licence->sousCategories->pluck('sous_categorie_id')->toArray() : [],
+        ]);
+    }
+    
+
 
     /**
      * Display the specified resource.

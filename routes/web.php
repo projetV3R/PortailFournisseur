@@ -57,6 +57,8 @@ Route::get('/sous-categories/affichage/multiple', [LicenceController::class, 'ge
 Route::get('/search', [ProduitServiceController::class, 'search']);
 Route::get('/Licences/modif', [LicenceController::class, "edit"])->name("EditLicence")->middleware('auth');
 Route::post('/Licences/update', [FicheFournisseurController::class, "updateLicence"])->name("UpdateLicence")->middleware('auth');
+Route::get('/Licence/get-licence-data', [LicenceController::class, 'getLicenceData'])->name('getLicenceData');
+
 // Contact
 
 Route::get('/Contacts', [ContactController::class, "create"])->name("createContacts");

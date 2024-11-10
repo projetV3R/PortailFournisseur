@@ -3,8 +3,18 @@
 @section('title', 'LicencesAutorisations')
 
 @section('contenu')
-    <form action="{{ route('storeLicences') }}" method="post">
+    <form action="{{ route('UpdateLicence') }}" method="post" id="licenceForm">
         @csrf
+        @if(session('errorsLicence'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+            <strong class="font-bold">Erreur!</strong>
+            <ul class="mt-2 list-disc list-inside">
+                @foreach (session('errorsLicence')->all() as $error)
+                    <li class="font-Alumni">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div  
+    @endif
         <div class="p-4 md:p-16 flex flex-col  w-full">
             <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
                 <div class="flex flex-col w-full">
@@ -13,7 +23,7 @@
     
                     
                 </div>
-                @include('partials.progress_bar')
+              
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
             <!-- Première colonne -->
@@ -28,7 +38,7 @@
                             <label for="numeroLicence" class="block font-Alumni text-md md:text-lg mb-2">Numero de licence</label>
                             <input type="text" id="numeroLicence" name="numeroLicence"
                                 placeholder="Entrer votre numero de licence"
-                                value="{{ session('licences.numeroLicence') }}"  
+                                value=""  
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                             @error('numeroLicence')
                                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -41,9 +51,9 @@
                         <div class="w-1/2">
                             <label for="statut" class="block font-Alumni text-md md:text-lg mb-2">Statut</label>
                             <select name="statut" id="statut" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-blackl">
-                                <option value="valide" {{ session('licences.statut') == 'valide' ? 'selected' : '' }}>Valide</option>
-                                <option value="valide_restriction" {{ session('licences.statut') == 'valide_restriction' ? 'selected' : '' }}>Valide avec restriction</option>
-                                <option value="non_valide" {{ session('licences.statut') == 'non_valide' ? 'selected' : '' }}>Non valide</option>
+                                <option value="valide" >Valide</option>
+                                <option value="valide avec restriction" >Valide avec restriction</option>
+                                <option value="non valide" >Non valide</option>
                             </select>
                             @error('statut')
                                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -58,10 +68,10 @@
                         <div class="w-full">
                             <label for="typeLicence" class="block font-Alumni text-md md:text-lg mb-2">Type de licence</label>
                             <select name="typeLicence" id="typeLicence" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                                <option value="entrepreneur général" {{ session('licences.typeLicence') == 'entrepreneur général' ? 'selected' : '' }}>Entrepreneur général</option>
-                                <option value="constructeur-propriétaire général" {{ session('licences.typeLicence') == 'constructeur-propriétaire général' ? 'selected' : '' }}>Constructeur-propriétaire général</option>
-                                <option value="entrepreneur spécialisé" {{ session('licences.typeLicence') == 'entrepreneur spécialisé' ? 'selected' : '' }}>Entrepreneur spécialisé</option>
-                                <option value="constructeur-propriétaire spécialisé" {{ session('licences.typeLicence') == 'constructeur-propriétaire spécialisé' ? 'selected' : '' }}>Constructeur-propriétaire spécialisé</option>
+                                <option value="entrepreneur général" >Entrepreneur général</option>
+                                <option value="constructeur-propriétaire général" >Constructeur-propriétaire général</option>
+                                <option value="entrepreneur spécialisé">Entrepreneur spécialisé</option>
+                                <option value="constructeur-propriétaire spécialisé" >Constructeur-propriétaire spécialisé</option>
                             </select>
                             @error('typeLicence')
                                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -89,106 +99,14 @@
                     </div>
                 </div>
 
-                <button type="submit" class="mt-2 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
-                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                <button type="button" class="mt-2 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5" id="confirmButton">
+                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">Enregistrer</h1>
                 </button>
             </div>
         </div>
     </div>
     </form>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const numeroLicenceInput = document.getElementById('numeroLicence');
-        const typeLicenceSelect = document.getElementById('typeLicence');
-        const checklistContainer = document.getElementById('checklistContainer');
-        const selectedSousCategories = @json(session('licences.sousCategorie', [])); // Récupérer les valeurs de session
-//Formattage pour la valeur en session et la valeur de l'input A reformat peut etre pour plus efficace
-        function formatLicence(value) {
-        value = value.replace(/\D/g, ''); // Retirer les caractères non numériques
-
-        if (value.length > 4 && value.length <= 8) {
-            value = value.slice(0, 4) + '-' + value.slice(4);
-        } else if (value.length > 8) {
-            value = value.slice(0, 4) + '-' + value.slice(4, 8) + '-' + value.slice(8, 10);
-        }
-
-        return value;
-    }
-
-  
-    if (numeroLicenceInput.value) {
-        numeroLicenceInput.value = formatLicence(numeroLicenceInput.value);
-    }
-
-    numeroLicenceInput.addEventListener('input', function () {
-        numeroLicenceInput.value = formatLicence(numeroLicenceInput.value);
-    });
-
-     
-        if (typeLicenceSelect.value) {
-            fetchSousCategories(typeLicenceSelect.value);
-        }
-
- 
-        typeLicenceSelect.addEventListener('change', function () {
-            const selectedType = this.value;
-
-            if (selectedType) {
-                fetchSousCategories(selectedType); 
-            } else {
-                checklistContainer.innerHTML = '<p>Sélectionnez un type de licence pour voir les sous-catégories disponibles.</p>';
-            }
-        });
-
-        function fetchSousCategories(selectedType) {
-           
-            axios.get(`/sous-categories/${selectedType}`)
-                .then(response => {
-                    renderChecklist(response.data);
-                })
-                .catch(error => {
-                    console.error('Erreur lors de la récupération des sous-catégories:', error);
-                });
-        }
-
-        function renderChecklist(data) {
-            checklistContainer.innerHTML = ''; // Réinitialiser
-
-            data.forEach(cat => {
-                const checkboxWrapper = document.createElement('div');
-                checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group', 'bg-gray-300', 'rounded-md', 'p-2', 'px-2');
-
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.name = 'sousCategorie[]';
-                checkbox.value = cat.id;
-                checkbox.classList.add('mr-2');
-
-                if (selectedSousCategories.includes(String(cat.id))) {
-                    checkbox.checked = true; // Auto cocher si présent dans la session
-                }
-
-                const label = document.createElement('label');
-                label.textContent = cat.code_sous_categorie;
-
-                // Infobulle (tooltip) pour afficher description sous categorie et ses travaux permis 
-                const tooltip = document.createElement('div');
-                tooltip.classList.add(
-                    'absolute', 'right-0', 'w-64', 'bg-gray-700', 'text-white', 
-                    'text-sm', 'p-2', 'rounded', 'hidden', 'group-hover:block', 
-                    'z-10', 'shadow-lg', 'mt-8'
-                );
-                tooltip.textContent = cat.travaux_permis || 'Aucun descriptif disponible';
-
-                checkboxWrapper.appendChild(checkbox);
-                checkboxWrapper.appendChild(label);
-                checkboxWrapper.appendChild(tooltip);
-
-                checklistContainer.appendChild(checkboxWrapper);
-            });
-        }
-    });
-
-    </script>
 @endsection
+@php
+session()->forget('errorsLicence');
+@endphp

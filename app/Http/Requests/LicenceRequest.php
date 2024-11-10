@@ -3,7 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 class LicenceRequest extends FormRequest
 {
     /**
@@ -42,5 +43,21 @@ class LicenceRequest extends FormRequest
             'numeroLicence.regex' => 'Le format du numéro de licence est invalide. Veuillez utiliser le format suivant et respecter qu\'il contient bien 10 chiffres uniquement : ####-####-##.',
         ];
     }
+    protected function failedValidation(Validator $validator)
+    {
+        $currentRouteName = $this->route()->getName();
     
+        if ($currentRouteName === 'UpdateLicence') {
+         
+            session()->put('errorsLicence', $validator->errors());
+    
+            throw new HttpResponseException(
+                redirect()->back()
+                    ->withInput()
+            );
+        }
+    
+     
+        parent::failedValidation($validator);
+    }
 }

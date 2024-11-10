@@ -44,8 +44,8 @@
                             <label for="statut" class="block font-Alumni text-md md:text-lg mb-2">Statut</label>
                             <select name="statut" id="statut" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-blackl">
                                 <option value="valide" {{ session('licences.statut') == 'valide' ? 'selected' : '' }}>Valide</option>
-                                <option value="valide_restriction" {{ session('licences.statut') == 'valide_restriction' ? 'selected' : '' }}>Valide avec restriction</option>
-                                <option value="non_valide" {{ session('licences.statut') == 'non_valide' ? 'selected' : '' }}>Non valide</option>
+                                <option value="valide avec restriction" {{ session('licences.statut') == 'valide avec restriction' ? 'selected' : '' }}>Valide avec restriction</option>
+                                <option value="non valide" {{ session('licences.statut') == 'non valide' ? 'selected' : '' }}>Non valide</option>
                             </select>
                             @error('statut')
                                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
