@@ -71,9 +71,7 @@ class CoordonneeController extends Controller
     public function getCoordonneeData()
 {
     $fournisseur = Auth::user();
-    if (!$fournisseur) {
-        return response()->json(['error' => 'Unauthorized'], 401);
-    }
+ 
 
     $coordonnee = $fournisseur->coordonnee()->with('telephones')->first();
 
