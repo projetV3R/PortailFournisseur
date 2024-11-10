@@ -66,6 +66,10 @@ Route::post('/Contacts/Store', [ContactController::class, "store"])->name("store
 Route::get('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "create"])->name("createBrochuresCartesAffaires");
 Route::post('/BrochuresCartesAffaires/Store', [BrochureCarteAffaireController::class, "store"])->name("storeBrochuresCartesAffaires");
 Route::post('/remove-uploaded-file', [BrochureCarteAffaireController::class, 'removeUploadedFile'])->name('removeUploadedFile');
+Route::get('/BrochuresCartesAffaires/modif', [BrochureCarteAffaireController::class, "edit"])->name("EditDoc")->middleware('auth');
+Route::post('/BrochuresCartesAffaires/update', [FicheFournisseurController::class, "updateDoc"])->name("UpdateDoc")->middleware('auth');
+Route::get('/Brochures/getDocuments', [BrochureCarteAffaireController::class, 'getDocuments']);
+
 
 //Route::post('/delete-temp-files', [BrochureCarteAffaireController::class, 'deleteTempFiles'])
   //  ->name('deleteTempFiles');

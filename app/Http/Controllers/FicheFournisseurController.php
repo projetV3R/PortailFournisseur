@@ -22,6 +22,8 @@ use App\Notifications\WelcomeEmail;
 use App\Http\Requests\IdentificationRequest;
 use App\Http\Requests\ProduitServiceRequest;
 use App\Http\Requests\CoordonneeRequest;
+use Illuminate\Support\Facades\Validator;
+
 class FicheFournisseurController extends Controller
 {
 
@@ -257,7 +259,7 @@ class FicheFournisseurController extends Controller
           
            
                       $typeDeFichier = mime_content_type(storage_path('app/public/' . $newPath));
-          
+          //A modifier pour $file->getClientOriginalExtension()  a tester
                      
                       BrochureCarte::create([
                           'nom' => $fileName,
@@ -365,7 +367,79 @@ public function updateProfile(IdentificationRequest $request)
         return redirect()->back()->with('success', 'Vos coordonnées ont été mises à jour avec succès.');
     }
 
-
+    public function updateDoc(Request $request)
+    {
+        $fournisseur = Auth::user();
+    
+        
+        $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
+        $totalSize = 0;
+    
+      
+        $validator = Validator::make($request->all(), [
+            'fichiers.*' => 'mimes:doc,docx,pdf,jpg,jpeg,xls,xlsx'
+        ], [
+            'fichiers.*.mimes' => 'Chaque fichier doit être de type : doc, docx, pdf, jpg, jpeg, xls ou xlsx.'
+        ]);
+    
+        if ($validator->fails()) {
+            // Stocker les erreurs de validation dans la session 
+            session()->put('errorsFichiers', $validator->errors());
+          return  redirect()->back();
+           
+        }
+    
+      
+        $existingFiles = $fournisseur->brochuresCarte;
+        $fileIdsToDelete = $request->input('fichiers_a_supprimer', []);
+    
+        foreach ($existingFiles as $file) {
+            
+            if (!in_array($file->id, $fileIdsToDelete)) {
+                $totalSize += $file->taille / (1024 * 1024); // Convertir la taille en Mo
+            }
+        }
+    
+    
+        if ($request->hasFile('fichiers')) {
+            foreach ($request->file('fichiers') as $file) {
+                $totalSize += $file->getSize() / (1024 * 1024); // Convertir la taille en Mo
+            }
+        }
+    
+   
+        if ($totalSize > $maxFileSize) {
+            // Stocker le message d'erreur dans la session
+            session()->put('errorsFichiers',"La taille totale des fichiers, incluant les fichiers existants, dépasse la limite de {$maxFileSize} Mo.");
+            return  redirect()->back();
+        }
+    
+       
+        foreach ($fileIdsToDelete as $fileId) {
+            $fileToDelete = $existingFiles->find($fileId);
+            if ($fileToDelete) {
+                Storage::delete($fileToDelete->chemin); 
+                $fileToDelete->delete(); 
+            }
+        }
+    
+       
+        if ($request->hasFile('fichiers')) {
+            foreach ($request->file('fichiers') as $file) {
+                $path = $file->store('brochures');
+                $fournisseur->brochuresCarte()->create([
+                    'nom' => $file->getClientOriginalName(),
+                    'chemin' => $path,
+                    'taille' => $file->getSize(),
+                    'type_de_fichier' => $file->getClientOriginalExtension() 
+                ]);
+            }
+        }
+    
+        return redirect()->back()->with('success', 'Vos brochures & cartes d\'affaires ont été mises à jour avec succès.');
+    }
+    
+    
 
     public function redirection()
     {
