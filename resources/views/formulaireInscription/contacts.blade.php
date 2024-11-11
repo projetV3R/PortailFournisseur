@@ -14,7 +14,7 @@
                 <h6 class="font-Alumni font-bold text-3xl md:text-5xl">CONTACTS</h6>
                 <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Pour rester plus proches de vous !</h1>
             </div>
-            <div id="barreProgression"> 
+            <div id="barreProgression">
                 @include('partials.progress_bar')
             </div>
         </div>
@@ -87,7 +87,7 @@
                             <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2">
                                 Ligne
                             </label>
-                            <select id="type" name="contacts[0][type]"
+                            <select id="ligne_0" name="contacts[0][type]"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                 <option value="Bureau">Bureau</option>
                                 <option value="Télécopieur">Télécopieur</option>
@@ -102,7 +102,7 @@
                             <label for="numeroTelephone" class="block font-Alumni text-md md:text-lg mb-2 truncate">
                                 Numero Telephone
                             </label>
-                            <input type="text" id="numeroTelephone" name="contacts[0][numeroTelephone]"
+                            <input type="text" id="numeroTelephone_0" name="contacts[0][numeroTelephone]"
                                 placeholder="514-453-9867"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                             @error('contacts.0.numeroTelephone')
@@ -122,6 +122,7 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" id="currentIndexInput" name="currentIndex">
                 <div class="flex flex-col px-2 lg:px-4">
                     <button type="submit"
                         class="w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 mt-2" id="submitBtn">
@@ -156,6 +157,9 @@
             tooglePosteInput(0);
         });
 
+        let currentIndex = @json(session('currentIndex', 0));
+        document.getElementById('currentIndexInput').value = currentIndex;
+
         @if(session('contacts'))
         let contacts = @json(session('contacts'));
         if (Array.isArray(contacts)) {
@@ -169,6 +173,21 @@
             reindexContacts();
         }
         @endif
+
+        /*Zone pour effacer poste*/
+        if (coordonnees['contacts']) {
+            Object.keys(coordonnees['contacts']).forEach(index => {
+                const ligne = coordonnees['contacts'][index];
+                if (index == 0) {
+                    if (ligne.type) document.getElementById('ligne_0').value = ligne.type;
+                    if (ligne.numeroTelephone) document.getElementById('numeroTelephone_0').value = formatTelValue(ligne.numeroTelephone);
+                    if (ligne.poste) document.getElementById('poste_0').value = ligne.poste;
+
+                } else {
+                    ajouterNumeroTelephone(index, ligne);
+                }
+            });
+        }
 
         initializeSwiper();
     });
@@ -186,6 +205,26 @@
         slidesPerView: 1,
     });
 
+
+    function tooglePosteInput(index) {
+        const ligneSelect = document.getElementById(`ligne_${index}`);
+        const posteDiv = document.getElementById(`poste_div_${index}`);
+        const posteInput = document.getElementById(`poste_${index}`);
+
+        function togglePoste() {
+            if (ligneSelect.value !== "Bureau") {
+                posteDiv.classList.add('hidden'); // Masque le champ "Poste"
+                posteInput.value = ''; // Efface la valeur de l'input "Poste"
+            } else {
+                posteDiv.classList.remove('hidden'); // Affiche le champ "Poste"
+            }
+        }
+
+        ligneSelect.addEventListener('change', togglePoste);
+
+        // Appel initial pour définir l'état correct au chargement
+        togglePoste();
+    }
 
     function formatTel(input) {
         input.addEventListener('input', function() {
@@ -207,7 +246,6 @@
         const clone = contactFieldsContainer.cloneNode(true);
         const currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7; // Adjust index calculation if necessary
 
-        
         currentContactIndex++;
 
         // Remove buttons from the cloned element
@@ -269,25 +307,7 @@
         swiper.appendSlide(newSlide); // Add the new slide to Swiper
     });
 
-    function tooglePosteInput(index) {
-        const ligneSelect = document.getElementById(`ligne_${index}`);
-        const posteDiv = document.getElementById(`poste_div_${index}`);
-        const posteInput = document.getElementById(`poste_${index}`);
 
-        function togglePoste() {
-            if (ligneSelect.value !== "Bureau") {
-                posteDiv.classList.add('hidden'); // Masque le champ "Poste"
-                posteInput.value = ''; // Efface la valeur de l'input "Poste"
-            } else {
-                posteDiv.classList.remove('hidden'); // Affiche le champ "Poste"
-            }
-        }
-
-        ligneSelect.addEventListener('change', togglePoste);
-
-        // Appel initial pour définir l'état correct au chargement
-        togglePoste();
-    }
 
     function reindexContacts() {
         document.querySelectorAll('[name^="contacts"]').forEach((input, index) => {
@@ -370,7 +390,7 @@
                     clone.remove();
                     newSlide.remove(); // Remove the slide from the DOM
                     swiper.update();
-                    reindexContacts(); 
+                    reindexContacts();
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
