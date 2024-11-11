@@ -43,6 +43,7 @@
                         <div class="w-1/2">
                             <label for="statut" class="block font-Alumni text-md md:text-lg mb-2">Statut</label>
                             <select name="statut" id="statut" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-blackl">
+                                <option value="" disabled selected>Choisir un statut</option>
                                 <option value="valide" {{ session('licences.statut') == 'valide' ? 'selected' : '' }}>Valide</option>
                                 <option value="valide avec restriction" {{ session('licences.statut') == 'valide avec restriction' ? 'selected' : '' }}>Valide avec restriction</option>
                                 <option value="non valide" {{ session('licences.statut') == 'non valide' ? 'selected' : '' }}>Non valide</option>
@@ -60,6 +61,7 @@
                         <div class="w-full">
                             <label for="typeLicence" class="block font-Alumni text-md md:text-lg mb-2">Type de licence</label>
                             <select name="typeLicence" id="typeLicence" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                <option value="" disabled selected>Choisir un type de licence</option>
                                 <option value="entrepreneur général" {{ session('licences.typeLicence') == 'entrepreneur général' ? 'selected' : '' }}>Entrepreneur général</option>
                                 <option value="constructeur-propriétaire général" {{ session('licences.typeLicence') == 'constructeur-propriétaire général' ? 'selected' : '' }}>Constructeur-propriétaire général</option>
                                 <option value="entrepreneur spécialisé" {{ session('licences.typeLicence') == 'entrepreneur spécialisé' ? 'selected' : '' }}>Entrepreneur spécialisé</option>
