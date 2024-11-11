@@ -35,10 +35,43 @@
             'text' => 'À réviser'
         ],
     ];
+    $condition_paiementText=[
+        'Z001' =>[
+        'text' =>'Payable immédiatement sans déduction'
+         ],
+         'Z155' =>[
+        'text' =>'Payable immédiatement sans déduction,Date de base au 15 du mois suivant'
+         ],
+         'Z152' =>[
+         'text' =>'Dans les 15 jours 2% escpte, dans les 30 jours sans déduction'
+        ],
+        'Z153' =>[
+         'text' =>'Après entrée facture jusqu\'au 15 du mois,jusqu\'au 15 du mois suivant 2%'
+        ],
+        'Z210' =>[
+         'text' =>'Dans les 10 jours 2% escpte , dans les 30 jours sans déduction'
+        ],
+        
+        'ZT15' =>[
+            'text' =>'Dans les 15 jours sans déduction'
+        ],
+        'ZT30' =>[
+         'text' =>'Dans les 30 jours sans déduction'
+        ],
+        'ZT45' =>[
+         'text' =>'Dans les 45 jours sans déduction'
+        ],
+        'ZT60' =>[
+         'text' =>'Dans les 60 jours sans déduction'
+        ],
+    
+    
+    ];
 
     $etat = $fournisseur->etat;
     $etatStyle = $etatStyles[$etat] ?? $etatStyles['En attente']; // Par défaut à 'En attente' si l'état n'est pas défini
-
+   $condition=$fournisseur->finance->condition_paiement;
+   $condition_paiementText=$condition_paiementText[$condition] ?? $condition_paiementText['aucune'];
   
 @endphp
            <!-- Modal pour l'édition d'identification -->
@@ -424,7 +457,7 @@
                         <!-- Résumé des conditions de paiement -->
                         <h5 class="font-Alumni font-semibold text-md md:text-lg mt-4 underline">Conditions de Paiement</h5>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Condition de Paiement:</strong>
-                            {{ $fournisseur->finance->condition_paiement }}</p>
+                            {{ $condition_paiementText['text'] }}</p>
 
                         <!-- Résumé des informations de configuration -->
                         <h5 class="font-Alumni font-semibold text-md md:text-lg mt-4 underline">Configuration</h5>
