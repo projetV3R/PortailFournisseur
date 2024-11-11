@@ -37,7 +37,7 @@ class ContactRequest extends FormRequest
                 'regex:/^[a-zA-ZÀ-ÿ\'\- ]+$/u'
             ],
             'contacts.*.fonction' => [
-                'required',
+                'nullable',
                 'string',
                 'max:32'
             ],

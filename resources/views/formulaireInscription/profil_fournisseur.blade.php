@@ -130,7 +130,7 @@
         <div class="flex flex-col w-full md:w-1/2">
             <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Profil Utilisateur</h6>
             <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Vérifiez vos informations personnelles et les
-                détails de votre compte</h1>
+                détails de votre compte </h1>
         </div>
 
         @if (session('success'))
@@ -140,8 +140,10 @@
  
         </div>
     @endif
-    
-
+    @if($fournisseur->etat == 'accepter' && !$fournisseur->finance)
+  
+    <div class="flex"> <button onclick="finance()" class="border-2 px-2 p-2 text-tertiary-400 hover:text-tertiary-300 rounded-md  ">Renseignement financier</button></div>
+    @endif
         <div class="{{ $etatStyle['bgColor'] }} mt-4 md:mt-0 md:ml-2 w-full md:w-1/2 py-4 px-6 flex items-center">
             <div class="{{ $etatStyle['textColor'] }}">
                 <span class="iconify" data-icon="{{ $etatStyle['icon'] }}" data-inline="false" style="font-size: 2rem;"></span>
@@ -479,7 +481,10 @@
     }
     });
 
-    
+    function finance() {
+       
+       window.location.href = "{{ route('createFinances') }}";
+   }
     function openIdentificationModal() {
         document.getElementById('identificationModal').classList.remove('hidden');
     

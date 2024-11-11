@@ -202,7 +202,7 @@ class FicheFournisseurController extends Controller
             Contact::create([
                 'prenom' => $contactData['prenom'],
                 'nom' => $contactData['nom'],
-                'fonction' => $contactData['fonction'],
+                'fonction' => $contactData['fonction'] ?? null,
                 'adresse_courriel' => $contactData['email'],
                 'fiche_fournisseur_id' => $ficheFournisseur->id,
                 'telephone_id' => $telephone->id,

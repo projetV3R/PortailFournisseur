@@ -24,7 +24,7 @@
                             <label for="numeroTPS" class="block font-Alumni text-md md:text-lg mb-2">
                                 Numero TPS
                             </label>
-                            <input type="text" id="numeroTPS" name="numeroTPS" placeholder="5366HDJD828"
+                            <input type="text" id="numeroTPS" name="numeroTPS" placeholder="123456789"
                                 class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
 
                             @error('numeroTPS')
@@ -41,7 +41,7 @@
                             Numero TVQ
                         </label>
 
-                        <input type="text" id="numeroTVQ" name="numeroTVQ" placeholder="5366HDJD828"
+                        <input type="text" id="numeroTVQ" name="numeroTVQ" placeholder="1234567890"
                             class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
 
                         @error('numeroTVQ')
@@ -144,11 +144,18 @@
                 <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 rounded transition duration-300 ease-in-out">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Enregistrer mes informations </h1>
                 </button>
-                <button type="button" class="mt-4 w-full text-white bg-tertiary-300 hover:bg-tertiary-400 py-2.5 rounded transition duration-300 ease-in-out">
+                <button type="button" onclick="later()" class="mt-4 w-full text-white bg-tertiary-300 hover:bg-tertiary-400 py-2.5 rounded transition duration-300 ease-in-out">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Remplir mes informations financières plus tard</h1>
                 </button>
 
             </div>
         </div>
     </form>
+
+    <script>
+         function later() {
+       
+        window.location.href = "{{ route('profil') }}";
+    }
+    </script>
 @endsection
