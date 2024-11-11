@@ -4,7 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class FinanceRequest extends FormRequest
 {
@@ -30,5 +31,20 @@ class FinanceRequest extends FormRequest
             'devise' => ['required', 'string', Rule::in(['CAD', 'USD'])], // Liste prédéterminée de devises
             'modeCommunication' => ['required', 'string', Rule::in(['courriel','courrier'])], // Liste prédéterminée de modes de communication
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        $currentRouteName = $this->route()->getName();
+    
+        if ($currentRouteName === 'UpdateFinance') {
+            session()->put('errorsFinance', $validator->errors());
+    
+            throw new HttpResponseException(
+                redirect()->back()
+                    ->withInput()
+            );
+        }
+    
+        parent::failedValidation($validator);
     }
 }

@@ -84,7 +84,8 @@ Route::get('/Brochures/getDocuments', [BrochureCarteAffaireController::class, 'g
 
 Route::get('/Finances', [FinanceController::class, "create"])->name("createFinances");
 Route::post('/Finances/store', [FinanceController::class, "store"])->name("storeFinances");
-
+Route::get('/Finances/modif', [FinanceController::class, "edit"])->name("EditFinance")->middleware('auth');
+Route::post('/Finances/update', [FicheFournisseurController::class, "updateFinance"])->name("UpdateFinance")->middleware('auth');
 
 // Login avec NEQ
 Route::get('/FicheFournisseur/avecNeq', [FicheFournisseurController::class, "indexAvecNeq"])->name("showLoginFormAvecNeq");

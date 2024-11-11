@@ -24,6 +24,7 @@ use App\Http\Requests\ProduitServiceRequest;
 use App\Http\Requests\CoordonneeRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\LicenceRequest;
+use App\Http\Requests\FinanceRequest;
 
 class FicheFournisseurController extends Controller
 {
@@ -463,6 +464,26 @@ public function updateProfile(IdentificationRequest $request)
         return redirect()->back()->with('success', 'La licence a été mise à jour avec succès.');
     }
     
+    public function updateFinance(FinanceRequest $request)
+{
+    $fournisseur = Auth::user();
+
+    // Vérifie si le fournisseur est connecté, avec le statut "accepter" et une fiche finance existante
+    if ($fournisseur && $fournisseur->etat === 'accepter' && $fournisseur->finance) {
+        $fournisseur->finance->update([
+            'numero_tps' => $request->input('numeroTPS'),
+            'numero_tvq' => $request->input('numeroTVQ'),
+            'condition_paiement' => $request->input('conditionDePaiement'),
+            'devise' => $request->input('devise'),
+            'mode_communication' => $request->input('modeCommunication'),
+        ]);
+
+        return redirect()->route('profil')->with('success', 'Informations financières mises à jour avec succès.');
+    }
+
+    return redirect()->back()->withErrors('Erreur lors de la mise à jour des informations financières.');
+}
+
     
     
 
