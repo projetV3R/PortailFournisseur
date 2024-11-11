@@ -215,7 +215,7 @@
                     <div class="max-h-48 overflow-y-auto mt-2">
                         @foreach($fournisseur->coordonnee->telephones as $telephone)
                         <p class="mt-2 font-Alumni md:text-lg  gap-0.5">
-                            <strong>Ligne {{ $loop->iteration }} :</strong> {{ $telephone->numero_telephone }} - 
+                            <strong>Ligne {{ $loop->iteration }} :</strong> <span class="phones-numberP"> {{ $telephone->numero_telephone }} </span> - 
                             Poste: {{ $telephone->poste }} - 
                             <strong>Type:</strong> {{ $telephone->type }}
                         </p>
@@ -257,7 +257,7 @@
                     @if($licence)
                         <div class="mt-6 w-full max-w-md">
                             <h5 class="font-Alumni font-semibold text-md md:text-lg underline">Informations sur la Licence</h5>
-                            <p class="mt-2 font-Alumni md:text-lg"><strong>Numéro de Licence RBQ:</strong> {{ $licence->numero_licence_rbq }}</p>
+                            <p class="mt-2 font-Alumni md:text-lg ">   <strong >Numéro de Licence RBQ:</strong> <span class="rbq-number"> {{ $licence->numero_licence_rbq }}</span></p>
                             <p class="mt-2 font-Alumni md:text-lg"><strong>Statut:</strong> {{ $licence->statut }}</p>
                             <p class="mt-2 font-Alumni md:text-lg"><strong>Type de Licence:</strong> {{ $licence->type_licence }}</p>
                         </div>
@@ -373,7 +373,7 @@
 
                     <div class="sm:w-1/2 lg:pl-2">
                         <h5 class="font-Alumni font-semibold text-md md:text-lg underline">Coordonnées</h5>
-                        <p class="mt-2 font-Alumni md:text-lg"><strong>Numéro de téléphone:</strong> {{ $contact->telephone->numero_telephone ?? 'N/A' }}</p>
+                        <p class="mt-2 font-Alumni md:text-lg"><strong>Numéro de téléphone:</strong> <span class="phones-numberP"> {{ $contact->telephone->numero_telephone ?? 'N/A' }}</span></p>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Poste:</strong> {{ $contact->telephone->poste ?? 'N/A' }}</p>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Type:</strong> {{ $contact->telephone->type ?? 'N/A' }}</p>
                     </div>
@@ -459,7 +459,26 @@
                 }, 500); 
             }, 3000);
         }
+        //Formattage rbq et tel format canadien ###-###-####
+    function formatPhoneNumber(number) {
+        return number.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    }
+
+
+    function formatRBQ(number) {
+        return number.replace(/(\d{4})(\d{4})(\d{2})/, '$1-$2-$3');
+    }
+    document.querySelectorAll('.phones-numberP').forEach(function (element) {
+        element.textContent = formatPhoneNumber(element.textContent);
     });
+
+ 
+    const rbqElement = document.querySelector('.rbq-number');
+    if (rbqElement) {
+        rbqElement.textContent = formatRBQ(rbqElement.textContent);
+    }
+    });
+
     
     function openIdentificationModal() {
         document.getElementById('identificationModal').classList.remove('hidden');

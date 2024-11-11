@@ -100,7 +100,7 @@ Route::post('/FicheFournisseur/logout', [FicheFournisseurController::class, "log
 // Fiche Fournisseur
 Route::get('/', [FicheFournisseurController::class, "create"])->name("login");
 Route::post('/FicheFournisseur/store', [FicheFournisseurController::class, "store"])->name("FicheFournisseursStore");
-Route::get('/FicheFournisseur/profil', [FicheFournisseurController::class, "profil"])->name("profil");
+Route::get('/FicheFournisseur/profil', [FicheFournisseurController::class, "profil"])->name("profil")->middleware('auth');;
 Route::get('/Resume', [FicheFournisseurController::class, "resume"])->name("resumeFournisseur");
 Route::get('/Redirection', [FicheFournisseurController::class, "redirection"])->name("redirection");
 Route::post('removeInscrit', [FicheFournisseurController::class, 'removeInscrit'])->name('removeInscrit');
