@@ -169,7 +169,9 @@
     function initializeContacts() {
         document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(input => {
             formatTel(input);
-            togglePosteInput(0);
+
+            togglePosteInput(0); //doit être variable index
+            
         });
     }
 
@@ -320,7 +322,7 @@
         document.querySelector('input[name="contacts[0][numeroTelephone]"]').value = formatTelValue(contact.numeroTelephone || '');
         document.querySelector('input[name="contacts[0][poste]"]').value = contact.poste || '';
     }
-    
+
 </script>
 
 
