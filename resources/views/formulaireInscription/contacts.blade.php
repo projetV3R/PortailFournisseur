@@ -167,13 +167,12 @@
     });
 
     function initializeContacts() {
-        document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(input => {
+        document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach((input, index) => {
             formatTel(input);
-
-            togglePosteInput(0); //doit être variable index
-            
+            togglePosteInput(index); // Utilisation de l'index dynamique
         });
     }
+
 
     function loadContacts(contacts) {
         if (Array.isArray(contacts)) {
@@ -234,6 +233,7 @@
         const newSlide = createContactSlide(currentIndex);
         document.querySelector('.swiper-wrapper').appendChild(newSlide);
         swiper.appendSlide(newSlide);
+        togglePosteInput(currentIndex);
         swiper.update();
     }
 
@@ -263,6 +263,11 @@
                 input.setAttribute('name', name.replace(/\[0\]/, `[${index}]`));
                 input.value = '';
                 if (name.includes('numeroTelephone')) formatTel(input);
+            }
+
+            // Mise à jour des id pour chaque champ dans le clone
+            if (input.id) {
+                input.id = input.id.replace('_0', `_${index}`);
             }
         });
     }
@@ -322,7 +327,6 @@
         document.querySelector('input[name="contacts[0][numeroTelephone]"]').value = formatTelValue(contact.numeroTelephone || '');
         document.querySelector('input[name="contacts[0][poste]"]').value = contact.poste || '';
     }
-
 </script>
 
 
