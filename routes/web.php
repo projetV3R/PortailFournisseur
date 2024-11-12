@@ -23,7 +23,7 @@ Route::post('/Identification/store', [IdentificationController::class, "store"])
 
 //MDP
 Route::post('/password/email', [EnvoieEmailController::class, 'lienEmail'])->name('password.email');
-Route::get('/password/reset/{token}', [NvxMotDePasseController::class, 'showResetForm'])->name('login.reset');
+Route::get('/password/reset/{token}', [NvxMotDePasseController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [NvxMotDePasseController::class, 'reset'])->name('password.update');
 
 // Produits Services

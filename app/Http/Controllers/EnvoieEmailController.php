@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\App;
 
 
 class EnvoieEmailController extends Controller
@@ -14,6 +15,7 @@ class EnvoieEmailController extends Controller
 {
     $request->validate(['adresse_courriel' => 'required|email']);
 
+    App::setLocale('fr');
     Log::info('Adresse courriel utilisée pour le lien de réinitialisation : ' . $request->adresse_courriel);
 
     $credentials = ['email' => $request->adresse_courriel];

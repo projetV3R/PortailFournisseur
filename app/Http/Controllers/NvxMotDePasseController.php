@@ -6,14 +6,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\FicheFournisseur;
 
 class NvxMotDePasseController extends Controller
 {
     public function showResetForm($token)
     {
+        $resetToken = DB::table('password_reset_tokens')
+            ->where('token', $token)
+            ->first();
+
+        if (!$resetToken) {
+            return view('password.lienDejaUtiliser');
+        }
+
         return view('login.reset', ['token' => $token]);
     }
+
 
     public function reset(Request $request)
     {
@@ -32,11 +43,14 @@ class NvxMotDePasseController extends Controller
                 $user->password = Hash::make($password);
                 $user->save();
 
-                auth()->login($user);
             }
         );
 
         if ($status == Password::PASSWORD_RESET) {
+            DB::table('password_reset_tokens')
+                ->where('adresse_courriel', $request->adresse_courriel)
+                ->delete();
+    
             return redirect()->route('login')->with('status', __($status));
         } else {
             return back()->withErrors(['adresse_courriel' => [__($status)]]);

@@ -12,8 +12,9 @@
                         <form method="POST" action="{{ route('password.update') }}" class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
                             @csrf
                             <input type="hidden" name="token" value="{{ $token }}">
+                            <input type="hidden" name="adresse_courriel" value="{{ $email }}">
 
-                            <div class="mb-4">
+                            <div class="mb-4 hidden">
                                 <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Adresse Email :</label>
                                 <input type="email" name="adresse_courriel" id="adresse_courriel" required value="{{ request('email') }}"
                                     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
