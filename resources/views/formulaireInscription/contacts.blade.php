@@ -152,171 +152,162 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(function(input) {
-            formatTel(input);
-            tooglePosteInput(0);
-        });
+        // Initialize formatting and toggle for each contact field
+        initializeContacts();
 
-        let currentIndex = @json(session('currentIndex', 0));
-        document.getElementById('currentIndexInput').value = currentIndex;
+        // Set initial index from session
+        document.getElementById('currentIndexInput').value = @json(session('currentIndex', 0));
 
+        // Load contacts from session if available
         @if(session('contacts'))
-        let contacts = @json(session('contacts'));
-        if (Array.isArray(contacts)) {
-            contacts.forEach((contact, index) => {
-                if (index > 0) {
-                    ajouterContactFields(index, contact);
-                } else {
-                    remplirPremierContact(contact);
-                }
-            });
-            reindexContacts();
-        }
+        loadContacts(@json(session('contacts')));
         @endif
-
-        /*Zone pour effacer poste*/
-        if (coordonnees['contacts']) {
-            Object.keys(coordonnees['contacts']).forEach(index => {
-                const ligne = coordonnees['contacts'][index];
-                if (index == 0) {
-                    if (ligne.type) document.getElementById('ligne_0').value = ligne.type;
-                    if (ligne.numeroTelephone) document.getElementById('numeroTelephone_0').value = formatTelValue(ligne.numeroTelephone);
-                    if (ligne.poste) document.getElementById('poste_0').value = ligne.poste;
-
-                } else {
-                    ajouterNumeroTelephone(index, ligne);
-                }
-            });
-        }
 
         initializeSwiper();
     });
 
+    function initializeContacts() {
+        document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(input => {
+            formatTel(input);
+            togglePosteInput(0);
+        });
+    }
+
+    function loadContacts(contacts) {
+        if (Array.isArray(contacts)) {
+            contacts.forEach((contact, index) => {
+                if (index === 0) {
+                    remplirPremierContact(contact);
+                } else {
+                    ajouterContactFields(index, contact);
+                }
+            });
+            reindexContacts();
+        }
+    }
+
     const swiper = new Swiper('.swiper-container', {
         navigation: {
             nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+            prevEl: '.swiper-button-prev'
         },
         pagination: {
             el: '.swiper-pagination',
-            clickable: true,
+            clickable: true
         },
         centeredSlides: true,
         slidesPerView: 1,
     });
 
-
-    function tooglePosteInput(index) {
+    function togglePosteInput(index) {
         const ligneSelect = document.getElementById(`ligne_${index}`);
         const posteDiv = document.getElementById(`poste_div_${index}`);
         const posteInput = document.getElementById(`poste_${index}`);
 
-        function togglePoste() {
-            if (ligneSelect.value !== "Bureau") {
-                posteDiv.classList.add('hidden'); // Masque le champ "Poste"
-                posteInput.value = ''; // Efface la valeur de l'input "Poste"
-            } else {
-                posteDiv.classList.remove('hidden'); // Affiche le champ "Poste"
-            }
-        }
+        const togglePoste = () => {
+            posteDiv.classList.toggle('hidden', ligneSelect.value !== "Bureau");
+            if (ligneSelect.value !== "Bureau") posteInput.value = '';
+        };
 
         ligneSelect.addEventListener('change', togglePoste);
-
-        // Appel initial pour définir l'état correct au chargement
         togglePoste();
     }
 
     function formatTel(input) {
         input.addEventListener('input', function() {
-            let value = input.value.replace(/\D/g, '');
-            if (value.length > 3 && value.length <= 6) {
-                value = value.slice(0, 3) + '-' + value.slice(3);
-            } else if (value.length > 6) {
-                value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
-            }
-            input.value = value;
+            input.value = formatTelValue(input.value);
         });
     }
 
+    function formatTelValue(value) {
+        value = value.replace(/\D/g, '');
+        return value.length > 6 ? value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10) :
+            value.length > 3 ? value.slice(0, 3) + '-' + value.slice(3) : value;
+    }
 
-    let currentContactIndex = 0;
+    document.getElementById('addContactBtn').addEventListener('click', addContact);
 
-    document.getElementById('addContactBtn').addEventListener('click', function() {
+    function addContact() {
+        const currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7;
+        const newSlide = createContactSlide(currentIndex);
+        document.querySelector('.swiper-wrapper').appendChild(newSlide);
+        swiper.appendSlide(newSlide);
+        swiper.update();
+    }
+
+    function createContactSlide(index) {
         const contactFieldsContainer = document.getElementById('contactFieldsContainer');
         const clone = contactFieldsContainer.cloneNode(true);
-        const currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7; // Adjust index calculation if necessary
+        removeUnnecessaryElements(clone);
+        resetCloneFields(clone, index);
 
-        currentContactIndex++;
-
-        // Remove buttons from the cloned element
-        clone.querySelector('#addContactBtn')?.remove();
-        clone.querySelector('#submitBtn')?.remove();
-        clone.querySelector('#barreProgression')?.remove();
-
-        // Create a new Swiper slide
         const newSlide = document.createElement('div');
         newSlide.classList.add('swiper-slide', 'w-full', 'justify-center', 'p-10', 'pl-8');
         newSlide.appendChild(clone);
+        newSlide.appendChild(createDeleteButton(newSlide));
+        return newSlide;
+    }
 
-        // Reset input values in cloned fields
-        clone.querySelectorAll('input, select').forEach(function(input) {
+    function removeUnnecessaryElements(clone) {
+        clone.querySelector('#addContactBtn')?.remove();
+        clone.querySelector('#submitBtn')?.remove();
+        clone.querySelector('#barreProgression')?.remove();
+    }
+
+    function resetCloneFields(clone, index) {
+        clone.querySelectorAll('input, select').forEach(input => {
             const name = input.getAttribute('name');
             if (name) {
-                input.setAttribute('name', name.replace(/\[0\]/, `[${currentIndex}]`));
-                input.value = ''; // Clear input value
-                if (name.includes('numeroTelephone')) {
-                    formatTel(input); // Reapply formatting
-                }
+                input.setAttribute('name', name.replace(/\[0\]/, `[${index}]`));
+                input.value = '';
+                if (name.includes('numeroTelephone')) formatTel(input);
             }
         });
+    }
 
-        // Create a delete button for the slide
+    function createDeleteButton(slide) {
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
         deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'p-5', 'mt-2', 'font-Alumni', 'font-bold', 'text-lg', 'md:text-2xl');
         deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
         deleteButton.addEventListener('click', function() {
-            Swal.fire({
-                position: 'top-center',
-                title: "Êtes-vous sûr de vouloir supprimer?",
-                text: "La suppression n'est pas réversible !",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#0076D5",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Supprimer",
-                cancelButtonText: "Annuler"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    newSlide.remove(); // Remove the slide from the DOM
-                    swiper.update(); // Update Swiper instance
-                    reindexContacts(); // Reindex remaining contacts
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Suppression du contact réussie',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-            });
+            confirmDelete(slide);
         });
+        return deleteButton;
+    }
 
-        newSlide.appendChild(deleteButton);
-        document.querySelector('.swiper-wrapper').appendChild(newSlide);
-        swiper.appendSlide(newSlide); // Add the new slide to Swiper
-    });
-
-
+    function confirmDelete(slide) {
+        Swal.fire({
+            position: 'top-center',
+            title: "Êtes-vous sûr de vouloir supprimer?",
+            text: "La suppression n'est pas réversible !",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#0076D5",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Supprimer",
+            cancelButtonText: "Annuler"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                slide.remove();
+                swiper.update();
+                reindexContacts();
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Suppression du contact réussie',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+    }
 
     function reindexContacts() {
         document.querySelectorAll('[name^="contacts"]').forEach((input, index) => {
-            let name = input.getAttribute('name');
-            name = name.replace(/\[.*?\]/, '[' + Math.floor(index / 7) + ']');
+            const name = input.getAttribute('name').replace(/\[.*?\]/, `[${Math.floor(index / 7)}]`);
             input.setAttribute('name', name);
-            if (input.name.includes('numeroTelephone')) {
-                formatTel(input);
-            }
+            if (name.includes('numeroTelephone')) formatTel(input);
         });
     }
 
@@ -329,85 +320,8 @@
         document.querySelector('input[name="contacts[0][numeroTelephone]"]').value = formatTelValue(contact.numeroTelephone || '');
         document.querySelector('input[name="contacts[0][poste]"]').value = contact.poste || '';
     }
-
-    function formatTelValue(value) {
-        value = value.replace(/\D/g, '');
-        if (value.length > 3 && value.length <= 6) {
-            value = value.slice(0, 3) + '-' + value.slice(3);
-        } else if (value.length > 6) {
-            value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
-        }
-        return value;
-    }
-
-    //zone variables de session.
-    function ajouterContactFields(index, contact = {}) {
-        var contactFieldsContainer = document.getElementById('contactFieldsContainer');
-        var clone = contactFieldsContainer.cloneNode(true);
-
-        clone.querySelector('#addContactBtn')?.remove();
-        clone.querySelector('#submitBtn')?.remove();
-        clone.querySelector('#barreProgression')?.remove();
-
-        const newSlide = document.createElement('div');
-        newSlide.classList.add('swiper-slide')
-
-        clone.querySelectorAll('input, select').forEach(function(input) {
-            var name = input.getAttribute('name');
-            if (name) {
-                var newName = name.replace(/\[0\]/, '[' + index + ']');
-                input.setAttribute('name', newName);
-            }
-
-            if (name.includes('preN') && contact.preN) input.value = contact.preN;
-            if (name.includes('nom') && contact.nom) input.value = contact.nom;
-            if (name.includes('fonction') && contact.fonction) input.value = contact.fonction;
-            if (name.includes('email') && contact.email) input.value = contact.email;
-            if (name.includes('type') && contact.type) input.value = contact.type;
-            if (name.includes('numeroTelephone') && contact.numeroTelephone) {
-                input.value = formatTelValue(contact.numeroTelephone);
-            }
-            if (name.includes('poste')) input.value = contact.poste || '';
-        });
-
-        var deleteButton = document.createElement('button');
-        deleteButton.type = 'button';
-        deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'p-5', 'mt-2', 'font-Alumni', 'font-bold', 'text-lg', 'md:text-2xl');
-        deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
-        deleteButton.addEventListener('click', function() {
-            Swal.fire({
-                position: 'top-center',
-                title: "Êtes-vous sur de vouloir supprimer?",
-                text: "La suppression n'est pas réversible !",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#0076D5",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Supprimer",
-                cancelButtonText: "Annuler"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    clone.remove();
-                    newSlide.remove(); // Remove the slide from the DOM
-                    swiper.update();
-                    reindexContacts();
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Suppression du contact réussie',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-            });
-        });
-        clone.appendChild(deleteButton);
-        newSlide.appendChild(clone); // Ajouter le clone à la nouvelle slide
-        document.querySelector('.swiper-wrapper').appendChild(newSlide); // Ajouter la slide au wrapper Swiper
-        swiper.appendSlide(newSlide); // Ajouter la nouvelle slide au Swiper
-
-        swiper.update(); // Mettre à jour Swiper
-    }
+    
 </script>
+
 
 @endsection
