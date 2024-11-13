@@ -155,6 +155,9 @@
         // Initialize formatting and toggle for each contact field
         initializeContacts();
 
+        let currentIndex = @json(session('currentIndex', 0));
+        document.getElementById('currentIndexInput').value = currentIndex;
+
         // Set initial index from session
         document.getElementById('currentIndexInput').value = @json(session('currentIndex', 0));
 
@@ -169,7 +172,7 @@
     function initializeContacts() {
         document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach((input, index) => {
             formatTel(input);
-            togglePosteInput(index); // Utilisation de l'index dynamique
+            togglePosteInput(0); // Utilisation de l'index dynamique
         });
     }
 
@@ -226,7 +229,11 @@
             value.length > 3 ? value.slice(0, 3) + '-' + value.slice(3) : value;
     }
 
-    document.getElementById('addContactBtn').addEventListener('click', addContact);
+    document.getElementById('addContactBtn').addEventListener('click', function() {
+        addContact;
+        currentIndex++;
+        togglePosteInput(currentIndex);
+    });
 
     function addContact() {
         const currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7;
