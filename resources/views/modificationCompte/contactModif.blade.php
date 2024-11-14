@@ -8,6 +8,16 @@
 
     <form action="{{ route('UpdateContact') }}" method="post" id="contactForm">
         @csrf
+        @if(session('errorsContact'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+            <strong class="font-bold">Erreur!</strong>
+            <ul class="mt-2 list-disc list-inside">
+                @foreach (session('errorsContact')->all() as $error)
+                    <li class="font-Alumni">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div  
+    @endif
         <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16" id="contactFieldsContainer">
             <div class="flex w-full flex-col">
                 <h6 class="font-Alumni font-bold text-3xl md:text-5xl">CONTACTS</h6>
@@ -120,7 +130,7 @@
                     <div class="flex flex-col px-2 lg:px-4">
                         <button type="button"
                             class="w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 mt-2" id="submitBtn">
-                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">Enregistrer</h1>
                         </button>
                         <button id="addContactBtn" type="button"
                             class="w-full text-white bg-blue-500 hover:bg-blue-400 py-2.5 mt-2">
@@ -133,3 +143,6 @@
     </form>
 
 @endsection
+@php
+session()->forget('errorsContact');
+@endphp

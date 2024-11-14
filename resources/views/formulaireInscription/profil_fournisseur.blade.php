@@ -516,6 +516,11 @@
         @if (session()->has('errorsFinance'))
         openFinanceModal();
         @endif
+        @if (session()->has('errorsContact'))
+        openContactModal();
+        @endif
+
+        
         var successMessage = document.getElementById('successMessage');
         if (successMessage) {
             setTimeout(function() {

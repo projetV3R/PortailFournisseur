@@ -484,9 +484,42 @@ public function updateProfile(IdentificationRequest $request)
 
     return redirect()->back()->withErrors('Erreur lors de la mise à jour des informations financières.');
 }
-    public function updateContact(){
+  
+//TODO FIX MODIFER CONTACT
+public function updateContact(ContactRequest $request)
+{
+    $fournisseur = Auth::user();
 
+    foreach ($request->input('contacts') as $index => $contactData) {
+
+        if (isset($contactData['telephone_id'])) {
+     
+            $telephone = Telephone::findOrFail($contactData['telephone_id']);
+        } else {
+      
+            $telephone = new Telephone();
+        }
+
+        $telephone->numero_telephone = $contactData['numeroTelephone'];
+        $telephone->poste = $contactData['poste'];
+        $telephone->type = $contactData['type'];
+        $telephone->save();
+
+
+        $contact = Contact::findOrNew($contactData['id'] ?? null);
+        $contact->prenom = $contactData['prenom'];
+        $contact->nom = $contactData['nom'];
+        $contact->fonction = $contactData['fonction'];
+        $contact->adresse_courriel = $contactData['email'];
+        $contact->fiche_fournisseur_id = $fournisseur->id;
+        $contact->telephone_id = $telephone->id;
+        $contact->save();
     }
+
+    return redirect()->route('profil')->with('success', 'Informations de contact mises à jour avec succès.');
+}
+
+
 
     
     
