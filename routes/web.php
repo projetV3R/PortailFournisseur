@@ -65,7 +65,7 @@ Route::get('/Contacts', [ContactController::class, "create"])->name("createConta
 Route::post('/Contacts/Store', [ContactController::class, "store"])->name("storeContacts");
 Route::get('/Contacts/modif', [ContactController::class, "edit"])->name("EditContact")->middleware('auth');
 Route::get('/Contacts/update', [FicheFournisseurController::class, "updateContact"])->name("UpdateContact")->middleware('auth');
-
+Route::get('/Contacts/getData', [ContactController::class, "getContacts"])->name("getContacts")->middleware('auth');
 // Brochure carte affaire
 
 Route::get('/BrochuresCartesAffaires', [BrochureCarteAffaireController::class, "create"])->name("createBrochuresCartesAffaires");

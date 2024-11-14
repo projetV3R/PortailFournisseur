@@ -63,6 +63,16 @@ class ContactController extends Controller
       return view("modificationCompte/contactModif" , compact('fournisseur'));
     }
 
+    public function getContacts()
+    {
+        $fournisseur = Auth::user();
+        
+        $contacts = $fournisseur->contacts()->with('telephone:id,numero_telephone,poste,type')->get();
+        
+        return response()->json($contacts);
+    }
+    
+    
 
     /**
      * Update the specified resource in storage.

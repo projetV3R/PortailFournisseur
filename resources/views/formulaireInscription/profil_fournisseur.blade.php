@@ -424,7 +424,7 @@
     </div>
 
     <!-- Section scrollable pour afficher plusieurs contacts -->
-    <div id="contactsContainer" class="max-h-64 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+    <div id="contactContainer" class="max-h-64 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
         @forelse($fournisseur->contacts as $contact)
             <div class="bg-white p-4 shadow-md rounded mb-2">
                 <div class="flex flex-col sm:flex-row justify-between">
