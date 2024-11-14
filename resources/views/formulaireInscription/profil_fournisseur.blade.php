@@ -170,6 +170,22 @@
                 </div>
             </div>
         </div>
+
+        <div id="contactModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier vos contacts </h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeContactModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="contactFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
         
         
 <div class="p-4 md:p-16">
@@ -403,7 +419,7 @@
     <!-- Bouton "modifier" en haut à droite -->
     <div class="absolute right-4 top-4">
         <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
-            <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;"></span>
+            <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;"  onclick="openContactModal()"></span>
         </button>
     </div>
 
@@ -593,11 +609,11 @@ function closeProduitsServicesModal() {
 function openCoordonneeModal() {
     document.getElementById('coordonneeModal').classList.remove('hidden');
 
-    axios.get("{{ route('EditCoordonnee') }}") // Remplacez par la route correcte
+    axios.get("{{ route('EditCoordonnee') }}") 
         .then(function (response) {
             document.getElementById('coordonneeFormContainer').innerHTML = response.data;
 
-            // Charger dynamiquement le script de modification pour Produits et Services
+          
             loadScript('{{ asset('js/modif/coordonneeModif.js') }}', function() {
                 setTimeout(initializeCoordonneeFormScript, 100);
             });
@@ -615,7 +631,7 @@ function closeCoordonneeModal() {
 function openDocModal() {
     document.getElementById('docModal').classList.remove('hidden');
 
-    axios.get("{{ route('EditDoc') }}") // Remplacez par la route correcte
+    axios.get("{{ route('EditDoc') }}") 
         .then(function (response) {
             document.getElementById('docFormContainer').innerHTML = response.data;
 
@@ -636,7 +652,7 @@ function closeDocModal() {
 function openLicenceModal() {
     document.getElementById('licenceModal').classList.remove('hidden');
 
-    axios.get("{{ route('EditLicence') }}") // Remplacez par la route correcte
+    axios.get("{{ route('EditLicence') }}") 
         .then(function (response) {
             document.getElementById('licenceFormContainer').innerHTML = response.data;
 
@@ -657,7 +673,7 @@ function closeLicenceModal() {
 function openFinanceModal() {
     document.getElementById('financeModal').classList.remove('hidden');
 
-    axios.get("{{ route('EditFinance') }}") // Remplacez par la route correcte
+    axios.get("{{ route('EditFinance') }}") 
         .then(function (response) {
             document.getElementById('financeFormContainer').innerHTML = response.data;
 
@@ -673,6 +689,27 @@ function openFinanceModal() {
 
 function closeFinanceModal() {
     document.getElementById('financeModal').classList.add('hidden');
+}
+
+function openContactModal() {
+    document.getElementById('contactModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditContact') }}")
+        .then(function (response) {
+            document.getElementById('contactFormContainer').innerHTML = response.data;
+
+            loadScript('{{ asset('js/modif/contactModif.js') }}', function() {
+                setTimeout( initializeContactFormScript, 100);
+            });
+          
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page des contacts", error);
+        });
+}
+
+function closeContactModal() {
+    document.getElementById('contactModal').classList.add('hidden');
 }
     </script>
     

@@ -63,6 +63,8 @@ Route::get('/Licence/get-licence-data', [LicenceController::class, 'getLicenceDa
 
 Route::get('/Contacts', [ContactController::class, "create"])->name("createContacts");
 Route::post('/Contacts/Store', [ContactController::class, "store"])->name("storeContacts");
+Route::get('/Contacts/modif', [ContactController::class, "edit"])->name("EditContact")->middleware('auth');
+Route::get('/Contacts/update', [FicheFournisseurController::class, "updateContact"])->name("UpdateContact")->middleware('auth');
 
 // Brochure carte affaire
 

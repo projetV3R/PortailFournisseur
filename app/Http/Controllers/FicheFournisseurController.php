@@ -25,6 +25,7 @@ use App\Http\Requests\CoordonneeRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\LicenceRequest;
 use App\Http\Requests\FinanceRequest;
+use App\Http\Requests\ContactRequest;
 
 class FicheFournisseurController extends Controller
 {
@@ -483,6 +484,9 @@ public function updateProfile(IdentificationRequest $request)
 
     return redirect()->back()->withErrors('Erreur lors de la mise à jour des informations financières.');
 }
+    public function updateContact(){
+
+    }
 
     
     
