@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\LicenceRequest;
 use App\Http\Requests\FinanceRequest;
 use App\Http\Requests\ContactRequest;
+use App\Models\Historique;
+use App\Models\ProduitsServices;
+
 
 class FicheFournisseurController extends Controller
 {
@@ -317,23 +320,78 @@ public function updateProfile(IdentificationRequest $request)
         ->with('success', 'Votre profil a été mis à jour avec succès.');
 }
 
-    public function updateProduit(ProduitServiceRequest $request)
-    {
-        $fournisseur = Auth::user();
+public function updateProduit(ProduitServiceRequest $request)
+{
+    $fournisseur = Auth::user();
 
-     
-        $fournisseur->details_specifications = $request->input('details_specifications');
-        $fournisseur->save();
+ 
+    $oldDetailsSpecifications = $fournisseur->details_specifications;
 
-    
-        $productIds = $request->input('produits_services', []);
 
-     
-        $fournisseur->produitsServices()->sync($productIds);
+    $newDetailsSpecifications = $request->input('details_specifications');
 
-     
-        return redirect()->back()->with('success', 'Vos produits et services ont été mis à jour avec succès.');
+  
+    $fournisseur->details_specifications = $newDetailsSpecifications;
+    $fournisseur->save();
+
+  
+    $oldProductIds = $fournisseur->produitsServices()->pluck('produits_services.id')->toArray();
+
+   
+    $newProductIds = $request->input('produits_services', []);
+
+
+    $fournisseur->produitsServices()->sync($newProductIds);
+
+
+    $addedProductIds = array_diff($newProductIds, $oldProductIds);
+    $removedProductIds = array_diff($oldProductIds, $newProductIds);
+
+    $historiqueRemove = []; 
+    $historiqueDetails = []; 
+
+    if ($oldDetailsSpecifications !== $newDetailsSpecifications) {
+        if (!empty($oldDetailsSpecifications)) {
+            $historiqueRemove[] = "details et specifications: {$oldDetailsSpecifications}";
+        }
+        if (!empty($newDetailsSpecifications)) {
+            $historiqueDetails[] = "details et specifications: {$newDetailsSpecifications}";
+        }
     }
+
+   
+    if (!empty($removedProductIds)) {
+        $removedProducts = ProduitsServices::whereIn('id', $removedProductIds)->get();
+        foreach ($removedProducts as $product) {
+            $historiqueRemove[] = "-{$product->code_unspsc} {$product->description}";
+        }
+    }
+
+ 
+    if (!empty($addedProductIds)) {
+        $addedProducts = ProduitsServices::whereIn('id', $addedProductIds)->get();
+        foreach ($addedProducts as $product) {
+            $historiqueDetails[] = "+{$product->code_unspsc} {$product->description}";
+        }
+    }
+
+ 
+    if (!empty($historiqueDetails) || !empty($historiqueRemove)) {
+        Historique::create([
+            'table_name' => 'Produits&Services',
+            'record_id' => $fournisseur->id,
+            'user_id' => Auth::id(),
+            'action' => 'update',
+            'old_values' => !empty($historiqueRemove) ? implode(", ", $historiqueRemove) : null,
+            'new_values' => !empty($historiqueDetails) ? implode(", ", $historiqueDetails) : null,
+            'fiche_fournisseur_id' => $fournisseur->id,
+        ]);
+    }
+
+    return redirect()->back()->with('success', 'Vos produits et services ont été mis à jour avec succès.');
+}
+
+
 
     public function updateCoordonnee(CoordonneeRequest $request)
     {

@@ -63,6 +63,7 @@ class FicheFournisseur extends Authenticatable
 }
 
 
+
     /**
      * Retrouve le mot de passe de l'usager.
      * Nécessaire pour l'authentification puisque Laravel a besoin d'un champ qui s'appelle password.
