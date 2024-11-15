@@ -28,6 +28,7 @@ use App\Http\Requests\FinanceRequest;
 use App\Http\Requests\ContactRequest;
 use App\Models\Historique;
 use App\Models\ProduitsServices;
+use App\Models\SousCategorie;
 
 
 class FicheFournisseurController extends Controller
@@ -473,7 +474,7 @@ public function updateProduit(ProduitServiceRequest $request)
             session()->put('errorsFichiers',"La taille totale des fichiers, incluant les fichiers existants, dépasse la limite de {$maxFileSize} Mo.");
             return  redirect()->back();
         }
-        
+
         $existingFiles = $fournisseur->brochuresCarte;
         $fileIdsToDelete = $request->input('fichiers_a_supprimer', []);
     
@@ -531,29 +532,86 @@ public function updateProduit(ProduitServiceRequest $request)
     }
     
     
-    public function updateLicence(LicenceRequest $request)
-    {
-        $fournisseur = Auth::user();
-        
-        // Récupérer la licence ou créer une nouvelle si elle n'existe pas
-        $licence = $fournisseur->licence()->firstOrNew();
-        $numeroNettoyeRbq = str_replace('-', '', $request->input('numeroLicence'));
+public function updateLicence(LicenceRequest $request)
+{
+    $fournisseur = Auth::user();
+
+   
+    $licence = $fournisseur->licence()->firstOrNew();
+
+
+    $oldLicenceAttributes = $licence->exists ? $licence->getOriginal() : [];
+
  
-        $licence->numero_licence_rbq =  $numeroNettoyeRbq;
-        $licence->statut = $request->input('statut');
-        $licence->type_licence = $request->input('typeLicence');
-        $licence->save();
-        
-  
-        if ($request->filled('sousCategorie')) {
-            $licence->sousCategoriess()->sync($request->input('sousCategorie'));
-        } else {
-            $licence->sousCategoriess()->sync([]); 
+    $oldSousCategorieIds = $licence->sousCategoriess()->pluck('sous_categorie_id')->toArray();
+
+ 
+    $numeroNettoyeRbq = str_replace('-', '', $request->input('numeroLicence'));
+    $licence->numero_licence_rbq = $numeroNettoyeRbq;
+    $licence->statut = $request->input('statut');
+    $licence->type_licence = $request->input('typeLicence');
+    $licence->fiche_fournisseur_id = $fournisseur->id; 
+
+
+    $licence->save();
+
+
+    $newSousCategorieIds = $request->input('sousCategorie', []);
+
+
+    $licence->sousCategoriess()->sync($newSousCategorieIds);
+
+
+    $addedSousCategorieIds = array_diff($newSousCategorieIds, $oldSousCategorieIds);
+    $removedSousCategorieIds = array_diff($oldSousCategorieIds, $newSousCategorieIds);
+
+
+    $oldValues = [];
+    $newValues = [];
+
+    $attributesToCheck = ['numero_licence_rbq', 'statut', 'type_licence'];
+
+    foreach ($attributesToCheck as $attribute) {
+        $oldValue = $oldLicenceAttributes[$attribute] ?? null;
+        $newValue = $licence->$attribute;
+
+        if ($oldValue != $newValue) {
+            $oldValues[] = "-{$attribute}: {$oldValue}";
+            $newValues[] = "+{$attribute}: {$newValue}";
         }
-        
-        return redirect()->back()->with('success', 'La licence a été mise à jour avec succès.');
     }
-    
+
+    if (!empty($addedSousCategorieIds)) {
+        $addedSousCategories = SousCategorie::whereIn('id', $addedSousCategorieIds)->get();
+        foreach ($addedSousCategories as $sousCategorie) {
+            $newValues[] = "+{$sousCategorie->code_sous_categorie}";
+        }
+    }
+
+
+    if (!empty($removedSousCategorieIds)) {
+        $removedSousCategories = SousCategorie::whereIn('id', $removedSousCategorieIds)->get();
+        foreach ($removedSousCategories as $sousCategorie) {
+            $oldValues[] = "-{$sousCategorie->code_sous_categorie}";
+        }
+    }
+
+
+    if (!empty($oldValues) || !empty($newValues)) {
+        Historique::create([
+            'table_name' => 'Licence',
+            'record_id' => $licence->id,
+            'user_id' => Auth::id(),
+            'action' => 'update',
+            'old_values' => !empty($oldValues) ? implode(", ", $oldValues) : null,
+            'new_values' => !empty($newValues) ? implode(", ", $newValues) : null,
+            'fiche_fournisseur_id' => $fournisseur->id,
+        ]);
+    }
+
+    return redirect()->back()->with('success', 'La licence a été mise à jour avec succès.');
+}
+
     public function updateFinance(FinanceRequest $request)
 {
     $fournisseur = Auth::user();
