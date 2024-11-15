@@ -523,13 +523,13 @@
         
         var successMessage = document.getElementById('successMessage');
         if (successMessage) {
-            setTimeout(function() {
-                successMessage.style.transition = 'opacity 0.5s ease';
-                successMessage.style.opacity = '0';
-                setTimeout(function() {
-                    successMessage.parentNode.removeChild(successMessage);
-                }, 500); 
-            }, 3000);
+            Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: successMessage,
+  showConfirmButton: false,
+  timer: 1500
+});
         }
         //Formattage rbq et tel format canadien ###-###-####
     function formatPhoneNumber(number) {

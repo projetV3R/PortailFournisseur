@@ -37,7 +37,7 @@ class FicheFournisseurObserver
                 'table_name' => 'FicheFournisseur',
                 'record_id' => $fournisseur->id,
                 'user_id' => Auth::id(),
-                'action' => 'update',
+                'action' => 'Modifier',
                 'old_values' => !empty($oldValues) ? implode(", ", $oldValues) : null,
                 'new_values' => !empty($newValues) ? implode(", ", $newValues) : null,
                 'fiche_fournisseur_id' => $fournisseur->id,

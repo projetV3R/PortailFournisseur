@@ -381,7 +381,7 @@ public function updateProduit(ProduitServiceRequest $request)
             'table_name' => 'Produits&Services',
             'record_id' => $fournisseur->id,
             'user_id' => Auth::id(),
-            'action' => 'update',
+            'action' => 'Modifier',
             'old_values' => !empty($historiqueRemove) ? implode(", ", $historiqueRemove) : null,
             'new_values' => !empty($historiqueDetails) ? implode(", ", $historiqueDetails) : null,
             'fiche_fournisseur_id' => $fournisseur->id,
@@ -432,7 +432,6 @@ public function updateProduit(ProduitServiceRequest $request)
     {
         $fournisseur = Auth::user();
     
-        
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
         $totalSize = 0;
     
@@ -474,31 +473,63 @@ public function updateProduit(ProduitServiceRequest $request)
             session()->put('errorsFichiers',"La taille totale des fichiers, incluant les fichiers existants, dépasse la limite de {$maxFileSize} Mo.");
             return  redirect()->back();
         }
+        
+        $existingFiles = $fournisseur->brochuresCarte;
+        $fileIdsToDelete = $request->input('fichiers_a_supprimer', []);
     
-       
+        $historiqueRemove = []; 
+        $historiqueAdd = [];   
+    
+     
         foreach ($fileIdsToDelete as $fileId) {
             $fileToDelete = $existingFiles->find($fileId);
             if ($fileToDelete) {
-                Storage::delete($fileToDelete->chemin); 
-                $fileToDelete->delete(); 
+            
+                if (Storage::disk('public')->exists($fileToDelete->chemin)) {
+                    Storage::disk('public')->delete($fileToDelete->chemin);
+                }
+              
+                $historiqueRemove[] = "-{$fileToDelete->nom}";
+             
+                $fileToDelete->delete();
             }
         }
     
        
         if ($request->hasFile('fichiers')) {
             foreach ($request->file('fichiers') as $file) {
-                $path = $file->store('brochures');
-                $fournisseur->brochuresCarte()->create([
+                $path = $file->store('brochures', 'public');
+                $brochure = $fournisseur->brochuresCarte()->create([
                     'nom' => $file->getClientOriginalName(),
                     'chemin' => $path,
                     'taille' => $file->getSize(),
-                    'type_de_fichier' => $file->getClientOriginalExtension() 
+                    'type_de_fichier' => $file->getClientOriginalExtension(),
                 ]);
+    
+                
+                $historiqueAdd[] = "+{$brochure->nom}";
             }
+        }
+    
+    
+        if (!empty($historiqueAdd) || !empty($historiqueRemove)) {
+            $oldValues = !empty($historiqueRemove) ? implode(", ", $historiqueRemove) : null;
+            $newValues = !empty($historiqueAdd) ? implode(", ", $historiqueAdd) : null;
+    
+            Historique::create([
+                'table_name' => 'BrochuresCarte',
+                'record_id' => $fournisseur->id,
+                'user_id' => Auth::id(),
+                'action' => 'Modifier',
+                'old_values' => $oldValues,
+                'new_values' => $newValues,
+                'fiche_fournisseur_id' => $fournisseur->id,
+            ]);
         }
     
         return redirect()->back()->with('success', 'Vos brochures & cartes d\'affaires ont été mises à jour avec succès.');
     }
+    
     
     public function updateLicence(LicenceRequest $request)
     {
