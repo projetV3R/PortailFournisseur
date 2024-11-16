@@ -14,48 +14,50 @@ class NvxMotDePasseController extends Controller
 {
     public function showResetForm($token)
     {
-        $resetToken = DB::table('password_reset_tokens')
-            ->where('token', $token)
-            ->first();
-
-        if (!$resetToken) {
-            return view('password.lienDejaUtiliser');
-        }
-
         return view('login.reset', ['token' => $token]);
     }
 
 
     public function reset(Request $request)
-    {
-        $request->validate([
-            'token' => 'required',
-            'adresse_courriel' => 'required|email',
-            'password' => 'required|confirmed|string|min:7|max:12',
+{
+    Log::Debug('1');
+    $request->validate([
+        'token' => 'required',
+        'adresse_courriel' => 'required|email',
+        'password' => 'required|confirmed|string|min:7|max:12',
+    ]);
+    Log::Debug('2');
 
-        ]);
 
-        $credentials = $request->only('adresse_courriel', 'password', 'password_confirmation', 'token');
+    $credentials = $request->only('adresse_courriel', 'password', 'password_confirmation', 'token');
 
-        $status = Password::reset(
-            $credentials,
-            function ($user, $password) {
-                $user->password = Hash::make($password);
-                $user->save();
-
-            }
-        );
-
-        if ($status == Password::PASSWORD_RESET) {
-            DB::table('password_reset_tokens')
-                ->where('adresse_courriel', $request->adresse_courriel)
-                ->delete();
-    
-            return redirect()->route('login')->with('status', __($status));
-        } else {
-            return back()->withErrors(['adresse_courriel' => [__($status)]]);
+    $status = Password::reset(
+        $credentials,
+        function ($user, $password) {
+            $user->password = Hash::make($password);
+            $user->save();
         }
+    );
+    Log::Debug('3');
+
+    if ($status == Password::PASSWORD_RESET) {
+        Log::Debug('4');
+
+        DB::table('password_reset_tokens')
+            ->where('email', $request->adresse_courriel)
+            ->delete();
+
+        return redirect()->route('login')->with('status', __($status));
+        Log::Debug('5');
+
+    } else {
+        Log::Debug('6');
+        return view('password.lienDejaUtiliser');
+        Log::Debug('7');
+
     }
+}
+
 
     public function index()
     {
