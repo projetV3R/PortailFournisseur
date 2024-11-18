@@ -9,10 +9,10 @@
                 <div class="mx-4">
                     <h1 class="font-Alumni font-bold text-3xl md:text-6xl">Réinitialiser</h1>
                     <h6 class="font-Alumni md:text-xl mt-2">Inscrivez votre nouveau mot de passe.</h6>
-                        <form method="POST" action="{{ route('password.update') }}" class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+                        <form method="POST" action="{{ route('password.update') }}" class="w-full max-w-md bg-white p-8 rounded-lg shadow-md dark:bg-gray-600">
                             @csrf
                             <input type="hidden" name="token" value="{{ $token }}">
-                            <input type="hidden" name="adresse_courriel" value="{{ $email }}">
+                            <input type="hidden" name="adresse_courriel" value="{{ request('email') }}">
 
                             <div class="mb-4 hidden">
                                 <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Adresse Email :</label>
@@ -21,25 +21,25 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Nouveau Mot de Passe :</label>
+                                <label for="password" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-200">Nouveau Mot de Passe :</label>
                                 <input type="password" name="password" id="password" required
-                                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-gray-600">
                                     @error('password')
                                         <span class="font-Alumni text-red-500 text-sm">{{ $message }}</span>
                                     @enderror
                             </div>
 
                             <div class="mb-6">
-                                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">Confirmer le Mot de Passe :</label>
+                                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-200">Confirmer le Mot de Passe :</label>
                                 <input type="password" name="password_confirmation" id="password_confirmation" required
-                                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-gray-600">
                                     @error('password_confirmation')
                                         <span class="font-Alumni text-red-500 text-sm">{{ $message }}</span>
                                     @enderror
                             </div>
 
                             <button type="submit"
-                                class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Réinitialiser le Mot de Passe
+                                class="w-full bg-cyan-500 dark:bg-blue-950 text-white p-3 rounded-lg hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Réinitialiser le Mot de Passe
                             </button>
                         </form>
                 </div>

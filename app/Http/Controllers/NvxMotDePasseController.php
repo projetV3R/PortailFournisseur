@@ -19,44 +19,41 @@ class NvxMotDePasseController extends Controller
 
 
     public function reset(Request $request)
-{
-    Log::Debug('1');
-    $request->validate([
-        'token' => 'required',
-        'adresse_courriel' => 'required|email',
-        'password' => 'required|confirmed|string|min:7|max:12',
-    ]);
-    Log::Debug('2');
+    {
+        $request->validate([
+            'token' => 'required',
+            'adresse_courriel' => 'required|email',
+            'password' => 'required|confirmed|string|min:7|max:12',
+        ], [
+            'adresse_courriel.required' => "L'adresse courriel est obligatoire.",
+            'adresse_courriel.email' => "L'adresse courriel doit être une adresse valide.",
+            'password.required' => 'Le mot de passe est obligatoire.',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
+            'password.string' => 'Le mot de passe doit être une chaîne de caractères.',
+            'password.min' => 'Le mot de passe doit contenir au moins 7 caractères.',
+            'password.max' => 'Le mot de passe ne peut pas dépasser 12 caractères.',
+        ]);
+        
 
+        $credentials = $request->only('adresse_courriel', 'password', 'password_confirmation', 'token');
 
-    $credentials = $request->only('adresse_courriel', 'password', 'password_confirmation', 'token');
+        $status = Password::reset(
+            $credentials,
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->save();
+            }
+        );
+        if ($status == Password::PASSWORD_RESET) {
+            DB::table('password_reset_tokens')
+                ->where('email', $request->adresse_courriel)
+                ->delete();
 
-    $status = Password::reset(
-        $credentials,
-        function ($user, $password) {
-            $user->password = Hash::make($password);
-            $user->save();
+            return redirect()->route('login')->with('status', __($status));
+        } else {
+            return view('password.lienDejaUtiliser');
         }
-    );
-    Log::Debug('3');
-
-    if ($status == Password::PASSWORD_RESET) {
-        Log::Debug('4');
-
-        DB::table('password_reset_tokens')
-            ->where('email', $request->adresse_courriel)
-            ->delete();
-
-        return redirect()->route('login')->with('status', __($status));
-        Log::Debug('5');
-
-    } else {
-        Log::Debug('6');
-        return view('password.lienDejaUtiliser');
-        Log::Debug('7');
-
     }
-}
 
 
     public function index()
