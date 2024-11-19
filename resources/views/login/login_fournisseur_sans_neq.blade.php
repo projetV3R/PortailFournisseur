@@ -19,7 +19,7 @@
                             </label>
                             <input type="text" value="{{ old('adresse_courriel') }}" id="adresse_courriel"
                                 name="adresse_courriel" placeholder="Entrer votre adresse courriel"
-                                class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black">
+                                class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black dark:text-gray-600">
                             <div class="w-full md:w-2/3">
                                 @error('adresse_courriel')
                                     <span class="text-red-500 font-Alumni md:text-sm">{{ $message }}</span>
@@ -41,7 +41,7 @@
                                 Mot de passe
                             </label>
                             <input type="password" id="motDePasse" name="motDePasse" placeholder="Entrer votre mot de passe"
-                                class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black">
+                                class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black dark:text-gray-600">
                             <div class="w-full md:w-2/3">
                                 @error('motDePasse')
                                     <span class="text-red-500 font-Alumni md:text-sm">{{ $message }}</span>
