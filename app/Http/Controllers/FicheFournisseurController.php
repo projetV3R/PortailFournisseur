@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail; 
 use App\Models\FicheFournisseur;
 use App\Models\Coordonnee;
 use App\Models\Telephone;
@@ -19,6 +20,9 @@ use App\Models\ProduitService;
 use App\Models\ProduitServiceFicheFournisseur;
 use App\Models\ParametreSysteme;
 use App\Notifications\WelcomeEmail;
+use App\Mail\MailInscriptionConfirmation; 
+use App\Mail\MailReponseInscription; 
+
 class FicheFournisseurController extends Controller
 {
 
@@ -268,6 +272,9 @@ class FicheFournisseurController extends Controller
           }
 
         DB::commit();
+
+        Mail::to($ficheFournisseur->adresse_courriel)->send(new MailInscriptionConfirmation($ficheFournisseur));
+
         
         $ficheFournisseur->notify(new WelcomeEmail());
 
@@ -287,6 +294,40 @@ class FicheFournisseurController extends Controller
     }
     return redirect()->back();
 }
+
+    public function accepterFournisseur(FicheFournisseur $fournisseur)
+    {
+        try {
+            $fournisseur->etat = 'accepter';
+            $fournisseur->date_changement_etat = now();
+            $fournisseur->save();
+
+            Mail::to($fournisseur->adresse_courriel)->send(new MailReponseInscription($fournisseur, 'accepter'));
+
+            return redirect()->back()->with('success', 'Le fournisseur a été accepté avec succès.');
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de l\'acceptation du fournisseur : ' . $e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite lors de l\'acceptation du fournisseur.']);
+        }
+    }
+
+    public function refuserFournisseur(FicheFournisseur $fournisseur)
+    {
+        try {
+            $fournisseur->etat = 'refuser';
+            $fournisseur->date_changement_etat = now();
+            $fournisseur->save();
+
+            Mail::to($fournisseur->adresse_courriel)->send(new MailReponseInscription($fournisseur, 'refuser'));
+
+            return redirect()->back()->with('success', 'Le fournisseur a été refusé avec succès.');
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors du refus du fournisseur : ' . $e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite lors du refus du fournisseur.']);
+        }
+    }
 
 
     public function redirection()
