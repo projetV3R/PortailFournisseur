@@ -7,9 +7,10 @@ use App\Models\Finance;
 use App\Models\Historique;
 
 use Illuminate\Support\Facades\Auth;
-
+use App\Notifications\NotificationModification;
 class FinanceObserver
 {
+    //TODO Update pour lisibilité et fonction a refacto
     public function updating(Finance $finance)
     {
         $historique = new Historique();
@@ -34,6 +35,15 @@ class FinanceObserver
 
         $historique->fiche_fournisseur_id = $finance->fiche_fournisseur_id;
         $historique->save();
+        $sectionModifiee = 'Finance';
+        $data = [
+        'sectionModifiee' => $sectionModifiee,
+        'nomEntreprise' => $fournisseur->nom_entreprise,
+        'emailEntreprise' => $fournisseur->adresse_courriel,
+        'dateModification' => now()->format('d-m-Y H:i:s'),
+        'auteur' => $fournisseur->adresse_courriel,
+    ];
+    $fournisseur->notify(new NotificationModification($data));
     }
 }
 

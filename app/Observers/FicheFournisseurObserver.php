@@ -5,7 +5,7 @@ namespace App\Observers;
 use App\Models\FicheFournisseur;
 use App\Models\Historique;
 use Illuminate\Support\Facades\Auth;
-
+use App\Notifications\NotificationModification;
 class FicheFournisseurObserver
 {
     public function updated(FicheFournisseur $fournisseur)
@@ -42,6 +42,15 @@ class FicheFournisseurObserver
                 'new_values' => !empty($newValues) ? implode(", ", $newValues) : null,
                 'fiche_fournisseur_id' => $fournisseur->id,
             ]);
+            $sectionModifiee = 'Identification et statut';
+            $data = [
+            'sectionModifiee' => $sectionModifiee,
+            'nomEntreprise' => $fournisseur->nom_entreprise,
+            'emailEntreprise' => $fournisseur->adresse_courriel,
+            'dateModification' => now()->format('d-m-Y H:i:s'),
+            'auteur' => $fournisseur->adresse_courriel,
+        ];
+        $fournisseur->notify(new NotificationModification($data));
         }
     }
 }
