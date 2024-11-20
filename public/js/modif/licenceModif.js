@@ -10,6 +10,7 @@ function initializeLicenceFormScript() {
         .then(response => {
             const licenceData = response.data.licence;
             selectedSousCategories = response.data.selectedSousCategories || [];
+            console.log( selectedSousCategories);
             
             if (licenceData) {
                 
@@ -56,7 +57,9 @@ function initializeLicenceFormScript() {
     function fetchSousCategories(selectedType) {
         axios.get(`/sous-categories/${selectedType}`)
             .then(response => {
+                console.log(response.data);
                 renderChecklist(response.data, selectedSousCategories);
+             
             })
             .catch(error => {
                 console.error('Erreur lors de la récupération des sous-catégories:', error);
@@ -65,42 +68,59 @@ function initializeLicenceFormScript() {
 
 
     function renderChecklist(data, selectedSousCategories = []) {
-        checklistContainer.innerHTML = ''; 
+        checklistContainer.innerHTML = ''; // Réinitialiser le conteneur
+    
+        if (!data || Object.keys(data).length === 0) {
+            checklistContainer.innerHTML = '<p>Aucune sous-catégorie disponible pour ce type de licence.</p>';
+            return;
+        }
+    
+       
+        Object.keys(data).forEach(type => {
+          
+         
+        const groupTitle = document.createElement('h5');
+        groupTitle.textContent = ` ${typeLicenceSelect.value } ${type} :`; 
+        groupTitle.classList.add('font-bold', 'text-xl', 'mt-4', 'mb-2','capitalize');
+        checklistContainer.appendChild(groupTitle);
 
-        data.forEach(cat => {
-            const checkboxWrapper = document.createElement('div');
-            checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group', 'bg-gray-300', 'rounded-md', 'p-2', 'px-2');
-
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.name = 'sousCategorie[]';
-            checkbox.value = cat.id;
-            checkbox.classList.add('mr-2');
-
-            // Coche automatique si la sous-catégorie est déjà associée
-            if (selectedSousCategories.includes(cat.id)) {
-                checkbox.checked = true;
-            }
-
-            const label = document.createElement('label');
-            label.textContent = cat.code_sous_categorie;
-
-            
-            const tooltip = document.createElement('div');
-            tooltip.classList.add(
-                'absolute', 'right-0', 'w-64', 'bg-gray-700', 'text-white',
-                'text-sm', 'p-2', 'rounded', 'hidden', 'group-hover:block',
-                'z-10', 'shadow-lg', 'mt-8'
-            );
-            tooltip.textContent = cat.travaux_permis || 'Aucun descriptif disponible';
-
-            checkboxWrapper.appendChild(checkbox);
-            checkboxWrapper.appendChild(label);
-            checkboxWrapper.appendChild(tooltip);
-
-            checklistContainer.appendChild(checkboxWrapper);
+    
+          
+            data[type].forEach(cat => {
+                const checkboxWrapper = document.createElement('div');
+                checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group', 'bg-gray-300', 'rounded-md', 'p-2', 'px-2');
+    
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'sousCategorie[]';
+                checkbox.value = cat.id;
+                checkbox.classList.add('mr-2');
+    
+          
+                if (selectedSousCategories.includes(cat.id)) {
+                    checkbox.checked = true;
+                }
+    
+                const label = document.createElement('label');
+                label.textContent = cat.code_sous_categorie;
+    
+                const tooltip = document.createElement('div');
+                tooltip.classList.add(
+                    'absolute', 'right-0', 'w-64', 'bg-gray-700', 'text-white',
+                    'text-sm', 'p-2', 'rounded', 'hidden', 'group-hover:block',
+                    'z-10', 'shadow-lg', 'mt-8'
+                );
+                tooltip.textContent = cat.travaux_permis || 'Aucun descriptif disponible';
+    
+                checkboxWrapper.appendChild(checkbox);
+                checkboxWrapper.appendChild(label);
+                checkboxWrapper.appendChild(tooltip);
+    
+                checklistContainer.appendChild(checkboxWrapper);
+            });
         });
     }
+    
     const confirmButton = document.getElementById('confirmButton');
     const form = document.getElementById('licenceForm');
 

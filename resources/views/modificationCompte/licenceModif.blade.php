@@ -68,10 +68,8 @@
                         <div class="w-full">
                             <label for="typeLicence" class="block font-Alumni text-md md:text-lg mb-2">Type de licence</label>
                             <select name="typeLicence" id="typeLicence" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                                <option value="entrepreneur général" >Entrepreneur général</option>
-                                <option value="constructeur-propriétaire général" >Constructeur-propriétaire général</option>
-                                <option value="entrepreneur spécialisé">Entrepreneur spécialisé</option>
-                                <option value="constructeur-propriétaire spécialisé" >Constructeur-propriétaire spécialisé</option>
+                                <option value="entrepreneur" >Entrepreneur</option>
+                                <option value="constructeur-propriétaire" >Constructeur-propriétaire</option>
                             </select>
                             @error('typeLicence')
                                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
