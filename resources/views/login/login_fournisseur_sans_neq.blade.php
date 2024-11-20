@@ -93,6 +93,14 @@
             input: 'email',
             inputLabel: 'Entrez votre adresse email',
             inputPlaceholder: 'exemple@domaine.com',
+            inputValidator: (value) => 
+            {
+                if (!value) {
+                    return 'L\'adresse email est obligatoire.';
+                } else if (!/\S+@\S+\.\S+/.test(value)) {
+                    return 'Veuillez entrer une adresse email valide.';
+                }
+            },
             showCancelButton: true,
             confirmButtonText: 'Envoyer',
             showLoaderOnConfirm: true,
@@ -118,12 +126,15 @@
                     return response.data;
                 })
                 .catch(error => {
-                    let errorMessage = 'Impossible d\'envoyer l\'email de réinitialisation.';
-                    if (error.response && error.response.data && error.response.data.message) {
-                        errorMessage = error.response.data.message;
-                    }
-                    Swal.showValidationMessage(`Erreur: ${errorMessage}`);
-                });
+                if (error.response && error.response.status === 404) {
+                    return;
+                }
+                let errorMessage = 'Impossible d\'envoyer l\'email de réinitialisation.';
+                if (error.response && error.response.data && error.response.data.message) {
+                    errorMessage = error.response.data.message;
+                }
+                Swal.showValidationMessage(`Erreur: ${errorMessage}`);
+            });
             },
             allowOutsideClick: () => !Swal.isLoading()
         }).then((result) => {

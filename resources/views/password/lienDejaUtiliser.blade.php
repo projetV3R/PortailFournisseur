@@ -3,6 +3,7 @@
 @section('title', 'Lien déjà utilisé')
 
 @section('contenu')
+<div>
     <div class="container mx-auto p-8">
         <div class="text-center">
             <h1 class="font-bold text-3xl">Lien de réinitialisation déjà utilisé</h1>
@@ -11,6 +12,8 @@
 
         </div>
     </div>
+</div>
+    
     <script>
     document.getElementById('forgot-password-btn').addEventListener('click', function() {
         Swal.fire({

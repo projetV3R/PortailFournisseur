@@ -23,15 +23,18 @@ class NvxMotDePasseController extends Controller
         $request->validate([
             'token' => 'required',
             'adresse_courriel' => 'required|email',
-            'password' => 'required|confirmed|string|min:7|max:12',
+            'password' => [
+                'required',
+                'confirmed',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{7,12}$/',
+            ],
         ], [
             'adresse_courriel.required' => "L'adresse courriel est obligatoire.",
             'adresse_courriel.email' => "L'adresse courriel doit être une adresse valide.",
             'password.required' => 'Le mot de passe est obligatoire.',
             'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
-            'password.string' => 'Le mot de passe doit être une chaîne de caractères.',
-            'password.min' => 'Le mot de passe doit contenir au moins 7 caractères.',
-            'password.max' => 'Le mot de passe ne peut pas dépasser 12 caractères.',
+            'password.regex' => 'Le mot de passe doit contenir entre 7 et 12 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.',
+
         ]);
         
 

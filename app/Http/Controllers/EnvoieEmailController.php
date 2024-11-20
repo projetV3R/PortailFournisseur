@@ -12,20 +12,22 @@ use Illuminate\Support\Facades\App;
 class EnvoieEmailController extends Controller
 {
     public function lienEmail(Request $request)
-{
-    $request->validate(['adresse_courriel' => 'required|email']);
+    {
+        $request->validate(['adresse_courriel' => 'required|email']);
 
-    App::setLocale('fr');
-    Log::info('Adresse courriel utilisée pour le lien de réinitialisation : ' . $request->adresse_courriel);
+        //App::setLocale('fr');
+        Log::info('Adresse courriel utilisée pour le lien de réinitialisation : ' . $request->adresse_courriel);
 
-    $credentials = ['email' => $request->adresse_courriel];
+        $credentials = ['email' => $request->adresse_courriel];
 
-    $status = Password::sendResetLink($credentials);
+        $status = Password::sendResetLink($credentials);
 
-    return $status === Password::RESET_LINK_SENT
-        ? response()->json(['message' => __($status)], 200)
-        : response()->json(['message' => __($status)], 400);
-}
+        if ($status === Password::RESET_LINK_SENT) {
+            return response()->json(['message' => 'Email envoyé! Si cet email existe, un lien de réinitialisation vous a été envoyé.'], 200);
+        }
+
+        return response()->json(['message' => 'Email envoyé! Si cet email existe, un lien de réinitialisation vous a été envoyé.'], 200);
+    }
 
     /**
      * Display a listing of the resource.
