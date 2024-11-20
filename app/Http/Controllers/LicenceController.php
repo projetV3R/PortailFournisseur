@@ -45,15 +45,19 @@ class LicenceController extends Controller
 
     public function getSousCategories($type)
     {
-        if (auth()->check() || session()->has('produitsServices')){
-        $sousCategories = \DB::table('sous_categories')
-            ->where('categorie', 'LIKE', "%$type%")
-            ->get();
+        if (auth()->check() || session()->has('produitsServices')) {
+          
+            $sousCategories = \DB::table('sous_categories')
+                ->where('categorie', 'LIKE', "%$type%")
+                ->select('id', 'code_sous_categorie', 'travaux_permis', 'type') 
+                ->get()
+                ->groupBy('type'); 
     
-        return response()->json($sousCategories);
+            return response()->json($sousCategories);
+        }
+        return redirect()->back();
     }
-    return redirect()->back();
-    }
+    
     
     
     public function getSousCategoriesMultiple(Request $request)

@@ -333,7 +333,7 @@
                                 @foreach($licence->sousCategories as $sousCategorie)
                                     <div class="bg-white shadow-md rounded p-4 mb-2">
                                         <h6 class="font-Alumni font-semibold text-md md:text-lg underline">Sous-catégorie {{ $loop->iteration }}</h6>
-                                        <p class="mt-2 font-Alumni md:text-lg"><strong>Catégorie:</strong> {{ $sousCategorie->categorie->categorie }}</p>
+                                        <p class="mt-2 font-Alumni md:text-lg"><strong>Catégorie:</strong> {{ $sousCategorie->categorie->type }}</p>
                                         <p class="mt-2 font-Alumni md:text-lg"><strong>Code de sous-catégorie:</strong> {{ $sousCategorie->categorie->code_sous_categorie }}</p>
                                     </div>
                                 @endforeach

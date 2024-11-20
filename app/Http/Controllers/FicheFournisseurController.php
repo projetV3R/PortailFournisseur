@@ -282,7 +282,7 @@ class FicheFournisseurController extends Controller
         DB::commit();
         
         $ficheFournisseur->notify(new WelcomeEmail());
-
+        session()->flush();
         session(['inscrit' => true]);
 
         return redirect()->route('redirection')->with('success', 'La fiche fournisseur a été créée avec succès.');
@@ -297,7 +297,7 @@ class FicheFournisseurController extends Controller
         return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite lors de la création de la fiche fournisseur : ' . $e->getMessage()]);
         }
     }
-    return redirect()->back();
+    return redirect()->route('login');
 }
 
 public function updateProfile(IdentificationRequest $request)

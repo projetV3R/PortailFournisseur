@@ -62,10 +62,8 @@
                             <label for="typeLicence" class="block font-Alumni text-md md:text-lg mb-2">Type de licence</label>
                             <select name="typeLicence" id="typeLicence" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                 <option value="" disabled selected>Choisir un type de licence</option>
-                                <option value="entrepreneur général" {{ session('licences.typeLicence') == 'entrepreneur général' ? 'selected' : '' }}>Entrepreneur général</option>
-                                <option value="constructeur-propriétaire général" {{ session('licences.typeLicence') == 'constructeur-propriétaire général' ? 'selected' : '' }}>Constructeur-propriétaire général</option>
-                                <option value="entrepreneur spécialisé" {{ session('licences.typeLicence') == 'entrepreneur spécialisé' ? 'selected' : '' }}>Entrepreneur spécialisé</option>
-                                <option value="constructeur-propriétaire spécialisé" {{ session('licences.typeLicence') == 'constructeur-propriétaire spécialisé' ? 'selected' : '' }}>Constructeur-propriétaire spécialisé</option>
+                                <option value="entrepreneur" {{ session('licences.typeLicence') == 'entrepreneur' ? 'selected' : '' }}>Entrepreneur</option>
+                                <option value="constructeur-propriétaire" {{ session('licences.typeLicence') == 'constructeur-propriétaire' ? 'selected' : '' }}>Constructeur-propriétaire</option>
                             </select>
                             @error('typeLicence')
                                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -106,7 +104,8 @@
         const numeroLicenceInput = document.getElementById('numeroLicence');
         const typeLicenceSelect = document.getElementById('typeLicence');
         const checklistContainer = document.getElementById('checklistContainer');
-        const selectedSousCategories = @json(session('licences.sousCategorie', [])); // Récupérer les valeurs de session
+        const selectedSousCategories = @json(session('licences.sousCategorie', []));
+   // Récupérer les valeurs de session
 //Formattage pour la valeur en session et la valeur de l'input A reformat peut etre pour plus efficace
         function formatLicence(value) {
         value = value.replace(/\D/g, ''); // Retirer les caractères non numériques
@@ -137,7 +136,7 @@
  
         typeLicenceSelect.addEventListener('change', function () {
             const selectedType = this.value;
-
+    
             if (selectedType) {
                 fetchSousCategories(selectedType); 
             } else {
@@ -157,41 +156,58 @@
         }
 
         function renderChecklist(data) {
-            checklistContainer.innerHTML = ''; // Réinitialiser
+    checklistContainer.innerHTML = ''; // Réinitialiser le conteneur
 
-            data.forEach(cat => {
-                const checkboxWrapper = document.createElement('div');
-                checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group', 'bg-gray-300', 'rounded-md', 'p-2', 'px-2');
+    if (!data || Object.keys(data).length === 0) {
+        checklistContainer.innerHTML = '<p>Aucune sous-catégorie disponible pour ce type de licence.</p>';
+        return;
+    }
 
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.name = 'sousCategorie[]';
-                checkbox.value = cat.id;
-                checkbox.classList.add('mr-2');
+    Object.keys(data).forEach(type => {
 
-                if (selectedSousCategories.includes(String(cat.id))) {
-                    checkbox.checked = true; // Auto cocher si présent dans la session
-                }
+        const groupTitle = document.createElement('h5');
+        groupTitle.textContent = ` ${typeLicenceSelect.value } ${type} :`; 
+        groupTitle.classList.add('font-bold', 'text-xl', 'mt-4', 'mb-2','capitalize');
+        checklistContainer.appendChild(groupTitle);
 
-                const label = document.createElement('label');
-                label.textContent = cat.code_sous_categorie;
+    
+        data[type].forEach(cat => {
+            const checkboxWrapper = document.createElement('div');
+            checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative', 'group', 'bg-gray-300', 'rounded-md', 'p-2', 'px-2');
 
-                // Infobulle (tooltip) pour afficher description sous categorie et ses travaux permis 
-                const tooltip = document.createElement('div');
-                tooltip.classList.add(
-                    'absolute', 'right-0', 'w-64', 'bg-gray-700', 'text-white', 
-                    'text-sm', 'p-2', 'rounded', 'hidden', 'group-hover:block', 
-                    'z-10', 'shadow-lg', 'mt-8'
-                );
-                tooltip.textContent = cat.travaux_permis || 'Aucun descriptif disponible';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'sousCategorie[]';
+            checkbox.value = cat.id;
+            checkbox.classList.add('mr-2');
 
-                checkboxWrapper.appendChild(checkbox);
-                checkboxWrapper.appendChild(label);
-                checkboxWrapper.appendChild(tooltip);
+            // Auto-cocher si présent dans la session
+            if (selectedSousCategories.includes(String(cat.id))) {
+                checkbox.checked = true;
+            }
 
-                checklistContainer.appendChild(checkboxWrapper);
-            });
-        }
+            const label = document.createElement('label');
+            label.textContent = cat.code_sous_categorie;
+
+            // Infobulle pour afficher les travaux permis
+            const tooltip = document.createElement('div');
+            tooltip.classList.add(
+                'absolute', 'right-0', 'w-64', 'bg-gray-700', 'text-white', 
+                'text-sm', 'p-2', 'rounded', 'hidden', 'group-hover:block', 
+                'z-10', 'shadow-lg', 'mt-8'
+            );
+            tooltip.textContent = cat.travaux_permis || 'Aucun descriptif disponible';
+
+            checkboxWrapper.appendChild(checkbox);
+            checkboxWrapper.appendChild(label);
+            checkboxWrapper.appendChild(tooltip);
+
+            checklistContainer.appendChild(checkboxWrapper);
+        });
+    });
+}
+
+
     });
 
     </script>
