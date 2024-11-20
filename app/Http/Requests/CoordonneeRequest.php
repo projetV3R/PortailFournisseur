@@ -71,6 +71,11 @@ class CoordonneeRequest extends FormRequest
             ],
 
             'ligne' => ['required', 'array'], 
+            'ligne.*.id' => [
+                'nullable',
+                'integer',
+                'exists:telephones,id', 
+            ],
             'ligne.*.type' => [
                 'required',
                 'string',

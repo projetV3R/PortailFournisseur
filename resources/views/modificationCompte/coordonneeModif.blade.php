@@ -238,7 +238,7 @@
                             <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2">
                                 Ligne
                             </label>
-
+                            <input type="hidden" name="ligne[0][id]" id="id_0" >
                                 <select  id="ligne_0" name="ligne[0][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                     <option value="Bureau">Bureau</option>
                                     <option value="Télécopieur">Télécopieur</option>

@@ -106,6 +106,7 @@ function initializeCoordonneeFormScript() {
                         if (ligne.type) document.getElementById('ligne_0').value = ligne.type;
                         if (ligne.numeroTelephone) document.getElementById('numeroTelephone_0').value = formatTelValue(ligne.numeroTelephone);
                         if (ligne.poste) document.getElementById('poste_0').value = ligne.poste;
+                        if(ligne.id) document.getElementById('id_0').value=ligne.id;
                         tooglePosteInput(0);
                     } else {
                         ajouterNumeroTelephone(index, ligne);
@@ -180,9 +181,11 @@ function initializeCoordonneeFormScript() {
         const type = ligne.type || '';
         const numeroTelephone = ligne.numeroTelephone || '';
         const poste = ligne.poste || '';
+        const telephoneId = ligne.id || '';
 
         cadre.insertAdjacentHTML('beforeend', `
             <div class="mt-6 w-full flex justify-center md:gap-2 columns-2 ligne-numeros" data-index="${index}">
+             <input type="hidden" name="ligne[${index}][id]" value="${telephoneId}">
                 <div class="w-full">
                     <label for="ligne_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Ligne</label>
                     <select id="ligne_${index}" name="ligne[${index}][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">

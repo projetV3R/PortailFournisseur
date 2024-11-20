@@ -92,11 +92,13 @@ class CoordonneeController extends Controller
 
     foreach ($telephones as $index => $telephone) {
         $coordonneeData['ligne'][$index] = [
+            'id' => $telephone->id, 
             'type' => $telephone->type,
             'numeroTelephone' => $telephone->numero_telephone,
-            'poste' => $telephone->poste
+            'poste' => $telephone->poste,
         ];
     }
+    
 
     return response()->json(['coordonnee' => $coordonneeData]);
 }

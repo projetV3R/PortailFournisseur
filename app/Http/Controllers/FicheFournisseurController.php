@@ -394,40 +394,183 @@ public function updateProduit(ProduitServiceRequest $request)
 
 
 
-    public function updateCoordonnee(CoordonneeRequest $request)
-    {
-        $fournisseur = Auth::user();
-    
-        // Mettre à jour les coordonnées
-        $coordonnee = $fournisseur->coordonnee;
-        $coordonnee->numero_civique = $request->input('numeroCivique');
-        $coordonnee->rue = $request->input('rue');
-        $coordonnee->bureau = $request->input('bureau');
-        $coordonnee->code_postal = $request->input('codePostale');
-        $coordonnee->province = $request->input('province');
-        $coordonnee->region_administrative = $request->input('regionAdministrative');
-        $coordonnee->site_internet = $request->input('siteWeb');
-        $coordonnee->ville = $request->input('municipalite') ?? $request->input('municipaliteInput');
-        $coordonnee->save();
-    
-        
-        $coordonnee->telephones()->detach();
-    
-        
-        $lignes = $request->input('ligne', []);
-        foreach ($lignes as $ligne) {
-            $numeroNettoye = str_replace('-', '', $ligne['numeroTelephone']);
+public function updateCoordonnee(CoordonneeRequest $request)
+{
+    $fournisseur = Auth::user();
+
+ 
+    $coordonnee = $fournisseur->coordonnee;
+
+
+    $oldCoordonneeAttributes = $coordonnee->getOriginal();
+
+
+    $oldTelephones = $coordonnee->telephones()->get()->map(function($telephone) {
+        return [
+            'id' => $telephone->id,
+            'numero_telephone' => $telephone->numero_telephone,
+            'poste' => $telephone->poste,
+            'type' => $telephone->type,
+        ];
+    })->toArray();
+
+
+    $coordonnee->numero_civique = $request->input('numeroCivique');
+    $coordonnee->rue = $request->input('rue');
+    $coordonnee->bureau = $request->input('bureau');
+    $coordonnee->code_postal = $request->input('codePostale');
+    $coordonnee->province = $request->input('province');
+    $coordonnee->region_administrative = $request->input('regionAdministrative');
+    $coordonnee->site_internet = $request->input('siteWeb');
+    $coordonnee->ville = $request->input('municipalite') ?? $request->input('municipaliteInput');
+    $coordonnee->save();
+
+ 
+    $existingTelephoneIds = $coordonnee->telephones()->pluck('telephones.id')->toArray();
+
+ 
+    $submittedTelephoneIds = [];
+
+    $newTelephones = []; 
+    $updatedTelephones = [];
+    $deletedTelephones = []; 
+
+    $lignes = $request->input('ligne', []);
+    foreach ($lignes as $ligne) {
+        $numeroNettoye = str_replace('-', '', $ligne['numeroTelephone']);
+
+        if (isset($ligne['id']) && !empty($ligne['id'])) {
+          
+            $telephone = Telephone::find($ligne['id']);
+            if ($telephone) {
+                $oldTelephoneAttributes = $telephone->getOriginal();
+
+                $telephone->numero_telephone = $numeroNettoye;
+                $telephone->poste = $ligne['poste'] ?? null;
+                $telephone->type = $ligne['type'] ?? 'Bureau';
+                $telephone->save();
+
+                $submittedTelephoneIds[] = $telephone->id;
+
+            
+                if ($oldTelephoneAttributes['numero_telephone'] != $telephone->numero_telephone ||
+                    $oldTelephoneAttributes['poste'] != $telephone->poste ||
+                    $oldTelephoneAttributes['type'] != $telephone->type) {
+                    $updatedTelephones[] = [
+                        'old' => $oldTelephoneAttributes,
+                        'new' => $telephone->toArray(),
+                    ];
+                }
+            } else {
+             
+                $telephone = Telephone::create([
+                    'numero_telephone' => $numeroNettoye,
+                    'poste' => $ligne['poste'] ?? null,
+                    'type' => $ligne['type'] ?? 'Bureau',
+                ]);
+                $coordonnee->telephones()->attach($telephone->id);
+                $submittedTelephoneIds[] = $telephone->id;
+
+                $newTelephones[] = $telephone->toArray();
+            }
+        } else {
+          
             $telephone = Telephone::create([
                 'numero_telephone' => $numeroNettoye,
                 'poste' => $ligne['poste'] ?? null,
                 'type' => $ligne['type'] ?? 'Bureau',
             ]);
-    
             $coordonnee->telephones()->attach($telephone->id);
+            $submittedTelephoneIds[] = $telephone->id;
+
+            $newTelephones[] = $telephone->toArray();
         }
-    
-        return redirect()->back()->with('success', 'Vos coordonnées ont été mises à jour avec succès.');
     }
+
+    $telephonesToDetach = array_diff($existingTelephoneIds, $submittedTelephoneIds);
+
+    if (!empty($telephonesToDetach)) {
+       
+        $deletedTelephones = Telephone::whereIn('id', $telephonesToDetach)->get()->toArray();
+
+      
+        $coordonnee->telephones()->detach($telephonesToDetach);
+
+ 
+        Telephone::whereIn('id', $telephonesToDetach)->delete();
+    }
+
+    $oldValues = [];
+    $newValues = [];
+
+    $attributesToCheck = [
+        'numero_civique',
+        'rue',
+        'bureau',
+        'code_postal',
+        'province',
+        'region_administrative',
+        'site_internet',
+        'ville'
+    ];
+
+    foreach ($attributesToCheck as $attribute) {
+        $oldValue = $oldCoordonneeAttributes[$attribute] ?? null;
+        $newValue = $coordonnee->$attribute;
+
+        if ($oldValue != $newValue) {
+            $oldValues[] = "{$attribute}: {$oldValue}";
+            $newValues[] = "{$attribute}: {$newValue}";
+        }
+    }
+
+
+    foreach ($newTelephones as $newTelephone) {
+        $newValues[] = "+telephone: {$newTelephone['numero_telephone']}, poste: {$newTelephone['poste']}, type: {$newTelephone['type']}";
+    }
+
+    foreach ($updatedTelephones as $updatedTelephone) {
+        $oldTel = $updatedTelephone['old'];
+        $newTel = $updatedTelephone['new'];
+
+        $changes = [];
+
+        if ($oldTel['numero_telephone'] != $newTel['numero_telephone']) {
+            $changes[] = "numero_telephone de {$oldTel['numero_telephone']} à {$newTel['numero_telephone']}";
+        }
+        if ($oldTel['poste'] != $newTel['poste']) {
+            $changes[] = "poste de {$oldTel['poste']} à {$newTel['poste']}";
+        }
+        if ($oldTel['type'] != $newTel['type']) {
+            $changes[] = "type de {$oldTel['type']} à {$newTel['type']}";
+        }
+
+        if (!empty($changes)) {
+            $newValues[] = "Modif telephone ID {$newTel['id']}: " . implode(", ", $changes);
+        }
+    }
+
+
+    foreach ($deletedTelephones as $deletedTelephone) {
+        $oldValues[] = "-telephone: {$deletedTelephone['numero_telephone']}, poste: {$deletedTelephone['poste']}, type: {$deletedTelephone['type']}";
+    }
+
+
+    if (!empty($oldValues) || !empty($newValues)) {
+        Historique::create([
+            'table_name' => 'Coordonnee',
+            'record_id' => $coordonnee->id,
+            'user_id' => Auth::id(),
+            'action' => 'update',
+            'old_values' => !empty($oldValues) ? implode("; ", $oldValues) : null,
+            'new_values' => !empty($newValues) ? implode("; ", $newValues) : null,
+            'fiche_fournisseur_id' => $fournisseur->id,
+        ]);
+    }
+
+    return redirect()->back()->with('success', 'Vos coordonnées ont été mises à jour avec succès.');
+}
+
 
     public function updateDoc(Request $request)
     {
