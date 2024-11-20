@@ -745,27 +745,54 @@ public function updateLicence(LicenceRequest $request)
     return redirect()->back()->withErrors('Erreur lors de la mise à jour des informations financières.');
 }
   
-//TODO FIX MODIFER CONTACT
+
 public function updateContact(ContactRequest $request)
 {
     $fournisseur = Auth::user();
 
-    foreach ($request->input('contacts') as $index => $contactData) {
 
-        if (isset($contactData['telephone_id'])) {
+    $existingContactIds = $fournisseur->contacts()->pluck('id')->toArray();
+
+  
+    $submittedContactIds = array_filter(array_column($request->input('contacts', []), 'id'));
+
+ 
+    $contactsToDelete = array_diff($existingContactIds, $submittedContactIds);
+
+   
+    $oldValues = [];
+    $newValues = [];
+
+   
+    foreach ($contactsToDelete as $contactId) {
+        $contact = Contact::find($contactId);
+        if ($contact) {
+            $oldValues[] = "-Contact: {$contact->prenom} {$contact->nom}, Fonction: {$contact->fonction}, Email: {$contact->adresse_courriel}, Téléphone: {$contact->telephone->numero_telephone}, Poste: {$contact->telephone->poste}, Type: {$contact->telephone->type}";
+
+ 
+            $contact->telephone()->delete();
+
      
-            $telephone = Telephone::findOrFail($contactData['telephone_id']);
-        } else {
-      
-            $telephone = new Telephone();
+            $contact->delete();
         }
+    }
 
-        $telephone->numero_telephone = $contactData['numeroTelephone'];
+
+    foreach ($request->input('contacts') as $contactData) {
+  
+        $numeroNettoye = str_replace('-', '', $contactData['numeroTelephone']);
+
+   
+        $telephone = !empty($contactData['telephone_id']) 
+            ? Telephone::findOrFail($contactData['telephone_id'])
+            : new Telephone();
+
+        $telephone->numero_telephone = $numeroNettoye;
         $telephone->poste = $contactData['poste'];
         $telephone->type = $contactData['type'];
         $telephone->save();
 
-
+   
         $contact = Contact::findOrNew($contactData['id'] ?? null);
         $contact->prenom = $contactData['prenom'];
         $contact->nom = $contactData['nom'];
@@ -774,11 +801,26 @@ public function updateContact(ContactRequest $request)
         $contact->fiche_fournisseur_id = $fournisseur->id;
         $contact->telephone_id = $telephone->id;
         $contact->save();
+
+
+        $newValues[] = "+Contact: {$contact->prenom} {$contact->nom}, Fonction: {$contact->fonction}, Email: {$contact->adresse_courriel}, Téléphone: {$telephone->numero_telephone}, Poste: {$telephone->poste}, Type: {$telephone->type}";
+    }
+
+
+    if (!empty($oldValues) || !empty($newValues)) {
+        Historique::create([
+            'table_name' => 'Contacts',
+            'record_id' => $fournisseur->id,
+            'user_id' => Auth::id(),
+            'action' => 'Modifier',
+            'old_values' => !empty($oldValues) ? implode("; ", $oldValues) : null,
+            'new_values' => !empty($newValues) ? implode("; ", $newValues) : null,
+            'fiche_fournisseur_id' => $fournisseur->id,
+        ]);
     }
 
     return redirect()->route('profil')->with('success', 'Informations de contact mises à jour avec succès.');
 }
-
 
 
     

@@ -80,6 +80,8 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="contacts[0][telephone_id]" value="">
+                <input type="hidden" name="contacts[0][id]" value=""> 
 
                 <!-- Deuxième colonne -->
                 <div class="bg-secondary-100 lg:py-10 mt-8 w-full lg:max-w-4xl flex flex-col h-fit">
