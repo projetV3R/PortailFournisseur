@@ -107,3 +107,5 @@ Route::get('/FicheFournisseur/profil', [FicheFournisseurController::class, "prof
 Route::get('/Resume', [FicheFournisseurController::class, "resume"])->name("resumeFournisseur");
 Route::get('/Redirection', [FicheFournisseurController::class, "redirection"])->name("redirection");
 Route::post('removeInscrit', [FicheFournisseurController::class, 'removeInscrit'])->name('removeInscrit');
+Route::post('/Activation', [FicheFournisseurController::class, "reactivationFiche"])->name("reactivationFiche")->middleware('auth');
+Route::post('/Desactivation', [FicheFournisseurController::class, 'desactivationFiche'])->name('desactivationFiche')->middleware('auth');
