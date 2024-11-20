@@ -398,21 +398,15 @@ public function updateCoordonnee(CoordonneeRequest $request)
 {
     $fournisseur = Auth::user();
 
- 
     $coordonnee = $fournisseur->coordonnee;
-
 
     $oldCoordonneeAttributes = $coordonnee->getOriginal();
 
+    $existingTelephoneIds = $coordonnee->telephones()->pluck('telephones.id')->toArray();
 
-    $oldTelephones = $coordonnee->telephones()->get()->map(function($telephone) {
-        return [
-            'id' => $telephone->id,
-            'numero_telephone' => $telephone->numero_telephone,
-            'poste' => $telephone->poste,
-            'type' => $telephone->type,
-        ];
-    })->toArray();
+    $submittedTelephoneIds = [];
+    $updatedTelephones = [];
+    $deletedTelephones = [];
 
 
     $coordonnee->numero_civique = $request->input('numeroCivique');
@@ -425,53 +419,30 @@ public function updateCoordonnee(CoordonneeRequest $request)
     $coordonnee->ville = $request->input('municipalite') ?? $request->input('municipaliteInput');
     $coordonnee->save();
 
- 
-    $existingTelephoneIds = $coordonnee->telephones()->pluck('telephones.id')->toArray();
-
- 
-    $submittedTelephoneIds = [];
-
-    $newTelephones = []; 
-    $updatedTelephones = [];
-    $deletedTelephones = []; 
-
     $lignes = $request->input('ligne', []);
     foreach ($lignes as $ligne) {
         $numeroNettoye = str_replace('-', '', $ligne['numeroTelephone']);
 
         if (isset($ligne['id']) && !empty($ligne['id'])) {
-          
-            $telephone = Telephone::find($ligne['id']);
-            if ($telephone) {
-                $oldTelephoneAttributes = $telephone->getOriginal();
+   
+            $telephone = Telephone::findOrFail($ligne['id']);
+            $oldTelephoneAttributes = $telephone->getOriginal();
 
-                $telephone->numero_telephone = $numeroNettoye;
-                $telephone->poste = $ligne['poste'] ?? null;
-                $telephone->type = $ligne['type'] ?? 'Bureau';
-                $telephone->save();
+            $telephone->numero_telephone = $numeroNettoye;
+            $telephone->poste = $ligne['poste'] ?? null;
+            $telephone->type = $ligne['type'] ?? 'Bureau';
+            $telephone->save();
 
-                $submittedTelephoneIds[] = $telephone->id;
+            $submittedTelephoneIds[] = $telephone->id;
 
-            
-                if ($oldTelephoneAttributes['numero_telephone'] != $telephone->numero_telephone ||
-                    $oldTelephoneAttributes['poste'] != $telephone->poste ||
-                    $oldTelephoneAttributes['type'] != $telephone->type) {
-                    $updatedTelephones[] = [
-                        'old' => $oldTelephoneAttributes,
-                        'new' => $telephone->toArray(),
-                    ];
-                }
-            } else {
-             
-                $telephone = Telephone::create([
-                    'numero_telephone' => $numeroNettoye,
-                    'poste' => $ligne['poste'] ?? null,
-                    'type' => $ligne['type'] ?? 'Bureau',
-                ]);
-                $coordonnee->telephones()->attach($telephone->id);
-                $submittedTelephoneIds[] = $telephone->id;
-
-                $newTelephones[] = $telephone->toArray();
+   
+            if ($oldTelephoneAttributes['numero_telephone'] != $telephone->numero_telephone ||
+                $oldTelephoneAttributes['poste'] != $telephone->poste ||
+                $oldTelephoneAttributes['type'] != $telephone->type) {
+                $updatedTelephones[] = [
+                    'old' => $oldTelephoneAttributes,
+                    'new' => $telephone->toArray(),
+                ];
             }
         } else {
           
@@ -483,20 +454,19 @@ public function updateCoordonnee(CoordonneeRequest $request)
             $coordonnee->telephones()->attach($telephone->id);
             $submittedTelephoneIds[] = $telephone->id;
 
-            $newTelephones[] = $telephone->toArray();
+            $updatedTelephones[] = [
+                'old' => null,
+                'new' => $telephone->toArray(),
+            ];
         }
     }
 
     $telephonesToDetach = array_diff($existingTelephoneIds, $submittedTelephoneIds);
 
     if (!empty($telephonesToDetach)) {
-       
         $deletedTelephones = Telephone::whereIn('id', $telephonesToDetach)->get()->toArray();
 
-      
         $coordonnee->telephones()->detach($telephonesToDetach);
-
- 
         Telephone::whereIn('id', $telephonesToDetach)->delete();
     }
 
@@ -524,37 +494,37 @@ public function updateCoordonnee(CoordonneeRequest $request)
         }
     }
 
-
-    foreach ($newTelephones as $newTelephone) {
-        $newValues[] = "+telephone: {$newTelephone['numero_telephone']}, poste: {$newTelephone['poste']}, type: {$newTelephone['type']}";
-    }
-
+ 
     foreach ($updatedTelephones as $updatedTelephone) {
         $oldTel = $updatedTelephone['old'];
         $newTel = $updatedTelephone['new'];
 
-        $changes = [];
+        if ($oldTel === null) {
+       
+            $newValues[] = "+telephone: {$newTel['numero_telephone']}, poste: {$newTel['poste']}, type: {$newTel['type']}";
+        } else {
+            $changes = [];
 
-        if ($oldTel['numero_telephone'] != $newTel['numero_telephone']) {
-            $changes[] = "numero_telephone de {$oldTel['numero_telephone']} à {$newTel['numero_telephone']}";
-        }
-        if ($oldTel['poste'] != $newTel['poste']) {
-            $changes[] = "poste de {$oldTel['poste']} à {$newTel['poste']}";
-        }
-        if ($oldTel['type'] != $newTel['type']) {
-            $changes[] = "type de {$oldTel['type']} à {$newTel['type']}";
-        }
+            if ($oldTel['numero_telephone'] != $newTel['numero_telephone']) {
+                $changes[] = "numero telephone de {$oldTel['numero_telephone']} à {$newTel['numero_telephone']}";
+            }
+            if ($oldTel['poste'] != $newTel['poste']) {
+                $changes[] = "poste de {$oldTel['poste']} à {$newTel['poste']}";
+            }
+            if ($oldTel['type'] != $newTel['type']) {
+                $changes[] = "type de {$oldTel['type']} à {$newTel['type']}";
+            }
 
-        if (!empty($changes)) {
-            $newValues[] = "Modif telephone ID {$newTel['id']}: " . implode(", ", $changes);
+            if (!empty($changes)) {
+             
+                $newValues[] = "+Modif telephone: " . implode(", ", $changes);
+            }
         }
     }
-
 
     foreach ($deletedTelephones as $deletedTelephone) {
         $oldValues[] = "-telephone: {$deletedTelephone['numero_telephone']}, poste: {$deletedTelephone['poste']}, type: {$deletedTelephone['type']}";
     }
-
 
     if (!empty($oldValues) || !empty($newValues)) {
         Historique::create([
