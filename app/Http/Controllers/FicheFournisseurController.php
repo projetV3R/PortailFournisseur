@@ -387,6 +387,15 @@ public function updateProduit(ProduitServiceRequest $request)
             'new_values' => !empty($historiqueDetails) ? implode(", ", $historiqueDetails) : null,
             'fiche_fournisseur_id' => $fournisseur->id,
         ]);
+        $sectionModifiee = 'Produits et services';
+        $data = [
+            'sectionModifiee' => $sectionModifiee,
+            'nomEntreprise' => $fournisseur->nom_entreprise,
+            'emailEntreprise' => $fournisseur->adresse_courriel,
+            'dateModification' => now()->format('d-m-Y H:i:s'),
+            'auteur' => $fournisseur->adresse_courriel,
+        ];
+        $fournisseur->notify(new NotificationModification($data));
     }
 
     return redirect()->back()->with('success', 'Vos produits et services ont été mis à jour avec succès.');
@@ -536,6 +545,15 @@ public function updateCoordonnee(CoordonneeRequest $request)
             'new_values' => !empty($newValues) ? implode("; ", $newValues) : null,
             'fiche_fournisseur_id' => $fournisseur->id,
         ]);
+        $sectionModifiee = 'Coordonnées';
+        $data = [
+            'sectionModifiee' => $sectionModifiee,
+            'nomEntreprise' => $fournisseur->nom_entreprise,
+            'emailEntreprise' => $fournisseur->adresse_courriel,
+            'dateModification' => now()->format('d-m-Y H:i:s'),
+            'auteur' => $fournisseur->adresse_courriel,
+        ];
+        $fournisseur->notify(new NotificationModification($data));
     }
 
     return redirect()->back()->with('success', 'Vos coordonnées ont été mises à jour avec succès.');
@@ -639,6 +657,15 @@ public function updateCoordonnee(CoordonneeRequest $request)
                 'new_values' => $newValues,
                 'fiche_fournisseur_id' => $fournisseur->id,
             ]);
+            $sectionModifiee = 'Brochures et carte d\affaires';
+            $data = [
+                'sectionModifiee' => $sectionModifiee,
+                'nomEntreprise' => $fournisseur->nom_entreprise,
+                'emailEntreprise' => $fournisseur->adresse_courriel,
+                'dateModification' => now()->format('d-m-Y H:i:s'),
+                'auteur' => $fournisseur->adresse_courriel,
+            ];
+            $fournisseur->notify(new NotificationModification($data));
         }
     
         return redirect()->back()->with('success', 'Vos brochures & cartes d\'affaires ont été mises à jour avec succès.');
@@ -720,6 +747,15 @@ public function updateLicence(LicenceRequest $request)
             'new_values' => !empty($newValues) ? implode(", ", $newValues) : null,
             'fiche_fournisseur_id' => $fournisseur->id,
         ]);
+        $sectionModifiee = 'Licence et sous-catégories';
+        $data = [
+            'sectionModifiee' => $sectionModifiee,
+            'nomEntreprise' => $fournisseur->nom_entreprise,
+            'emailEntreprise' => $fournisseur->adresse_courriel,
+            'dateModification' => now()->format('d-m-Y H:i:s'),
+            'auteur' => $fournisseur->adresse_courriel,
+        ];
+        $fournisseur->notify(new NotificationModification($data));
     }
 
     return redirect()->back()->with('success', 'La licence a été mise à jour avec succès.');
