@@ -5,7 +5,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Modele;
-
+use App\Models\ParametreSysteme;
+use Illuminate\Support\Facades\Mail;
 class WelcomeEmail extends Notification
 {
     use Queueable;

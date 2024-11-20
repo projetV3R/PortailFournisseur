@@ -29,7 +29,7 @@ use App\Http\Requests\ContactRequest;
 use App\Models\Historique;
 use App\Models\ProduitsServices;
 use App\Models\SousCategorie;
-
+use App\Notifications\NotificationModification;
 
 class FicheFournisseurController extends Controller
 {
@@ -750,62 +750,98 @@ public function updateContact(ContactRequest $request)
 {
     $fournisseur = Auth::user();
 
-
     $existingContactIds = $fournisseur->contacts()->pluck('id')->toArray();
-
-  
     $submittedContactIds = array_filter(array_column($request->input('contacts', []), 'id'));
 
- 
     $contactsToDelete = array_diff($existingContactIds, $submittedContactIds);
 
-   
     $oldValues = [];
     $newValues = [];
 
-   
+    
     foreach ($contactsToDelete as $contactId) {
         $contact = Contact::find($contactId);
         if ($contact) {
-            $oldValues[] = "-Contact: {$contact->prenom} {$contact->nom}, Fonction: {$contact->fonction}, Email: {$contact->adresse_courriel}, Téléphone: {$contact->telephone->numero_telephone}, Poste: {$contact->telephone->poste}, Type: {$contact->telephone->type}";
+            $telephone = $contact->telephone;
 
- 
-            $contact->telephone()->delete();
+            $oldValues[] = "-Contact: {$contact->prenom} {$contact->nom}, Fonction: {$contact->fonction}, Email: {$contact->adresse_courriel}, Téléphone: {$telephone->numero_telephone}, Poste: {$telephone->poste}, Type: {$telephone->type}";
 
-     
+           
             $contact->delete();
+            if ($telephone) {
+                $telephone->delete();
+            }
         }
     }
 
-
-    foreach ($request->input('contacts') as $contactData) {
   
+    foreach ($request->input('contacts') as $contactData) {
         $numeroNettoye = str_replace('-', '', $contactData['numeroTelephone']);
 
-   
-        $telephone = !empty($contactData['telephone_id']) 
-            ? Telephone::findOrFail($contactData['telephone_id'])
-            : new Telephone();
+       
+        if (!empty($contactData['telephone_id'])) {
+            $telephone = Telephone::findOrFail($contactData['telephone_id']);
+        } else {
+            $telephone = new Telephone();
+        }
 
+       
+        $originalTelephoneAttributes = $telephone->getOriginal();
+
+      
         $telephone->numero_telephone = $numeroNettoye;
         $telephone->poste = $contactData['poste'];
         $telephone->type = $contactData['type'];
-        $telephone->save();
 
    
-        $contact = Contact::findOrNew($contactData['id'] ?? null);
+        $telephoneChanged = $telephone->isDirty();
+
+  
+        if ($telephoneChanged) {
+            $telephone->save();
+        }
+
+   
+        if (!empty($contactData['id'])) {
+            $contact = Contact::findOrFail($contactData['id']);
+        } else {
+            $contact = new Contact();
+        }
+
+   
+        $originalContactAttributes = $contact->getOriginal();
+
+   
         $contact->prenom = $contactData['prenom'];
         $contact->nom = $contactData['nom'];
         $contact->fonction = $contactData['fonction'];
         $contact->adresse_courriel = $contactData['email'];
         $contact->fiche_fournisseur_id = $fournisseur->id;
         $contact->telephone_id = $telephone->id;
-        $contact->save();
 
+   
+        $contactChanged = $contact->isDirty();
 
-        $newValues[] = "+Contact: {$contact->prenom} {$contact->nom}, Fonction: {$contact->fonction}, Email: {$contact->adresse_courriel}, Téléphone: {$telephone->numero_telephone}, Poste: {$telephone->poste}, Type: {$telephone->type}";
+   
+        if ($contactChanged || !$contact->exists) {
+            $contact->save();
+        }
+
+     
+        if ($contact->wasRecentlyCreated) {
+          
+            $newValues[] = "+Contact: {$contact->prenom} {$contact->nom}, Fonction: {$contact->fonction}, Email: {$contact->adresse_courriel}, Téléphone: {$telephone->numero_telephone}, Poste: {$telephone->poste}, Type: {$telephone->type}";
+        } elseif ($contactChanged || $telephoneChanged) {
+      
+            $oldContactInfo = "-Contact: {$originalContactAttributes['prenom']} {$originalContactAttributes['nom']}, Fonction: {$originalContactAttributes['fonction']}, Email: {$originalContactAttributes['adresse_courriel']}, Téléphone: {$originalTelephoneAttributes['numero_telephone']}, Poste: {$originalTelephoneAttributes['poste']}, Type: {$originalTelephoneAttributes['type']}";
+
+            $newContactInfo = "+Contact: {$contact->prenom} {$contact->nom}, Fonction: {$contact->fonction}, Email: {$contact->adresse_courriel}, Téléphone: {$telephone->numero_telephone}, Poste: {$telephone->poste}, Type: {$telephone->type}";
+
+            $oldValues[] = $oldContactInfo;
+            $newValues[] = $newContactInfo;
+        }
+      
     }
-
 
     if (!empty($oldValues) || !empty($newValues)) {
         Historique::create([
@@ -817,10 +853,22 @@ public function updateContact(ContactRequest $request)
             'new_values' => !empty($newValues) ? implode("; ", $newValues) : null,
             'fiche_fournisseur_id' => $fournisseur->id,
         ]);
+
+   
+        $sectionModifiee = 'Contacts';
+        $data = [
+            'sectionModifiee' => $sectionModifiee,
+            'nomEntreprise' => $fournisseur->nom_entreprise,
+            'emailEntreprise' => $fournisseur->adresse_courriel,
+            'dateModification' => now()->format('d-m-Y H:i:s'),
+            'auteur' => $fournisseur->adresse_courriel,
+        ];
+        $fournisseur->notify(new NotificationModification($data));
     }
 
     return redirect()->route('profil')->with('success', 'Informations de contact mises à jour avec succès.');
 }
+
 
 
     
