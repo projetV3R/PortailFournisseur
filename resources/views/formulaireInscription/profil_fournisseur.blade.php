@@ -34,6 +34,13 @@
             'labelColor' => 'text-orange-600',
             'text' => 'À réviser'
         ],
+        'desactiver' => [
+            'bgColor' => 'bg-red-100',
+            'textColor' => 'text-red-500',
+            'icon' => 'material-symbols:cancel',
+            'labelColor' => 'text-red-600',
+            'text' => 'Désactivé'
+        ],
     ];
     $condition_paiementText=[
         'Z001' =>[
@@ -208,14 +215,19 @@
     @endif
     @if($fournisseur->etat == 'accepter' && !$fournisseur->finance)
   
-    <div class="flex"> <button onclick="finance()" class="border-2 px-2 p-2 bg-tertiary-400 text-white hover:text-tertiary-300 rounded-md  ">Renseignement financier</button></div>
+    <div class="flex"> <button onclick="finance()" class="border-2 px-2 p-2 bg-secondary-400 text-white hover:text-tertiary-300 rounded-md  ">Renseignement financier</button></div>
+    @endif
+
+    @if($fournisseur->etat == 'accepter')
+  
+    <div class="flex"> <button onclick="desactivation()" class="border-2 px-2 p-2 bg-red-500 text-white hover:text-primary-300 rounded-md  ">Désactiver votre fiche fournisseur</button></div>
     @endif
         <div class="{{ $etatStyle['bgColor'] }} mt-4 md:mt-0 md:ml-2 w-full md:w-1/2 py-4 px-6 flex items-center">
             <div class="{{ $etatStyle['textColor'] }}">
                 <span class="iconify" data-icon="{{ $etatStyle['icon'] }}" data-inline="false" style="font-size: 2rem;"></span>
             </div>
             <div class="ml-4">
-                <h4 class="font-Alumni font-bold text-lg md:text-2xl">Statut de la demande : 
+                <h4 class="font-Alumni font-bold text-lg md:text-2xl">Statut du dossier : 
                     <span class="{{ $etatStyle['labelColor'] }}">
                         {{ $etatStyle['text'] }}
                     </span>
@@ -558,6 +570,42 @@
        
        window.location.href = "{{ route('createFinances') }}";
    }
+
+   function desactivation() {
+    Swal.fire({
+        title: 'Êtes-vous sûr(e) ?',
+        text: "Désactiver votre fiche fournisseur entraînera la suppression de vos brochures et cartes d'affaires, et vous n'apparaîtrez plus dans le bottin des fournisseurs de la ville.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Oui, désactiver',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+           
+            axios.post('{{ route('desactivationFiche') }}')
+                .then(response => {
+                    Swal.fire(
+                        'Désactivée !',
+                        'Votre fiche fournisseur a été désactivée avec succès.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = "{{ route('profil') }}"; // Redirige vers la page du profil après la confirmation
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la désactivation de la fiche fournisseur:', error);
+                    Swal.fire(
+                        'Erreur',
+                        'Une erreur est survenue lors de la désactivation de votre fiche fournisseur. Veuillez réessayer.',
+                        'error'
+                    );
+                });
+        }
+    });
+}
+
     function openIdentificationModal() {
         document.getElementById('identificationModal').classList.remove('hidden');
     

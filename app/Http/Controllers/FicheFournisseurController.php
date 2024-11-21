@@ -919,40 +919,47 @@ public function updateContact(ContactRequest $request)
     return redirect()->route('profil')->with('success', 'Informations de contact mises à jour avec succès.');
 }
 
-    public function desactivationFiche()
-    {
-        $fournisseur = Auth::user();
-        if ($fournisseur->etat=='accepter'){
-           
-            $fournisseur->etat=='desactiver'; 
-            $fournisseur->save();
+public function desactivationFiche()
+{
+    $fournisseur = Auth::user();
 
-            $brochures=$fournisseur->brochuresCarte;
-            foreach ($brochures as $file) {
+    if ($fournisseur->etat == 'accepter') {
+        $historiqueRemove = [];
+        $oldEtat = $fournisseur->etat;
+
         
-                if ($file) {
-                
-                    if (Storage::disk('public')->exists($file->chemin)) {
-                        Storage::disk('public')->delete($file->chemin);
-                    }
-                  
-                    $historiqueRemove[] = "-{$file->nom}";
-                 
-                    $file->delete();
-                }
+        $fournisseur->etat = 'desactiver';
+        $fournisseur->save();
+
+     
+        $brochures = $fournisseur->brochuresCarte;
+        foreach ($brochures as $file) {
+            if ($file && Storage::disk('public')->exists($file->chemin)) {
+                Storage::disk('public')->delete($file->chemin);
             }
-          
-            Historique::create([
-                'table_name' => 'Identification et statut',
-                'record_id' => $fournisseur->id,
-                'user_id' => Auth::id(),
-                'action' => 'Désactivée',
-                'old_values' => '-état : Accepter'. $historiqueRemove,
-                'new_values' => '+état : Desactiver',
-                'fiche_fournisseur_id' => $fournisseur->id,
-            ]);
+            $historiqueRemove[] = "-{$file->nom}";
+            $file->delete();
         }
+
+    
+        $historiqueRemove = implode(', ', $historiqueRemove);
+
+     
+        Historique::create([
+            'table_name' => 'Identification et statut',
+            'record_id' => $fournisseur->id,
+            'user_id' => Auth::id(),
+            'action' => 'Désactivée',
+            'old_values' => "-état : {$oldEtat}, {$historiqueRemove}",
+            'new_values' => '+état : Desactiver',
+            'fiche_fournisseur_id' => $fournisseur->id,
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Votre fiche fournisseur a été désactivée avec succès.']);
     }
+
+}
+
 
     
     public function reactivationFiche()
