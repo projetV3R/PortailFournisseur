@@ -19,7 +19,7 @@
                             </label>
                             <input type="text" value="{{ old('adresse_courriel') }}" id="adresse_courriel"
                                 name="adresse_courriel" placeholder="Entrer votre adresse courriel"
-                                class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black">
+                                class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black dark:text-gray-600">
                             <div class="w-full md:w-2/3">
                                 @error('adresse_courriel')
                                     <span class="text-red-500 font-Alumni md:text-sm">{{ $message }}</span>
@@ -34,7 +34,6 @@
                                 </a>
                                 </div>
                           
-
                         </div>
 
                         <div class="mb-4">
@@ -42,15 +41,14 @@
                                 Mot de passe
                             </label>
                             <input type="password" id="motDePasse" name="motDePasse" placeholder="Entrer votre mot de passe"
-                                class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black">
+                                class="font-Alumni w-full md:w-2/3 p-2 focus:outline-none focus:border-blue-500 border border-black dark:text-gray-600">
                             <div class="w-full md:w-2/3">
                                 @error('motDePasse')
                                     <span class="text-red-500 font-Alumni md:text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="w-full md:w-2/3 flex justify-end mt-2">
-                                <h6 class="font-Alumni md:text-base text-secondary-400 cursor-pointer">Mot de passe oublié ?
-                                </h6>
+                                <button type="button" id="forgot-password-btn" class="btn btn-link font-Alumni md:text-base text-secondary-400 cursor-pointer">Mot de passe oublié ?</button>
                             </div>
                         </div>
 
@@ -87,5 +85,69 @@
             </div>
         </div>
     </div>
+
+<script>
+    document.getElementById('forgot-password-btn').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Réinitialiser votre mot de passe',
+            input: 'email',
+            inputLabel: 'Entrez votre adresse email',
+            inputPlaceholder: 'exemple@domaine.com',
+            inputValidator: (value) => 
+            {
+                if (!value) {
+                    return 'L\'adresse email est obligatoire.';
+                } else if (!/\S+@\S+\.\S+/.test(value)) {
+                    return 'Veuillez entrer une adresse email valide.';
+                }
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Envoyer',
+            showLoaderOnConfirm: true,
+            preConfirm: (email) => {
+                const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
+                if (!csrfTokenElement) {
+                    Swal.showValidationMessage(
+                        'Erreur : le token CSRF est introuvable dans la page.'
+                    );
+                    return;
+                }
+
+                const csrfToken = csrfTokenElement.getAttribute('content');
+
+                return axios.post('/password/email', {
+                    adresse_courriel: email
+                }, {
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                .then(response => {
+                    return response.data;
+                })
+                .catch(error => {
+                if (error.response && error.response.status === 404) {
+                    return;
+                }
+                let errorMessage = 'Impossible d\'envoyer l\'email de réinitialisation.';
+                if (error.response && error.response.data && error.response.data.message) {
+                    errorMessage = error.response.data.message;
+                }
+                Swal.showValidationMessage(`Erreur: ${errorMessage}`);
+            });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Email envoyé!',
+                    text: 'Si cet email existe, un lien de réinitialisation vous a été envoyé.',
+                    icon: 'success'
+                });
+            }
+        });
+    });
+</script>
+
 
 @endsection

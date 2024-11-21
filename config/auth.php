@@ -62,7 +62,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'custom',
             'model' => env('AUTH_MODEL', App\Models\FicheFournisseur::class),
             'table' => 'fiche_fournisseurs',
             'email' => 'adresse_courriel',
