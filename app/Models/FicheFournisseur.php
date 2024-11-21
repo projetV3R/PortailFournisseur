@@ -24,6 +24,12 @@ class FicheFournisseur extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->adresse_courriel;
+    }
+
     public function routeNotificationForMail($notification)
     {
         return $this->adresse_courriel;

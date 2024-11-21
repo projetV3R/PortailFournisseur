@@ -12,20 +12,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegionMunicipalitesController;
 
 
-
-
-
+use App\Http\Controllers\EnvoieEmailController;
+use App\Http\Controllers\NvxMotDePasseController;
 
 
 // Identification
 
 Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification");
-
 Route::post('/Identification/store', [IdentificationController::class, "store"])->name("StoreIdentification");
 
 Route::get('/Identification/modif', [IdentificationController::class, "edit"])->name("EditIdentification")->middleware('auth');
 
 Route::post('/Identification/update', [FicheFournisseurController::class, "updateProfile"])->name("UpdateIdentification")->middleware('auth');
+//MDP
+Route::post('/password/email', [EnvoieEmailController::class, 'lienEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [NvxMotDePasseController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [NvxMotDePasseController::class, 'reset'])->name('password.update');
 
 // Produits Services
 
