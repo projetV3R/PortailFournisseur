@@ -222,6 +222,10 @@
   
     <div class="flex"> <button onclick="desactivation()" class="border-2 px-2 p-2 bg-red-500 text-white hover:text-primary-300 rounded-md  ">Désactiver votre fiche fournisseur</button></div>
     @endif
+    @if($fournisseur->etat == 'desactiver')
+  
+    <div class="flex"> <button onclick="reactivation()" class="border-2 px-2 p-2 bg-green-500 text-white hover:text-primary-300 rounded-md  ">Réactiver votre fiche fournisseur</button></div>
+    @endif
         <div class="{{ $etatStyle['bgColor'] }} mt-4 md:mt-0 md:ml-2 w-full md:w-1/2 py-4 px-6 flex items-center">
             <div class="{{ $etatStyle['textColor'] }}">
                 <span class="iconify" data-icon="{{ $etatStyle['icon'] }}" data-inline="false" style="font-size: 2rem;"></span>
@@ -607,6 +611,41 @@
     });
 }
 
+function reactivation() {
+    Swal.fire({
+        title: 'Êtes-vous sûr(e) ?',
+        text: "Réactiver votre fiche fournisseur entraînera votre réapparition dans le bottin des fournisseurs de la ville.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#22c55e',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui, réactiver',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+           
+            axios.post('{{ route('reactivationFiche') }}')
+                .then(response => {
+                    Swal.fire(
+                        'Réactivation !',
+                        'Votre fiche fournisseur a été réactivée avec succès.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = "{{ route('profil') }}"; 
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la réactivation  de la fiche fournisseur:', error);
+                    Swal.fire(
+                        'Erreur',
+                        'Une erreur est survenue lors de la réactivation  de votre fiche fournisseur. Veuillez réessayer.',
+                        'error'
+                    );
+                });
+        }
+    });
+}
+
     function openIdentificationModal() {
         if (etatFiche === 'desactiver') {
         Swal.fire({
@@ -662,11 +701,11 @@
     }
     document.getElementById('produitsServicesModal').classList.remove('hidden');
 
-    axios.get("{{ route('EditProduit') }}") // Remplacez par la route correcte
+    axios.get("{{ route('EditProduit') }}") 
         .then(function (response) {
             document.getElementById('produitsServicesFormContainer').innerHTML = response.data;
 
-            // Charger dynamiquement le script de modification pour Produits et Services
+           
             loadScript('{{ asset('js/modif/produitModif.js') }}', function() {
                 setTimeout(initializeProduitsServicesFormScript, 100);
             });

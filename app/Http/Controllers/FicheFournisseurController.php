@@ -925,7 +925,7 @@ public function desactivationFiche()
 
     if ($fournisseur->etat == 'accepter') {
         $historiqueRemove = [];
-        $oldEtat = $fournisseur->etat;
+    
 
         
         $fournisseur->etat = 'desactiver';
@@ -950,7 +950,7 @@ public function desactivationFiche()
             'record_id' => $fournisseur->id,
             'user_id' => Auth::id(),
             'action' => 'Désactivée',
-            'old_values' => "-état : {$oldEtat}, {$historiqueRemove}",
+            'old_values' => "-état : Accepter, {$historiqueRemove}",
             'new_values' => '+état : Desactiver',
             'fiche_fournisseur_id' => $fournisseur->id,
         ]);
@@ -968,7 +968,7 @@ public function desactivationFiche()
         if ($fournisseur->etat=='desactiver'){
             
 
-            $fournisseur->etat=='accepter'; 
+            $fournisseur->etat='accepter'; 
             $fournisseur->save();
       
             Historique::create([
@@ -976,10 +976,11 @@ public function desactivationFiche()
                 'record_id' => $fournisseur->id,
                 'user_id' => Auth::id(),
                 'action' => 'Acceptée',
-                'old_values' => '-état : Desactiver',
+                'old_values' => "-état : Desactiver ",
                 'new_values' => '+état : Accepter',
                 'fiche_fournisseur_id' => $fournisseur->id,
             ]);
+            return response()->json(['success' => true, 'message' => 'Votre fiche fournisseur a été réactivée avec succès.']);
         }
 
     }
