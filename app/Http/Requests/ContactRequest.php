@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ContactRequest extends FormRequest
 {
@@ -37,7 +39,7 @@ class ContactRequest extends FormRequest
                 'regex:/^[a-zA-ZÀ-ÿ\'\- ]+$/u'
             ],
             'contacts.*.fonction' => [
-                'required',
+                'nullable',
                 'string',
                 'max:32'
             ],
@@ -64,6 +66,23 @@ class ContactRequest extends FormRequest
                 'regex:/^\d+$/'
             ],
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        $currentRouteName = $this->route()->getName();
+    
+        if ($currentRouteName === 'UpdateContact') {
+         
+            session()->put('errorsContact', $validator->errors());
+    
+            throw new HttpResponseException(
+                redirect()->back()
+                    ->withInput()
+            );
+        }
+    
+     
+        parent::failedValidation($validator);
     }
     
 }

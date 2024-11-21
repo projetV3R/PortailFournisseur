@@ -8,6 +8,7 @@ use App\Models\ParametreSysteme;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\BrochureCarteAffaireRequest;
 use Log;
+use Illuminate\Support\Facades\Auth;
 class BrochureCarteAffaireController extends Controller
 {
     /**
@@ -92,10 +93,29 @@ class BrochureCarteAffaireController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
+    public function edit()
+    { 
+            $fournisseur = Auth::user();
+            $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
+            return view("modificationCompte/docModif" , compact('fournisseur','maxFileSize'));
     }
+
+    public function getDocuments()
+{
+    $fournisseur = Auth::user();
+    $brochures = $fournisseur->brochuresCarte->map(function($brochure) {
+        return [
+            'nom' => $brochure->nom,
+            'taille' => $brochure->taille,
+            'id' => $brochure->id
+        ];
+    });
+    $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
+    return response()->json([
+        'brochures' => $brochures,
+        'maxFileSize' => $maxFileSize 
+    ]);
+}
 
     /**
      * Update the specified resource in storage.

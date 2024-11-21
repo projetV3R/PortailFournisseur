@@ -7,7 +7,7 @@ use App\Http\Requests\LicenceRequest;
 use Illuminate\Http\Request;
 use App\Models\SousCategorie;
 use Log;
-
+use Illuminate\Support\Facades\Auth;
 
 class LicenceController extends Controller
 {
@@ -45,15 +45,19 @@ class LicenceController extends Controller
 
     public function getSousCategories($type)
     {
-        if (auth()->check() || session()->has('produitsServices')){
-        $sousCategories = \DB::table('sous_categories')
-            ->where('categorie', 'LIKE', "%$type%")
-            ->get();
+        if (auth()->check() || session()->has('produitsServices')) {
+          
+            $sousCategories = \DB::table('sous_categories')
+                ->where('categorie', 'LIKE', "%$type%")
+                ->select('id', 'code_sous_categorie', 'travaux_permis', 'type') 
+                ->get()
+                ->groupBy('type'); 
     
-        return response()->json($sousCategories);
+            return response()->json($sousCategories);
+        }
+        return redirect()->back();
     }
-    return redirect()->back();
-    }
+    
     
     
     public function getSousCategoriesMultiple(Request $request)
@@ -78,7 +82,18 @@ class LicenceController extends Controller
      return redirect()->back();
     }
     
+    public function getLicenceData()
+    {
+        $fournisseur = Auth::user();
+        $licence = $fournisseur->licence()->with('sousCategories.categorie')->first();
     
+        return response()->json([
+            'licence' => $licence,
+            'selectedSousCategories' => $licence ? $licence->sousCategories->pluck('sous_categorie_id')->toArray() : [],
+        ]);
+    }
+    
+
 
     /**
      * Display the specified resource.
@@ -91,11 +106,15 @@ class LicenceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
-    }
+     
+            $fournisseur = Auth::user();
+            return view("modificationCompte/licenceModif" , compact('fournisseur'));
+       
+    
 
+    }
     /**
      * Update the specified resource in storage.
      */

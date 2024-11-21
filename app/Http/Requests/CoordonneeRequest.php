@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CoordonneeRequest extends FormRequest
 {
@@ -69,6 +71,11 @@ class CoordonneeRequest extends FormRequest
             ],
 
             'ligne' => ['required', 'array'], 
+            'ligne.*.id' => [
+                'nullable',
+                'integer',
+                'exists:telephones,id', 
+            ],
             'ligne.*.type' => [
                 'required',
                 'string',
@@ -97,4 +104,20 @@ class CoordonneeRequest extends FormRequest
 
         return $rules;
     }
+    protected function failedValidation(Validator $validator)
+{
+    $currentRouteName = $this->route()->getName();
+
+    if ($currentRouteName === 'UpdateCoordonnee') {
+        session()->put('errorsCoordonnees', $validator->errors());
+
+        throw new HttpResponseException(
+            redirect()->back()
+                ->withInput()
+        );
+    }
+
+    parent::failedValidation($validator);
+}
+
 }

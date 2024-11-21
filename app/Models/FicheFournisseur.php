@@ -16,7 +16,6 @@ class FicheFournisseur extends Authenticatable
         "password",
         "nom_entreprise",
         "adresse_courriel",
-        "password",
         "details_specifications",
         "date_changement_etat",
     ];
@@ -41,10 +40,6 @@ class FicheFournisseur extends Authenticatable
         return $this->hasOne(Licence::class);
     }
 
-    public function coordonnees()
-    {
-        return $this->hasOne(Coordonnee::class);
-    }
 
     public function finance()
     {
@@ -72,6 +67,7 @@ class FicheFournisseur extends Authenticatable
 {
     return $this->hasOne(Coordonnee::class);
 }
+
 
 
     /**

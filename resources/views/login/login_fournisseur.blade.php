@@ -10,7 +10,6 @@
                 <h1 class="text-2xl md:text-5xl font-bold font-Alumni">Bienvenue</h1>
                 <h6 class="mt-2 text-base md:text-lg font-Alumni">Dans quelle catégorie vous inscrivez-vous ?</h6>
             </div>
-
             <div class="col-span-1 md:col-span-12">
                 <div class="flex flex-wrap justify-center gap-4 mt-8 md:mt-16">
                     <a href="{{ route('showLoginFormAvecNeq') }}">
@@ -44,5 +43,18 @@
             </div>
         </div>
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "{{ session('success') }}",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            @endif
+        });
+        </script>
+        
 @endsection

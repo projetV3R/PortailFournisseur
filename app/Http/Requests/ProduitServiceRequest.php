@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProduitServiceRequest extends FormRequest
 {
@@ -27,5 +29,22 @@ class ProduitServiceRequest extends FormRequest
             'produits_services.*' => 'integer|exists:produits_services,id', 
             
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        $currentRouteName = $this->route()->getName();
+    
+        if ($currentRouteName === 'UpdateProduit') {
+         
+            session()->put('errorsPS', $validator->errors());
+    
+            throw new HttpResponseException(
+                redirect()->back()
+                    ->withInput()
+            );
+        }
+    
+     
+        parent::failedValidation($validator);
     }
 }

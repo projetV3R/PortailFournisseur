@@ -2,6 +2,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class IdentificationRequest extends FormRequest
 {
@@ -20,39 +22,73 @@ class IdentificationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'email' => [
+        $currentRouteName = $this->route()->getName();
+    
+        // Règles communes à toutes les routes
+   
+    
+        if ($currentRouteName === 'UpdateIdentification') {
+       
+            $rules['password'] = [
+                'nullable',
+                'string',
+                'min:7',
+                'max:12',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{7,12}$/',
+                'confirmed',
+            ];
+      
+            $rules['password_confirmation'] = [
+                'required_with:password',
+            ];
+
+             $rules['email'] = [
                 'required',
                 'string',
                 'email',
                 'max:64',
-                'unique:fiche_fournisseurs,adresse_courriel',
-            ],
-            'password' => [
+                'unique:fiche_fournisseurs,adresse_courriel,'. $this->user()->id,
+             ];
+        } else {
+         
+            $rules['password'] = [
                 'required',
                 'string',
                 'min:7',
                 'max:12',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{7,12}$/',
                 'confirmed',
-            ],
-            'password_confirmation' => [
-                'required'
-            ],
-            'numeroEntreprise' => [
-                'nullable',
-                'string',
-                'size:10',
-                'regex:/^(11|22|33|88)[4-9]\d{7}$/',
-                'unique:fiche_fournisseurs,neq',
-            ],
-            'nomEntreprise' => [
+            ];
+            $rules['password_confirmation'] = [
                 'required',
-                'string',
-                'max:64'
-            ],
-        ];
+            ];
+
+            $rules = [
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:64',
+                    'unique:fiche_fournisseurs,adresse_courriel,'
+                ],
+                'numeroEntreprise' => [
+                    'nullable',
+                    'string',
+                    'size:10',
+                    'regex:/^(11|22|33|88)[4-9]\d{7}$/',
+                    'unique:fiche_fournisseurs,neq,' 
+                ],
+                'nomEntreprise' => [
+                    'required',
+                    'string',
+                    'max:64'
+                ],
+            ];
+        }
+    
+        return $rules;
     }
+    
 
     /**
      * 
@@ -66,4 +102,23 @@ class IdentificationRequest extends FormRequest
             'numeroEntreprise.regex' => 'Le numéro d\'entreprise doit commencer par "11", "22", "33" ou "88", suivi d\'un chiffre entre 4 et 9, puis de 7 autres chiffres.',
         ];
     }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $currentRouteName = $this->route()->getName();
+    
+        if ($currentRouteName === 'UpdateIdentification') {
+         
+            session()->put('errorsId', $validator->errors());
+    
+            throw new HttpResponseException(
+                redirect()->back()
+                    ->withInput()
+            );
+        }
+    
+     
+        parent::failedValidation($validator);
+    }
+    
 }

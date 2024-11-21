@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\IdentificationRequest;
 use Illuminate\Http\Request;
 use App\Models\ParametreSysteme;
+use Illuminate\Support\Facades\Auth;
 class IdentificationController extends Controller
 {
     /**
@@ -53,9 +54,11 @@ class IdentificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+            $fournisseur = Auth::user();
+            return view("modificationCompte/identificationModif" , compact('fournisseur'));
+
     }
 
     /**
