@@ -41,13 +41,6 @@ class IdentificationRequest extends FormRequest
             $rules['password_confirmation'] = [
                 'required_with:password',
             ];
-            $rules[ 'numeroEntreprise' ] = [
-                'nullable',
-                'string',
-                'size:10',
-                'regex:/^(11|22|33|88)[4-9]\d{7}$/',
-                'unique:fiche_fournisseurs,neq,' . $this->user()->id,
-            ];
 
              $rules['email'] = [
                 'required',

@@ -93,10 +93,10 @@
                                 Numéro d’entreprise du Québec (NEQ)
                                 <p class="italic text-sm ml-2">*Ce numéro n'est pas obligatoire</p>
                             </label>
-                            <input type="text" id="numeroEntreprise" name="numeroEntreprise"
+                            <input disabled type="text" id="numeroEntreprise"
                                 value="{{ old('numeroEntreprise',  $fournisseur->neq) }}"
                                 placeholder="Entrer votre numéro d’entreprise du Québec"
-                                class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
+                                class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black cursor-not-allowed">
 
                             @error('numeroEntreprise')
                                 <span

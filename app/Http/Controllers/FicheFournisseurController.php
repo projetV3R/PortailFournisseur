@@ -333,7 +333,6 @@ public function updateProfile(IdentificationRequest $request)
         $fournisseur->password = bcrypt(($request->input('password')));
     }
 
-    $fournisseur->neq = $request->input('numeroEntreprise');
     $fournisseur->nom_entreprise = $request->input('nomEntreprise');
 
     $fournisseur->save();
