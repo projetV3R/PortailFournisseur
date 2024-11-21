@@ -125,7 +125,7 @@ class FicheFournisseurController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('message', 'Déconnexion réussie');
+        return redirect()->route('login')->with('success', 'Déconnexion réussie');
     }
 
     /**

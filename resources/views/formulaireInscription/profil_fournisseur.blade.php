@@ -70,8 +70,11 @@
 
     $etat = $fournisseur->etat;
     $etatStyle = $etatStyles[$etat] ?? $etatStyles['En attente']; // Par défaut à 'En attente' si l'état n'est pas défini
+    if($fournisseur->etat == 'accepter' && $fournisseur->finance){
    $condition=$fournisseur->finance->condition_paiement;
    $condition_paiementText=$condition_paiementText[$condition] ?? $condition_paiementText['aucune'];
+    }
+  
   
 @endphp
            <!-- Modal pour l'édition d'identification -->
@@ -205,7 +208,7 @@
     @endif
     @if($fournisseur->etat == 'accepter' && !$fournisseur->finance)
   
-    <div class="flex"> <button onclick="finance()" class="border-2 px-2 p-2 text-tertiary-400 hover:text-tertiary-300 rounded-md  ">Renseignement financier</button></div>
+    <div class="flex"> <button onclick="finance()" class="border-2 px-2 p-2 bg-tertiary-400 text-white hover:text-tertiary-300 rounded-md  ">Renseignement financier</button></div>
     @endif
         <div class="{{ $etatStyle['bgColor'] }} mt-4 md:mt-0 md:ml-2 w-full md:w-1/2 py-4 px-6 flex items-center">
             <div class="{{ $etatStyle['textColor'] }}">

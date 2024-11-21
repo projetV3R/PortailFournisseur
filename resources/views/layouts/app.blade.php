@@ -19,7 +19,7 @@
 </head>
 
 
-<body class="flex flex-col h-screen dark:bg-gray-900 text-black dark:text-white">
+<body class="flex flex-col min-h-screen dark:bg-gray-900 text-black dark:text-white">
     <header>
         @yield('header')
 
