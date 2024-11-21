@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use Log;
-
+use Illuminate\Support\Facades\Auth;
 class ContactController extends Controller
 {
     /**
@@ -57,10 +57,22 @@ class ContactController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+      $fournisseur = Auth::user();
+      return view("modificationCompte/contactModif" , compact('fournisseur'));
     }
+
+    public function getContacts()
+    {
+        $fournisseur = Auth::user();
+        
+        $contacts = $fournisseur->contacts()->with('telephone:id,numero_telephone,poste,type')->get();
+        
+        return response()->json($contacts);
+    }
+    
+    
 
     /**
      * Update the specified resource in storage.

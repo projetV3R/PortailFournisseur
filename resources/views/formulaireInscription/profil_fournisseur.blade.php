@@ -34,26 +34,204 @@
             'labelColor' => 'text-orange-600',
             'text' => 'À réviser'
         ],
+        'desactiver' => [
+            'bgColor' => 'bg-red-100',
+            'textColor' => 'text-red-500',
+            'icon' => 'material-symbols:cancel',
+            'labelColor' => 'text-red-600',
+            'text' => 'Désactivée'
+        ],
+    ];
+    $condition_paiementText=[
+        'Z001' =>[
+        'text' =>'Payable immédiatement sans déduction'
+         ],
+         'Z155' =>[
+        'text' =>'Payable immédiatement sans déduction,Date de base au 15 du mois suivant'
+         ],
+         'Z152' =>[
+         'text' =>'Dans les 15 jours 2% escpte, dans les 30 jours sans déduction'
+        ],
+        'Z153' =>[
+         'text' =>'Après entrée facture jusqu\'au 15 du mois,jusqu\'au 15 du mois suivant 2%'
+        ],
+        'Z210' =>[
+         'text' =>'Dans les 10 jours 2% escpte , dans les 30 jours sans déduction'
+        ],
+        
+        'ZT15' =>[
+            'text' =>'Dans les 15 jours sans déduction'
+        ],
+        'ZT30' =>[
+         'text' =>'Dans les 30 jours sans déduction'
+        ],
+        'ZT45' =>[
+         'text' =>'Dans les 45 jours sans déduction'
+        ],
+        'ZT60' =>[
+         'text' =>'Dans les 60 jours sans déduction'
+        ],
+    
+    
     ];
 
     $etat = $fournisseur->etat;
     $etatStyle = $etatStyles[$etat] ?? $etatStyles['En attente']; // Par défaut à 'En attente' si l'état n'est pas défini
+    if($fournisseur->etat == 'accepter' && $fournisseur->finance){
+   $condition=$fournisseur->finance->condition_paiement;
+   $condition_paiementText=$condition_paiementText[$condition] ?? $condition_paiementText['aucune'];
+    }
+  
+  
 @endphp
+           <!-- Modal pour l'édition d'identification -->
 
+           <div id="identificationModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-4xl mx-4 md:mx-8 lg:mx-12 lg:max-w-5xl relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier les informations d'identification</h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire d'identification -->
+                <div id="identificationFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+        <div id="produitsServicesModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier les informations des Produits et Services</h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeProduitsServicesModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="produitsServicesFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+
+        <div id="coordonneeModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier les infornations de coordonnée</h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeCoordonneeModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="coordonneeFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+
+        <div id="docModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier les brochures & cartes d'affaires </h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeDocModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="docFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+
+        <div id="licenceModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier votre licence RBQ </h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeLicenceModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="licenceFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="financeModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier vos renseignements financier </h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeFinanceModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="financeFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+
+        <div id="contactModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full  mx-4 md:mx-8 lg:mx-12 lg:max-w-full relative max-h-screen overflow-y-auto">
+                <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier vos contacts </h2>
+                
+                <!-- Bouton de fermeture -->
+                <button onclick="closeContactModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                </button>
+        
+                <!-- Contenu du formulaire Produits et Services -->
+                <div id="contactFormContainer" class="max-h-[80vh] overflow-y-auto">
+                    <!-- Le formulaire sera chargé ici via AJAX -->
+                </div>
+            </div>
+        </div>
+        
+        
 <div class="p-4 md:p-16">
     <div class="flex flex-col md:flex-row w-full">
         <div class="flex flex-col w-full md:w-1/2">
             <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Profil Utilisateur</h6>
             <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Vérifiez vos informations personnelles et les
-                détails de votre compte</h1>
+                détails de votre compte </h1>
         </div>
 
+        @if (session('success'))
+        <div id="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 relative" role="alert">
+            <strong class="font-bold">Succès!</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+ 
+        </div>
+    @endif
+    @if($fournisseur->etat == 'accepter' && !$fournisseur->finance)
+  
+    <div class="flex"> <button onclick="finance()" class="border-2 px-2 p-2 bg-secondary-400 text-white hover:text-tertiary-300 rounded-md  ">Renseignement financier</button></div>
+    @endif
+
+    @if($fournisseur->etat == 'accepter')
+  
+    <div class="flex"> <button onclick="desactivation()" class="border-2 px-2 p-2 bg-red-500 text-white hover:text-primary-300 rounded-md  ">Désactiver votre fiche fournisseur</button></div>
+    @endif
+    @if($fournisseur->etat == 'desactiver')
+  
+    <div class="flex"> <button onclick="reactivation()" class="border-2 px-2 p-2 bg-green-500 text-white hover:text-primary-300 rounded-md  ">Réactiver votre fiche fournisseur</button></div>
+    @endif
         <div class="{{ $etatStyle['bgColor'] }} mt-4 md:mt-0 md:ml-2 w-full md:w-1/2 py-4 px-6 flex items-center">
             <div class="{{ $etatStyle['textColor'] }}">
                 <span class="iconify" data-icon="{{ $etatStyle['icon'] }}" data-inline="false" style="font-size: 2rem;"></span>
             </div>
             <div class="ml-4">
-                <h4 class="font-Alumni font-bold text-lg md:text-2xl">Statut de la demande : 
+                <h4 class="font-Alumni font-bold text-lg md:text-2xl">Statut du dossier : 
                     <span class="{{ $etatStyle['labelColor'] }}">
                         {{ $etatStyle['text'] }}
                     </span>
@@ -72,7 +250,7 @@
 
                     <!-- Bouton "modifier" ajouté en haut à droite du cadre -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300" onclick="openIdentificationModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -90,13 +268,12 @@
 
                 </div>
 
-
                 <div class="mt-8 px-4 py-8 bg-primary-100 relative">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Coordonnées</h4>
 
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300" onclick="openCoordonneeModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -122,7 +299,7 @@
                     <div class="max-h-48 overflow-y-auto mt-2">
                         @foreach($fournisseur->coordonnee->telephones as $telephone)
                         <p class="mt-2 font-Alumni md:text-lg  gap-0.5">
-                            <strong>Ligne {{ $loop->iteration }} :</strong> {{ $telephone->numero_telephone }} - 
+                            <strong>Ligne {{ $loop->iteration }} :</strong> <span class="phones-numberP"> {{ $telephone->numero_telephone }} </span> - 
                             Poste: {{ $telephone->poste }} - 
                             <strong>Type:</strong> {{ $telephone->type }}
                         </p>
@@ -137,7 +314,7 @@
         <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Documents téléchargés</h4>
         <div class="overflow-auto max-h-48 mt-4">
             <div class="absolute right-4 top-4">
-                <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                <button type="button" class="text-tertiary-400 hover:text-tertiary-300"  onclick="openDocModal()">
                     <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;"></span>
                 </button>
             </div>
@@ -158,13 +335,13 @@
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Licences</h4>
                     <div class="absolute right-4 top-4">
                         <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
-                            <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;"></span>
+                            <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;" onclick="openLicenceModal()"></span>
                         </button>
                     </div>
                     @if($licence)
                         <div class="mt-6 w-full max-w-md">
                             <h5 class="font-Alumni font-semibold text-md md:text-lg underline">Informations sur la Licence</h5>
-                            <p class="mt-2 font-Alumni md:text-lg"><strong>Numéro de Licence RBQ:</strong> {{ $licence->numero_licence_rbq }}</p>
+                            <p class="mt-2 font-Alumni md:text-lg ">   <strong >Numéro de Licence RBQ:</strong> <span class="rbq-number"> {{ $licence->numero_licence_rbq }}</span></p>
                             <p class="mt-2 font-Alumni md:text-lg"><strong>Statut:</strong> {{ $licence->statut }}</p>
                             <p class="mt-2 font-Alumni md:text-lg"><strong>Type de Licence:</strong> {{ $licence->type_licence }}</p>
                         </div>
@@ -175,7 +352,7 @@
                                 @foreach($licence->sousCategories as $sousCategorie)
                                     <div class="bg-white shadow-md rounded p-4 mb-2">
                                         <h6 class="font-Alumni font-semibold text-md md:text-lg underline">Sous-catégorie {{ $loop->iteration }}</h6>
-                                        <p class="mt-2 font-Alumni md:text-lg"><strong>Catégorie:</strong> {{ $sousCategorie->categorie->categorie }}</p>
+                                        <p class="mt-2 font-Alumni md:text-lg"><strong>Catégorie:</strong> {{ $sousCategorie->categorie->type }}</p>
                                         <p class="mt-2 font-Alumni md:text-lg"><strong>Code de sous-catégorie:</strong> {{ $sousCategorie->categorie->code_sous_categorie }}</p>
                                     </div>
                                 @endforeach
@@ -197,7 +374,7 @@
 
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300" onclick="openIdentificationModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -219,7 +396,7 @@
 
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300"  onclick="openProduitsServicesModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -261,12 +438,12 @@
     <!-- Bouton "modifier" en haut à droite -->
     <div class="absolute right-4 top-4">
         <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
-            <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;"></span>
+            <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;"  onclick="openContactModal()"></span>
         </button>
     </div>
 
     <!-- Section scrollable pour afficher plusieurs contacts -->
-    <div id="contactsContainer" class="max-h-64 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+    <div id="contactContainer" class="max-h-64 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
         @forelse($fournisseur->contacts as $contact)
             <div class="bg-white p-4 shadow-md rounded mb-2">
                 <div class="flex flex-col sm:flex-row justify-between">
@@ -280,7 +457,7 @@
 
                     <div class="sm:w-1/2 lg:pl-2">
                         <h5 class="font-Alumni font-semibold text-md md:text-lg underline">Coordonnées</h5>
-                        <p class="mt-2 font-Alumni md:text-lg"><strong>Numéro de téléphone:</strong> {{ $contact->telephone->numero_telephone ?? 'N/A' }}</p>
+                        <p class="mt-2 font-Alumni md:text-lg"><strong>Numéro de téléphone:</strong> <span class="phones-numberP"> {{ $contact->telephone->numero_telephone ?? 'N/A' }}</span></p>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Poste:</strong> {{ $contact->telephone->poste ?? 'N/A' }}</p>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Type:</strong> {{ $contact->telephone->type ?? 'N/A' }}</p>
                     </div>
@@ -298,7 +475,7 @@
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
                         <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
-                            <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
+                            <span class="iconify" data-icon="material-symbols:edit" data-inline="false"  onclick="openFinanceModal()"
                                 style="font-size: 1.5rem;"></span>
                         </button>
                     </div>
@@ -315,7 +492,7 @@
                         <!-- Résumé des conditions de paiement -->
                         <h5 class="font-Alumni font-semibold text-md md:text-lg mt-4 underline">Conditions de Paiement</h5>
                         <p class="mt-2 font-Alumni md:text-lg"><strong>Condition de Paiement:</strong>
-                            {{ $fournisseur->finance->condition_paiement }}</p>
+                            {{ $condition_paiementText['text'] }}</p>
 
                         <!-- Résumé des informations de configuration -->
                         <h5 class="font-Alumni font-semibold text-md md:text-lg mt-4 underline">Configuration</h5>
@@ -337,3 +514,363 @@
 
 
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+       
+        @if (session()->has('errorsId'))
+            openIdentificationModal();
+        @endif
+        @if (session()->has('errorsPS'))
+        openProduitsServicesModal();
+        @endif
+        @if (session()->has('errorsCoordonnees'))
+        openCoordonneeModal();
+        @endif
+        @if (session()->has('errorsFichiers'))
+        openDocModal();
+        @endif
+        @if (session()->has('errorsLicence'))
+        openLicenceModal();
+        @endif
+        @if (session()->has('errorsFinance'))
+        openFinanceModal();
+        @endif
+        @if (session()->has('errorsContact'))
+        openContactModal();
+        @endif
+
+        
+        var successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: successMessage,
+  showConfirmButton: false,
+  timer: 1500
+});
+        }
+        //Formattage rbq et tel format canadien ###-###-####
+    function formatPhoneNumber(number) {
+        return number.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    }
+
+
+    function formatRBQ(number) {
+        return number.replace(/(\d{4})(\d{4})(\d{2})/, '$1-$2-$3');
+    }
+    document.querySelectorAll('.phones-numberP').forEach(function (element) {
+        element.textContent = formatPhoneNumber(element.textContent);
+    });
+
+ 
+    const rbqElement = document.querySelector('.rbq-number');
+    if (rbqElement) {
+        rbqElement.textContent = formatRBQ(rbqElement.textContent);
+    }
+    });
+
+    function finance() {
+       
+       window.location.href = "{{ route('createFinances') }}";
+   }
+
+   function desactivation() {
+    Swal.fire({
+        title: 'Êtes-vous sûr(e) ?',
+        text: "Désactiver votre fiche fournisseur entraînera la suppression de vos brochures et cartes d'affaires, et vous n'apparaîtrez plus dans le bottin des fournisseurs de la ville.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Oui, désactiver',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+           
+            axios.post('{{ route('desactivationFiche') }}')
+                .then(response => {
+                    Swal.fire(
+                        'Désactivée !',
+                        'Votre fiche fournisseur a été désactivée avec succès.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = "{{ route('profil') }}"; 
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la désactivation de la fiche fournisseur:', error);
+                    Swal.fire(
+                        'Erreur',
+                        'Une erreur est survenue lors de la désactivation de votre fiche fournisseur. Veuillez réessayer.',
+                        'error'
+                    );
+                });
+        }
+    });
+}
+
+function reactivation() {
+    Swal.fire({
+        title: 'Êtes-vous sûr(e) ?',
+        text: "Réactiver votre fiche fournisseur entraînera votre réapparition dans le bottin des fournisseurs de la ville.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#22c55e',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui, réactiver',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+           
+            axios.post('{{ route('reactivationFiche') }}')
+                .then(response => {
+                    Swal.fire(
+                        'Réactivation !',
+                        'Votre fiche fournisseur a été réactivée avec succès.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = "{{ route('profil') }}"; 
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la réactivation  de la fiche fournisseur:', error);
+                    Swal.fire(
+                        'Erreur',
+                        'Une erreur est survenue lors de la réactivation  de votre fiche fournisseur. Veuillez réessayer.',
+                        'error'
+                    );
+                });
+        }
+    });
+}
+
+    function openIdentificationModal() {
+        if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
+        document.getElementById('identificationModal').classList.remove('hidden');
+    
+        axios.get("{{ route('EditIdentification') }}")
+            .then(function (response) {
+          
+                document.getElementById('identificationFormContainer').innerHTML = response.data;
+    
+              
+                loadScript('{{ asset('js/modif/identificationModif.js') }}', function() {
+                
+                    setTimeout(initializeIdentificationFormScript, 100);
+                });
+            })
+            .catch(function (error) {
+                console.error("Erreur lors du chargement de la page d'identification:", error);
+            });
+    }
+    
+
+    function loadScript(src, callback) {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = function() {
+            console.log(`Script ${src} chargé et exécuté`);
+            if (callback) callback();
+        };
+        document.body.appendChild(script);
+    }
+    
+    function closeModal() {
+        document.getElementById('identificationModal').classList.add('hidden');
+    }
+
+    function openProduitsServicesModal() {
+        if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
+    document.getElementById('produitsServicesModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditProduit') }}") 
+        .then(function (response) {
+            document.getElementById('produitsServicesFormContainer').innerHTML = response.data;
+
+           
+            loadScript('{{ asset('js/modif/produitModif.js') }}', function() {
+                setTimeout(initializeProduitsServicesFormScript, 100);
+            });
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page Produits et Services:", error);
+        });
+}
+
+function closeProduitsServicesModal() {
+    document.getElementById('produitsServicesModal').classList.add('hidden');
+}
+
+
+function openCoordonneeModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
+    document.getElementById('coordonneeModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditCoordonnee') }}") 
+        .then(function (response) {
+            document.getElementById('coordonneeFormContainer').innerHTML = response.data;
+
+          
+            loadScript('{{ asset('js/modif/coordonneeModif.js') }}', function() {
+                setTimeout(initializeCoordonneeFormScript, 100);
+            });
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page coordonnée", error);
+        });
+}
+
+function closeCoordonneeModal() {
+    document.getElementById('coordonneeModal').classList.add('hidden');
+}
+
+
+function openDocModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
+    document.getElementById('docModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditDoc') }}") 
+        .then(function (response) {
+            document.getElementById('docFormContainer').innerHTML = response.data;
+
+            loadScript('{{ asset('js/modif/docModif.js') }}', function() {
+                setTimeout( initializeDocFormScript, 100);
+            });
+          
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page brochures et cartes affaires", error);
+        });
+}
+
+function closeDocModal() {
+    document.getElementById('docModal').classList.add('hidden');
+}
+
+function openLicenceModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
+    document.getElementById('licenceModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditLicence') }}") 
+        .then(function (response) {
+            document.getElementById('licenceFormContainer').innerHTML = response.data;
+
+            loadScript('{{ asset('js/modif/licenceModif.js') }}', function() {
+                setTimeout( initializeLicenceFormScript, 100);
+            });
+          
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page des licences RBQ", error);
+        });
+}
+
+function closeLicenceModal() {
+    document.getElementById('licenceModal').classList.add('hidden');
+}
+
+function openFinanceModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
+    document.getElementById('financeModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditFinance') }}") 
+        .then(function (response) {
+            document.getElementById('financeFormContainer').innerHTML = response.data;
+
+            loadScript('{{ asset('js/modif/financeModif.js') }}', function() {
+                setTimeout( initializeFinanceFormScript, 100);
+            });
+          
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page des finances", error);
+        });
+}
+
+function closeFinanceModal() {
+    document.getElementById('financeModal').classList.add('hidden');
+}
+
+function openContactModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
+    document.getElementById('contactModal').classList.remove('hidden');
+
+    axios.get("{{ route('EditContact') }}")
+        .then(function (response) {
+            document.getElementById('contactFormContainer').innerHTML = response.data;
+
+            loadScript('{{ asset('js/modif/contactModif.js') }}', function() {
+                setTimeout( initializeContactFormScript, 100);
+            });
+          
+        })
+        .catch(function (error) {
+            console.error("Erreur lors du chargement de la page des contacts", error);
+        });
+}
+
+function closeContactModal() {
+    document.getElementById('contactModal').classList.add('hidden');
+}
+const etatFiche = "{{ $fournisseur->etat }}"; 
+    </script>
+    
+    

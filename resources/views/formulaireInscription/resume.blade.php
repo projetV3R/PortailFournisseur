@@ -317,8 +317,9 @@
                 response.data.forEach(function(sousCategorie) {
                     let sousCategorieHtml = `
                         <div class="border-b pb-4">
+                                  <p class="font-Alumni text-md md:text-lg"><strong>Catégorie :</strong> ${sousCategorie.type}</p>
                             <p class="font-Alumni text-md md:text-lg"><strong>Code Sous-catégorie :</strong> ${sousCategorie.code_sous_categorie}</p>
-                            <p class="font-Alumni text-md md:text-lg"><strong>Description :</strong> ${sousCategorie.travaux_permis}</p>
+                      
                         </div>`;
                     licencesContainer.insertAdjacentHTML('beforeend', sousCategorieHtml);
                 });
@@ -334,3 +335,8 @@
 </script>
 
 @endsection
+@php
+if (!auth()->check() && !session()->has(['contacts', 'coordonnees', 'identification', 'licences', 'produitsServices'])){
+    return redirect()->route('login');
+}
+@endphp

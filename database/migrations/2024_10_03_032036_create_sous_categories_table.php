@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->String('categorie');
+            $table->String('type');
             $table->String('code_sous_categorie');
             $table->string('travaux_permis');
         });

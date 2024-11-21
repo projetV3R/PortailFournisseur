@@ -7,7 +7,7 @@ use App\Http\Requests\CoordonneeRequest;
 use App\Models\Coordonnee;
 use Illuminate\Http\Request;
 use Log;
-
+use Illuminate\Support\Facades\Auth;
 class CoordonneeController extends Controller
 {
     /**
@@ -61,18 +61,54 @@ class CoordonneeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        $fournisseur = Auth::user();
+        $coordonnee = $fournisseur->coordonnee()->with('telephones')->first();
+        return view('modificationCompte.coordonneeModif', compact('fournisseur', 'coordonnee'));
     }
 
+    public function getCoordonneeData()
+{
+    $fournisseur = Auth::user();
+ 
+
+    $coordonnee = $fournisseur->coordonnee()->with('telephones')->first();
+
+    $coordonneeData = [
+        'numeroCivique' => $coordonnee->numero_civique,
+        'bureau' => $coordonnee->bureau,
+        'rue' => $coordonnee->rue,
+        'codePostale' => $coordonnee->code_postal,
+        'province' => $coordonnee->province,
+        'regionAdministrative' => $coordonnee->region_administrative,
+        'siteWeb' => $coordonnee->site_internet,
+        'municipalite' => $coordonnee->ville,
+        'municipaliteInput' => $coordonnee->ville,
+        'ligne' => []
+    ];
+
+    $telephones = $coordonnee->telephones;
+
+    foreach ($telephones as $index => $telephone) {
+        $coordonneeData['ligne'][$index] = [
+            'id' => $telephone->id, 
+            'type' => $telephone->type,
+            'numeroTelephone' => $telephone->numero_telephone,
+            'poste' => $telephone->poste,
+        ];
+    }
+    
+
+    return response()->json(['coordonnee' => $coordonneeData]);
+}
+
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+
+
 
     /**
      * Remove the specified resource from storage.

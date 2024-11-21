@@ -26,6 +26,6 @@ class Contact extends Model
 
     public function telephone()
     {
-        return $this->belongsTo(Telephone::class);
+        return $this->belongsTo(Telephone::class,'telephone_id');
     }
 }
