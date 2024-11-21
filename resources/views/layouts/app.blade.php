@@ -40,10 +40,14 @@
             </div>
 
             <div class="md:hidden flex items-center text-white gap-2">
-
+                @auth
                 <div>
-
+                    <button id="menu-toggle">
+                        <span class="iconify size-10 hover:animate-bounce " data-icon="mdi:menu"
+                            data-inline="false"></span>
+                    </button>
                 </div>
+                @endauth
 
 
                 <div>
@@ -53,25 +57,107 @@
                 </div>
 
             </div>
-
+            @auth
+            <nav
+                class="hidden md:flex justify-center w-full text-lg xl:text-2xl items-center gap-4 text-white dark:text-white">
+                <a href="/"
+                    class="hover:bg-green-300 hover:text-black p-2 transition duration-300 ease-in-out transform hover:shadow-lg">Accueil</a>
+                |
+              
+                <a href="/FicheFournisseur/profil"
+                    class="hover:bg-green-300 hover:text-black p-2 transition duration-300 ease-in-out transform hover:shadow-lg">Ma Fiche Fournisseur</a> 
+             
+            </nav>
+            @endauth
             <div class="hidden md:flex space-x-4 items-center">
+                
                 @auth
+                
+                
                     <form class="deconnexionBtn" action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <div class="flex items-center space-x-4 hover:animate-bounce">
-                            <button class="ml-4 text-white">
-                                <span class="iconify size-8 lg:size-10" data-icon="mdi:logout" data-inline="false"></span>
+                        <div class="flex items-center space-x-4 ">
+                        
+                            <button class="ml-4 text-white hover:animate-bounce">
+                                <span class="iconify size-10" data-icon="mdi:logout" data-inline="false"></span>
                             </button>
-                        </div>
                     </form>
                 @endauth
+                
                 <button id="dark-mode-toggle-desktop" class="text-white hover:animate-pulse  ">
-                    <span class="iconify size-8 lg:size-10" data-icon="circum:dark" data-inline="false"></span>
+                    <span class="iconify  size-10" data-icon="circum:dark" data-inline="false"></span>
                 </button>
+            </div>
             </div>
 
         </div>
+        <div id="mobile-menu"
+        class="fixed inset-0 z-50 bg-tertiary-400 transform -translate-x-full transition-transform duration-300 md:hidden ">
+        <div class="p-4 flex w-full h-full flex-col">
 
+            <div class="flex items-center w-full">
+                <div class="flex justify-start w-full">
+                    <a href="/dashboard">
+                        <img class="bg-white w-28 h-28 cursor-pointer"
+                            src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/ce/Logo_de_Trois-Rivi%C3%A8res_2022.png/600px-Logo_de_Trois-Rivi%C3%A8res_2022.png?20220917132718"
+                            alt="Logo Trois-Rivières">
+                    </a>
+                </div>
+                <!-- Bouton pour fermer le menu mobile -->
+                <div class="flex justify-end w-full">
+                    <button id="close-menu" class="text-white justify-end ">
+                        <span class="iconify size-10 hover:bg-red-600" data-icon="mdi:close"
+                            data-inline="false"></span>
+                    </button>
+                </div>
+            </div>
+            <!-- Liens de navigation pour mobile -->
+            @auth
+            <nav class="space-y-4 mt-4 text-white text-xl flex flex-col h-full">
+                <a href="/" class="block hover:bg-green-300 p-2 transition duration-300 flex items-center w-full"><span class="iconify size-10" data-icon="mdi:home" data-inline="false"></span>Accueil</a>
+               
+            
+                <a href="/FicheFournisseur/profil" class="block hover:bg-green-300 p-2 transition duration-300 flex items-center w-full"> <span class="iconify size-10" data-icon="mdi:user" data-inline="false"></span>Ma Fiche Fournisseur</a>
+        
+              
+                <!-- Bouton deconnexion pour mobile -->
+             
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button class=" text-white hover:bg-red-600 p-2 transition duration-300 flex items-center w-full">
+                        <span class="iconify size-10" data-icon="mdi:logout" data-inline="false"></span> Déconnexion
+                    </button>
+                </form>
+               
+                <div class="flex h-full justify-center">
+                    <div class="flex flex-col items-center justify-end text-xl w-full">
+                        <div class="  flex gap-2 justify-center items-center">
+                            <a href="https://www.v3r.net/a-propos-de-la-ville/communications/infolettre">
+                                <span class="iconify size-8 " data-icon="mdi:email-newsletter"
+                                    data-inline="false"></span>
+                            </a>
+                            <a href="https://www.facebook.com/villetroisrivieres" class="">
+                                <span class="iconify size-8 " data-icon="akar-icons:facebook-fill"
+                                    data-inline="false"></span>
+                            </a>
+                            <a href="https://www.instagram.com/villedetroisrivieres/" class="">
+                                <span class="iconify size-8 " data-icon="bi:instagram" data-inline="false"></span>
+                            </a>
+                            <a href="https://www.linkedin.com/company/ville-de-trois-rivi-res" class="">
+                                <span class="iconify size-8 " data-icon="ri:linkedin-fill"
+                                    data-inline="false"></span>
+                            </a>
+                            <a href="https://www.youtube.com/channel/UC4UyW0CoFiJaFCFaOzoQQ5w" class="">
+                                <span class="iconify size-8 " data-icon="fa:youtube" data-inline="false"></span>
+                            </a>
+                        </div>
+                        <span>© Ville de Trois-Rivières. Tous droits réservés.</span>
+                    </div>
+                </div>
+            </nav>
+            @endauth
+        </div>
+    </div>
     </header>
 
     <main class="flex-1 ">
@@ -225,9 +311,21 @@
                 <div class="flex justify-end text-gray-400">© Ville de Trois-Rivières. Tous droit réservés.</div>
             </div>
         </div>
-        </div>
+        </div>     
     </footer>
     <script>
+           @auth
+        // Toogle menu mobile
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.remove('-translate-x-full');
+        });
+
+        document.getElementById('close-menu').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.add('-translate-x-full');
+        });
+        @endauth
         const toggleDarkMode = () => {
             const htmlElement = document.documentElement;
             if (htmlElement.classList.contains('dark')) {
