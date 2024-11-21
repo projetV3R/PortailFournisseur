@@ -39,7 +39,7 @@
             'textColor' => 'text-red-500',
             'icon' => 'material-symbols:cancel',
             'labelColor' => 'text-red-600',
-            'text' => 'Désactivé'
+            'text' => 'Désactivée'
         ],
     ];
     $condition_paiementText=[
@@ -513,6 +513,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+       
         @if (session()->has('errorsId'))
             openIdentificationModal();
         @endif
@@ -591,7 +592,7 @@
                         'Votre fiche fournisseur a été désactivée avec succès.',
                         'success'
                     ).then(() => {
-                        window.location.href = "{{ route('profil') }}"; // Redirige vers la page du profil après la confirmation
+                        window.location.href = "{{ route('profil') }}"; 
                     });
                 })
                 .catch(error => {
@@ -607,6 +608,15 @@
 }
 
     function openIdentificationModal() {
+        if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
         document.getElementById('identificationModal').classList.remove('hidden');
     
         axios.get("{{ route('EditIdentification') }}")
@@ -641,6 +651,15 @@
     }
 
     function openProduitsServicesModal() {
+        if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
     document.getElementById('produitsServicesModal').classList.remove('hidden');
 
     axios.get("{{ route('EditProduit') }}") // Remplacez par la route correcte
@@ -663,6 +682,15 @@ function closeProduitsServicesModal() {
 
 
 function openCoordonneeModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
     document.getElementById('coordonneeModal').classList.remove('hidden');
 
     axios.get("{{ route('EditCoordonnee') }}") 
@@ -685,6 +713,15 @@ function closeCoordonneeModal() {
 
 
 function openDocModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
     document.getElementById('docModal').classList.remove('hidden');
 
     axios.get("{{ route('EditDoc') }}") 
@@ -706,6 +743,15 @@ function closeDocModal() {
 }
 
 function openLicenceModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
     document.getElementById('licenceModal').classList.remove('hidden');
 
     axios.get("{{ route('EditLicence') }}") 
@@ -727,6 +773,15 @@ function closeLicenceModal() {
 }
 
 function openFinanceModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
     document.getElementById('financeModal').classList.remove('hidden');
 
     axios.get("{{ route('EditFinance') }}") 
@@ -748,6 +803,15 @@ function closeFinanceModal() {
 }
 
 function openContactModal() {
+    if (etatFiche === 'desactiver') {
+        Swal.fire({
+            title: 'Fiche désactivée',
+            text: 'Vous devez réactiver votre fiche fournisseur pour pouvoir modifier vos informations.',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        });
+        return; 
+    }
     document.getElementById('contactModal').classList.remove('hidden');
 
     axios.get("{{ route('EditContact') }}")
@@ -767,6 +831,7 @@ function openContactModal() {
 function closeContactModal() {
     document.getElementById('contactModal').classList.add('hidden');
 }
+const etatFiche = "{{ $fournisseur->etat }}"; 
     </script>
     
     
