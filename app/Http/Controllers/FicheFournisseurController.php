@@ -30,6 +30,7 @@ use App\Models\Historique;
 use App\Models\ProduitsServices;
 use App\Models\SousCategorie;
 use App\Notifications\NotificationModification;
+use App\Notifications\NotificationNouvelleFicheVille;
 
 class FicheFournisseurController extends Controller
 {
@@ -294,8 +295,15 @@ class FicheFournisseurController extends Controller
           }
 
         DB::commit();
+        $data = [
+            'nomEntreprise' => $ficheFournisseur->nom_entreprise,
+            'emailEntreprise' => $ficheFournisseur->adresse_courriel,
+            'dateInscription' => now()->format('Y-m-d H:i:s'),
+            'auteur' => $ficheFournisseur->adresse_courriel,
+        ];
         
         $ficheFournisseur->notify(new WelcomeEmail());
+        $ficheFournisseur->notify(new NotificationNouvelleFicheVille($data));
         session()->flush();
         session(['inscrit' => true]);
 

@@ -43,7 +43,7 @@ class NotificationModification extends Notification
             ->line('- Date et heure : ' . $this->data['dateModification'])
             ->line('- Modification effectuée par : ' . $this->data['auteur'])
             ->line('Merci.')
-            ->salutation('L\'équipe de gestion.');
+            ->salutation('Portail fournisseur.');
     }
 
     /**
