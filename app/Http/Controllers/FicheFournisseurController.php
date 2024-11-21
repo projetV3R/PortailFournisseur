@@ -39,7 +39,15 @@ class FicheFournisseurController extends Controller
         if ($request->has('numeroEntreprise')) {
             $request->validate([
                 'numeroEntreprise' => 'required|string|max:10',
-                'motDePasse' => 'required|string|min:7|max:12',
+                'motDePasse' => 'required|string|min:7|max:12',],[
+                    'numeroEntreprise.required' => 'Le numéro d\'entreprise (NEQ) est obligatoire.',
+                    'numeroEntreprise.string' => 'Le numéro d\'entreprise (NEQ) doit être une chaîne de caractères valide.',
+                    'numeroEntreprise.max' => 'Le numéro d\'entreprise (NEQ) ne doit pas dépasser 10 caractères.',
+                    'motDePasse.required' => 'Le mot de passe est obligatoire.',
+                    'motDePasse.string' => 'Le mot de passe doit être une chaîne de caractères valide.',
+                    'motDePasse.min' => 'Le mot de passe doit comporter au moins 7 caractères.',
+                    'motDePasse.max' => 'Le mot de passe ne doit pas dépasser 12 caractères.',
+
             ]);
 
             $credentials = [
@@ -49,8 +57,14 @@ class FicheFournisseurController extends Controller
         } elseif ($request->has('adresse_courriel')) {
             $request->validate([
                 'adresse_courriel' => 'required|email|max:64',
-                'motDePasse' => 'required|string|min:7|max:12',
-            ]);
+                'motDePasse' => 'required|string|min:7|max:12',],[
+                    'adresse_courriel.required' => 'L\'adresse courriel est obligatoire.',
+                    'adresse_courriel.email' => 'L\'adresse courriel doit être une adresse email valide.',
+                    'adresse_courriel.max' => 'L\'adresse courriel ne doit pas dépasser 64 caractères.',
+                    'motDePasse.required' => 'Le mot de passe est obligatoire.',
+                    'motDePasse.string' => 'Le mot de passe doit être une chaîne de caractères valide.',
+                    'motDePasse.min' => 'Le mot de passe doit comporter au moins 7 caractères.',
+                    'motDePasse.max' => 'Le mot de passe ne doit pas dépasser 12 caractères.',  ]);
 
             $credentials = [
                 'adresse_courriel' => $request->adresse_courriel,

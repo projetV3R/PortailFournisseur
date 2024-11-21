@@ -24,6 +24,7 @@
                                 <span class="text-red-500 font-Alumni md:text-sm block mt-1">{{ $message }}</span>
                             @enderror
                             <div class="w-full md:w-2/3 flex justify-end mt-2">
+                                <a href="{{ route('showLoginFormSansNeq') }}">
                                 <h6 class="font-Alumni md:text-base text-secondary-400 cursor-pointer">Pas de NEQ ?</h6>
                             </div>
                         </div>
