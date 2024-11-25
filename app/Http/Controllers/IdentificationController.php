@@ -7,6 +7,7 @@ use App\Http\Requests\IdentificationRequest;
 use Illuminate\Http\Request;
 use App\Models\ParametreSysteme;
 use Illuminate\Support\Facades\Auth;
+
 class IdentificationController extends Controller
 {
     /**
@@ -22,13 +23,13 @@ class IdentificationController extends Controller
      */
     public function create()
     {
-       if (!auth()->check()) {
-       // session()->flush();
-        return view('formulaireInscription/identification');
-    }
+        if (!auth()->check()) {
+            $isEditing = session()->get('identification');
+            //session()->flush();
+            return view('formulaireInscription/identification', compact('isEditing'));
+        }
 
-    return redirect()->back();
-
+        return redirect()->back();
     }
 
 
@@ -37,7 +38,7 @@ class IdentificationController extends Controller
      */
     public function store(IdentificationRequest $request)
     {
-       
+
         session()->put("identification", $request->all());
 
         return redirect()->route('createProduitsServices');
@@ -56,9 +57,8 @@ class IdentificationController extends Controller
      */
     public function edit()
     {
-            $fournisseur = Auth::user();
-            return view("modificationCompte/identificationModif" , compact('fournisseur'));
-
+        $fournisseur = Auth::user();
+        return view("modificationCompte/identificationModif", compact('fournisseur'));
     }
 
     /**
