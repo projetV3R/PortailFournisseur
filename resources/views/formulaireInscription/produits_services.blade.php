@@ -90,7 +90,9 @@
                 </div>
 
                 <button type="submit" class="mt-4 w-full bg-tertiary-400 hover:bg-tertiary-300 py-3 text-white rounded-md">
-                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                        {{ $isEditing ? 'Enregistrer' : 'Suivant' }}
+                    </h1>
                 </button>
             </div>
         </div>

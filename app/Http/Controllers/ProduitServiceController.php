@@ -8,44 +8,45 @@ use App\Models\ProduitsServices;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class ProduitServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
 
-     public function search(Request $request)
-     {
-        if (auth()->check() || session()->has('identification')){
-         $query = trim($request->get('recherche'));
-         $categorie = $request->get('categorie');
-     
-         $produits = ProduitsServices::when($query, function($queryBuilder) use ($query) {
-                 $queryBuilder->where('nature', 'LIKE', '%' . $query . '%')
-                              ->orWhere('code_categorie', 'LIKE', '%' . $query . '%')
-                              ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
-                              ->orWhere('description', 'LIKE', '%' . $query . '%');
-             })
-             ->when($categorie, function ($queryBuilder) use ($categorie) {
-                 $queryBuilder->where('code_categorie', $categorie);
-             })
-             ->paginate(10);
-     
-         return response()->json($produits);
+    public function search(Request $request)
+    {
+        if (auth()->check() || session()->has('identification')) {
+            $query = trim($request->get('recherche'));
+            $categorie = $request->get('categorie');
+
+            $produits = ProduitsServices::when($query, function ($queryBuilder) use ($query) {
+                $queryBuilder->where('nature', 'LIKE', '%' . $query . '%')
+                    ->orWhere('code_categorie', 'LIKE', '%' . $query . '%')
+                    ->orWhere('code_unspsc', 'LIKE', '%' . $query . '%')
+                    ->orWhere('description', 'LIKE', '%' . $query . '%');
+            })
+                ->when($categorie, function ($queryBuilder) use ($categorie) {
+                    $queryBuilder->where('code_categorie', $categorie);
+                })
+                ->paginate(10);
+
+            return response()->json($produits);
         }
         return redirect()->back();
-     }
-     
+    }
+
 
     public function getCategories()
     {
-        if (auth()->check() || session()->has('identification')){
-    $categories = ProduitsServices::select('code_categorie')
-        ->distinct()
-        ->orderBy('code_categorie', 'asc')
-        ->pluck('code_categorie');
+        if (auth()->check() || session()->has('identification')) {
+            $categories = ProduitsServices::select('code_categorie')
+                ->distinct()
+                ->orderBy('code_categorie', 'asc')
+                ->pluck('code_categorie');
 
-    return response()->json($categories);
+            return response()->json($categories);
         }
         return redirect()->back();
     }
@@ -55,11 +56,12 @@ class ProduitServiceController extends Controller
      */
     public function create()
     {
-        if (!auth()->check() &&  session()->has('identification')){
-        return view('formulaireInscription/Produits_services');
-    }
+        if (!auth()->check() &&  session()->has('identification')) {
+            $isEditing = session()->has('produitsServices');
+            return view('formulaireInscription/Produits_services', compact('isEditing'));
+        }
 
-    return redirect()->back();
+        return redirect()->back();
     }
 
     /**
@@ -67,12 +69,12 @@ class ProduitServiceController extends Controller
      */
     public function store(ProduitServiceRequest $request)
     {
-        if (!auth()->check() &&  session()->has('identification')){
-        session()->put("produitsServices", $request->all());
+        if (!auth()->check() &&  session()->has('identification')) {
+            session()->put("produitsServices", $request->all());
 
-        return redirect()->route('createLicences');
-    }
-     return redirect()->back();
+            return redirect()->route('createLicences');
+        }
+        return redirect()->back();
     }
 
     /**
@@ -83,40 +85,40 @@ class ProduitServiceController extends Controller
         // Vérifier si l'utilisateur est connecté
         if (auth()->check()) {
             $fournisseur = auth()->user();
-            
+
             // Récupérer les produits et services associés à l'utilisateur connecté
             $produits = $fournisseur->produitsServices;
-            
+
             return response()->json($produits);
         }
-    
+
         // Sinon, utiliser les valeurs de session pour le processus d'inscription
         if (session()->has('identification')) {
             $ids = $request->query('ids', []);
-    
+
             if (!is_array($ids)) {
                 return response()->json(['error' => 'Invalid parameter'], 400);
             }
-    
+
             $validatedIds = array_filter($ids, function ($id) {
                 return filter_var($id, FILTER_VALIDATE_INT) !== false;
             });
-    
+
             if (empty($validatedIds)) {
                 return response()->json([], 200);
             }
-    
+
             $produits = ProduitsServices::whereIn('id', $validatedIds)->get();
-    
+
             return response()->json($produits);
         }
-    
+
         // Rediriger si aucune condition n'est remplie
         return redirect()->back();
     }
-    
-    
-    
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -124,10 +126,10 @@ class ProduitServiceController extends Controller
     public function edit()
     {
         $fournisseur = Auth::user();
-        $produitsServices = $fournisseur->produitsServices; 
+        $produitsServices = $fournisseur->produitsServices;
         return view("modificationCompte/produitModif", compact('fournisseur', 'produitsServices'));
     }
-    
+
 
     /**
      * Update the specified resource in storage.
