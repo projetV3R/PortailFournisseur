@@ -6,14 +6,16 @@
 
 @section('contenu')
 
-    <form action="{{ route('storeContacts') }}" method="post" id="contactForm">
-        @csrf
-        <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16" id="contactFieldsContainer">
+<form action="{{ route('storeContacts') }}" method="post" id="contactForm">
+    @csrf
+    <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16" id="contactFieldsContainer">
+        <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
             <div class="flex w-full flex-col">
                 <h6 class="font-Alumni font-bold text-3xl md:text-5xl">CONTACTS</h6>
                 <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Pour rester plus proches de vous !</h1>
             </div>
-
+            @include('partials.progress_bar')
+        </div>
             <div class="flex w-full gap-x-4">
                 <div class="flex flex-col w-1/2">
                     <div class="bg-primary-100 py-8 px-4 mt-8">
@@ -27,7 +29,7 @@
                                 <input type="text" id="prenom" name="contacts[0][prenom]" placeholder="Doe"
                                     class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                 @error('contacts.0.prenom')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -39,7 +41,7 @@
                             <input type="text" id="nom" name="contacts[0][nom]" placeholder="John"
                                 class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                             @error('contacts.0.nom')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -51,7 +53,7 @@
                                 <input type="text" id="fonction" name="contacts[0][fonction]" placeholder="Comptable"
                                     class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                 @error('contacts.0.fonction')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -64,7 +66,7 @@
                                 <input type="text" id="email" name="contacts[0][email]" placeholder="johndoe@gmail.com"
                                     class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                 @error('contacts.0.email')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -89,7 +91,7 @@
                                     <option value="Cellulaire">Cellulaire</option>
                                 </select>
                                 @error('contacts.0.type')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
 
@@ -101,7 +103,7 @@
                                     placeholder="514-453-9867"
                                     class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                 @error('contacts.0.numeroTelephone')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
 
@@ -112,7 +114,7 @@
                                 <input type="text" id="poste" name="contacts[0][poste]" placeholder="9845"
                                     class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                 @error('contacts.0.poste')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -132,17 +134,17 @@
                 </div>
             </div>
         </div>
-    </form>
+</form>
 
-    <script>
- document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
 
-    document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(function(input) {
-        formatTel(input);
-    });
+        document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(function(input) {
+            formatTel(input);
+        });
 
 
-    @if(session('contacts'))
+        @if(session('contacts'))
         let contacts = @json(session('contacts'));
         if (Array.isArray(contacts)) {
             contacts.forEach((contact, index) => {
@@ -152,149 +154,148 @@
                     remplirPremierContact(contact);
                 }
             });
-            reindexContacts(); 
+            reindexContacts();
         }
-    @endif
-});
+        @endif
+    });
 
 
-function formatTel(input) {
-    input.addEventListener('input', function() {
-        let value = input.value.replace(/\D/g, '');
+    function formatTel(input) {
+        input.addEventListener('input', function() {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 3 && value.length <= 6) {
+                value = value.slice(0, 3) + '-' + value.slice(3);
+            } else if (value.length > 6) {
+                value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
+            }
+            input.value = value;
+        });
+    }
+
+
+    document.getElementById('addContactBtn').addEventListener('click', function() {
+        var contactFieldsContainer = document.getElementById('contactFieldsContainer');
+        var clone = contactFieldsContainer.cloneNode(true);
+        var currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7;
+
+
+        clone.querySelector('#addContactBtn')?.remove();
+        clone.querySelector('#submitBtn')?.remove();
+
+
+        clone.querySelectorAll('input, select').forEach(function(input) {
+            var name = input.getAttribute('name');
+            if (name) {
+                var newName = name.replace(/\[0\]/, '[' + currentIndex + ']');
+                input.setAttribute('name', newName);
+            }
+            input.value = '';
+            if (input.name.includes('numeroTelephone')) {
+                formatTel(input);
+            }
+        });
+
+
+        var deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
+        deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
+        deleteButton.addEventListener('click', function() {
+            clone.remove();
+            reindexContacts();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Suppression du contact réussie',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        });
+        clone.appendChild(deleteButton);
+
+
+        contactFieldsContainer.parentNode.appendChild(clone);
+    });
+
+
+    function reindexContacts() {
+        document.querySelectorAll('[name^="contacts"]').forEach((input, index) => {
+            let name = input.getAttribute('name');
+            name = name.replace(/\[.*?\]/, '[' + Math.floor(index / 7) + ']');
+            input.setAttribute('name', name);
+            if (input.name.includes('numeroTelephone')) {
+                formatTel(input);
+            }
+        });
+    }
+
+
+    function remplirPremierContact(contact) {
+        document.querySelector('input[name="contacts[0][prenom]"]').value = contact.prenom || '';
+        document.querySelector('input[name="contacts[0][nom]"]').value = contact.nom || '';
+        document.querySelector('input[name="contacts[0][fonction]"]').value = contact.fonction || '';
+        document.querySelector('input[name="contacts[0][email]"]').value = contact.email || '';
+        document.querySelector('select[name="contacts[0][type]"]').value = contact.type || 'Bureau';
+        document.querySelector('input[name="contacts[0][numeroTelephone]"]').value = formatTelValue(contact.numeroTelephone || '');
+        document.querySelector('input[name="contacts[0][poste]"]').value = contact.poste || '';
+    }
+
+
+    function formatTelValue(value) {
+        value = value.replace(/\D/g, '');
         if (value.length > 3 && value.length <= 6) {
             value = value.slice(0, 3) + '-' + value.slice(3);
         } else if (value.length > 6) {
             value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
         }
-        input.value = value;
-    });
-}
-
-
-document.getElementById('addContactBtn').addEventListener('click', function() {
-    var contactFieldsContainer = document.getElementById('contactFieldsContainer');
-    var clone = contactFieldsContainer.cloneNode(true);
-    var currentIndex = document.querySelectorAll('[name^="contacts"]').length / 7;
-
-
-    clone.querySelector('#addContactBtn')?.remove();
-    clone.querySelector('#submitBtn')?.remove();
-
-
-    clone.querySelectorAll('input, select').forEach(function(input) {
-        var name = input.getAttribute('name');
-        if (name) {
-            var newName = name.replace(/\[0\]/, '[' + currentIndex + ']');
-            input.setAttribute('name', newName);
-        }
-        input.value = '';
-        if (input.name.includes('numeroTelephone')) {
-            formatTel(input); 
-        }
-    });
-
-
-    var deleteButton = document.createElement('button');
-    deleteButton.type = 'button';
-    deleteButton.classList.add('w-1/2', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
-    deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
-    deleteButton.addEventListener('click', function() {
-        clone.remove();
-        reindexContacts();
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Suppression du contact réussie',
-            showConfirmButton: false,
-            timer: 1500
-        });
-    });
-    clone.appendChild(deleteButton);
-
- 
-    contactFieldsContainer.parentNode.appendChild(clone);
-});
-
-
-function reindexContacts() {
-    document.querySelectorAll('[name^="contacts"]').forEach((input, index) => {
-        let name = input.getAttribute('name');
-        name = name.replace(/\[.*?\]/, '[' + Math.floor(index / 7) + ']');
-        input.setAttribute('name', name);
-        if (input.name.includes('numeroTelephone')) {
-            formatTel(input);
-        }
-    });
-}
-
-
-function remplirPremierContact(contact) {
-    document.querySelector('input[name="contacts[0][prenom]"]').value = contact.prenom || '';
-    document.querySelector('input[name="contacts[0][nom]"]').value = contact.nom || '';
-    document.querySelector('input[name="contacts[0][fonction]"]').value = contact.fonction || '';
-    document.querySelector('input[name="contacts[0][email]"]').value = contact.email || '';
-    document.querySelector('select[name="contacts[0][type]"]').value = contact.type || 'Bureau';
-    document.querySelector('input[name="contacts[0][numeroTelephone]"]').value = formatTelValue(contact.numeroTelephone || '');
-    document.querySelector('input[name="contacts[0][poste]"]').value = contact.poste || '';
-}
-
-
-function formatTelValue(value) {
-    value = value.replace(/\D/g, '');
-    if (value.length > 3 && value.length <= 6) {
-        value = value.slice(0, 3) + '-' + value.slice(3);
-    } else if (value.length > 6) {
-        value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 10);
+        return value;
     }
-    return value;
-}
 
 
-function ajouterContactFields(index, contact = {}) {
-    var contactFieldsContainer = document.getElementById('contactFieldsContainer');
-    var clone = contactFieldsContainer.cloneNode(true);
-    clone.querySelector('#addContactBtn')?.remove();
-    clone.querySelector('#submitBtn')?.remove();
+    function ajouterContactFields(index, contact = {}) {
+        var contactFieldsContainer = document.getElementById('contactFieldsContainer');
+        var clone = contactFieldsContainer.cloneNode(true);
+        clone.querySelector('#addContactBtn')?.remove();
+        clone.querySelector('#submitBtn')?.remove();
 
-    clone.querySelectorAll('input, select').forEach(function(input) {
-        var name = input.getAttribute('name');
-        if (name) {
-            var newName = name.replace(/\[0\]/, '[' + index + ']');
-            input.setAttribute('name', newName);
-        }
+        clone.querySelectorAll('input, select').forEach(function(input) {
+            var name = input.getAttribute('name');
+            if (name) {
+                var newName = name.replace(/\[0\]/, '[' + index + ']');
+                input.setAttribute('name', newName);
+            }
 
-        if (name.includes('prenom') && contact.prenom) input.value = contact.prenom;
-        if (name.includes('nom') && contact.nom) input.value = contact.nom;
-        if (name.includes('fonction') && contact.fonction) input.value = contact.fonction;
-        if (name.includes('email') && contact.email) input.value = contact.email;
-        if (name.includes('type') && contact.type) input.value = contact.type;
-        if (name.includes('numeroTelephone') && contact.numeroTelephone) {
-            input.value = formatTelValue(contact.numeroTelephone);
-        }
-        if (name.includes('poste')) input.value = contact.poste || '';
-    });
-
-
-    var deleteButton = document.createElement('button');
-    deleteButton.type = 'button';
-    deleteButton.classList.add('w-full', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
-    deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
-    deleteButton.addEventListener('click', function() {
-        clone.remove();
-        reindexContacts();
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Suppression du contact réussie',
-            showConfirmButton: false,
-            timer: 1500
+            if (name.includes('prenom') && contact.prenom) input.value = contact.prenom;
+            if (name.includes('nom') && contact.nom) input.value = contact.nom;
+            if (name.includes('fonction') && contact.fonction) input.value = contact.fonction;
+            if (name.includes('email') && contact.email) input.value = contact.email;
+            if (name.includes('type') && contact.type) input.value = contact.type;
+            if (name.includes('numeroTelephone') && contact.numeroTelephone) {
+                input.value = formatTelValue(contact.numeroTelephone);
+            }
+            if (name.includes('poste')) input.value = contact.poste || '';
         });
-    });
-    clone.appendChild(deleteButton);
 
-    contactFieldsContainer.parentNode.appendChild(clone);
-}
 
-    </script>
+        var deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.classList.add('w-full', 'text-xl', 'flex', 'items-center', 'text-white', 'justify-center', 'bg-red-500', 'hover:bg-red-400', 'py-2.5', 'mt-2');
+        deleteButton.innerHTML = '<span class="iconify size-10" data-icon="mdi:bin"></span> Supprimer';
+        deleteButton.addEventListener('click', function() {
+            clone.remove();
+            reindexContacts();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Suppression du contact réussie',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        });
+        clone.appendChild(deleteButton);
+
+        contactFieldsContainer.parentNode.appendChild(clone);
+    }
+</script>
 
 @endsection
