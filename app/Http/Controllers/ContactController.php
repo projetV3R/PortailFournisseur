@@ -7,6 +7,7 @@ use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use Log;
 use Illuminate\Support\Facades\Auth;
+
 class ContactController extends Controller
 {
     /**
@@ -22,11 +23,12 @@ class ContactController extends Controller
      */
     public function create()
     {
-        if (!auth()->check()  && session()->has('coordonnees') ){
-        return View('formulaireInscription/contacts');
-    }
+        if (!auth()->check()  && session()->has('coordonnees')) {
+            $isEditing = session()->has('contacts');
+            return View('formulaireInscription/contacts', compact('isEditings'));
+        }
 
-    return redirect()->back();
+        return redirect()->back();
     }
 
     /**
@@ -34,18 +36,18 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request)
     {
-        if (!auth()->check()  && session()->has('coordonnees') ){
-        $contacts = $request->input('contacts');
-    
-        session()->put('contacts', $contacts);
-    
-       
-        return redirect()->route('createBrochuresCartesAffaires');
+        if (!auth()->check()  && session()->has('coordonnees')) {
+            $contacts = $request->input('contacts');
+
+            session()->put('contacts', $contacts);
+
+
+            return redirect()->route('createBrochuresCartesAffaires');
+        }
+
+        return redirect()->back();
     }
 
-    return redirect()->back();
-    }
-    
     /**
      * Display the specified resource.
      */
@@ -59,20 +61,20 @@ class ContactController extends Controller
      */
     public function edit()
     {
-      $fournisseur = Auth::user();
-      return view("modificationCompte/contactModif" , compact('fournisseur'));
+        $fournisseur = Auth::user();
+        return view("modificationCompte/contactModif", compact('fournisseur'));
     }
 
     public function getContacts()
     {
         $fournisseur = Auth::user();
-        
+
         $contacts = $fournisseur->contacts()->with('telephone:id,numero_telephone,poste,type')->get();
-        
+
         return response()->json($contacts);
     }
-    
-    
+
+
 
     /**
      * Update the specified resource in storage.

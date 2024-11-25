@@ -24,11 +24,11 @@ class LicenceController extends Controller
      */
     public function create()
     {
-        if (!auth()->check() && session()->has('produitsServices')){
-        return view('formulaireInscription/licences_autorisations');
-
-    }
-    return redirect()->back();
+        if (!auth()->check() && session()->has('produitsServices')) {
+            $isEditing = session()->has('licences');
+            return view('formulaireInscription/licences_autorisations', compact('isEditing'));
+        }
+        return redirect()->back();
     }
 
     /**
@@ -36,63 +36,63 @@ class LicenceController extends Controller
      */
     public function store(LicenceRequest $request)
     {
-        if (!auth()->check() && session()->has('produitsServices')){
-        session()->put("licences", $request->all());
-        return redirect()->route('CreateCoordonnees');
+        if (!auth()->check() && session()->has('produitsServices')) {
+            session()->put("licences", $request->all());
+            return redirect()->route('CreateCoordonnees');
         }
-    return redirect()->back();
+        return redirect()->back();
     }
 
     public function getSousCategories($type)
     {
         if (auth()->check() || session()->has('produitsServices')) {
-          
+
             $sousCategories = \DB::table('sous_categories')
                 ->where('categorie', 'LIKE', "%$type%")
-                ->select('id', 'code_sous_categorie', 'travaux_permis', 'type') 
+                ->select('id', 'code_sous_categorie', 'travaux_permis', 'type')
                 ->get()
-                ->groupBy('type'); 
-    
+                ->groupBy('type');
+
             return response()->json($sousCategories);
         }
         return redirect()->back();
     }
-    
-    
-    
+
+
+
     public function getSousCategoriesMultiple(Request $request)
     {
-        if (auth()->check() || session()->has('produitsServices')){
-        $ids = $request->query('ids', []);
-    
-        if (!is_array($ids) || empty($ids)) {
-            return response()->json([], 200);
+        if (auth()->check() || session()->has('produitsServices')) {
+            $ids = $request->query('ids', []);
+
+            if (!is_array($ids) || empty($ids)) {
+                return response()->json([], 200);
+            }
+
+
+            $validatedIds = array_filter($ids, function ($id) {
+                return filter_var($id, FILTER_VALIDATE_INT) !== false;
+            });
+
+
+            $sousCategories = SousCategorie::whereIn('id', $validatedIds)->get();
+
+            return response()->json($sousCategories);
         }
-    
-   
-        $validatedIds = array_filter($ids, function ($id) {
-            return filter_var($id, FILTER_VALIDATE_INT) !== false;
-        });
-    
-    
-        $sousCategories = SousCategorie::whereIn('id', $validatedIds)->get();
-    
-        return response()->json($sousCategories);
-     }
-     return redirect()->back();
+        return redirect()->back();
     }
-    
+
     public function getLicenceData()
     {
         $fournisseur = Auth::user();
         $licence = $fournisseur->licence()->with('sousCategories.categorie')->first();
-    
+
         return response()->json([
             'licence' => $licence,
             'selectedSousCategories' => $licence ? $licence->sousCategories->pluck('sous_categorie_id')->toArray() : [],
         ]);
     }
-    
+
 
 
     /**
@@ -108,12 +108,9 @@ class LicenceController extends Controller
      */
     public function edit()
     {
-     
-            $fournisseur = Auth::user();
-            return view("modificationCompte/licenceModif" , compact('fournisseur'));
-       
-    
 
+        $fournisseur = Auth::user();
+        return view("modificationCompte/licenceModif", compact('fournisseur'));
     }
     /**
      * Update the specified resource in storage.

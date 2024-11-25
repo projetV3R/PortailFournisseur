@@ -8,6 +8,7 @@ use App\Models\Coordonnee;
 use Illuminate\Http\Request;
 use Log;
 use Illuminate\Support\Facades\Auth;
+
 class CoordonneeController extends Controller
 {
     /**
@@ -23,12 +24,13 @@ class CoordonneeController extends Controller
      */
     public function create()
     {
-    // session()->flush();
-    if (!auth()->check() && session()->has('licences')){
-        return view("formulaireInscription/coordonnees");
-    }
+        // session()->flush();
+        if (!auth()->check() && session()->has('licences')) {
+            $isEditing = session()->has('coordonnees');
+            return view("formulaireInscription/coordonnees", compact('isEditing'));
+        }
 
-    return redirect()->back();
+        return redirect()->back();
     }
 
 
@@ -37,17 +39,17 @@ class CoordonneeController extends Controller
      */
     public function store(CoordonneeRequest $request)
     {
-        if (!auth()->check() && session()->has('licences')){
-       
-        $currentIndex = $request->input('currentIndex', 0);
-        session()->put("coordonnees", $request->all());
-        
-        session()->put("currentIndex", $currentIndex);
-  
-      
-        return redirect()->route('createContacts');
-     }
-     return redirect()->back();
+        if (!auth()->check() && session()->has('licences')) {
+
+            $currentIndex = $request->input('currentIndex', 0);
+            session()->put("coordonnees", $request->all());
+
+            session()->put("currentIndex", $currentIndex);
+
+
+            return redirect()->route('createContacts');
+        }
+        return redirect()->back();
     }
 
     /**
@@ -69,41 +71,41 @@ class CoordonneeController extends Controller
     }
 
     public function getCoordonneeData()
-{
-    $fournisseur = Auth::user();
- 
+    {
+        $fournisseur = Auth::user();
 
-    $coordonnee = $fournisseur->coordonnee()->with('telephones')->first();
 
-    $coordonneeData = [
-        'numeroCivique' => $coordonnee->numero_civique,
-        'bureau' => $coordonnee->bureau,
-        'rue' => $coordonnee->rue,
-        'codePostale' => $coordonnee->code_postal,
-        'province' => $coordonnee->province,
-        'regionAdministrative' => $coordonnee->region_administrative,
-        'siteWeb' => $coordonnee->site_internet,
-        'municipalite' => $coordonnee->ville,
-        'municipaliteInput' => $coordonnee->ville,
-        'ligne' => []
-    ];
+        $coordonnee = $fournisseur->coordonnee()->with('telephones')->first();
 
-    $telephones = $coordonnee->telephones;
-
-    foreach ($telephones as $index => $telephone) {
-        $coordonneeData['ligne'][$index] = [
-            'id' => $telephone->id, 
-            'type' => $telephone->type,
-            'numeroTelephone' => $telephone->numero_telephone,
-            'poste' => $telephone->poste,
+        $coordonneeData = [
+            'numeroCivique' => $coordonnee->numero_civique,
+            'bureau' => $coordonnee->bureau,
+            'rue' => $coordonnee->rue,
+            'codePostale' => $coordonnee->code_postal,
+            'province' => $coordonnee->province,
+            'regionAdministrative' => $coordonnee->region_administrative,
+            'siteWeb' => $coordonnee->site_internet,
+            'municipalite' => $coordonnee->ville,
+            'municipaliteInput' => $coordonnee->ville,
+            'ligne' => []
         ];
+
+        $telephones = $coordonnee->telephones;
+
+        foreach ($telephones as $index => $telephone) {
+            $coordonneeData['ligne'][$index] = [
+                'id' => $telephone->id,
+                'type' => $telephone->type,
+                'numeroTelephone' => $telephone->numero_telephone,
+                'poste' => $telephone->poste,
+            ];
+        }
+
+
+        return response()->json(['coordonnee' => $coordonneeData]);
     }
-    
 
-    return response()->json(['coordonnee' => $coordonneeData]);
-}
 
-    
     /**
      * Update the specified resource in storage.
      */
