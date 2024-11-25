@@ -212,6 +212,8 @@
 
                         console.log('Sous-catégorie IDs :', sousCategorieIds);
 
+                   
+
                         const licencesData = {
                             numeroLicence,
                             statut,
@@ -232,13 +234,15 @@
 
                         console.table(licencesData);
 
-                        document.querySelector('form').submit();
+                       document.querySelector('form').submit();
                     } else {
                         alert('Aucune licence trouvée pour ce NEQ.');
+                        document.querySelector('form').submit();
                     }
 
                 } else {
                     alert('Erreur lors de la récupération des données.');
+                  
                 }
             } catch (error) {
                 console.error('Erreur:', error);

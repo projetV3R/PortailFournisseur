@@ -31,9 +31,12 @@ class LicenceController extends Controller
                 session()->put('licences.numeroLicence', $autoCompleteData['numeroLicence'] ?? null);
                 session()->put('licences.statut', $autoCompleteData['statut'] ?? null);
                 session()->put('licences.typeLicence', $autoCompleteData['typeLicence'] ?? null);
-                session()->put('licences.sousCategorie', $autoCompleteData['sousCategorie'] ?? []);
+                $sousCategories = $autoCompleteData['sousCategorie'] ?? [];
+                session()->put('licences.sousCategorie', $sousCategories);
+                
+              //  dd($sousCategories);
 
-                dd(session('licences'));
+               // dd(session('licences'));
                 Log::info('Données synchronisées dans licences :', session('licences'));
             }
             return view('formulaireInscription/licences_autorisations');

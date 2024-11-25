@@ -75,7 +75,7 @@
                                 <select name="statut" id="statut"
                                     class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                     <option value="" disabled selected>Choisir un statut</option>
-                                    <option value="active" {{ session('licences.statut') == 'Active' ? 'selected' : '' }}>
+                                    <option value="active" {{ session('licences.statut') == 'active' ? 'selected' : '' }}>
                                         Active</option>
                                     <option value="inactive"
                                         {{ session('licences.statut') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
@@ -118,10 +118,10 @@
                                     class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
                                     <option value="" disabled selected>Choisir un type de licence</option>
                                     <option value="entrepreneur"
-                                        {{ session('licences.typeLicence') == 'Entrepreneur' ? 'selected' : '' }}>
+                                        {{ session('licences.typeLicence') == 'entrepreneur' ? 'selected' : '' }}>
                                         Entrepreneur</option>
                                     <option value="constructeur-propriétaire"
-                                        {{ session('licences.typeLicence') == 'Constructeur-proprietaire' ? 'selected' : '' }}>
+                                        {{ session('licences.typeLicence') == 'Constructeur-propriétaire' ? 'selected' : '' }}>
                                         Constructeur-propriétaire</option>
                                 </select>
                                 @error('typeLicence')
@@ -166,6 +166,8 @@
             const typeLicenceSelect = document.getElementById('typeLicence');
             const checklistContainer = document.getElementById('checklistContainer');
             const selectedSousCategories = @json(session('licences.sousCategorie', []));
+    console.log();
+            console.log(selectedSousCategories);
             // Récupérer les valeurs de session
             //Formattage pour la valeur en session et la valeur de l'input A reformat peut etre pour plus efficace
             function formatLicence(value) {
@@ -210,7 +212,7 @@
 
                 axios.get(`/sous-categories/${selectedType}`)
                     .then(response => {
-                        renderChecklist(response.data);
+                       renderChecklist(response.data);
                     })
                     .catch(error => {
                         console.error('Erreur lors de la récupération des sous-catégories:', error);
@@ -244,11 +246,20 @@
                         checkbox.name = 'sousCategorie[]';
                         checkbox.value = cat.id;
                         checkbox.classList.add('mr-2');
+                        console.log(cat.id);
 
                         // Auto-cocher si présent dans la session
                         if (selectedSousCategories.includes(String(cat.id))) {
                             checkbox.checked = true;
+                            
+                           
                         }
+                        if (selectedSousCategories.includes(cat.id)) {
+                            checkbox.checked = true;
+                            
+                           
+                        }
+                        
 
                         const label = document.createElement('label');
                         label.textContent = cat.code_sous_categorie;

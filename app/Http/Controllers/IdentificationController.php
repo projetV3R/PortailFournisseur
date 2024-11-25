@@ -26,7 +26,7 @@ class IdentificationController extends Controller
     public function create()
     {
         if (!auth()->check()) {
-            //session()->flush();
+          // session()->flush();
             return view('formulaireInscription/identification');
         }
 
