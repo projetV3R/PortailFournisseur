@@ -11,11 +11,11 @@
                 <div class="flex flex-col w-full">
                     <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Merci de vous identifier !</h6>
                     <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous</h1>
-                    
+
                 </div>
                 @include('partials.progress_bar')
             </div>
-           
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
                 <!-- Première colonne -->
                 <div>
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-          
+
 
 
                 <!-- Deuxième colonne -->
@@ -115,7 +115,23 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="mt-9 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
+                        <div id="loader"
+                            class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                            <div class="relative w-24 h-24">
+                                <div class="absolute inset-0 border-4 border-blue-500 rounded-full animate-ping"></div>
+                                <div
+                                    class="absolute inset-0 border-4 border-t-blue-500 border-b-blue-500 border-l-transparent border-r-transparent rounded-full animate-spin">
+                                </div>
+                                <div
+                                    class="absolute inset-4 border-4 border-blue-500 rounded-full opacity-50 animate-pulse">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <button type="submit" id="fetchLicenceBtn"
+                            class="mt-9 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
                             <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
                         </button>
                     </div>
@@ -123,5 +139,115 @@
             </div>
         </div>
     </form>
+
+    <script>
+        document.getElementById('fetchLicenceBtn').addEventListener('click', async function(event) {
+            event.preventDefault();
+
+            const loader = document.getElementById('loader');
+            loader.classList.remove('hidden');
+
+            const neq = document.getElementById('numeroEntreprise').value;
+
+            const sqlQuery = `SELECT * FROM "32f6ec46-85fd-45e9-945b-965d9235840a" WHERE "NEQ" = '${neq}'`;
+            const apiUrl =
+                `https://donneesquebec.ca/recherche/api/action/datastore_search_sql?sql=${encodeURIComponent(sqlQuery)}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    if (data.success && data.result.records.length > 0) {
+                        const numeroLicence = data.result.records[0]['Numero de licence'] || null;
+                        const statut = data.result.records[0]['Statut de la licence'] || null;
+                        const typeLicence = data.result.records[0]['Type de licence'] || null;
+
+                        const sousCategorie = data.result.records
+                            .filter(record => record['Categorie'] !== null && record['Sous-categories'] !==
+                                null)
+                            .map(record => parseFloat(record['Sous-categories'].trim()))
+                            .filter((value, index, self) => self.indexOf(value) === index)
+                            .sort((a, b) => a - b);
+
+                        console.log('Sous-catégories uniques :', sousCategorie);
+
+                        const fetchSousCategorieIds = async (sousCategories) => {
+                            const ids = [];
+
+                            for (const code of sousCategories) {
+                                try {
+                                    const response = await fetch(`/sous-categorie/${code}`, {
+                                        method: 'GET',
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'X-Requested-With': 'XMLHttpRequest',
+                                        },
+                                    });
+
+                                    if (response.ok) {
+                                        const data = await response.json();
+                                        if (data.id) {
+                                            ids.push(data.id);
+                                        }
+                                    } else {
+                                        console.warn(`Sous-categorie ${code} non trouvée ou erreur.`);
+                                    }
+                                } catch (error) {
+                                    console.error(`Erreur lors de la récupération pour ${code}:`,
+                                        error);
+                                }
+                            }
+
+                            return ids;
+                        };
+
+                        const sousCategorieIds = await fetchSousCategorieIds(sousCategorie);
+
+                        console.log('Sous-catégorie IDs :', sousCategorieIds);
+
+                        const licencesData = {
+                            numeroLicence,
+                            statut,
+                            typeLicence,
+                            sousCategorie: sousCategorieIds,
+                        };
+
+                        await fetch('/Identification/autoCompletageLicence', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                            body: JSON.stringify(licencesData),
+                        });
+
+                        console.table(licencesData);
+
+                        document.querySelector('form').submit();
+                    } else {
+                        alert('Aucune licence trouvée pour ce NEQ.');
+                    }
+
+                } else {
+                    alert('Erreur lors de la récupération des données.');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Une erreur s\'est produite lors de la requête.');
+            } finally {
+                // Masquer le loader après la requête
+                loader.classList.add('hidden');
+            }
+        });
+    </script>
 
 @endsection

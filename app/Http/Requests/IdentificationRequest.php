@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,12 +24,12 @@ class IdentificationRequest extends FormRequest
     public function rules(): array
     {
         $currentRouteName = $this->route()->getName();
-    
+
         // Règles communes à toutes les routes
-   
-    
+
+
         if ($currentRouteName === 'UpdateIdentification') {
-       
+
             $rules['password'] = [
                 'nullable',
                 'string',
@@ -37,20 +38,20 @@ class IdentificationRequest extends FormRequest
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{7,12}$/',
                 'confirmed',
             ];
-      
+
             $rules['password_confirmation'] = [
                 'required_with:password',
             ];
 
-             $rules['email'] = [
+            $rules['email'] = [
                 'required',
                 'string',
                 'email',
                 'max:64',
-                'unique:fiche_fournisseurs,adresse_courriel,'. $this->user()->id,
-             ];
+                'unique:fiche_fournisseurs,adresse_courriel,' . $this->user()->id,
+            ];
         } else {
-         
+
             $rules['password'] = [
                 'required',
                 'string',
@@ -75,8 +76,8 @@ class IdentificationRequest extends FormRequest
                     'nullable',
                     'string',
                     'size:10',
-                    'regex:/^(11|22|33|88)[4-9]\d{7}$/',
-                    'unique:fiche_fournisseurs,neq,' 
+                    'regex:/^(11|22|33|88)\d{8}$/',
+                    'unique:fiche_fournisseurs,neq,'
                 ],
                 'nomEntreprise' => [
                     'required',
@@ -85,10 +86,10 @@ class IdentificationRequest extends FormRequest
                 ],
             ];
         }
-    
+
         return $rules;
     }
-    
+
 
     /**
      * 
@@ -106,19 +107,18 @@ class IdentificationRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         $currentRouteName = $this->route()->getName();
-    
+
         if ($currentRouteName === 'UpdateIdentification') {
-         
+
             session()->put('errorsId', $validator->errors());
-    
+
             throw new HttpResponseException(
                 redirect()->back()
                     ->withInput()
             );
         }
-    
-     
+
+
         parent::failedValidation($validator);
     }
-    
 }
