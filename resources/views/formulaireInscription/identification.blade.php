@@ -166,8 +166,17 @@
 
                     if (data.success && data.result.records.length > 0) {
                         const numeroLicence = data.result.records[0]['Numero de licence'] || null;
-                        const statut = data.result.records[0]['Statut de la licence'] || null;
-                        const typeLicence = data.result.records[0]['Type de licence'] || null;
+                        const statut = data.result.records[0]['Statut de la licence'] ?
+                            String(data.result.records[0]['Statut de la licence']).toLowerCase() :
+                            null;
+
+                        const rawTypeLicence = data.result.records[0]['Type de licence'] ?
+                            String(data.result.records[0]['Type de licence']).toLowerCase() :
+                            null;
+
+                        const typeLicence = rawTypeLicence === 'constructeur-proprietaire' ?
+                            'Constructeur-propriétaire' :
+                            rawTypeLicence;
 
                         const sousCategorie = data.result.records
                             .filter(record => record['Categorie'] !== null && record['Sous-categories'] !==
@@ -210,10 +219,6 @@
 
                         const sousCategorieIds = await fetchSousCategorieIds(sousCategorie);
 
-                        console.log('Sous-catégorie IDs :', sousCategorieIds);
-
-                   
-
                         const licencesData = {
                             numeroLicence,
                             statut,
@@ -232,21 +237,34 @@
                             body: JSON.stringify(licencesData),
                         });
 
-                        console.table(licencesData);
-
-                       document.querySelector('form').submit();
+                        document.querySelector('form').submit();
                     } else {
-                        alert('Aucune licence trouvée pour ce NEQ.');
+                        Swal.fire({
+                            position: "center",
+                            icon: "info",
+                            title: "Aucune licence trouvée pour ce NEQ.",
+                            showConfirmButton: true,
+                        });
                         document.querySelector('form').submit();
                     }
 
                 } else {
-                    alert('Erreur lors de la récupération des données.');
-                  
+                    Swal.fire({
+                        position: "center",
+                        icon: "info",
+                        title: "Erreur lors de la récupération des données.",
+                        showConfirmButton: true,
+                    });
+
                 }
             } catch (error) {
                 console.error('Erreur:', error);
-                alert('Une erreur s\'est produite lors de la requête.');
+                Swal.fire({
+                    position: "center",
+                    icon: "info",
+                    title: "Une erreur s'est produite lors de la requête.",
+                    showConfirmButton: true,
+                });
             } finally {
                 // Masquer le loader après la requête
                 loader.classList.add('hidden');

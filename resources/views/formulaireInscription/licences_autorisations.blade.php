@@ -11,20 +11,6 @@
     </script>
 @endif
 
-@if (!session('autoCompletageLicences') && !session('licences'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                position: "center",
-                icon: "info",
-                title: "Aucune information trouvée. Veuillez remplir les champs manuellement.",
-                showConfirmButton: true,
-            });
-        });
-    </script>
-@endif
-
-
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @extends('layouts.app')
@@ -166,7 +152,7 @@
             const typeLicenceSelect = document.getElementById('typeLicence');
             const checklistContainer = document.getElementById('checklistContainer');
             const selectedSousCategories = @json(session('licences.sousCategorie', []));
-    console.log();
+            console.log();
             console.log(selectedSousCategories);
             // Récupérer les valeurs de session
             //Formattage pour la valeur en session et la valeur de l'input A reformat peut etre pour plus efficace
@@ -212,7 +198,7 @@
 
                 axios.get(`/sous-categories/${selectedType}`)
                     .then(response => {
-                       renderChecklist(response.data);
+                        renderChecklist(response.data);
                     })
                     .catch(error => {
                         console.error('Erreur lors de la récupération des sous-catégories:', error);
@@ -251,15 +237,15 @@
                         // Auto-cocher si présent dans la session
                         if (selectedSousCategories.includes(String(cat.id))) {
                             checkbox.checked = true;
-                            
-                           
+
+
                         }
                         if (selectedSousCategories.includes(cat.id)) {
                             checkbox.checked = true;
-                            
-                           
+
+
                         }
-                        
+
 
                         const label = document.createElement('label');
                         label.textContent = cat.code_sous_categorie;

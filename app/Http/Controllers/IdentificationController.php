@@ -26,7 +26,7 @@ class IdentificationController extends Controller
     public function create()
     {
         if (!auth()->check()) {
-          // session()->flush();
+            //  session()->flush();
             return view('formulaireInscription/identification');
         }
 
@@ -38,9 +38,9 @@ class IdentificationController extends Controller
         session()->put('autoCompletageLicences', $request->all());
     }
 
-    public function autoCompletageCoordonees(CoordonneeRequest $request)
+    public function autoCompletageCoordonnees(CoordonneeRequest $request)
     {
-        session()->put('autoCompletageLicences', $request->all());
+        session()->put('autoCompletageCoordonnees', $request->all());
     }
 
 

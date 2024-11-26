@@ -23,6 +23,8 @@ Route::post('/Identification/store', [IdentificationController::class, "store"])
 
 Route::post('/Identification/autoCompletageLicence', [IdentificationController::class, "autoCompletageLicence"])->name("AutoCompletageLicenceIdentification");
 
+Route::post('/Identification/autoCompletageCoordonnees', [IdentificationController::class, "autoCompletageCoordonnees"])->name("AutoCompletageautoCompletageCoordonneeIdentification");
+
 Route::get('/Identification/modif', [IdentificationController::class, "edit"])->name("EditIdentification")->middleware('auth');
 
 Route::post('/Identification/update', [FicheFournisseurController::class, "updateProfile"])->name("UpdateIdentification")->middleware('auth');
