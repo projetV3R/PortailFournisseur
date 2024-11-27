@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CoordonneeRequest;
 use App\Http\Requests\IdentificationRequest;
+use App\Http\Requests\LicenceRequest;
 use Illuminate\Http\Request;
 use App\Models\ParametreSysteme;
 use Illuminate\Support\Facades\Auth;
+
 class IdentificationController extends Controller
 {
     /**
@@ -22,13 +25,22 @@ class IdentificationController extends Controller
      */
     public function create()
     {
-       if (!auth()->check()) {
-       // session()->flush();
-        return view('formulaireInscription/identification');
+        if (!auth()->check()) {
+            //  session()->flush();
+            return view('formulaireInscription/identification');
+        }
+
+        return redirect()->back();
     }
 
-    return redirect()->back();
+    public function autoCompletageLicence(LicenceRequest $request)
+    {
+        session()->put('autoCompletageLicences', $request->all());
+    }
 
+    public function autoCompletageCoordonnees(CoordonneeRequest $request)
+    {
+        session()->put('autoCompletageCoordonnees', $request->all());
     }
 
 
@@ -37,7 +49,7 @@ class IdentificationController extends Controller
      */
     public function store(IdentificationRequest $request)
     {
-       
+
         session()->put("identification", $request->all());
 
         return redirect()->route('createProduitsServices');
@@ -56,9 +68,8 @@ class IdentificationController extends Controller
      */
     public function edit()
     {
-            $fournisseur = Auth::user();
-            return view("modificationCompte/identificationModif" , compact('fournisseur'));
-
+        $fournisseur = Auth::user();
+        return view("modificationCompte/identificationModif", compact('fournisseur'));
     }
 
     /**
