@@ -26,7 +26,6 @@ class CoordonneeController extends Controller
     {
         // session()->flush();
         if (!auth()->check() && session()->has('licences')) {
-            $isEditing = session()->has('coordonnees');
             return view("formulaireInscription/coordonnees", compact('isEditing'));
         }
 
