@@ -25,8 +25,7 @@ class LicenceController extends Controller
     public function create()
     {
         if (!auth()->check() && session()->has('produitsServices')) {
-            $isEditing = session()->has('licences');
-            return view('formulaireInscription/licences_autorisations', compact('isEditing'));
+            return view('formulaireInscription/licences_autorisations');
         }
         return redirect()->back();
     }
