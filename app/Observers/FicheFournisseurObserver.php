@@ -35,8 +35,7 @@ class FicheFournisseurObserver
         if (!empty($oldValues) || !empty($newValues)) {
             Historique::create([
                 'table_name' => 'FicheFournisseur',
-                'record_id' => $fournisseur->id,
-                'user_id' => Auth::id(),
+                'author' => $fournisseur->adresse_courriel,
                 'action' => 'Modifier',
                 'old_values' => !empty($oldValues) ? implode(", ", $oldValues) : null,
                 'new_values' => !empty($newValues) ? implode(", ", $newValues) : null,

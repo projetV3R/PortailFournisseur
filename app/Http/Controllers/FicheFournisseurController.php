@@ -401,8 +401,7 @@ public function updateProduit(ProduitServiceRequest $request)
     if (!empty($historiqueDetails) || !empty($historiqueRemove)) {
         Historique::create([
             'table_name' => 'Produits&Services',
-            'record_id' => $fournisseur->id,
-            'user_id' => Auth::id(),
+            'author' => $fournisseur->adresse_courriel,
             'action' => 'Modifier',
             'old_values' => !empty($historiqueRemove) ? implode(", ", $historiqueRemove) : null,
             'new_values' => !empty($historiqueDetails) ? implode(", ", $historiqueDetails) : null,
@@ -519,8 +518,8 @@ public function updateCoordonnee(CoordonneeRequest $request)
         $newValue = $coordonnee->$attribute;
 
         if ($oldValue != $newValue) {
-            $oldValues[] = "{$attribute}: {$oldValue}";
-            $newValues[] = "{$attribute}: {$newValue}";
+            $oldValues[] = "-{$attribute}: {$oldValue}";
+            $newValues[] = "+{$attribute}: {$newValue}";
         }
     }
 
@@ -558,9 +557,8 @@ public function updateCoordonnee(CoordonneeRequest $request)
 
     if (!empty($oldValues) || !empty($newValues)) {
         Historique::create([
-            'table_name' => 'Coordonnee',
-            'record_id' => $coordonnee->id,
-            'user_id' => Auth::id(),
+            'table_name' => 'Coordonnee', 
+            'author' => $fournisseur->adresse_courriel,
             'action' => 'Modifier',
             'old_values' => !empty($oldValues) ? implode("; ", $oldValues) : null,
             'new_values' => !empty($newValues) ? implode("; ", $newValues) : null,
@@ -671,8 +669,7 @@ public function updateCoordonnee(CoordonneeRequest $request)
     
             Historique::create([
                 'table_name' => 'BrochuresCarte',
-                'record_id' => $fournisseur->id,
-                'user_id' => Auth::id(),
+                'author' => $fournisseur->adresse_courriel,
                 'action' => 'Modifier',
                 'old_values' => $oldValues,
                 'new_values' => $newValues,
@@ -761,8 +758,7 @@ public function updateLicence(LicenceRequest $request)
     if (!empty($oldValues) || !empty($newValues)) {
         Historique::create([
             'table_name' => 'Licence',
-            'record_id' => $licence->id,
-            'user_id' => Auth::id(),
+            'author' => $fournisseur->adresse_courriel,
             'action' => 'Modifier',
             'old_values' => !empty($oldValues) ? implode(", ", $oldValues) : null,
             'new_values' => !empty($newValues) ? implode(", ", $newValues) : null,
@@ -903,8 +899,7 @@ public function updateContact(ContactRequest $request)
     if (!empty($oldValues) || !empty($newValues)) {
         Historique::create([
             'table_name' => 'Contacts',
-            'record_id' => $fournisseur->id,
-            'user_id' => Auth::id(),
+            'author' => $fournisseur->adresse_courriel,
             'action' => 'Modifier',
             'old_values' => !empty($oldValues) ? implode("; ", $oldValues) : null,
             'new_values' => !empty($newValues) ? implode("; ", $newValues) : null,
@@ -954,8 +949,7 @@ public function desactivationFiche()
      
         Historique::create([
             'table_name' => 'Identification et statut',
-            'record_id' => $fournisseur->id,
-            'user_id' => Auth::id(),
+            'author' => $fournisseur->adresse_courriel,
             'action' => 'Désactivée',
             'old_values' => "-état : Accepter, {$historiqueRemove}",
             'new_values' => '+état : Desactiver',
@@ -980,8 +974,7 @@ public function desactivationFiche()
       
             Historique::create([
                 'table_name' => 'Identification et statut',
-                'record_id' => $fournisseur->id,
-                'user_id' => Auth::id(),
+                'author' => $fournisseur->adresse_courriel,
                 'action' => 'Acceptée',
                 'old_values' => "-état : Desactiver ",
                 'new_values' => '+état : Accepter',
@@ -1006,7 +999,42 @@ public function desactivationFiche()
 
         return view('formulaireInscription/redirection');
     }
+    public function deleteLicence()
+{
+    $fournisseur = Auth::user();
+    $licence = $fournisseur->licence()->first();
+
+    if ($licence) {
     
+        $licence->sousCategoriess()->detach();
+
+      
+        $licence->delete();
+
+        Historique::create([
+            'table_name' => 'Licence',
+            'author' => $fournisseur->adresse_courriel,
+            'action' => 'Modifier',
+            'old_values' => "-Licence: {$licence->numero_licence_rbq}, Statut: {$licence->statut}, Type: {$licence->type_licence}",
+            'new_values' => "+Licence: supprimer",
+            'fiche_fournisseur_id' => $fournisseur->id,
+        ]);
+        $sectionModifiee = 'Licence et sous-catégories';
+        $data = [
+            'sectionModifiee' => $sectionModifiee,
+            'nomEntreprise' => $fournisseur->nom_entreprise,
+            'emailEntreprise' => $fournisseur->adresse_courriel,
+            'dateModification' => now()->format('d-m-Y H:i:s'),
+            'auteur' => $fournisseur->adresse_courriel,
+        ];
+        $fournisseur->notify(new NotificationModification($data));
+
+        return response()->json(['success' => true, 'message' => 'La licence et ses sous-catégories ont été supprimées avec succès.']);
+    }
+
+    return response()->json(['success' => false, 'message' => 'Aucune licence à supprimer.'], 404);
+}
+
 
     /**
      * Display the specified resource.
