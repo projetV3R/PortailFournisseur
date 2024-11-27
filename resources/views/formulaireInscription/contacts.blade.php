@@ -120,7 +120,9 @@
                     <div class="flex flex-col px-2 lg:px-4">
                         <button type="submit"
                             class="w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 mt-2" id="submitBtn">
-                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                                {{ session()->has('contacts') ? 'Enregistrer' : 'Suivant' }}
+                            </h1>
                         </button>
                         <button id="addContactBtn" type="button"
                             class="w-full text-white bg-blue-500 hover:bg-blue-400 py-2.5 mt-2">
