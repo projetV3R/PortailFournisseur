@@ -82,7 +82,13 @@
                     <label for="details_specifications" class="block font-Alumni text-md md:text-lg mb-2">Détails</label>
                     <textarea id="details_specifications" name="details_specifications"
                         class="font-Alumni w-full max-w-md p-2 h-28 focus:outline-none focus:border-blue-500 border border-black"
-                        placeholder="Entrer des détails supplémentaires">{{ old('details_specifications', session('produitsServices.details_specifications')) }}</textarea>
+                        placeholder="Entrer des détails supplémentaires"
+                        oninput="updateCharacterCount(event)">{{ old('details_specifications', session('produitsServices.details_specifications')) }}</textarea>
+                    <div class="">
+                        <span id="characterCount">0</span>/500 caractères
+                    </div>
+
+                    
 
                     @error('details_specifications')
                         <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
@@ -105,23 +111,40 @@
     let currentPageSelected = 1;
 
     function performSearch(page = 1) {
-    const query = document.getElementById('recherche').value.trim();
-    const selectedCategory = document.getElementById('selectCategorie').value || null; // Gérer l'option vide
+        const query = document.getElementById('recherche').value.trim();
+        const selectedCategory = document.getElementById('selectCategorie').value || null; // Gérer l'option vide
 
-    axios.get('/search', { 
-        params: { 
-            recherche: query, 
-            categorie: selectedCategory, 
-            page 
-        } 
-    })
-    .then(response => {
-        afficherResultats(response.data.data);
-        afficherPagination(response.data);
-    })
-    .catch(error => console.error("Erreur lors de la recherche :", error));
-}
+        axios.get('/search', { 
+            params: { 
+                recherche: query, 
+                categorie: selectedCategory, 
+                page 
+            } 
+        })
+        .then(response => {
+            afficherResultats(response.data.data);
+            afficherPagination(response.data);
+        })
+        .catch(error => console.error("Erreur lors de la recherche :", error));
+    }
 
+    function updateCharacterCount(event) {
+        const textarea = event.target;
+        const counter = document.getElementById('characterCount');
+        if (textarea && counter) {
+            counter.textContent = textarea.value.length;
+        }
+    }
+
+    function initializeCharacterCount() {
+        const textarea = document.getElementById('details_specifications');
+        const counter = document.getElementById('characterCount');
+        if (textarea && counter) {
+            counter.textContent = textarea.value.length;
+        }
+    }
+
+    initializeCharacterCount();
 
 
     function afficherResultats(produits) {
