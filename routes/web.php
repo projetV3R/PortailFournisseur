@@ -119,3 +119,7 @@ Route::post('/Activation', [FicheFournisseurController::class, "reactivationFich
 Route::post('/Desactivation', [FicheFournisseurController::class, 'desactivationFiche'])->name('desactivationFiche')->middleware('auth');
 Route::delete('/licence/delete', [FicheFournisseurController::class, 'deleteLicence'])->name('deleteLicence')->middleware('auth');
 
+//!!! ROUTE DE REDIRECTION ERREUR 404 TOUJOURS A LA FIN DU FICHIER DE ROUTE NE JAMAIS AVOIR DE ROUTE APRES !!!!
+Route::fallback(function () {
+  return response()->view('redirection.404', [], 404);
+});
