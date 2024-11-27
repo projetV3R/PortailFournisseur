@@ -9,9 +9,9 @@
             <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Brochures et Cartes d'affaires</h6>
             <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Déposer vos brochures et cartes d'affaires.</h1>
         </div>
-        @include('partials.progress_bar')
+       
     </div>
-
+    @include('partials.progress_bar')
     <form id="fileUploadForm" action="{{ route('storeBrochuresCartesAffaires') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="bg-primary-100 py-8 px-4">
