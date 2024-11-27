@@ -25,6 +25,13 @@
                 </div>
               
             </div>
+            <div class="mt-4">
+                <button type="button" id="deleteLicenceButton" class=" flex items-center p-4 px-2 text-white bg-red-500 hover:bg-red-400 py-2.5">
+                    <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
+                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">Supprimer la licence</h1>
+                </button>
+            </div>
+            
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
             <!-- Première colonne -->
             <div>
@@ -51,9 +58,30 @@
                         <div class="w-1/2">
                             <label for="statut" class="block font-Alumni text-md md:text-lg mb-2">Statut</label>
                             <select name="statut" id="statut" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-blackl">
-                                <option value="valide" >Valide</option>
-                                <option value="valide avec restriction" >Valide avec restriction</option>
-                                <option value="non valide" >Non valide</option>
+                                <option value="" disabled selected>Choisir un statut</option>
+                                <option value="active" >
+                                    Active</option>
+                                <option value="inactive"
+                                  >Inactive</option>
+                                <option value="valide">
+                                    Valide</option>
+                                <option value="valide avec restriction"
+                                    >
+                                    Valide avec restriction</option>
+                                <option value="non valide"
+                                    >Non valide
+                                </option>
+                                <option value="expirée">
+                                    Expirée</option>
+                                <option value="suspendue"
+                                    >Suspendue</option>
+                                <option value="révoquée"
+                                    >Révoquée</option>
+                                <option value="non renouvelée"
+                                    >Non
+                                    renouvelée</option>
+                                <option value="annulée"
+                                    >Annulée</option>
                             </select>
                             @error('statut')
                                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -68,8 +96,9 @@
                         <div class="w-full">
                             <label for="typeLicence" class="block font-Alumni text-md md:text-lg mb-2">Type de licence</label>
                             <select name="typeLicence" id="typeLicence" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                <option value="" disabled selected>Choisir un type de licence</option>
                                 <option value="entrepreneur" >Entrepreneur</option>
-                                <option value="constructeur-propriétaire" >Constructeur-propriétaire</option>
+                                <option value="Constructeur-propriétaire" >Constructeur-propriétaire</option>
                             </select>
                             @error('typeLicence')
                                 <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">

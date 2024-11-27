@@ -144,4 +144,38 @@ function initializeLicenceFormScript() {
     } else {
         console.warn("test.");
     }
+    document.getElementById('deleteLicenceButton').addEventListener('click', function () {
+        Swal.fire({
+            title: 'Êtes-vous sûr ?',
+            text: "Cela supprimera définitivement votre licence et ses sous-catégories associées.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Oui, supprimer',
+            cancelButtonText: 'Annuler'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete('/licence/delete')
+                    .then(response => {
+                        Swal.fire(
+                            'Supprimée !',
+                            'Votre licence a été supprimée avec succès.',
+                            'success'
+                        ).then(() => {
+                            location.reload(); 
+                        });
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Erreur !',
+                            'Une erreur est survenue lors de la suppression.',
+                            'error'
+                        );
+                        console.error('Erreur lors de la suppression de la licence:', error);
+                    });
+            }
+        });
+    });
+    
 }

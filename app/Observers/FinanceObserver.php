@@ -15,8 +15,7 @@ class FinanceObserver
     {
         $historique = new Historique();
         $historique->table_name = $finance->getTable();
-        $historique->record_id = $finance->id;
-        $historique->user_id = Auth::id();
+        $historique->author = $fournisseur->adresse_courriel;
         $historique->action = 'Modifier';
 
        
