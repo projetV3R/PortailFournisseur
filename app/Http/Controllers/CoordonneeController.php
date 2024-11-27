@@ -26,7 +26,7 @@ class CoordonneeController extends Controller
     {
         // session()->flush();
         if (!auth()->check() && session()->has('licences')) {
-            return view("formulaireInscription/coordonnees", compact('isEditing'));
+            return view("formulaireInscription/coordonnees");
         }
 
         return redirect()->back();

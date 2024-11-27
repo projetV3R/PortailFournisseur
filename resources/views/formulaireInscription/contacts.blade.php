@@ -123,7 +123,7 @@
                         <button type="submit"
                             class="w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 mt-2" id="submitBtn">
                             <h1 class="font-Alumni font-bold text-lg md:text-2xl">
-                                {{ $isEditing ? 'Enregistrer' : 'Suivant' }}
+                                {{ session()->has('contacts') ? 'Enregistrer' : 'Suivant' }}
                             </h1>
                         </button>
                         <button id="addContactBtn" type="button"

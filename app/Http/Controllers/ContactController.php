@@ -24,8 +24,7 @@ class ContactController extends Controller
     public function create()
     {
         if (!auth()->check()  && session()->has('coordonnees')) {
-            $isEditing = session()->has('contacts');
-            return View('formulaireInscription/contacts', compact('isEditing'));
+            return View('formulaireInscription/contacts');
         }
 
         return redirect()->back();
