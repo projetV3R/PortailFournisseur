@@ -211,7 +211,7 @@
                                     Site web
                                 </label>
 
-                                <input type="text" id="siteWeb" name="siteWeb" placeholder="https://www.abc.com"
+                                <input type="text" id="siteWeb" name="siteWeb" placeholder="www.abc.com"
                                     class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
 
                                 @error('siteWeb')
