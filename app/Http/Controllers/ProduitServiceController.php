@@ -57,8 +57,7 @@ class ProduitServiceController extends Controller
     public function create()
     {
         if (!auth()->check() &&  session()->has('identification')) {
-            $isEditing = session()->has('produitsServices');
-            return view('formulaireInscription/Produits_services', compact('isEditing'));
+            return view('formulaireInscription/Produits_services');
         }
 
         return redirect()->back();
