@@ -24,9 +24,8 @@ class IdentificationController extends Controller
     public function create()
     {
         if (!auth()->check()) {
-            $isEditing = session()->get('identification');
             //session()->flush();
-            return view('formulaireInscription/identification', compact('isEditing'));
+            return view('formulaireInscription/identification');
         }
 
         return redirect()->back();
