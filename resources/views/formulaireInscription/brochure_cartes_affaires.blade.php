@@ -4,8 +4,13 @@
 
 @section('contenu')
 <div class="container mx-auto mt-10">
-    <div class="mb-5">
-    @include('partials.progress_bar')</div>
+    <div class="flex w-full flex-col 2xl:flex-row gap-4 p-4">
+        <div class="flex flex-col w-full">
+            <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Brochures et Cartes d'affaires</h6>
+            <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Déposer vos brochures et cartes d'affaires.</h1>
+        </div>
+        @include('partials.progress_bar')
+    </div>
 
     <form id="fileUploadForm" action="{{ route('storeBrochuresCartesAffaires') }}" method="POST" enctype="multipart/form-data">
         @csrf
