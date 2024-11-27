@@ -128,7 +128,7 @@
     <li class="relative flex flex-col items-center {{ $currentStep >= 6 ? 'text-green-600' : 'text-gray-500' }}">
         <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $currentStep >= 6 ? 'border-green-600' : 'border-gray-300' }}">
             @if($currentStep >= 5)
-                <a href="/Licences" class="block">
+                <a href="/BrochuresCartesAffaires" class="block">
                     <span class="iconify  size-5" data-icon="material-symbols:attach-file" ></span>
                 </a>
             @else

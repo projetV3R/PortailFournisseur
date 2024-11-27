@@ -13,8 +13,7 @@ class Historique extends Model
 
     protected $fillable = [
         'table_name',
-        'record_id',
-        'user_id',
+        'author',
         'action',
         'old_values',
         'new_values',
@@ -32,11 +31,6 @@ class Historique extends Model
         return json_decode($value, true);
     }
 
-   
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 
     public function ficheFournisseur()
     {

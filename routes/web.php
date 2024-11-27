@@ -21,6 +21,10 @@ use App\Http\Controllers\NvxMotDePasseController;
 Route::get('/Identification', [IdentificationController::class, "create"])->name("CreateIdentification");
 Route::post('/Identification/store', [IdentificationController::class, "store"])->name("StoreIdentification");
 
+Route::post('/Identification/autoCompletageLicence', [IdentificationController::class, "autoCompletageLicence"])->name("AutoCompletageLicenceIdentification");
+
+Route::post('/Identification/autoCompletageCoordonnees', [IdentificationController::class, "autoCompletageCoordonnees"])->name("AutoCompletageautoCompletageCoordonneeIdentification");
+
 Route::get('/Identification/modif', [IdentificationController::class, "edit"])->name("EditIdentification")->middleware('auth');
 
 Route::post('/Identification/update', [FicheFournisseurController::class, "updateProfile"])->name("UpdateIdentification")->middleware('auth');
@@ -54,6 +58,8 @@ Route::get('/fournisseur/coordonnees/data', [CoordonneeController::class, 'getCo
 Route::get('/Licences', [LicenceController::class, "create"])->name("createLicences");
 Route::post('/Licences/store', [LicenceController::class, "store"])->name("storeLicences");
 Route::get('/sous-categories/{type}', [LicenceController::class, 'getSousCategories']);
+Route::get('/sous-categorie/{code}', [LicenceController::class, 'getSousCategorieId'])
+  ->name('sousCategorie.get');
 //recuperer information dans page resume 
 Route::get('/sous-categories/affichage/multiple', [LicenceController::class, 'getSousCategoriesMultiple']);
 Route::get('/search', [ProduitServiceController::class, 'search']);
@@ -79,7 +85,7 @@ Route::get('/Brochures/getDocuments', [BrochureCarteAffaireController::class, 'g
 
 
 //Route::post('/delete-temp-files', [BrochureCarteAffaireController::class, 'deleteTempFiles'])
-  //  ->name('deleteTempFiles');
+//  ->name('deleteTempFiles');
 
 
 
@@ -111,3 +117,9 @@ Route::get('/Redirection', [FicheFournisseurController::class, "redirection"])->
 Route::post('removeInscrit', [FicheFournisseurController::class, 'removeInscrit'])->name('removeInscrit');
 Route::post('/Activation', [FicheFournisseurController::class, "reactivationFiche"])->name("reactivationFiche")->middleware('auth');
 Route::post('/Desactivation', [FicheFournisseurController::class, 'desactivationFiche'])->name('desactivationFiche')->middleware('auth');
+Route::delete('/licence/delete', [FicheFournisseurController::class, 'deleteLicence'])->name('deleteLicence')->middleware('auth');
+
+//!!! ROUTE DE REDIRECTION ERREUR 404 TOUJOURS A LA FIN DU FICHIER DE ROUTE NE JAMAIS AVOIR DE ROUTE APRES !!!!
+Route::fallback(function () {
+  return response()->view('redirection.404', [], 404);
+});
