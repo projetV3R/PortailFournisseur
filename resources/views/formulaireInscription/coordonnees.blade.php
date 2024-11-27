@@ -289,7 +289,9 @@
                     </button>
 
                     <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
-                        <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                        <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                            {{ session()->has('coordonnees') ? 'Enregistrer' : 'Suivant' }}
+                        </h1>
                     </button>
 
                 </div>
