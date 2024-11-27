@@ -9,11 +9,13 @@
     <form action="{{ route('storeContacts') }}" method="post" id="contactForm">
         @csrf
         <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16" id="contactFieldsContainer">
-            <div class="flex w-full flex-col">
-                <h6 class="font-Alumni font-bold text-3xl md:text-5xl">CONTACTS</h6>
-                <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Pour rester plus proches de vous !</h1>
+            <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
+                <div class="flex w-full flex-col">
+                    <h6 class="font-Alumni font-bold text-3xl md:text-5xl">CONTACTS</h6>
+                    <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Pour rester plus proches de vous !</h1>
+                </div>
+                @include('partials.progress_bar')
             </div>
-
             <div class="flex w-full gap-x-4">
                 <div class="flex flex-col w-1/2">
                     <div class="bg-primary-100 py-8 px-4 mt-8">
@@ -120,7 +122,9 @@
                     <div class="flex flex-col px-2 lg:px-4">
                         <button type="submit"
                             class="w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 mt-2" id="submitBtn">
-                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                                {{ session()->has('contacts') ? 'Enregistrer' : 'Suivant' }}
+                            </h1>
                         </button>
                         <button id="addContactBtn" type="button"
                             class="w-full text-white bg-blue-500 hover:bg-blue-400 py-2.5 mt-2">
