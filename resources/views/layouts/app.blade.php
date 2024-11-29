@@ -74,10 +74,11 @@
                 @auth
                 
                 
-                    <form class="deconnexionBtn" action="{{ route('logout') }}" method="POST">
-                        @csrf
+                   
+                      
                         <div class="flex items-center space-x-4 ">
-                        
+                            <form class="deconnexionBtn" action="{{ route('logout') }}" method="POST">
+                                @csrf
                             <button class="ml-4 text-white hover:animate-bounce">
                                 <span class="iconify size-10" data-icon="mdi:logout" data-inline="false"></span>
                             </button>
@@ -87,7 +88,7 @@
                 <button id="dark-mode-toggle-desktop" class="text-white hover:animate-pulse  ">
                     <span class="iconify  size-10" data-icon="circum:dark" data-inline="false"></span>
                 </button>
-            </div>
+                </div>
             </div>
 
         </div>
