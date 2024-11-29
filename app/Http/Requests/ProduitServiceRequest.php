@@ -24,12 +24,27 @@ class ProduitServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'details_specifications' => 'required',
+            'details_specifications' => 'required|string|max:500',
             'produits_services' => 'required|array',
-            'produits_services.*' => 'integer|exists:produits_services,id', 
-            
+            'produits_services.*' => 'integer|exists:produits_services,id',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'details_specifications.required' => 'Les spécifications détaillées sont requises.',
+            'details_specifications.string' => 'Les spécifications détaillées doivent être une chaîne de caractères valide.',
+            'details_specifications.max' => 'Les spécifications détaillées ne peuvent pas dépasser 500 caractères.',
+
+            'produits_services.required' => 'Les produits ou services doivent être fournis.',
+            'produits_services.array' => 'Les produits ou services doivent être un tableau valide.',
+
+            'produits_services.*.integer' => 'Chaque produit ou service doit être un identifiant entier valide.',
+            'produits_services.*.exists' => 'Chaque produit ou service sélectionné doit exister dans la base de données.',
+        ];
+    }
+
     protected function failedValidation(Validator $validator)
     {
         $currentRouteName = $this->route()->getName();
@@ -43,8 +58,7 @@ class ProduitServiceRequest extends FormRequest
                     ->withInput()
             );
         }
-    
-     
+
         parent::failedValidation($validator);
     }
 }

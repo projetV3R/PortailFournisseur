@@ -25,7 +25,7 @@
                             @enderror
                             <div class="w-full md:w-2/3 flex justify-end mt-2">
                                 <a href="{{ route('showLoginFormSansNeq') }}">
-                                <h6 class="font-Alumni md:text-base text-secondary-400 cursor-pointer">Pas de NEQ ?</h6>
+                                <h6 class="font-Alumni md:text-base text-secondary-400 cursor-pointer daltonien:text-daltonienTextBleu">Pas de NEQ ?</h6>
                             </div>
                         </div>
 
@@ -39,7 +39,9 @@
                                 <span class="text-red-500 font-Alumni md:text-sm block mt-1">{{ $message }}</span>
                             @enderror
                             <div class="w-full md:w-2/3 flex justify-end mt-2">
-                                <button type="button" id="forgot-password-btn" class="btn btn-link font-Alumni md:text-base text-secondary-400 cursor-pointer">Mot de passe oublié ?</button>
+                                <button type="button" id="forgot-password-btn" class="btn btn-link font-Alumni md:text-base text-secondary-400 cursor-pointer daltonien:text-daltonienTextBleu">
+                                    Mot de passe oublié ?
+                                </button>
                             </div>
                         </div>
 
@@ -52,16 +54,18 @@
                         @endif
 
                         <div class="bg-red-500 w-full md:w-2/3 mt-6 rounded">
-                            <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 py-2.5 ">
-                                <h1 class="font-Alumni font-bold text-lg md:text-2xl">Connexion</h1>
+                            <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 py-2.5 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+                                <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                                    Connexion
+                                </h1>
                             </button>
                         </div>
                     </form>
 
                     <div class="mt-4">
-                        <h6 class="font-Alumni font-semibold text-base md:text-base">Nouvel utilisateur ?</h6>
+                        <h6 class="font-Alumni font-semibold text-base md:text-base daltonien:text-daltonienTextBleu">Nouvel utilisateur ?</h6>
                         <a href="{{ route('CreateIdentification') }}">
-                            <h6 class="font-Alumni font-semibold text-base md:text-base text-secondary-400 cursor-pointer">
+                            <h6 class="font-Alumni font-semibold text-base md:text-base text-secondary-400 cursor-pointer daltonien:text-daltonienTextBleu">
                                 Inscrivez-vous maintenant !
                             </h6>
                         </a>

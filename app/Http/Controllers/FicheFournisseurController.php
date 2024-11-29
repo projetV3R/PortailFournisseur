@@ -31,6 +31,7 @@ use App\Models\ProduitsServices;
 use App\Models\SousCategorie;
 use App\Notifications\NotificationModification;
 use App\Notifications\NotificationNouvelleFicheVille;
+use Illuminate\Support\Facades\Notification;
 
 class FicheFournisseurController extends Controller
 {
@@ -302,8 +303,18 @@ class FicheFournisseurController extends Controller
             'auteur' => $ficheFournisseur->adresse_courriel,
         ];
         
+        Historique::create([
+            'table_name' => 'FicheFournisseur',
+            'author' =>$ficheFournisseur->adresse_courriel,
+            'action' => 'En attente',
+            'new_values' => "+état: En attente",
+            'fiche_fournisseur_id' => $ficheFournisseur->id,
+        ]);
         $ficheFournisseur->notify(new WelcomeEmail());
-        $ficheFournisseur->notify(new NotificationNouvelleFicheVille($data));
+        $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')
+        ->value('valeur');
+        Notification::route('mail', $emailApprovisionnement)
+        ->notify(new NotificationNouvelleFicheVille($data));
         session()->flush();
         session(['inscrit' => true]);
 
@@ -374,10 +385,10 @@ public function updateProduit(ProduitServiceRequest $request)
 
     if ($oldDetailsSpecifications !== $newDetailsSpecifications) {
         if (!empty($oldDetailsSpecifications)) {
-            $historiqueRemove[] = "details et specifications: {$oldDetailsSpecifications}";
+            $historiqueRemove[] = "-details et specifications: {$oldDetailsSpecifications}";
         }
         if (!empty($newDetailsSpecifications)) {
-            $historiqueDetails[] = "details et specifications: {$newDetailsSpecifications}";
+            $historiqueDetails[] = "+details et specifications: {$newDetailsSpecifications}";
         }
     }
 
@@ -415,7 +426,8 @@ public function updateProduit(ProduitServiceRequest $request)
             'dateModification' => now()->format('d-m-Y H:i:s'),
             'auteur' => $fournisseur->adresse_courriel,
         ];
-        $fournisseur->notify(new NotificationModification($data));
+        $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
+        Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
     }
 
     return redirect()->back()->with('success', 'Vos produits et services ont été mis à jour avec succès.');
@@ -572,7 +584,8 @@ public function updateCoordonnee(CoordonneeRequest $request)
             'dateModification' => now()->format('d-m-Y H:i:s'),
             'auteur' => $fournisseur->adresse_courriel,
         ];
-        $fournisseur->notify(new NotificationModification($data));
+        $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
+        Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
     }
 
     return redirect()->back()->with('success', 'Vos coordonnées ont été mises à jour avec succès.');
@@ -683,7 +696,8 @@ public function updateCoordonnee(CoordonneeRequest $request)
                 'dateModification' => now()->format('d-m-Y H:i:s'),
                 'auteur' => $fournisseur->adresse_courriel,
             ];
-            $fournisseur->notify(new NotificationModification($data));
+            $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
+            Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
         }
     
         return redirect()->back()->with('success', 'Vos brochures & cartes d\'affaires ont été mises à jour avec succès.');
@@ -772,7 +786,8 @@ public function updateLicence(LicenceRequest $request)
             'dateModification' => now()->format('d-m-Y H:i:s'),
             'auteur' => $fournisseur->adresse_courriel,
         ];
-        $fournisseur->notify(new NotificationModification($data));
+        $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
+        Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
     }
 
     return redirect()->back()->with('success', 'La licence a été mise à jour avec succès.');
@@ -915,7 +930,8 @@ public function updateContact(ContactRequest $request)
             'dateModification' => now()->format('d-m-Y H:i:s'),
             'auteur' => $fournisseur->adresse_courriel,
         ];
-        $fournisseur->notify(new NotificationModification($data));
+        $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
+        Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
     }
 
     return redirect()->route('profil')->with('success', 'Informations de contact mises à jour avec succès.');
@@ -931,6 +947,7 @@ public function desactivationFiche()
 
         
         $fournisseur->etat = 'desactiver';
+        $fournisseur->date_changement_etat = now();
         $fournisseur->save();
 
      
@@ -970,6 +987,7 @@ public function desactivationFiche()
             
 
             $fournisseur->etat='accepter'; 
+            $fournisseur->date_changement_etat = now();
             $fournisseur->save();
       
             Historique::create([
@@ -1027,7 +1045,8 @@ public function desactivationFiche()
             'dateModification' => now()->format('d-m-Y H:i:s'),
             'auteur' => $fournisseur->adresse_courriel,
         ];
-        $fournisseur->notify(new NotificationModification($data));
+        $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
+        Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
 
         return response()->json(['success' => true, 'message' => 'La licence et ses sous-catégories ont été supprimées avec succès.']);
     }

@@ -103,6 +103,7 @@
                                 <option value="Alberta">Alberta</option>
                                 <option value="Saskatchewan">Saskatchewan</option>
                                 <option value="Manitoba">Manitoba</option>
+                                <option value="Colombie_Britannique">Colombie-Britannique</option>
                                 <option value="Ontario">Ontario</option>
                                 <option value="Québec" selected>Québec</option>
                                 <option value="Nouveau_Brunswick">Nouveau-Brunswick</option>
@@ -284,12 +285,14 @@
                     </div>
                     <input type="hidden" id="currentIndexInput" name="currentIndex">
                     <button type="button" id="ajoutNumeroTelephone"
-                        class="mt-4 w-full text-white bg-secondary-400 hover:bg-tertiary-300 py-2.5">
+                        class="mt-4 w-full text-white bg-secondary-400 hover:bg-tertiary-300 py-2.5 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                         <h1 class="font-Alumni font-bold text-lg md:text-2xl">Ajouter un numero</h1>
                     </button>
 
-                    <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
-                        <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                    <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+                        <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                            {{ session()->has('coordonnees') ? 'Enregistrer' : 'Suivant' }}
+                        </h1>
                     </button>
 
                 </div>
