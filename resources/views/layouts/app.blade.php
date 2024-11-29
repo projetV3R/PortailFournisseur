@@ -84,7 +84,7 @@
                         <div class="flex items-center space-x-4 ">
                             <form class="deconnexionBtn" action="{{ route('logout') }}" method="POST">
                                 @csrf
-                            <button class="ml-4 text-white hover:animate-bounce">
+                            <button class="ml-4 text-white  hover:animate-bounce daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                                 <span class="iconify size-10" data-icon="mdi:logout" data-inline="false"></span>
                             </button>
                     </form>
