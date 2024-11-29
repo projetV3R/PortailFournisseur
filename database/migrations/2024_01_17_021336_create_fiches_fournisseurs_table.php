@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('details_specifications', 500);
             $table->timestamp('date_changement_etat')->nullable();
+            $table->string('raison_refus')->nullable(); 
             $table->timestamps();
             $table->rememberToken();
 
