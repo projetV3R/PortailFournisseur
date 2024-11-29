@@ -17,16 +17,8 @@
 
      
         <div class="flex items-center gap-4 mt-4 md:mt-0 ">
-            @auth <!-- Select pour revenir à une page précédente uniquement pour personne connecté qui vient pour modifier  -->
-            <select class="form-select bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="pageSelect">
-                <option value="" disabled selected>Revenir à...</option>
-                <option value="identification">Identification</option>
-                <option value="coordonnees">Coordonnées</option>
-                <option value="contacts">Contacts</option>
-                <option value="produits_services">Produits et Services</option>
-                <option value="licences">Licences et Autorisations</option>
-            </select>
-            @endauth
+    
+          
             @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                 <strong class="font-bold">Erreur :</strong>
@@ -41,7 +33,7 @@
             <form id="information" action="{{ route('FicheFournisseursStore') }}" method="POST">
                 @csrf
                 <button type="button" onclick="confirmInformation()" 
-                        class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+                        class="bg-green-500 text-white font-bold py-2 px-4 rounded mb-4 hover:bg-green-600 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                     Valider les informations
                 </button>
             </form>
@@ -187,8 +179,9 @@
                 <div class="flex flex-col gap-4 mt-4 max-h-64 overflow-y-auto" id="produitsServicesContainer">
                     <p class="font-Alumni text-md md:text-lg">Chargement des produits et services...</p>
                 </div>
-                <div class="mt-4">
+                <div class="mt-4 ">
                     <p class="font-Alumni text-md md:text-lg"><strong>Nombre de produits et services :</strong> <span id="produitServiceCount">0</span></p>
+                    <p class="font-Alumni text-md md:text-lg "><strong>Détails et spécifications :</strong> <button onclick="showFullDetails()" class="underline w-fit  font-semibold  text-blue-600 hover:text-blue-800  transition duration-300 ease-in-out">Voir détails et spécifications</button></p>
                 </div>
             </div>
 
@@ -333,6 +326,19 @@
             licencesContainer.innerHTML = '<p class="font-Alumni text-md md:text-lg">Aucune licence ou autorisation sélectionnée.</p>';
         }
     });
+    function showFullDetails() {
+    Swal.fire({
+        title: 'Détails et spécifications',
+        html: `<div style="text-align: left;">${{ session('produitsServices.details_specifications', 'N/A') }}</div>`, 
+        icon: 'info',
+        showCloseButton: true,
+        confirmButtonText: 'Fermer',
+        customClass: {
+            popup: 'max-w-3xl', 
+        },
+    });
+}
+
 </script>
 
 @endsection

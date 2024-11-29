@@ -8,6 +8,8 @@ use App\Models\Historique;
 
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\NotificationModification;
+use Illuminate\Support\Facades\Notification;
+use App\Models\ParametreSysteme;
 class FinanceObserver
 {
     //TODO Update pour lisibilité et fonction a refacto
@@ -42,7 +44,8 @@ class FinanceObserver
         'dateModification' => now()->format('d-m-Y H:i:s'),
         'auteur' => $fournisseur->adresse_courriel,
     ];
-    $fournisseur->notify(new NotificationModification($data));
+    $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
+    Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
     }
 }
 
