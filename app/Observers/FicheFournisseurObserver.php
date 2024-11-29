@@ -6,6 +6,8 @@ use App\Models\FicheFournisseur;
 use App\Models\Historique;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\NotificationModification;
+use Illuminate\Support\Facades\Notification;
+use App\Models\ParametreSysteme;
 class FicheFournisseurObserver
 {
     public function updated(FicheFournisseur $fournisseur)
@@ -49,7 +51,8 @@ class FicheFournisseurObserver
             'dateModification' => now()->format('d-m-Y H:i:s'),
             'auteur' => $fournisseur->adresse_courriel,
         ];
-        $fournisseur->notify(new NotificationModification($data));
+        $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
+        Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
         }
     }
 }
