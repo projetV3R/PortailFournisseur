@@ -931,6 +931,7 @@ public function desactivationFiche()
 
         
         $fournisseur->etat = 'desactiver';
+        $fournisseur->date_changement_etat = now();
         $fournisseur->save();
 
      
@@ -970,6 +971,7 @@ public function desactivationFiche()
             
 
             $fournisseur->etat='accepter'; 
+            $fournisseur->date_changement_etat = now();
             $fournisseur->save();
       
             Historique::create([
