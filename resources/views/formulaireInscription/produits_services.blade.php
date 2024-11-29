@@ -94,7 +94,7 @@
                 </div>
 
                 <button type="submit"
-                    class="mt-4 w-full bg-tertiary-400 hover:bg-tertiary-300 dark:bg-tertiary-dark-400 dark:hover:bg-tertiary-dark-300 py-3 text-white">
+                    class="mt-4 w-full bg-tertiary-400 hover:bg-tertiary-300 dark:bg-tertiary-dark-400 dark:hover:bg-tertiary-dark-300 py-3 text-white daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">
                         {{ session()->has('produitsServices') ? 'Enregistrer' : 'Suivant' }}
                     </h1>
@@ -168,12 +168,14 @@
         return `
             <button type="button"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4 rounded-l
+                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black
                 ${!data.prev_page_url ? 'cursor-not-allowed' : ''}"
                 onclick="${functionName}(1)" ${!data.prev_page_url ? 'disabled' : ''}>
                 &lt;&lt;
             </button>
             <button type="button"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4 
+                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black
                 ${!data.prev_page_url ? 'cursor-not-allowed' : ''}"
                 onclick="${functionName}(${data.current_page - 1})" ${!data.prev_page_url ? 'disabled' : ''}>
                 <span class="md:hidden">&lt;</span>
@@ -182,6 +184,7 @@
             <span class="text-xs  font-bold mx-2">Page ${data.current_page} sur ${data.last_page}</span>
             <button type="button"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4
+                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black
                 ${!data.next_page_url ? 'cursor-not-allowed' : ''}"
                 onclick="${functionName}(${data.current_page + 1})" ${!data.next_page_url ? 'disabled' : ''}>
                 <span class="md:hidden">&gt;</span>
@@ -189,6 +192,7 @@
             </button>
             <button type="button"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4 rounded-r
+                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black
                 ${!data.next_page_url ? 'cursor-not-allowed' : ''}"
                 onclick="${functionName}(${data.last_page})" ${!data.next_page_url ? 'disabled' : ''}>
                 &gt;&gt;
