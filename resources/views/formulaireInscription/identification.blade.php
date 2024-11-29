@@ -4,143 +4,134 @@
 
 @section('contenu')
 
-    <form action="{{ route('StoreIdentification') }}" method="post">
-        @csrf
-        <div class="p-4 md:p-16 flex flex-col  w-full">
-            <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
-                <div class="flex flex-col w-full">
-                    <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Merci de vous identifier !</h6>
-                    <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Dites-nous en plus sur vous</h1>
+<form action="{{ route('StoreIdentification') }}" method="post">
+    @csrf
+    <div class="p-4 md:p-16 flex flex-col w-full">
+        <div class="flex w-full flex-col 2xl:flex-row gap-4">
+            <div class="flex flex-col w-full">
+                <h6 class="font-Alumni font-bold text-3xl md:text-5xl text-black dark:text-white">Merci de vous identifier !</h6>
+                <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2 text-black dark:text-white">Dites-nous en plus sur vous</h1>
+            </div>
+            @include('partials.progress_bar')
+        </div>
 
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- Première colonne -->
+            <div>
+                <div class="bg-primary-100 dark:bg-primary-dark-100 py-8 px-4 mt-8">
+                    <h4 class="font-Alumni font-bold text-lg md:text-2xl underline text-black dark:text-white">Informations d’authentification</h4>
+
+                    <div class="mt-6">
+                        <label for="email" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
+                            Adresse courriel
+                        </label>
+                        <input type="email" id="email" name="email" placeholder="Entrer votre email"
+                            value="{{ old('email', session('identification.email')) }}"
+                            class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+
+                        @error('email')
+                            <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="password" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
+                            Choisir un mot de passe
+                        </label>
+                        <input type="password" id="password" name="password" placeholder="Entrer votre mot de passe"
+                            value="{{ old('password', session('identification.password')) }}"
+                            class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+
+                        @error('password')
+                            <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="password_confirmation" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
+                            Ressaisir votre mot de passe
+                        </label>
+                        <input type="password" id="password_confirmation" name="password_confirmation"
+                            value="{{ old('password_confirmation', session('identification.password_confirmation')) }}"
+                            placeholder="Ressaisir votre mot de passe"
+                            class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+
+                        @error('password_confirmation')
+                            <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
                 </div>
-                @include('partials.progress_bar')
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
-                <!-- Première colonne -->
-                <div>
-                    <div class="bg-primary-100 py-8 px-4 mt-8">
-                        <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Informations d’authentification</h4>
+            <!-- Deuxième colonne -->
+            <div>
+                <div class="bg-secondary-100 dark:bg-secondary-dark-100 py-8 px-4 mt-8">
+                    <h4 class="font-Alumni font-bold text-lg md:text-2xl underline text-black dark:text-white">Identification</h4>
 
-                        <div class="mt-6">
-                            <label for="email" class="block font-Alumni text-md md:text-lg mb-2">
-                                Adresse courriel
-                            </label>
-                            <input type="email" id="email" name="email" placeholder="Entrer votre email"
-                                value="{{ old('email', session('identification.email')) }}"
-                                class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
+                    <div class="mt-6">
+                        <label for="numeroEntreprise" class="flex items-center font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
+                            Numéro d’entreprise du Québec (NEQ)
+                            <p class="italic text-sm ml-2 dark:text-gray-300">*Ce numéro n'est pas obligatoire</p>
+                        </label>
+                        <input type="text" id="numeroEntreprise" name="numeroEntreprise"
+                            value="{{ old('numeroEntreprise', session('identification.numeroEntreprise')) }}"
+                            placeholder="Entrer votre numéro d’entreprise du Québec"
+                            class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
 
-                            @error('email')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-
-                        <div class="mt-4">
-                            <label for="password" class="block font-Alumni text-md md:text-lg mb-2">
-                                Choisir un mot de passe
-                            </label>
-                            <input type="password" id="password" name="password" placeholder="Entrer votre mot de passe"
-                                value="{{ old('password', session('identification.password')) }}"
-                                class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
-
-                            @error('password')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-
-                        <div class="mt-4">
-                            <label for="password_confirmation" class="block font-Alumni text-md md:text-lg mb-2">
-                                Ressaisir votre mot de passe
-                            </label>
-                            <input type="password" id="password_confirmation" name="password_confirmation"
-                                value="{{ old('password_confirmation', session('identification.password_confirmation')) }}"
-                                placeholder="Ressaisir votre mot de passe"
-                                class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
-
-                            @error('password_confirmation')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
+                        @error('numeroEntreprise')
+                            <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
-                </div>
 
+                    <div class="mt-6">
+                        <label for="nomEntreprise" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
+                            Nom de l’entreprise
+                        </label>
+                        <input type="text" id="nomEntreprise" name="nomEntreprise"
+                            value="{{ old('nomEntreprise', session('identification.nomEntreprise')) }}"
+                            placeholder="Entrer le nom de votre entreprise"
+                            class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
 
+                        @error('nomEntreprise')
+                            <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
 
-                <!-- Deuxième colonne -->
-                <div>
-                    <div class="bg-secondary-100 py-8 px-4 mt-8">
-                        <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Identification</h4>
-
-                        <div class="mt-6">
-                            <label for="numeroEntreprise" class="flex items-center font-Alumni text-md md:text-lg mb-2">
-                                Numéro d’entreprise du Québec (NEQ)
-                                <p class="italic text-sm ml-2">*Ce numéro n'est pas obligatoire</p>
-                            </label>
-                            <input type="text" id="numeroEntreprise" name="numeroEntreprise"
-                                value="{{ old('numeroEntreprise', session('identification.numeroEntreprise')) }}"
-                                placeholder="Entrer votre numéro d’entreprise du Québec"
-                                class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
-
-                            @error('numeroEntreprise')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-
-                        <div class="mt-6">
-                            <label for="nomEntreprise" class="block font-Alumni text-md md:text-lg mb-2">
-                                Nom de l’entreprise
-                            </label>
-                            <input type="text" id="nomEntreprise" name="nomEntreprise"
-                                value="{{ old('nomEntreprise', session('identification.nomEntreprise')) }}"
-                                placeholder="Entrer le nom de votre entreprise"
-                                class="font-Alumni w-full max-w-md p-2 focus:outline-none focus:border-blue-500 border border-black">
-
-                            @error('nomEntreprise')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-
-                        <div id="loader"
-                            class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                            <div class="relative w-24 h-24">
-                                <div class="absolute inset-0 border-4 border-blue-500 rounded-full animate-ping"></div>
-                                <div
-                                    class="absolute inset-0 border-4 border-t-blue-500 border-b-blue-500 border-l-transparent border-r-transparent rounded-full animate-spin">
-                                </div>
-                                <div
-                                    class="absolute inset-4 border-4 border-blue-500 rounded-full opacity-50 animate-pulse">
-                                </div>
+                    <div id="loader"
+                        class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div class="relative w-24 h-24">
+                            <div class="absolute inset-0 border-4 border-blue-500 rounded-full animate-ping"></div>
+                            <div
+                                class="absolute inset-0 border-4 border-t-blue-500 border-b-blue-500 border-l-transparent border-r-transparent rounded-full animate-spin">
+                            </div>
+                            <div
+                                class="absolute inset-4 border-4 border-blue-500 rounded-full opacity-50 animate-pulse">
                             </div>
                         </div>
-
-
-
-                        <button type="submit" id="fetchLicenceBtn"
-                            class="mt-9 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
-                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">
-                                {{ session()->has('identification') ? 'Enregistrer' : 'Suivant' }}
-                            </h1>
-                        </button>
                     </div>
+
+                    <button type="submit" id="fetchLicenceBtn"
+                        class="mt-9 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 dark:bg-tertiary-dark-400 dark:hover:bg-tertiary-dark-300 py-2.5">
+                        <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                            {{ session()->has('identification') ? 'Enregistrer' : 'Suivant' }}
+                        </h1>
+                    </button>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+</form>
+
 
     <script>
         document.getElementById('fetchLicenceBtn').addEventListener('click', async function(event) {
