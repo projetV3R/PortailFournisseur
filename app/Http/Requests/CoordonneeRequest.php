@@ -24,7 +24,7 @@ class CoordonneeRequest extends FormRequest
      */
     public function rules(): array
     {
-      
+
         $rules = [
             'numeroCivique' => [
                 'required',
@@ -62,35 +62,35 @@ class CoordonneeRequest extends FormRequest
             'siteWeb' => [
                 'nullable',
                 'string',
-                'url',
-                'max:64'
+                'max:64',
+                'regex:/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/'
             ],
-            'currentIndex'=>[
+            'currentIndex' => [
                 'nullable',
                 'integer',
             ],
 
-            'ligne' => ['required', 'array'], 
+            'ligne' => ['required', 'array'],
             'ligne.*.id' => [
                 'nullable',
                 'integer',
-                'exists:telephones,id', 
+                'exists:telephones,id',
             ],
             'ligne.*.type' => [
                 'required',
                 'string',
-                Rule::in(['Bureau', 'Télécopieur', 'Cellulaire']), 
+                Rule::in(['Bureau', 'Télécopieur', 'Cellulaire']),
             ],
             'ligne.*.numeroTelephone' => [
                 'required',
                 'string',
-                'regex:/^\d{3}-\d{3}-\d{4}$/', 
+                'regex:/^\d{3}-\d{3}-\d{4}$/',
             ],
             'ligne.*.poste' => [
                 'nullable',
                 'string',
                 'max:6',
-                'regex:/^\d+$/', 
+                'regex:/^\d+$/',
             ]
         ];
 
@@ -105,19 +105,18 @@ class CoordonneeRequest extends FormRequest
         return $rules;
     }
     protected function failedValidation(Validator $validator)
-{
-    $currentRouteName = $this->route()->getName();
+    {
+        $currentRouteName = $this->route()->getName();
 
-    if ($currentRouteName === 'UpdateCoordonnee') {
-        session()->put('errorsCoordonnees', $validator->errors());
+        if ($currentRouteName === 'UpdateCoordonnee') {
+            session()->put('errorsCoordonnees', $validator->errors());
 
-        throw new HttpResponseException(
-            redirect()->back()
-                ->withInput()
-        );
+            throw new HttpResponseException(
+                redirect()->back()
+                    ->withInput()
+            );
+        }
+
+        parent::failedValidation($validator);
     }
-
-    parent::failedValidation($validator);
-}
-
 }
