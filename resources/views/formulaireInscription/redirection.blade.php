@@ -15,7 +15,7 @@
             <div class="col-span-1 md:col-span-12 text-center mt-8">
                 <!-- Bouton de secours pour redirection manuelle -->
                 <a href="{{ route('login') }}" id="manual-redirect"
-                    class="text-blue-600 hover:underline text-lg font-bold font-Alumni" onclick="removeInscritSession()">
+                    class="text-blue-600 hover:underline text-lg font-bold font-Alumni daltonien:text-daltonienTextBleu daltonien:hover:text-daltonienYellow" onclick="removeInscritSession()">
                     Si la redirection ne fonctionne pas, cliquez ici pour accéder à la page de connexion.
                 </a>
             </div>

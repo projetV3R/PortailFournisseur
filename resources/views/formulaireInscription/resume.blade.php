@@ -40,7 +40,8 @@
         
             <form id="information" action="{{ route('FicheFournisseursStore') }}" method="POST">
                 @csrf
-                <button type="button" onclick="confirmInformation()" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">
+                <button type="button" onclick="confirmInformation()" 
+                        class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                     Valider les informations
                 </button>
             </form>
@@ -60,7 +61,7 @@
             <div class="bg-primary-100 py-8 px-4 mt-10 relative flex-1 dark:bg-gray-500 text-black dark:text-white">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Informations d’authentification</h4>
                 <div class="absolute right-4 top-4">
-                    <a href="{{ route('CreateIdentification') }}" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('CreateIdentification') }}" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                     </a>
                 </div>
@@ -83,7 +84,7 @@
                 <div class="flex-1 md:flex-[2]">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Coordonnées</h4>
                     <div class="absolute right-4 top-4">
-                        <a href="{{ route('CreateCoordonnees') }}" class="text-tertiary-400 hover:text-tertiary-300">
+                        <a href="{{ route('CreateCoordonnees') }}" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow">
                             <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                         </a>
                     </div>
@@ -131,7 +132,7 @@
                     @endif
                 </div>
                 <div class="absolute right-4 top-4">
-                    <a href="{{ route('createContacts') }}" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('createContacts') }}" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                     </a>
                 </div>
@@ -163,7 +164,7 @@
             <div class="bg-primary-100 px-4 py-8 mt-10 relative flex-1 dark:bg-gray-500 text-black dark:text-white">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Documents téléchargés</h4>
                 <div class="absolute right-4 top-4">
-                    <a href="{{ route('createBrochuresCartesAffaires') }}" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('createBrochuresCartesAffaires') }}" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                     </a>
                 </div>
@@ -179,7 +180,7 @@
             <div class="bg-primary-100 px-4 py-8 mt-10 relative flex-1 dark:bg-gray-500 text-black dark:text-white">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et Services</h4>
                 <div class="absolute right-4 top-4">
-                    <a href="{{ route('createProduitsServices') }}" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('createProduitsServices') }}" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                     </a>
                 </div>
@@ -195,7 +196,7 @@
             <div class="bg-primary-100 px-4 py-8 mt-10 relative flex-1 dark:bg-gray-500 text-black dark:text-white">
                 <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Licences et Autorisations</h4>
                 <div class="absolute right-4 top-4">
-                    <a href="{{ route('createLicences') }}" class="text-tertiary-400 hover:text-tertiary-300">
+                    <a href="{{ route('createLicences') }}" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow">
                         <span class="iconify" data-icon="material-symbols:edit" style="font-size: 1.5rem;"></span>
                     </a>
                 </div>

@@ -170,7 +170,7 @@
                 <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier vos renseignements financier </h2>
                 
                 <!-- Bouton de fermeture -->
-                <button onclick="closeFinanceModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500 ">
+                <button onclick="closeFinanceModal()" class="absolute top-4 right-4 text-gray-700 border-2 hover:text-white hover:bg-red-500">
                     <span class="iconify" data-icon="material-symbols:close" style="font-size: 2.5rem;"></span>
                 </button>
         
@@ -215,16 +215,34 @@
     @endif
     @if($fournisseur->etat == 'accepter' && !$fournisseur->finance)
   
-    <div class="flex"> <button onclick="finance()" class="border-2 px-2 p-2 bg-secondary-400 text-white hover:text-tertiary-300 rounded-md  ">Renseignement financier</button></div>
+    <div class="flex"> 
+        <button onclick="finance()" 
+            class="border-2 px-2 p-2 bg-secondary-400 text-white hover:text-tertiary-300 rounded-md 
+                    daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+            Renseignement financier
+        </button>
+    </div>
     @endif
 
     @if($fournisseur->etat == 'accepter')
   
-    <div class="flex"> <button onclick="desactivation()" class="border-2 px-2 p-2 bg-red-500 text-white hover:text-primary-300 rounded-md  ">Désactiver votre fiche fournisseur</button></div>
+    <div class="flex"> 
+        <button onclick="desactivation()" 
+            class="border-2 px-2 p-2 bg-red-500 text-white hover:text-primary-300 rounded-md 
+                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+            Désactiver votre fiche fournisseur
+        </button>
+    </div>
     @endif
     @if($fournisseur->etat == 'desactiver')
   
-    <div class="flex"> <button onclick="reactivation()" class="border-2 px-2 p-2 bg-green-500 text-white hover:text-primary-300 rounded-md  ">Réactiver votre fiche fournisseur</button></div>
+    <div class="flex"> 
+        <button onclick="reactivation()" 
+                class="border-2 px-2 p-2 bg-green-500 text-white hover:text-primary-300 rounded-md
+                        daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+            Réactiver votre fiche fournisseur
+        </button>
+    </div>
     @endif
         <div class="{{ $etatStyle['bgColor'] }} mt-4 md:mt-0 md:ml-2 w-full md:w-1/2 py-4 px-6 flex items-center">
             <div class="{{ $etatStyle['textColor'] }}">
@@ -250,7 +268,7 @@
 
                     <!-- Bouton "modifier" ajouté en haut à droite du cadre -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300" onclick="openIdentificationModal()">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow" onclick="openIdentificationModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -273,7 +291,7 @@
 
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300" onclick="openCoordonneeModal()">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow" onclick="openCoordonneeModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -314,7 +332,7 @@
         <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Documents téléchargés</h4>
         <div class="overflow-auto max-h-48 mt-4">
             <div class="absolute right-4 top-4">
-                <button type="button" class="text-tertiary-400 hover:text-tertiary-300"  onclick="openDocModal()">
+                <button type="button" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow"  onclick="openDocModal()">
                     <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;"></span>
                 </button>
             </div>
@@ -334,7 +352,7 @@
                 <div class="bg-primary-100 py-8 px-4 mt-8 relative">
                     <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Licences</h4>
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;" onclick="openLicenceModal()"></span>
                         </button>
                     </div>
@@ -374,7 +392,7 @@
 
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300" onclick="openIdentificationModal()">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow" onclick="openIdentificationModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -396,7 +414,7 @@
 
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300"  onclick="openProduitsServicesModal()">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow"  onclick="openProduitsServicesModal()">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"
                                 style="font-size: 1.5rem;"></span>
                         </button>
@@ -437,7 +455,7 @@
 
     <!-- Bouton "modifier" en haut à droite -->
     <div class="absolute right-4 top-4">
-        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+        <button type="button" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow">
             <span class="iconify" data-icon="material-symbols:edit" data-inline="false" style="font-size: 1.5rem;"  onclick="openContactModal()"></span>
         </button>
     </div>
@@ -474,7 +492,7 @@
                 <div class="bg-primary-100 py-8 px-4 mt-8 relative">
                     <!-- Bouton "modifier" en haut à droite -->
                     <div class="absolute right-4 top-4">
-                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300">
+                        <button type="button" class="text-tertiary-400 hover:text-tertiary-300 daltonien:hover:text-daltonienYellow">
                             <span class="iconify" data-icon="material-symbols:edit" data-inline="false"  onclick="openFinanceModal()"
                                 style="font-size: 1.5rem;"></span>
                         </button>

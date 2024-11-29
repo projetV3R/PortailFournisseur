@@ -14,6 +14,7 @@ export default {
             colors: {
                 daltonienYellow: '#FACC15',
                 daltonienBleu: "#849ED2",
+                daltonienTextBleu: "#004C8A",
                 primary: {
                     100: "#EFF8FC",
                     200: "#DEF1F8",
