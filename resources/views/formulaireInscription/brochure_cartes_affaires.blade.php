@@ -42,7 +42,8 @@
             <div id="messageContainer" class="mt-4 text-sm text-red-500"></div>
 
             <!-- Bouton de soumission -->
-            <button type="submit" id="uploadButton" class="mt-4 w-full text-white bg-blue-500 hover:bg-blue-400 py-2.5">
+            <button type="submit" id="uploadButton" 
+                    class="mt-4 w-full text-white bg-blue-500 hover:bg-blue-400 py-2.5 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                 <h1 class="font-Alumni font-bold text-lg md:text-2xl">Téléverser</h1>
             </button>
         </div>
