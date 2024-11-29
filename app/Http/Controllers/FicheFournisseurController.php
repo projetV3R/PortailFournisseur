@@ -306,7 +306,7 @@ class FicheFournisseurController extends Controller
         Historique::create([
             'table_name' => 'FicheFournisseur',
             'author' =>$ficheFournisseur->adresse_courriel,
-            'action' => 'Creation',
+            'action' => 'En attente',
             'new_values' => "+état: En attente",
             'fiche_fournisseur_id' => $ficheFournisseur->id,
         ]);
