@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('province')->default('Québec');
             $table->string('site_internet')->nullable();
             $table->string('code_postal');
-            $table->string('region_administrative');
+            $table->string('region_administrative')->nullable();
             $table->foreignId('fiche_fournisseur_id')->constrained('fiche_fournisseurs')->onDelete('cascade');
             $table->timestamps();
         });
