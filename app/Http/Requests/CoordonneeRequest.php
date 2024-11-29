@@ -62,8 +62,8 @@ class CoordonneeRequest extends FormRequest
             'siteWeb' => [
                 'nullable',
                 'string',
-                'url',
                 'max:64',
+                'regex:/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/'
             ],
             'currentIndex' => [
                 'nullable',
