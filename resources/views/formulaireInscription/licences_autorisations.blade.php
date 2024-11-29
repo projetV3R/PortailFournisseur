@@ -138,7 +138,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="mt-2 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
+                    <button type="submit" class="mt-2 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                         <h1 class="font-Alumni font-bold text-lg md:text-2xl">
                         {{ session()->has('licences') ? 'Enregistrer' : 'Suivant' }}
                         </h1>
@@ -227,7 +227,7 @@
                     data[type].forEach(cat => {
                         const checkboxWrapper = document.createElement('div');
                         checkboxWrapper.classList.add('flex', 'items-center', 'mt-2', 'relative',
-                            'group', 'bg-gray-300', 'rounded-md', 'p-2', 'px-2');
+                            'group', 'bg-gray-300', 'rounded-md', 'p-2', 'px-2', 'daltonien:bg-daltonienBleu');
 
                         const checkbox = document.createElement('input');
                         checkbox.type = 'checkbox';

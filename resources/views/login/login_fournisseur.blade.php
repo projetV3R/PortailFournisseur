@@ -14,7 +14,9 @@
                 <div class="flex flex-wrap justify-center gap-4 mt-8 md:mt-16">
                     <a href="{{ route('showLoginFormAvecNeq') }}">
                         <div
-                            class="w-32 h-32 md:w-44 md:h-44 lg:w-56 lg:h-56 px-4 bg-primary-300 flex items-center justify-center cursor-pointer transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                            class="w-32 h-32 md:w-44 md:h-44 lg:w-56 lg:h-56 px-4 bg-primary-300 flex items-center justify-center cursor-pointer 
+                                    transform hover:scale-105 transition-transform duration-300 ease-in-out 
+                                    daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                             <p class="text-center text-black text-lg md:text-2xl font-bold font-Alumni">Une entreprise ou un
                                 particulier avec
                                 NEQ</p>
@@ -23,7 +25,9 @@
 
                     <a href="{{ route('showLoginFormSansNeq') }}">
                         <div
-                            class="w-32 h-32 md:w-44 md:h-44 lg:w-56 lg:h-56 px-4 bg-secondary-300 flex items-center justify-center cursor-pointer transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                            class="w-32 h-32 md:w-44 md:h-44 lg:w-56 lg:h-56 px-4 bg-secondary-300 flex items-center justify-center cursor-pointer
+                                    transform hover:scale-105 transition-transform duration-300 ease-in-out
+                                    daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
 
                             <p class="text-center text-black text-lg md:text-2xl font-bold font-Alumni">Une entreprise ou un
                                 particulier sans
@@ -33,7 +37,9 @@
 
                     <a href="{{ route('CreateIdentification') }}">
                         <div
-                            class="w-32 h-32 md:w-44 md:h-44 lg:w-56 lg:h-56 px-4 bg-tertiary-300 flex items-center justify-center cursor-pointer transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                            class="w-32 h-32 md:w-44 md:h-44 lg:w-56 lg:h-56 px-4 bg-tertiary-300 flex items-center justify-center cursor-pointer 
+                                    transform hover:scale-105 transition-transform duration-300 ease-in-out
+                                    daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
 
                             <p class="text-center text-black text-lg md:text-2xl font-bold font-Alumni">Pas de compte ?
                                 Inscrivez vous !</p>

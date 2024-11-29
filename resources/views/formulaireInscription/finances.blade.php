@@ -146,10 +146,14 @@
                     </div>
                 </div>
 
-                <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 rounded transition duration-300 ease-in-out">
+                <button type="submit" 
+                    class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 rounded transition duration-300 ease-in-out
+                            daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Enregistrer mes informations </h1>
                 </button>
-                <button type="button" onclick="later()" class="mt-4 w-full text-white bg-tertiary-300 hover:bg-tertiary-400 py-2.5 rounded transition duration-300 ease-in-out">
+                <button type="button" onclick="later()" 
+                        class="mt-4 w-full text-white bg-tertiary-300 hover:bg-tertiary-400 py-2.5 rounded transition duration-300 ease-in-out
+                                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Remplir mes informations financières plus tard</h1>
                 </button>
 
