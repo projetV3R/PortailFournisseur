@@ -131,8 +131,10 @@
 
 
                         <button type="submit" id="fetchLicenceBtn"
-                            class="mt-9 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
-                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                            class="mt-9 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+                            <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                                {{ session()->has('identification') ? 'Enregistrer' : 'Suivant' }}
+                            </h1>
                         </button>
                     </div>
                 </div>

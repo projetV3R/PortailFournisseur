@@ -82,15 +82,23 @@
                     <label for="details_specifications" class="block font-Alumni text-md md:text-lg mb-2">Détails</label>
                     <textarea id="details_specifications" name="details_specifications"
                         class="font-Alumni w-full max-w-md p-2 h-28 focus:outline-none focus:border-blue-500 border border-black"
-                        placeholder="Entrer des détails supplémentaires">{{ old('details_specifications', session('produitsServices.details_specifications')) }}</textarea>
+                        placeholder="Entrer des détails supplémentaires"
+                        oninput="updateCharacterCount(event)">{{ old('details_specifications', session('produitsServices.details_specifications')) }}</textarea>
+                    <div class="">
+                        <span id="characterCount">0</span>/500 caractères
+                    </div>
+
+                    
 
                     @error('details_specifications')
                         <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <button type="submit" class="mt-4 w-full bg-tertiary-400 hover:bg-tertiary-300 py-3 text-white rounded-md">
-                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
+                <button type="submit" class="mt-4 w-full bg-tertiary-400 hover:bg-tertiary-300 py-3 text-white rounded-md daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+                    <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                        {{ session()->has('produitsServices') ? 'Enregistrer' : 'Suivant' }}
+                    </h1>
                 </button>
             </div>
         </div>
@@ -105,23 +113,40 @@
     let currentPageSelected = 1;
 
     function performSearch(page = 1) {
-    const query = document.getElementById('recherche').value.trim();
-    const selectedCategory = document.getElementById('selectCategorie').value || null; // Gérer l'option vide
+        const query = document.getElementById('recherche').value.trim();
+        const selectedCategory = document.getElementById('selectCategorie').value || null; // Gérer l'option vide
 
-    axios.get('/search', { 
-        params: { 
-            recherche: query, 
-            categorie: selectedCategory, 
-            page 
-        } 
-    })
-    .then(response => {
-        afficherResultats(response.data.data);
-        afficherPagination(response.data);
-    })
-    .catch(error => console.error("Erreur lors de la recherche :", error));
-}
+        axios.get('/search', { 
+            params: { 
+                recherche: query, 
+                categorie: selectedCategory, 
+                page 
+            } 
+        })
+        .then(response => {
+            afficherResultats(response.data.data);
+            afficherPagination(response.data);
+        })
+        .catch(error => console.error("Erreur lors de la recherche :", error));
+    }
 
+    function updateCharacterCount(event) {
+        const textarea = event.target;
+        const counter = document.getElementById('characterCount');
+        if (textarea && counter) {
+            counter.textContent = textarea.value.length;
+        }
+    }
+
+    function initializeCharacterCount() {
+        const textarea = document.getElementById('details_specifications');
+        const counter = document.getElementById('characterCount');
+        if (textarea && counter) {
+            counter.textContent = textarea.value.length;
+        }
+    }
+
+    initializeCharacterCount();
 
 
     function afficherResultats(produits) {
@@ -144,12 +169,14 @@
         return `
             <button type="button"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4 rounded-l
+                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black
                 ${!data.prev_page_url ? 'cursor-not-allowed' : ''}"
                 onclick="${functionName}(1)" ${!data.prev_page_url ? 'disabled' : ''}>
                 &lt;&lt;
             </button>
             <button type="button"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4 
+                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black
                 ${!data.prev_page_url ? 'cursor-not-allowed' : ''}"
                 onclick="${functionName}(${data.current_page - 1})" ${!data.prev_page_url ? 'disabled' : ''}>
                 <span class="md:hidden">&lt;</span>
@@ -158,6 +185,7 @@
             <span class="text-xs  font-bold mx-2">Page ${data.current_page} sur ${data.last_page}</span>
             <button type="button"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4
+                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black
                 ${!data.next_page_url ? 'cursor-not-allowed' : ''}"
                 onclick="${functionName}(${data.current_page + 1})" ${!data.next_page_url ? 'disabled' : ''}>
                 <span class="md:hidden">&gt;</span>
@@ -165,6 +193,7 @@
             </button>
             <button type="button"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 md:px-4 rounded-r
+                daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black
                 ${!data.next_page_url ? 'cursor-not-allowed' : ''}"
                 onclick="${functionName}(${data.last_page})" ${!data.next_page_url ? 'disabled' : ''}>
                 &gt;&gt;

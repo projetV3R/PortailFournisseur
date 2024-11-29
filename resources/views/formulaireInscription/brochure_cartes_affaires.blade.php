@@ -4,9 +4,14 @@
 
 @section('contenu')
 <div class="container mx-auto mt-10">
-    <div class="mb-5">
-    @include('partials.progress_bar')</div>
-
+    <div class="flex w-full flex-col 2xl:flex-row gap-4 p-4">
+        <div class="flex flex-col w-full">
+            <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Brochures et Cartes d'affaires</h6>
+            <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Déposer vos brochures et cartes d'affaires.</h1>
+        </div>
+       
+    </div>
+    @include('partials.progress_bar')
     <form id="fileUploadForm" action="{{ route('storeBrochuresCartesAffaires') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="bg-primary-100 py-8 px-4">
@@ -37,7 +42,8 @@
             <div id="messageContainer" class="mt-4 text-sm text-red-500"></div>
 
             <!-- Bouton de soumission -->
-            <button type="submit" id="uploadButton" class="mt-4 w-full text-white bg-blue-500 hover:bg-blue-400 py-2.5">
+            <button type="submit" id="uploadButton" 
+                    class="mt-4 w-full text-white bg-blue-500 hover:bg-blue-400 py-2.5 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                 <h1 class="font-Alumni font-bold text-lg md:text-2xl">Téléverser</h1>
             </button>
         </div>
