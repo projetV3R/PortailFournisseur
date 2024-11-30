@@ -242,17 +242,17 @@
 
     @yield('footer')
     <footer class="w-full font-Alumni text-sm md:text-base text-gray-600">
-        <div class="bg-gray-200 flex justify-between p-4">
-            <div></div><!--TODO: ne touche pas je suis importante -->
+        <div class="bg-gray-200 flex justify-between p-8">
+            <div  class="sm:hidden block flex justify-center"></div><!--TODO: ne touche pas je suis importante -->
             <div class="flex flex-row">
                 <div class="p-2 hidden sm:block">
                     <a href="https://www.v3r.net/">
-                        <img class="h-20 w-20 md:h-15 md:w-15 daltonien:bg-white daltonien:hover:bg-daltonienYellow daltonien:hover:text-black"
+                        <img class="h-24 w-24 md:h-15 md:w-15 daltonien:bg-white daltonien:hover:bg-daltonienYellow daltonien:hover:text-black"
                             src="https://www.v3r.net/wp-content/themes/v3r/Images/icons/logo-v3r-v2017.svg"
                             alt="V3R Logo" />
                     </a>
                 </div>
-                <div class="flex flex-col justify-start sm:justify-center gap-2">
+                <div class="flex flex-col justify-start text-xl sm:justify-center gap-2">
                     <div class="sm:hidden block flex gap-2 justify-center items-center">
                         <a href="https://www.v3r.net/a-propos-de-la-ville/communications/infolettre" class="daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                             <span class="iconify size-8 sm:size-6" data-icon="mdi:email-newsletter"
@@ -273,7 +273,7 @@
                             <span class="iconify size-8 sm:size-6" data-icon="fa:youtube" data-inline="false"></span>
                         </a>
                     </div>
-                    <div class="flex flex-col sm:text-center gap-1">
+                    <div class="flex flex-col sm:text-center  gap-1">
                         <div class="sm:hover:bg-transparent bg-white sm:bg-gray-200 text-center sm:text-start p-2 sm:p-0 hover:bg-gray-100 daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                             <b>
                                 <h4>Ville de Trois-Rivières</h4>
@@ -324,7 +324,7 @@
                 </div>
             </div>
             <div>
-                <div class="xl:flex justify-end hidden text-md w-fit text-gray-800 lg:justify-end">
+                <div class="xl:flex justify-end hidden text-xl text-gray-600 w-fit  lg:justify-end">
                     <div class="flex flex-col justify-end">
                         <a href="https://www.v3r.net/a-propos-de-la-ville/communications"
                             class="hover:underline font-alumni-sans-bold daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">>Communications</a>
@@ -335,7 +335,7 @@
             </div>
 
 
-            <div class="hidden sm:block">
+            <div class="hidden sm:block ">
                 <div class="flex flex-row justify-end text-small font-raleway text-gray-800 mb-4">
                     <div class="flex">
                         <a class="mx-2 daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black" href="https://www.v3r.net/a-propos-de-la-ville/communications/infolettre">
