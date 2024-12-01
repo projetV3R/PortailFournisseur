@@ -5,7 +5,7 @@
 
 @section('contenu')
 
-    <form action="{{ route('UpdateCoordonnee') }}" method="post">
+    <form action="{{ route('UpdateCoordonnee') }}" method="post" id="coordonneesForm">
         @csrf
         @if(session('errorsCoordonnees'))
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
@@ -296,7 +296,7 @@
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Ajouter un numero</h1>
                 </button>
 
-                <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
+                <button type="button" id="confirmButton" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">Suivant</h1>
                 </button>
 

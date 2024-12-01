@@ -10,29 +10,30 @@ function initializeDocFormScript() {
     let MAX_TOTAL_SIZE_MB = 0;
     let brochuresFromSession = [];
     let indicesFichiersASupprimer = [];
-    let totalSize = 0; 
+    let totalSizeExistingFiles = 0;
+    let totalSizeNewFiles = 0;
+    let totalSize = 0;
 
-    // Appel API pour récupérer les fichiers existants et la taille maximale autorisée
+  
     axios.get('/Brochures/getDocuments')
         .then(response => {
             brochuresFromSession = response.data.brochures;
             MAX_TOTAL_SIZE_MB = response.data.maxFileSize;
             afficherFichiersDejaTeleverses();
-            updateUI();
+            updateTotalSizeAndUI();
         })
         .catch(error => console.error("Erreur lors du chargement des documents :", error));
 
     function afficherFichiersDejaTeleverses() {
- 
-        totalSize = 0;
+        if (!uploadedFileList) return;
+
+        totalSizeExistingFiles = 0; 
         uploadedFileList.innerHTML = '';
         fichiersASupprimerContainer.innerHTML = '';
 
         brochuresFromSession.forEach((brochure) => {
             if (!indicesFichiersASupprimer.includes(brochure.id)) {
-            
-                totalSize += brochure.taille / (1024 * 1024);
-
+                totalSizeExistingFiles += brochure.taille / (1024 * 1024); 
                 const listItem = document.createElement('li');
                 listItem.textContent = `${brochure.nom} - ${(brochure.taille / (1024 * 1024)).toFixed(2)} Mo`;
 
@@ -43,7 +44,7 @@ function initializeDocFormScript() {
                 deleteButton.addEventListener('click', () => {
                     indicesFichiersASupprimer.push(brochure.id);
                     afficherFichiersDejaTeleverses();
-                    updateUI();
+                    updateTotalSizeAndUI();
                 });
 
                 listItem.appendChild(deleteButton);
@@ -51,7 +52,7 @@ function initializeDocFormScript() {
             }
         });
 
-       
+    
         indicesFichiersASupprimer.forEach(id => {
             const input = document.createElement('input');
             input.type = 'hidden';
@@ -61,8 +62,12 @@ function initializeDocFormScript() {
         });
     }
 
+    function updateTotalSizeAndUI() {
+        totalSize = totalSizeExistingFiles + totalSizeNewFiles;
+        updateUI();
+    }
+
     function updateUI() {
-       
         totalFileSizeDisplay.textContent = `Taille totale : ${totalSize.toFixed(2)} Mo / ${MAX_TOTAL_SIZE_MB} Mo`;
 
         if (totalSize > MAX_TOTAL_SIZE_MB) {
@@ -82,25 +87,17 @@ function initializeDocFormScript() {
         messageContainer.innerHTML = '';
         fileList.innerHTML = '';
 
-        let newFilesTotalSize = 0;
+        totalSizeNewFiles = 0; 
         const files = Array.from(fileInput.files);
 
         files.forEach(file => {
-            newFilesTotalSize += file.size;
+            totalSizeNewFiles += file.size / (1024 * 1024);
             const listItem = document.createElement('li');
             listItem.textContent = `${file.name} - ${(file.size / (1024 * 1024)).toFixed(2)} Mo`;
             fileList.appendChild(listItem);
         });
 
-        totalSize = newFilesTotalSize / (1024 * 1024);
-
-        brochuresFromSession.forEach((brochure) => {
-            if (!indicesFichiersASupprimer.includes(brochure.id)) {
-                totalSize += brochure.taille / (1024 * 1024);
-            }
-        });
-
-        updateUI();
+        updateTotalSizeAndUI();
     });
 
     const confirmButton = document.getElementById('uploadButton');

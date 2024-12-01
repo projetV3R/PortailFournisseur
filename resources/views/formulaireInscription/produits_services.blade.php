@@ -7,20 +7,19 @@
 <form id="produitsServicesForm" action="{{ route('StoreProduitsServices') }}" method="post">
     @csrf
     <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16">
-        <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
-        <div class="flex w-full flex-col">
-            <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Produits et services</h6>
-            <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">
-                Parlez-nous des services que vous offrez      
-            </h1>
-           
+        <div class="flex w-full flex-col 2xl:flex-row gap-4">
+            <div class="flex w-full flex-col">
+                <h6 class="font-Alumni font-bold text-3xl md:text-5xl text-black dark:text-white">Produits et services</h6>
+                <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2 text-black dark:text-white">
+                    Parlez-nous des services que vous offrez
+                </h1>
+            </div>
+            @include('partials.progress_bar')
         </div>
-        @include('partials.progress_bar')
-    </div>
         <!-- Conteneur principal -->
         <div class="flex w-full lg:flex-row flex-col gap-x-4">
             <!-- Colonne des produits non sélectionnés -->
-            <div class="flex flex-col ">
+            <div class="flex flex-col">
                 @if (session('errors'))
                     <ul>
                         @foreach (session('errors')->all() as $error)
@@ -28,33 +27,34 @@
                         @endforeach
                     </ul>
                 @endif
-                <div class="bg-primary-100 py-8 px-2 md:px-4 mt-8  ">
+                <div class="bg-primary-100 dark:bg-primary-dark-100 py-8 px-2 md:px-4 mt-8">
                     <div class="flex w-full">
                         <div class="justify-start flex w-full">
-                            <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et services</h4>
+                            <h4 class="font-Alumni font-bold text-lg md:text-2xl underline text-black dark:text-white">Produits et services</h4>
                         </div>
                         <div class="flex justify-end items-end w-full font-bold">
-                            <button type="button" id="unspscButton" class="flex items-center gap-x-1">
+                            <button type="button" id="unspscButton" class="flex items-center gap-x-1 text-black dark:text-white">
                                 <span class="iconify size-6" data-icon="grommet-icons:help-book"></span>
                                 <span class="hidden lg:block">UNSPSC</span>
                             </button>
-                        </div> 
+                        </div>
                     </div>
                     <div class="mt-6 w-full flex flex-col">
-                        <label for="recherche" class="block font-Alumni text-md md:text-lg mb-2">
+                        <label for="recherche" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
                             En peu de mots décrivez vos produits ou services, le secteur ou le code UNSPSC
                         </label>
                         <div class="flex flex-col">
                             <input type="text" id="recherche"
                                 placeholder="En peu de mots décrivez vos produits ou services"
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                                <select id="selectCategorie" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-                                    <option value="" disabled selected>Choisissez une catégorie pour filtrer les produits et services</option>
-                                </select>
+                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+                            <select id="selectCategorie"
+                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+                                <option value="" disabled selected>Choisissez une catégorie pour filtrer les produits et services</option>
+                            </select>
                         </div>
                         <div id="pagination" class="mt-4 flex justify-center items-center gap-x-2"></div>
 
-                        <div id="toutLesProduitsServices" class="grid  grid-cols-2 gap-4 mt-4"></div>
+                        <div id="toutLesProduitsServices" class="grid grid-cols-2 gap-4 mt-4"></div>
 
                         @error('recherche')
                             <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
@@ -63,11 +63,11 @@
                 </div>
             </div>
             <!-- Colonne des produits sélectionnés -->
-            <div class="bg-secondary-100 py-10 px-8 mt-8 w-full lg:max-w-4xl mx-auto flex flex-col h-fit">
-                <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Produits et services sélectionnés</h4>
+            <div class="bg-secondary-100 dark:bg-secondary-dark-100 py-10 px-8 mt-8 w-full lg:max-w-4xl mx-auto flex flex-col h-fit">
+                <h4 class="font-Alumni font-bold text-lg md:text-2xl underline text-black dark:text-white">Produits et services sélectionnés</h4>
 
                 <!-- Ajout du compteur -->
-                <p id="selectedCount" class="font-Alumni text-md md:text-lg mt-2">Nombre de produits sélectionnés : 0</p>
+                <p id="selectedCount" class="font-Alumni text-md md:text-lg mt-2 text-black dark:text-white">Nombre de produits sélectionnés : 0</p>
 
                 <!-- Conteneur de pagination pour les produits sélectionnés -->
                 <div id="paginationSelected" class="mt-4 flex justify-center items-center gap-x-2"></div>
@@ -79,23 +79,22 @@
                     <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
                 @enderror
                 <div class="mt-6">
-                    <label for="details_specifications" class="block font-Alumni text-md md:text-lg mb-2">Détails</label>
+                    <label for="details_specifications" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">Détails</label>
                     <textarea id="details_specifications" name="details_specifications"
-                        class="font-Alumni w-full max-w-md p-2 h-28 focus:outline-none focus:border-blue-500 border border-black"
+                        class="font-Alumni w-full max-w-md p-2 h-28 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                         placeholder="Entrer des détails supplémentaires"
                         oninput="updateCharacterCount(event)">{{ old('details_specifications', session('produitsServices.details_specifications')) }}</textarea>
-                    <div class="">
+                    <div class="text-black dark:text-white">
                         <span id="characterCount">0</span>/500 caractères
                     </div>
-
-                    
 
                     @error('details_specifications')
                         <span class="font-Alumni text-lg text-red-500 mt-1 ml-1">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <button type="submit" class="mt-4 w-full bg-tertiary-400 hover:bg-tertiary-300 py-3 text-white rounded-md daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+                <button type="submit"
+                    class="mt-4 w-full bg-tertiary-400 hover:bg-tertiary-300 dark:bg-tertiary-dark-400 dark:hover:bg-tertiary-dark-300 py-3 text-white daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                     <h1 class="font-Alumni font-bold text-lg md:text-2xl">
                         {{ session()->has('produitsServices') ? 'Enregistrer' : 'Suivant' }}
                     </h1>
@@ -103,8 +102,8 @@
             </div>
         </div>
     </div>
-
 </form>
+
 
 <script>
     let selectedProductIds = [];
@@ -202,26 +201,27 @@
     }
 
     function createProduitHTML(produit) {
-        const isSelected = selectedProductIds.includes(produit.id);
-        const iconHtml = isSelected
-            ? '<span class="iconify size-4 md:size-8 lg:size-10 text-green-500" data-icon="material-symbols:check-circle"></span>'
-            : '<span class="iconify size-4 md:size-8 lg:size-10 text-white" data-icon="material-symbols:add"></span>';
+    const isSelected = selectedProductIds.includes(produit.id);
+    const iconHtml = isSelected
+        ? '<span class="iconify size-4 md:size-8 lg:size-10 text-green-500" data-icon="material-symbols:check-circle"></span>'
+        : '<span class="iconify size-4 md:size-8 lg:size-10 text-white dark:text-gray-400" data-icon="material-symbols:add"></span>';
 
-        return `
-            <div class="bg-white cursor-pointer px-4 py-2 w-full flex flex-row produitService hover:bg-green-500"
-                data-index="${produit.id}" data-unspsc="${produit.code_unspsc}">
-                <div class="flex flex-col w-full">
-                    <h6 class="font-Alumni text-xs font-bold md:text-3xl">${produit.nature || 'Nature non disponible'}</h6>
-                    <h4 class="font-Alumni text-xs md:text-xl mt-2">${produit.code_categorie || ''}</h4>
-                    <h1 class="font-Alumni text-xs italic md:text-lg">${produit.code_unspsc || ''} - ${produit.description || ''}</h1>
+    return `
+        <div class="bg-white dark:bg-gray-800 cursor-pointer px-4 py-2 w-full flex flex-row produitService hover:bg-green-500 dark:hover:bg-green-700"
+            data-index="${produit.id}" data-unspsc="${produit.code_unspsc}">
+            <div class="flex flex-col w-full">
+                <h6 class="font-Alumni text-xs font-bold md:text-3xl text-gray-800 dark:text-gray-200">${produit.nature || 'Nature non disponible'}</h6>
+                <h4 class="font-Alumni text-xs md:text-xl mt-2 text-gray-600 dark:text-gray-300">${produit.code_categorie || ''}</h4>
+                <h1 class="font-Alumni text-xs italic md:text-lg text-gray-500 dark:text-gray-400">${produit.code_unspsc || ''} - ${produit.description || ''}</h1>
+            </div>
+            <div class="flex flex-col items-end justify-start w-full">
+                <div class="flex items-center justify-center bg-tertiary-400 dark:bg-tertiary-dark-400 md:p-2 rounded-full">
+                    ${iconHtml}
                 </div>
-                <div class="flex flex-col items-end justify-start w-full">
-                    <div class="flex items-center justify-center bg-tertiary-400 md:p-2 rounded-full">
-                        ${iconHtml}
-                    </div>
-                </div>
-            </div>`;
-    }
+            </div>
+        </div>`;
+}
+
 
     function assignClickEventsToProducts() {
         document.querySelectorAll('.produitService').forEach(item => {
@@ -289,18 +289,20 @@
 
     function createProduitSelectionneHTML(produit) {
         return `
-            <div class="bg-white cursor-pointer px-4 py-2 w-full flex flex-row produitSelectionne hover:bg-red-500"
-                data-index="${produit.id}">
-                <div class="flex flex-col w-full">
- 
-                    <h1 class="font-Alumni text-xs italic md:text-lg">${produit.code_unspsc || ''}-  ${produit.description || ''}</h1>
-                </div>
-                <div class="flex flex-col items-end justify-start w-full">
-                    <div class="flex items-center justify-center bg-tertiary-400 md:p-2 rounded-full">
-                        <span class="iconify size-4 md:size-8 lg:size-10 text-white" data-icon="material-symbols:delete"></span>
-                    </div>
-                </div>
-            </div>`;
+    <div class="bg-white dark:bg-gray-800 cursor-pointer px-4 py-2 w-full flex flex-row produitSelectionne hover:bg-red-500 dark:hover:bg-red-700"
+        data-index="${produit.id}">
+        <div class="flex flex-col w-full">
+            <h1 class="font-Alumni text-xs italic md:text-lg text-gray-800 dark:text-gray-200">
+                ${produit.code_unspsc || ''} - ${produit.description || ''}
+            </h1>
+        </div>
+        <div class="flex flex-col items-end justify-start w-full">
+            <div class="flex items-center justify-center bg-tertiary-400 dark:bg-tertiary-dark-400 md:p-2 rounded-full">
+                <span class="iconify size-4 md:size-8 lg:size-10 text-white dark:text-gray-400" data-icon="material-symbols:delete"></span>
+            </div>
+        </div>
+    </div>`;
+
     }
 
     function assignClickEventsToSelectedProducts() {

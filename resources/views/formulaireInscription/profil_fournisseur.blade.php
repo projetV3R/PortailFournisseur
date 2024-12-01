@@ -86,7 +86,7 @@
 @endphp
            <!-- Modal pour l'édition d'identification -->
 
-           <div id="identificationModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
+        <div id="identificationModal" class="fixed z-20 inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden overflow-auto">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-4xl mx-4 md:mx-8 lg:mx-12 lg:max-w-5xl relative max-h-screen overflow-y-auto">
                 <h2 class="font-Alumni font-bold text-2xl md:text-3xl mb-4">Modifier les informations d'identification</h2>
                 
@@ -341,7 +341,7 @@
                     <h6 class="font-Alumni font-semibold text-md md:text-lg">{{ $brochure->nom }}</h6>
                     <p class="font-Alumni text-md"><strong>Type de fichier:</strong> {{ $brochure->type_de_fichier }}</p>
                     <p class="font-Alumni text-md"><strong>Taille:</strong> {{ number_format($brochure->taille / 1048576, 2) }} MB</p>
-        <!-- TODO A Retravailer le telechargement ne fonctionne pas ici    <p class="font-Alumni text-md"><a href="{{ asset($brochure->chemin) }}" class="text-tertiary-400 underline">Télécharger</a></p>-->    
+        <p class="font-Alumni text-md flex w-full"><a href="{{ Storage::url($brochure->chemin) }}" class="text-tertiary-400 underline flex items-center"> <span class="iconify " data-icon="material-symbols:download" data-inline="false" ></span>Télécharger    </a></p>    
                 </div>
             @empty
                 <p class="font-Alumni text-md md:text-lg">Aucun document disponible.</p>
