@@ -43,7 +43,7 @@ class NvxMotDePasseController extends Controller
         $status = Password::reset(
             $credentials,
             function ($user, $password) {
-                $user->password = Hash::make($password);
+                $user->password = bcrypt($password);
                 $user->save();
             }
         );
@@ -52,7 +52,7 @@ class NvxMotDePasseController extends Controller
                 ->where('email', $request->adresse_courriel)
                 ->delete();
 
-            return redirect()->route('login')->with('status', __($status));
+            return redirect()->route('login')->with('success', 'Votre mot de passe a été mis à jour avec succès. Vous pouvez maintenant vous connecter.');;
         } else {
             return view('password.lienDejaUtiliser');
         }
