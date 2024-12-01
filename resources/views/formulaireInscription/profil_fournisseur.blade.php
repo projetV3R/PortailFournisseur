@@ -341,7 +341,7 @@
                     <h6 class="font-Alumni font-semibold text-md md:text-lg">{{ $brochure->nom }}</h6>
                     <p class="font-Alumni text-md"><strong>Type de fichier:</strong> {{ $brochure->type_de_fichier }}</p>
                     <p class="font-Alumni text-md"><strong>Taille:</strong> {{ number_format($brochure->taille / 1048576, 2) }} MB</p>
-        <!-- TODO A Retravailer le telechargement ne fonctionne pas ici    <p class="font-Alumni text-md"><a href="{{ asset($brochure->chemin) }}" class="text-tertiary-400 underline">Télécharger</a></p>-->    
+        <p class="font-Alumni text-md flex w-full"><a href="{{ Storage::url($brochure->chemin) }}" class="text-tertiary-400 underline flex items-center"> <span class="iconify " data-icon="material-symbols:download" data-inline="false" ></span>Télécharger    </a></p>    
                 </div>
             @empty
                 <p class="font-Alumni text-md md:text-lg">Aucun document disponible.</p>
