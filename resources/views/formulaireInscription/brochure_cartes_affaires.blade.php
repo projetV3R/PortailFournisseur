@@ -6,44 +6,48 @@
 <div class="container mx-auto mt-10">
     <div class="flex w-full flex-col 2xl:flex-row gap-4 p-4">
         <div class="flex flex-col w-full">
-            <h6 class="font-Alumni font-bold text-3xl md:text-5xl">Brochures et Cartes d'affaires</h6>
-            <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Déposer vos brochures et cartes d'affaires.</h1>
+            <h6 class="font-Alumni font-bold text-3xl md:text-5xl text-black dark:text-white">Brochures et Cartes d'affaires</h6>
+            <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2 text-black dark:text-gray-300">
+                Déposer vos brochures et cartes d'affaires.
+            </h1>
         </div>
-       
     </div>
     @include('partials.progress_bar')
     <form id="fileUploadForm" action="{{ route('storeBrochuresCartesAffaires') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="bg-primary-100 py-8 px-4">
-            <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Brochures et cartes d'affaires</h4>
-     
+        <div class="bg-primary-100 dark:bg-primary-dark-100 py-8 my-8 px-4 ">
+            <h4 class="font-Alumni font-bold text-lg md:text-2xl underline text-black dark:text-white">
+                Brochures et cartes d'affaires
+            </h4>
+
             <!-- Input de fichiers -->
             <input type="file" id="fileInput" name="fichiers[]" multiple
                    accept=".doc,.docx,.pdf,.jpg,.jpeg,.xls,.xlsx"
-                   class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none mt-4">
+                   class="block w-full text-sm text-gray-900 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 focus:outline-none mt-4">
 
             <!-- Liste des fichiers sélectionnés -->
-            <h5 class="mt-4 font-bold">Fichiers sélectionnés :</h5>
-            <ul id="fileList" class="list-disc mt-2 ml-6 text-sm text-gray-700"></ul>
+            <h5 class="mt-4 font-bold text-black dark:text-white">Fichiers sélectionnés :</h5>
+            <ul id="fileList" class="list-disc mt-2 ml-6 text-sm text-gray-700 dark:text-gray-400"></ul>
 
             <!-- Affichage des fichiers déjà téléversés -->
             @if (session()->has('brochures_cartes_affaires'))
-                <h5 class="mt-4 font-bold">Fichiers déjà téléversés :</h5>
-                <ul id="uploadedFileList" class="list-disc mt-2 ml-6 text-sm text-gray-700"></ul>
+                <h5 class="mt-4 font-bold text-black dark:text-white">Fichiers déjà téléversés :</h5>
+                <ul id="uploadedFileList" class="list-disc mt-2 ml-6 text-sm text-gray-700 dark:text-gray-400"></ul>
             @endif
 
             <!-- Taille totale -->
-            <p id="totalFileSize" class="text-sm text-gray-500 mt-2">Taille totale : 0 Mo / {{ $maxFileSize }} Mo</p>
+            <p id="totalFileSize" class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Taille totale : 0 Mo / {{ $maxFileSize }} Mo
+            </p>
 
-            <!-- Champ caché pour les fichiers à supprimer -->
             <div id="fichiersASupprimerContainer"></div>
 
             <!-- Message de validation -->
-            <div id="messageContainer" class="mt-4 text-sm text-red-500"></div>
+            <div id="messageContainer" class="mt-4 text-sm text-red-500 dark:text-red-400"></div>
 
             <!-- Bouton de soumission -->
             <button type="submit" id="uploadButton" 
-                    class="mt-4 w-full text-white bg-blue-500 hover:bg-blue-400 py-2.5 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+                    class="mt-4 w-full text-white bg-blue-500 dark:bg-blue-700 hover:bg-blue-400 dark:hover:bg-blue-600 py-2.5 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                 <h1 class="font-Alumni font-bold text-lg md:text-2xl">Téléverser</h1>
             </button>
         </div>
@@ -81,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateUI();
 
     function afficherFichiersDejaTeleverses() {
+        if (!uploadedFileList) return; 
         uploadedFileList.innerHTML = ''; 
      
         const anciensChamps = document.querySelectorAll('input[name="fichiers_a_supprimer[]"]');

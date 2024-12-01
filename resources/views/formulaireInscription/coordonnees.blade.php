@@ -5,87 +5,76 @@
 @section('contenu')
 
     <form action="{{ route('StoreCoordonnees') }}" method="post">
-        @csrf
-        <div class="p-4 md:p-16 flex flex-col  w-full">
-            <div class="flex w-full flex-col 2xl:flex-row gap-4 ">
-                <div class="flex flex-col w-full">
-                    <h6 class="font-Alumni font-bold text-3xl md:text-5xl">COORDONNEES</h6>
-                    <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2">Ou vous situez vous ?</h1>
-
-                </div>
-                @include('partials.progress_bar')
+    @csrf
+    <div class="p-4 md:p-16 flex flex-col w-full">
+        <div class="flex w-full flex-col 2xl:flex-row gap-4">
+            <div class="flex flex-col w-full">
+                <h6 class="font-Alumni font-bold text-3xl md:text-5xl text-black dark:text-white">COORDONNEES</h6>
+                <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2 text-black dark:text-gray-300">
+                    Ou vous situez vous ?
+                </h1>
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
+            @include('partials.progress_bar')
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <!-- Première colonne -->
                 <div>
-
-
-                    <div class="bg-primary-100 py-8 px-4 mt-8 ">
+                    <div class="bg-primary-100 dark:bg-primary-dark-100 py-8 px-4 mt-8">
                         <div class="flex items-center gap-0.5">
-                            <span class="iconify  size-4 md:size-6" data-icon="material-symbols:home-outline"></span>
-                            <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Adresse physique</h4>
-
+                            <span class="iconify size-4 md:size-6 text-black dark:text-white" data-icon="material-symbols:home-outline"></span>
+                            <h4 class="font-Alumni font-bold text-lg md:text-2xl underline text-black dark:text-white">Adresse physique</h4>
                         </div>
-
-                        <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
-
+    
+                        <div class="mt-6 w-full max-w-md flex gap-4 columns-2">
                             <div class="w-1/4">
-                                <label for="numeroCivique" class="block font-Alumni text-md md:text-lg mb-2">
+                                <label for="numeroCivique" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
                                     N Civique
                                 </label>
                                 <input type="text" id="numeroCivique" name="numeroCivique" placeholder="1077"
-                                    class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
-
+                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                 @error('numeroCivique')
-                                    <span
-                                        class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                         {{ $message }}
                                     </span>
                                 @enderror
                             </div>
-
+    
                             <div class="w-1/2">
-                                <label for="rue" class="block font-Alumni text-md md:text-lg mb-2">
+                                <label for="rue" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
                                     Rue
                                 </label>
                                 <input type="text" id="rue" name="rue" placeholder="Rue marguerite bourgoeys"
-                                    class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
+                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                 @error('rue')
-                                    <span
-                                        class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                         {{ $message }}
                                     </span>
                                 @enderror
                             </div>
-
+    
                             <div class="w-1/4">
-                                <label for="bureau" class="block font-Alumni text-md md:text-lg mb-2">
+                                <label for="bureau" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
                                     Bureau
                                 </label>
                                 <input type="text" id="bureau" name="bureau" placeholder="2867"
-                                    class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
-
+                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                 @error('bureau')
-                                    <span
-                                        class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                         {{ $message }}
                                     </span>
                                 @enderror
                             </div>
                         </div>
-
-                        <div class="mt-4 w-full max-w-md flex gap-4 columns-2 ">
-
+    
+                        <div class="mt-4 w-full max-w-md flex gap-4 columns-2">
                             <div class="w-full">
-                                <label for="rue" class="block font-Alumni text-md md:text-lg mb-2">
+                                <label for="codePostale" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
                                     Code postale
                                 </label>
                                 <input type="text" id="codePostale" name="codePostale" placeholder="G8Z 3T2"
-                                    class="font-Alumni w-full p-2 h-12 h-12focus:outline-none focus:border-blue-500 border border-black">
-
+                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                 @error('codePostale')
-                                    <span
-                                        class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -93,17 +82,15 @@
                         </div>
 
                         <div class="mt-4 w-full max-w-md">
-                            <label for="province" class="block font-Alumni text-md md:text-lg mb-2">
-                                Provinces
-                            </label>
-
-                            <select name="province" id="province"
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                        <label for="province" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
+                            Provinces
+                        </label>
+                        <select name="province" id="province"
+                            class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                 <option value="" disabled selected>Choisissez une province</option>
                                 <option value="Alberta">Alberta</option>
                                 <option value="Saskatchewan">Saskatchewan</option>
                                 <option value="Manitoba">Manitoba</option>
-                                <option value="Colombie_Britannique">Colombie-Britannique</option>
                                 <option value="Ontario">Ontario</option>
                                 <option value="Québec" selected>Québec</option>
                                 <option value="Nouveau_Brunswick">Nouveau-Brunswick</option>
@@ -115,22 +102,19 @@
                                 <option value="Territoires_du_Nord_Ouest">Territoires du Nord-Ouest</option>
                                 <option value="Nunavut">Nunavut</option>
                             </select>
-
                             @error('province')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
                                 </span>
                             @enderror
-
                         </div>
-                        <div class="mt-4 w-full max-w-md">
-                            <label for="regionAdministrative" class="block font-Alumni text-md md:text-lg mb-2">
-                                Régions Administratives
-                            </label>
 
-                            <select name="regionAdministrative" id="regionAdministrative"
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                        <div class="mt-4 w-full max-w-md">
+                        <label for="regionAdministrative" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
+                            Régions Administratives
+                        </label>
+                        <select name="regionAdministrative" id="regionAdministrative"
+                            class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                 <option value="" disabled selected>Choisissez une région administrative</option>
                                 <option value="Bas-Saint-Laurent (01)">Bas-Saint-Laurent (01)</option>
                                 <option value="Saguenay-Lac-Saint-Jean (02)">Saguenay-Lac-Saint-Jean (02)</option>
@@ -152,22 +136,19 @@
                                 <option value="Centre-du-Québec (17)">Centre-du-Québec (17)</option>
 
                             </select>
-
                             @error('regionAdministrative')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
                                 </span>
                             @enderror
-
                         </div>
 
                         <div class="mt-4 w-full max-w-md">
-                            <label for="municipaliteSelect" class="block font-Alumni text-md md:text-lg mb-2">
+                            <label for="municipaliteSelect" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
                                 Municipalités
                             </label>
                             <select name="municipalite" id="municipaliteSelect"
-                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                 <option value="" disabled selected>Choisissez une municipalité</option>
                                 <option>Rouyn-Noranda</option>
                                 <option>Val-d'Or</option>
@@ -175,11 +156,9 @@
                             </select>
                             <input type="text" name="municipaliteInput" id="municipaliteInput"
                                 placeholder="Entrez votre municipalité"
-                                class="w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black hidden">
-
+                                class="w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white hidden">
                             @error('municipalite')
-                                <span
-                                    class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                     {{ $message }}
                                 </span>
                             @enderror
@@ -196,106 +175,84 @@
 
                 <!-- Deuxième colonne -->
                 <div>
-
-                    </h1>
-
-                    <div class="bg-secondary-100 py-8 px-4 mt-8" id="cadreNumero">
+                    <div class="bg-secondary-100 dark:bg-secondary-dark-100 py-8 px-4 mt-8" id="cadreNumero">
                         <div class="flex items-center gap-1">
-                            <span class="iconify  size-4 md:size-6"
-                                data-icon="material-symbols:contact-phone-outline"></span>
-                            <h4 class="font-Alumni font-bold text-lg md:text-2xl underline">Adresse en ligne</h4>
+                            <span class="iconify size-4 md:size-6 text-black dark:text-white" data-icon="material-symbols:contact-phone-outline"></span>
+                            <h4 class="font-Alumni font-bold text-lg md:text-2xl underline text-black dark:text-white">Adresse en ligne</h4>
                         </div>
-                        <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
-
+                        <div class="mt-6 w-full max-w-md flex gap-4 columns-2">
                             <div class="w-full">
-                                <label for="siteWeb" class="block font-Alumni text-md md:text-lg mb-2">
+                                <label for="siteWeb" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
                                     Site web
                                 </label>
-
                                 <input type="text" id="siteWeb" name="siteWeb" placeholder="www.abc.com"
-                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-
+                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                 @error('siteWeb')
-                                    <span
-                                        class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                         {{ $message }}
                                     </span>
                                 @enderror
-
                             </div>
                         </div>
-
-                        <div class="mt-6 w-full max-w-md flex gap-4 columns-2 ">
-
+                
+                        <div class="mt-6 w-full max-w-md flex gap-4 columns-2">
                             <div class="w-full">
-                                <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2">
+                                <label for="ligne" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
                                     Ligne
                                 </label>
-
                                 <select id="ligne_0" name="ligne[0][type]"
-                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                     <option value="Bureau">Bureau</option>
                                     <option value="Télécopieur">Télécopieur</option>
                                     <option value="Cellulaire">Cellulaire</option>
                                 </select>
-
                                 @error('ligne.0.type')
-                                    <span
-                                        class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                         {{ $message }}
                                     </span>
                                 @enderror
-
                             </div>
                             <div class="w-full">
-                                <label for="numeroTelephone" class="block font-Alumni text-md md:text-lg mb-2 truncate">
+                                <label for="numeroTelephone" class="block font-Alumni text-md md:text-lg mb-2 truncate text-black dark:text-white">
                                     Numero Telephone
                                 </label>
-
                                 <input type="phonenumber" id="numeroTelephone_0" name="ligne[0][numeroTelephone]"
                                     placeholder="514-453-9867"
-                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black numerotelephone">
-
+                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white numerotelephone">
                                 @error('ligne.0.numeroTelephone')
-                                    <span
-                                        class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                         {{ $message }}
                                     </span>
                                 @enderror
-
                             </div>
-
+                
                             <div class="w-full" id="poste_div_0">
-                                <label for="poste" class="block font-Alumni text-md md:text-lg mb-2">
+                                <label for="poste" class="block font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">
                                     Poste
                                 </label>
-
                                 <input type="text" id="poste_0" name="ligne[0][poste]" placeholder="9845"
-                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
-
+                                    class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                                 @error('ligne.0.poste')
-                                    <span
-                                        class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                    <span class="font-Alumni text-lg flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                                         {{ $message }}
                                     </span>
                                 @enderror
-
                             </div>
                         </div>
                     </div>
                     <input type="hidden" id="currentIndexInput" name="currentIndex">
                     <button type="button" id="ajoutNumeroTelephone"
-                        class="mt-4 w-full text-white bg-secondary-400 hover:bg-tertiary-300 py-2.5 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+                        class="mt-4 w-full text-white bg-secondary-400 dark:bg-secondary-dark-400 hover:bg-tertiary-300 dark:hover:bg-tertiary-dark-300 py-2.5 daltonien:bg-daltonienBleu daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
                         <h1 class="font-Alumni font-bold text-lg md:text-2xl">Ajouter un numero</h1>
                     </button>
 
-                    <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5 daltonien:hover:bg-daltonienYellow daltonien:hover:text-black">
+                    <button type="submit" class="mt-4 w-full text-white bg-tertiary-400 hover:bg-tertiary-300 py-2.5">
                         <h1 class="font-Alumni font-bold text-lg md:text-2xl">
                             {{ session()->has('coordonnees') ? 'Enregistrer' : 'Suivant' }}
                         </h1>
                     </button>
-
                 </div>
+                
             </div>
         </div>
     </form>
@@ -472,30 +429,31 @@
             cadre.insertAdjacentHTML('beforeend', `
                 <div class="mt-6 w-full flex justify-center md:gap-2 columns-2 ligne-numeros" data-index="${index}">
                     <div class="w-full">
-                        <label for="ligne_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Ligne</label>
-                        <select id="ligne_${index}" name="ligne[${index}][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                        <label for="ligne_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">Ligne</label>
+                        <select id="ligne_${index}" name="ligne[${index}][type]" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                             <option value="Bureau" ${type === 'Bureau' ? 'selected' : ''}>Bureau</option>
                             <option value="Télécopieur" ${type === 'Télécopieur' ? 'selected' : ''}>Télécopieur</option>
                             <option value="Cellulaire" ${type === 'Cellulaire' ? 'selected' : ''}>Cellulaire</option>
                         </select>
                     </div>
                     <div class="w-full">
-                        <label for="numeroTelephone_${index}" class="block font-Alumni text-md md:text-lg mb-2 truncate">Numéro Téléphone</label>
+                        <label for="numeroTelephone_${index}" class="block font-Alumni text-md md:text-lg mb-2 truncate text-black dark:text-white">Numéro Téléphone</label>
                         <input type="phonenumber" id="numeroTelephone_${index}" name="ligne[${index}][numeroTelephone]" placeholder="514-453-9867"
-                            value="${numeroTelephone}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black numerotelephone">
+                            value="${numeroTelephone}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white numerotelephone">
                     </div>
                     <div class="w-full" id="poste_div_${index}">
-                        <label for="poste_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2">Poste</label>
+                        <label for="poste_${index}" class="flex justify-center font-Alumni text-md md:text-lg mb-2 text-black dark:text-white">Poste</label>
                         <input type="text" id="poste_${index}" name="ligne[${index}][poste]" placeholder="9845"
-                            value="${poste}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black">
+                            value="${poste}" class="font-Alumni w-full p-2 h-12 focus:outline-none focus:border-blue-500 border border-black dark:border-gray-600 dark:bg-gray-800 dark:text-white">
                     </div>
                     <div class="w-full flex flex-row justify-start items-end pl-2">
-                        <button type="button" class="remove-ligne cursor-pointer hover:bg-red-500  items-center flex justify-center bg-tertiary-400 text-white h-12 w-12" data-index="${index}">
-                            <span class="iconify size-6  remove-ligne" data-icon="mdi:trash-can-outline"></span>
+                        <button type="button" class="remove-ligne cursor-pointer hover:bg-red-500 dark:hover:bg-red-700 items-center flex justify-center bg-tertiary-400 dark:bg-tertiary-dark-400 text-white h-12 w-12" data-index="${index}">
+                            <span class="iconify size-6 remove-ligne" data-icon="mdi:trash-can-outline"></span>
                         </button>
                     </div>
                 </div>
-            `);
+                `
+                );
             const nouvelInput = document.getElementById(`numeroTelephone_${index}`);
             tooglePosteInput(index);
             if (nouvelInput) {

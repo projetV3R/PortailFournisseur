@@ -329,7 +329,7 @@
     function showFullDetails() {
     Swal.fire({
         title: 'Détails et spécifications',
-        html: `<div style="text-align: left;">${{ session('produitsServices.details_specifications', 'N/A') }}</div>`, 
+        html: `<div style="text-align: left;">{{ session('produitsServices.details_specifications', 'N/A') }}</div>`, 
         icon: 'info',
         showCloseButton: true,
         confirmButtonText: 'Fermer',

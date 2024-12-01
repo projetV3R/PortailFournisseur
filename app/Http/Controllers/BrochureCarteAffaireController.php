@@ -26,7 +26,7 @@ class BrochureCarteAffaireController extends Controller
     {
         if (!auth()->check()&&  session()->has('contacts')){
         $maxFileSize = ParametreSysteme::where('cle', 'taille_fichier')->value('valeur_numerique');
-     //   session()->flush();
+       // session()->forget('brochures_cartes_affaires');
         return view("formulaireInscription/brochure_cartes_affaires", compact('maxFileSize'));
     }
 
