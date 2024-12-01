@@ -53,7 +53,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         @if (session('success'))
             Swal.fire({
-                position: "center",
+                position: "top-end",
                 icon: "success",
                 title: "{{ session('success') }}",
                 showConfirmButton: false,
