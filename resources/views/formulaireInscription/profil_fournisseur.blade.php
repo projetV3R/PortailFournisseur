@@ -562,7 +562,7 @@
         var successMessage = document.getElementById('successMessage');
         if (successMessage) {
             Swal.fire({
-  position: "center",
+  position: "top-end",
   icon: "success",
   title: successMessage,
   showConfirmButton: false,
