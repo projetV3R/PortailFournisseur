@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateUI();
 
     function afficherFichiersDejaTeleverses() {
+        if (!uploadedFileList) return; 
         uploadedFileList.innerHTML = ''; 
      
         const anciensChamps = document.querySelectorAll('input[name="fichiers_a_supprimer[]"]');
