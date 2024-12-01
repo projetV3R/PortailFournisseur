@@ -719,7 +719,7 @@ public function updateCoordonnee(CoordonneeRequest $request)
                 'auteur' => $fournisseur->adresse_courriel,
             ];
             $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
-       //     Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
+            Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
         }
     
         return redirect()->back()->with('success', 'Vos brochures & cartes d\'affaires ont été mises à jour avec succès.');
@@ -975,11 +975,16 @@ public function desactivationFiche()
      
         $brochures = $fournisseur->brochuresCarte;
         foreach ($brochures as $file) {
-            if ($file && Storage::disk('public')->exists($file->chemin)) {
-                Storage::disk('public')->delete($file->chemin);
+            if ($file && Storage::disk('azure')->exists($file->chemin)) {
+                try {
+                    Storage::disk('azure')->delete($file->chemin); 
+                } catch (\Exception $e) {
+                    \Log::error("Erreur lors de la suppression sur Azure Blob Storage : " . $e->getMessage());
+                    return response()->json(['success' => false, 'message' => 'Erreur lors de la suppression d\'un fichier : ' . $e->getMessage()]);
+                }
             }
             $historiqueRemove[] = "-{$file->nom}";
-            $file->delete();
+            $file->delete(); 
         }
 
     
