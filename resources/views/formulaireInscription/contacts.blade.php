@@ -11,14 +11,16 @@
     
     <div class="flex w-full lg:flex-col flex-col gap-4 p-8 lg:p-16" id="contactFieldsContainer">
         <div class="flex w-full flex-col 2xl:flex-row gap-4">
-            @include('partials.progress_bar')
+           
             <div class="flex w-full flex-col">
                 <h6 class="font-Alumni font-bold text-3xl md:text-5xl text-black dark:text-white">CONTACTS</h6>
                 <h1 class="font-Alumni font-semibold text-md md:text-lg mt-2 text-black dark:text-gray-300">
                     Pour rester plus proches de vous !
                 </h1>
             </div>
-            
+            <div id="stepbardiv">
+            @include('partials.progress_bar')
+             </div>
         </div>
         <div class="flex w-full gap-x-4">
             <div class="flex flex-col w-1/2">
@@ -128,9 +130,9 @@
                     </div>
                 </div>
                 <div class="flex flex-col px-2 lg:px-4">
-                    <button type="submit"
+                    <button type="submit" id="submitBtn"
                         class="w-full text-white bg-tertiary-400 dark:bg-tertiary-dark-400 hover:bg-tertiary-300 dark:hover:bg-tertiary-dark-300 py-2.5 mt-2">
-                        <h1 class="font-Alumni font-bold text-lg md:text-2xl">
+                        <h1 class="font-Alumni font-bold text-lg md:text-2xl ">
                             {{ session()->has('contacts') ? 'Enregistrer' : 'Suivant' }}
                         </h1>
                     </button>
@@ -146,9 +148,21 @@
 
     <script>
  document.addEventListener('DOMContentLoaded', function() {
-
+    document.addEventListener('change', function(event) {
+        var target = event.target;
+        var posteInputName = target.name.replace('[type]', '[poste]');
+        var posteInput = document.querySelector('input[name="' + posteInputName + '"]');
+        var posteDiv = posteInput.parentElement; 
+        if (target.value !== 'Bureau') {
+            posteDiv.style.display = 'none'; 
+            posteInput.value = '';
+        } else {
+            posteDiv.style.display = ''; 
+        }
+    });
     document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(function(input) {
         formatTel(input);
+    
     });
 
 
@@ -189,6 +203,7 @@ document.getElementById('addContactBtn').addEventListener('click', function() {
 
     clone.querySelector('#addContactBtn')?.remove();
     clone.querySelector('#submitBtn')?.remove();
+    clone.querySelector('#stepbardiv')?.remove();
 
 
     clone.querySelectorAll('input, select').forEach(function(input) {
@@ -265,6 +280,7 @@ function ajouterContactFields(index, contact = {}) {
     var clone = contactFieldsContainer.cloneNode(true);
     clone.querySelector('#addContactBtn')?.remove();
     clone.querySelector('#submitBtn')?.remove();
+    clone.querySelector('#stepbardiv')?.remove();
 
     clone.querySelectorAll('input, select').forEach(function(input) {
         var name = input.getAttribute('name');
