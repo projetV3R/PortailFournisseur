@@ -32,10 +32,10 @@ use App\Models\SousCategorie;
 use App\Notifications\NotificationModification;
 use App\Notifications\NotificationNouvelleFicheVille;
 use Illuminate\Support\Facades\Notification;
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
 class FicheFournisseurController extends Controller
 {
-
     public function login(Request $request)
     {
         if ($request->has('numeroEntreprise')) {
@@ -662,7 +662,14 @@ public function updateCoordonnee(CoordonneeRequest $request)
        
         if ($request->hasFile('fichiers')) {
             foreach ($request->file('fichiers') as $file) {
-                $path = $file->store('brochures', 'public');
+                $path = uniqid() . '_' . $file->getClientOriginalName();
+                try {
+                    Storage::disk('azure')->put($path, file_get_contents($file));
+                } catch (\Exception $e) {
+                    \Log::error("Erreur lors de l'upload vers Azure Blob Storage : " . $e->getMessage());
+                    return redirect()->back()->withErrors('Erreur lors de l\'upload du fichier : ' . $e->getMessage());
+                }
+                
                 $brochure = $fournisseur->brochuresCarte()->create([
                     'nom' => $file->getClientOriginalName(),
                     'chemin' => $path,
@@ -697,7 +704,7 @@ public function updateCoordonnee(CoordonneeRequest $request)
                 'auteur' => $fournisseur->adresse_courriel,
             ];
             $emailApprovisionnement = ParametreSysteme::where('cle', 'email_approvisionnement')->value('valeur');
-            Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
+       //     Notification::route('mail', $emailApprovisionnement)->notify(new NotificationModification($data));
         }
     
         return redirect()->back()->with('success', 'Vos brochures & cartes d\'affaires ont été mises à jour avec succès.');
