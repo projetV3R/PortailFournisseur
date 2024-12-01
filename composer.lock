@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea2268ba0857794865944f7cb44cb35f",
+    "content-hash": "7e6445457474610a404b3818b70a8aea",
     "packages": [
         {
             "name": "brick/math",
@@ -1630,94 +1630,6 @@
             "time": "2022-12-11T20:36:23+00:00"
         },
         {
-            "name": "league/csv",
-            "version": "9.16.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/csv.git",
-                "reference": "998280c6c34bd67d8125fdc8b45bae28d761b440"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/998280c6c34bd67d8125fdc8b45bae28d761b440",
-                "reference": "998280c6c34bd67d8125fdc8b45bae28d761b440",
-                "shasum": ""
-            },
-            "require": {
-                "ext-filter": "*",
-                "php": "^8.1.2"
-            },
-            "require-dev": {
-                "doctrine/collections": "^2.2.2",
-                "ext-dom": "*",
-                "ext-xdebug": "*",
-                "friendsofphp/php-cs-fixer": "^3.57.1",
-                "phpbench/phpbench": "^1.2.15",
-                "phpstan/phpstan": "^1.11.1",
-                "phpstan/phpstan-deprecation-rules": "^1.2.0",
-                "phpstan/phpstan-phpunit": "^1.4.0",
-                "phpstan/phpstan-strict-rules": "^1.6.0",
-                "phpunit/phpunit": "^10.5.16 || ^11.1.3",
-                "symfony/var-dumper": "^6.4.6 || ^7.0.7"
-            },
-            "suggest": {
-                "ext-dom": "Required to use the XMLConverter and the HTMLConverter classes",
-                "ext-iconv": "Needed to ease transcoding CSV using iconv stream filters",
-                "ext-mbstring": "Needed to ease transcoding CSV using mb stream filters"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "9.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/functions_include.php"
-                ],
-                "psr-4": {
-                    "League\\Csv\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ignace Nyamagana Butera",
-                    "email": "nyamsprod@gmail.com",
-                    "homepage": "https://github.com/nyamsprod/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "CSV data manipulation made easy in PHP",
-            "homepage": "https://csv.thephpleague.com",
-            "keywords": [
-                "convert",
-                "csv",
-                "export",
-                "filter",
-                "import",
-                "read",
-                "transform",
-                "write"
-            ],
-            "support": {
-                "docs": "https://csv.thephpleague.com",
-                "issues": "https://github.com/thephpleague/csv/issues",
-                "rss": "https://github.com/thephpleague/csv/releases.atom",
-                "source": "https://github.com/thephpleague/csv"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/nyamsprod",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-05-24T11:04:54+00:00"
-        },
-        {
             "name": "league/flysystem",
             "version": "3.28.0",
             "source": {
@@ -1799,6 +1711,46 @@
                 "source": "https://github.com/thephpleague/flysystem/tree/3.28.0"
             },
             "time": "2024-05-22T10:09:12+00:00"
+        },
+        {
+            "name": "league/flysystem-azure-blob-storage",
+            "version": "3.28.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-azure-blob-storage.git",
+                "reference": "7856cc57ae74b0cf673b924e05c236c4f5dbdcb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-azure-blob-storage/zipball/7856cc57ae74b0cf673b924e05c236c4f5dbdcb0",
+                "reference": "7856cc57ae74b0cf673b924e05c236c4f5dbdcb0",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "^3.10.0",
+                "microsoft/azure-storage-blob": "^1.1",
+                "php": "^8.0.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\AzureBlobStorage\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frankdejonge.nl"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/thephpleague/flysystem-azure-blob-storage/tree/3.28.0"
+            },
+            "time": "2024-05-06T20:05:52+00:00"
         },
         {
             "name": "league/flysystem-local",
@@ -1904,6 +1856,102 @@
                 }
             ],
             "time": "2024-01-28T23:22:08+00:00"
+        },
+        {
+            "name": "microsoft/azure-storage-blob",
+            "version": "1.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Azure/azure-storage-blob-php.git",
+                "reference": "1023ce1dbf062351a32ca5ec72ad1fd4a504f1bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Azure/azure-storage-blob-php/zipball/1023ce1dbf062351a32ca5ec72ad1fd4a504f1bf",
+                "reference": "1023ce1dbf062351a32ca5ec72ad1fd4a504f1bf",
+                "shasum": ""
+            },
+            "require": {
+                "microsoft/azure-storage-common": "~1.5",
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicrosoftAzure\\Storage\\Blob\\": "src/Blob"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Azure Storage PHP Client Library",
+                    "email": "dmsh@microsoft.com"
+                }
+            ],
+            "description": "This project provides a set of PHP client libraries that make it easy to access Microsoft Azure Storage Blob APIs.",
+            "keywords": [
+                "azure",
+                "blob",
+                "php",
+                "sdk",
+                "storage"
+            ],
+            "support": {
+                "issues": "https://github.com/Azure/azure-storage-blob-php/issues",
+                "source": "https://github.com/Azure/azure-storage-blob-php/tree/v1.5.4"
+            },
+            "time": "2022-09-02T02:13:06+00:00"
+        },
+        {
+            "name": "microsoft/azure-storage-common",
+            "version": "1.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Azure/azure-storage-common-php.git",
+                "reference": "8ca7b1bf4c9ca7c663e75a02a0035b05b37196a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Azure/azure-storage-common-php/zipball/8ca7b1bf4c9ca7c663e75a02a0035b05b37196a0",
+                "reference": "8ca7b1bf4c9ca7c663e75a02a0035b05b37196a0",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0|^7.0",
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicrosoftAzure\\Storage\\Common\\": "src/Common"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Azure Storage PHP Client Library",
+                    "email": "dmsh@microsoft.com"
+                }
+            ],
+            "description": "This project provides a set of common code shared by Azure Storage Blob, Table, Queue and File PHP client libraries.",
+            "keywords": [
+                "azure",
+                "common",
+                "php",
+                "sdk",
+                "storage"
+            ],
+            "support": {
+                "issues": "https://github.com/Azure/azure-storage-common-php/issues",
+                "source": "https://github.com/Azure/azure-storage-common-php/tree/v1.5.2"
+            },
+            "time": "2021-10-09T03:03:47+00:00"
         },
         {
             "name": "monolog/monolog",

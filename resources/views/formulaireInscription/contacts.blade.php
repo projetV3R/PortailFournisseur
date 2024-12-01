@@ -148,18 +148,7 @@
 
     <script>
  document.addEventListener('DOMContentLoaded', function() {
-    document.addEventListener('change', function(event) {
-        var target = event.target;
-        var posteInputName = target.name.replace('[type]', '[poste]');
-        var posteInput = document.querySelector('input[name="' + posteInputName + '"]');
-        var posteDiv = posteInput.parentElement; 
-        if (target.value !== 'Bureau') {
-            posteDiv.style.display = 'none'; 
-            posteInput.value = '';
-        } else {
-            posteDiv.style.display = ''; 
-        }
-    });
+
     document.querySelectorAll('[name^="contacts"][name$="[numeroTelephone]"]').forEach(function(input) {
         formatTel(input);
     

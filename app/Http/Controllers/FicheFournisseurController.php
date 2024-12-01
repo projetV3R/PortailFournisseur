@@ -32,10 +32,10 @@ use App\Models\SousCategorie;
 use App\Notifications\NotificationModification;
 use App\Notifications\NotificationNouvelleFicheVille;
 use Illuminate\Support\Facades\Notification;
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
 class FicheFournisseurController extends Controller
 {
-
     public function login(Request $request)
     {
         if ($request->has('numeroEntreprise')) {
@@ -233,14 +233,17 @@ class FicheFournisseurController extends Controller
 
 
         $licenceData = session('licences', []);
-        if (!empty($licenceData)) {
+        if ( !empty($licenceData) &&  isset($licenceData['statut'], $licenceData['typeLicence']) && !empty($licenceData['statut']) && !empty($licenceData['typeLicence']) ) 
+        {
+          
+        
             $numeroNettoyeRbq = str_replace('-', '', $licenceData['numeroLicence']);
 
             $licence = Licence::create([
-                'numero_licence_rbq' => $numeroNettoyeRbq,
-                'statut' => $licenceData['statut'],
-                'type_licence' => $licenceData['typeLicence'],
-                'fiche_fournisseur_id' => $ficheFournisseur->id,
+                'numero_licence_rbq' => $numeroNettoyeRbq ?? null,
+                'statut' => $licenceData['statut'] ?? null,
+                'type_licence' => $licenceData['typeLicence'] ?? null,
+                'fiche_fournisseur_id' => $ficheFournisseur->id ?? null,
             ]);
 
     
@@ -252,6 +255,7 @@ class FicheFournisseurController extends Controller
                 ]);
             }
         }
+    
 
         $produitsServices = session('produitsServices.produits_services', []);
         foreach ($produitsServices as $produitServiceId) {
@@ -261,40 +265,47 @@ class FicheFournisseurController extends Controller
             ]);
         }   
      
-          $brochures = session('brochures_cartes_affaires', []);
-          $publicDir = 'brochures'; 
-  
-          if (!empty($brochures)) {
-              foreach ($brochures as $brochure) {
-                  $filePath = $brochure['chemin'];
-                  $fileName = $brochure['nom'];
-          
-               
-                  $newPath = $publicDir . '/' . $fileName;
-          
-                  if (Storage::disk('local')->exists($filePath)) {
-                    
-                      $fileContent = Storage::disk('local')->get($filePath);
-                      Storage::disk('public')->put($newPath, $fileContent);
-          
-                     
-                      Storage::disk('local')->delete($filePath);
-          
-           
-                      $typeDeFichier = mime_content_type(storage_path('app/public/' . $newPath));
-          //A modifier pour $file->getClientOriginalExtension()  a tester
-                     
-                      BrochureCarte::create([
-                          'nom' => $fileName,
-                          'type_de_fichier' => $typeDeFichier,
-                          'chemin' => $newPath,
-                          'taille' => $brochure['taille'],
-                          'fiche_fournisseur_id' => $ficheFournisseur->id,
-                      ]);
-                  }
-              }
-          }
+        $brochures = session('brochures_cartes_affaires', []);
 
+        if (!empty($brochures)) {
+            foreach ($brochures as $brochure) {
+                $filePath = $brochure['chemin'];
+                $fileName = $brochure['nom'];
+        
+            
+                $uniqueFileName = uniqid() . '_' . $fileName;
+        
+                if (Storage::disk('local')->exists($filePath)) {
+                 
+                    $fileContent = Storage::disk('local')->get($filePath);
+        
+                
+                    try {
+                        Storage::disk('azure')->put($uniqueFileName, $fileContent);
+                    } catch (\Exception $e) {
+                        DB::rollBack();
+                        \Log::error("Erreur lors de l'upload vers Azure Blob Storage : " . $e->getMessage());
+                        return redirect()->back()->withErrors('Erreur lors de l\'upload du fichier : ' . $e->getMessage());
+                    }
+        
+             
+                    Storage::disk('local')->delete($filePath);
+        
+          
+                    $typeDeFichier = pathinfo($fileName, PATHINFO_EXTENSION);
+        
+                  
+                    BrochureCarte::create([
+                        'nom' => $fileName,
+                        'type_de_fichier' => $typeDeFichier,
+                        'chemin' => $uniqueFileName, 
+                        'taille' => $brochure['taille'],
+                        'fiche_fournisseur_id' => $ficheFournisseur->id,
+                    ]);
+                }
+            }
+        }
+        
         DB::commit();
         $data = [
             'nomEntreprise' => $ficheFournisseur->nom_entreprise,
@@ -648,21 +659,32 @@ public function updateCoordonnee(CoordonneeRequest $request)
         foreach ($fileIdsToDelete as $fileId) {
             $fileToDelete = $existingFiles->find($fileId);
             if ($fileToDelete) {
-            
-                if (Storage::disk('public')->exists($fileToDelete->chemin)) {
-                    Storage::disk('public')->delete($fileToDelete->chemin);
-                }
               
+                try {
+                    Storage::disk('azure')->delete($fileToDelete->chemin);
+                } catch (\Exception $e) {
+                    \Log::error("Erreur lors de la suppression sur Azure Blob Storage : " . $e->getMessage());
+                    return redirect()->back()->withErrors('Erreur lors de la suppression du fichier : ' . $e->getMessage());
+                }
+                
                 $historiqueRemove[] = "-{$fileToDelete->nom}";
-             
+                
                 $fileToDelete->delete();
             }
         }
+        
     
        
         if ($request->hasFile('fichiers')) {
             foreach ($request->file('fichiers') as $file) {
-                $path = $file->store('brochures', 'public');
+                $path = uniqid() . '_' . $file->getClientOriginalName();
+                try {
+                    Storage::disk('azure')->put($path, file_get_contents($file));
+                } catch (\Exception $e) {
+                    \Log::error("Erreur lors de l'upload vers Azure Blob Storage : " . $e->getMessage());
+                    return redirect()->back()->withErrors('Erreur lors de l\'upload du fichier : ' . $e->getMessage());
+                }
+                
                 $brochure = $fournisseur->brochuresCarte()->create([
                     'nom' => $file->getClientOriginalName(),
                     'chemin' => $path,
@@ -953,11 +975,16 @@ public function desactivationFiche()
      
         $brochures = $fournisseur->brochuresCarte;
         foreach ($brochures as $file) {
-            if ($file && Storage::disk('public')->exists($file->chemin)) {
-                Storage::disk('public')->delete($file->chemin);
+            if ($file && Storage::disk('azure')->exists($file->chemin)) {
+                try {
+                    Storage::disk('azure')->delete($file->chemin); 
+                } catch (\Exception $e) {
+                    \Log::error("Erreur lors de la suppression sur Azure Blob Storage : " . $e->getMessage());
+                    return response()->json(['success' => false, 'message' => 'Erreur lors de la suppression d\'un fichier : ' . $e->getMessage()]);
+                }
             }
             $historiqueRemove[] = "-{$file->nom}";
-            $file->delete();
+            $file->delete(); 
         }
 
     
