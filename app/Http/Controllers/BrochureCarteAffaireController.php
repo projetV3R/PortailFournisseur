@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\BrochureCarteAffaireRequest;
 use Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 class BrochureCarteAffaireController extends Controller
 {
     /**
@@ -38,14 +39,25 @@ class BrochureCarteAffaireController extends Controller
      */
     public function store(Request $request)
     {
+
+        
         if (!auth()->check()&&  session()->has('contacts')){
         // Récupérer les brochures déjà en session
-        $brochures = session('brochures_cartes_affaires', []);
 
-        // Traiter la suppression des fichiers marqués
+
+        $brochures = session('brochures_cartes_affaires', []);
+        $validator = Validator::make($request->all(), [
+            'fichiers.*' => 'file|mimes:doc,docx,pdf,jpg,jpeg,xls,xlsx',
+        ], [
+            'fichiers.*.mimes' => 'Seuls les fichiers de type : doc, docx, pdf, jpg, jpeg, xls, et xlsx sont autorisés.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $indicesASupprimer = $request->input('fichiers_a_supprimer', []);
 
-        // S'assurer que les indices sont des entiers
+   
         $indicesASupprimer = array_map('intval', $indicesASupprimer);
         
         foreach ($indicesASupprimer as $index) {

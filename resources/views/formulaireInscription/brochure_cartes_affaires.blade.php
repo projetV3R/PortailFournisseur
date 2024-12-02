@@ -24,7 +24,9 @@
             <input type="file" id="fileInput" name="fichiers[]" multiple
                    accept=".doc,.docx,.pdf,.jpg,.jpeg,.xls,.xlsx"
                    class="block w-full text-sm text-gray-900 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 focus:outline-none mt-4">
-
+                   @error('fichiers.*')
+                   <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+               @enderror
             <!-- Liste des fichiers sélectionnés -->
             <h5 class="mt-4 font-bold text-black dark:text-white">Fichiers sélectionnés :</h5>
             <ul id="fileList" class="list-disc mt-2 ml-6 text-sm text-gray-700 dark:text-gray-400"></ul>
