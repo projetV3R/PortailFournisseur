@@ -311,7 +311,7 @@
                                 <a class="mx-2 hover:underline daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black"
                                     href="https://www.tourismetroisrivieres.com/fr">Tourisme</a>
                             </div>
-                            <div class="flex justify-center text-gray-400">
+                            <div class="flex justify-center truncate text-gray-400">
                                 <a class="mx-2 hover:underline daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black"
                                     href="https://www.v3r.net/politique-de-confidentialite">Politique de confidentialité</a>|
                                 <a class="mx-2 hover:underline daltonien:text-black daltonien:hover:bg-daltonienYellow daltonien:hover:text-black" href="https://v3r.sharepoint.com/">Intranet</a>|

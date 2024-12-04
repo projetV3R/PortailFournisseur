@@ -70,7 +70,7 @@
                 <p id="selectedCount" class="font-Alumni text-md md:text-lg mt-2 text-black dark:text-white">Nombre de produits sélectionnés : 0</p>
 
                 <!-- Conteneur de pagination pour les produits sélectionnés -->
-                <div id="paginationSelected" class="mt-4 flex justify-center items-center gap-x-2"></div>
+                <div id="paginationSelected" class="mt-4 flex justify-center items-center gap-x-2 truncate"></div>
 
                 <!-- Conteneur des produits sélectionnés -->
                 <div id="produitsServicesSelectionnees" class="grid grid-cols-1 2xl:grid-cols-2 gap-4 mt-4"></div>
